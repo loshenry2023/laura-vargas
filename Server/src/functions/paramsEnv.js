@@ -1,8 +1,8 @@
 //! Unico lugar donde obtengo las variables de entorno. Ya cambié el apiKey porque consumí los del mes.
 require('dotenv').config();
 
-const videogamesApiUrl = process.env.videogamesApiUrl || 'https://api.rawg.io/api';
-const apiKey = process.env.API_KEY || 'e06b3029c99749edb7567fccf682835c';
+//const videogamesApiUrl = process.env.videogamesApiUrl || 'https://api.rawg.io/api';
+//const apiKey = process.env.API_KEY || 'e06b3029c99749edb7567fccf682835c';
 const DB_USER = process.env.DB_USER || 'postgres';
 const DB_PASSWORD = process.env.DB_PASSWORD || 'admin';
 const DB_HOST = process.env.DB_HOST || 'localhost';
@@ -13,8 +13,8 @@ const MUST_LOG = process.env.MUST_LOG || 1;
 const PORT = process.env.PORT || 3001;
 
 module.exports = {
-    videogamesApiUrl,
-    apiKey,
+    //    videogamesApiUrl,
+    //    apiKey,
     DB_USER,
     DB_PASSWORD,
     DB_HOST,
