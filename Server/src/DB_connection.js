@@ -33,8 +33,8 @@ const database = new Sequelize(
 // Platform.belongsToMany(Videogame, { through: "videogame_platform" });
 
 module.exports = {
-   Genre,
-   Videogame,
-   Platform,
+   // Genre,
+   // Videogame,
+   // Platform,
    conn: database,
 };
