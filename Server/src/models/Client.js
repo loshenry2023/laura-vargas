@@ -32,5 +32,9 @@ module.exports = (sequelize) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
+    active: {
+      type: DataTypes.ENUM("1", "0"),
+      allowNull: false,
+    },
   });
 };

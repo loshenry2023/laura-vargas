@@ -2,9 +2,7 @@ const server = require("./src/app");
 const showLog = require("./src/functions/showLog");
 const { conn } = require("./src/DB_connection");
 const { PORT, SECURE } = require("./src/functions/paramsEnv");
-const createUserHenry = require("./src/functions/createUserHenry");
-
-createUserHenry();
+const createBasicData = require("./src/functions/createBasicData");
 
 let conSegura = "";
 SECURE ? (conSegura = "SECURE") : (conSegura = "NOT SECURE");
@@ -12,6 +10,9 @@ SECURE ? (conSegura = "SECURE") : (conSegura = "NOT SECURE");
 conn
   .sync({ alter: true })
   .then(() => {
+    // Antes de hacer el listen me encargo de verificar que existan los registros mínimos
+    // de trabajo en las tablas:
+    createBasicData();
     server.listen(PORT, () => {
       showLog(`Server running into ${PORT} Port. DB Connection: ${conSegura}`);
     });

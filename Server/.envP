@@ -6,4 +6,4 @@ DB_NAME=verceldb
 PORT=3001
 videogamesApiUrl=https://api.rawg.io/api
 SECURE=true
-MUST_LOG=0
+MUST_LOG=1

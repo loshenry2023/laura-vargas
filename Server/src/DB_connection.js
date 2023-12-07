@@ -10,13 +10,12 @@ const {
 } = require("./functions/paramsEnv");
 
 // Definición de modelos:
-const SedeModel = require("../src/models/Sede");
+const BranchModel = require("./models/Branch");
 const ClientModel = require("../src/models/Client");
 const HistoryServiceModel = require("../src/models/HistoryService");
 const PaymentModel = require("../src/models/Payment");
 const ServiceModel = require("../src/models/Service");
 const SpecialtyModel = require("../src/models/Specialty");
-const StatusModel = require("../src/models/Status");
 const UserModel = require("../src/models/User");
 
 // Determino la conexión según el entorno:
@@ -30,49 +29,42 @@ if (SECURE) {
 }
 
 const database = new Sequelize(strConn, { logging: false, native: false });
-SedeModel(database);
+BranchModel(database);
 ClientModel(database);
 HistoryServiceModel(database);
 PaymentModel(database);
 ServiceModel(database);
 SpecialtyModel(database);
-StatusModel(database);
 UserModel(database);
 
 // Relacionar modelos:
-
 const {
-  Sede,
+  Branch,
   Client,
   HistoryService,
   Payment,
   Service,
   Specialty,
-  Status,
   User,
 } = database.models;
 
-Payment.belongsTo(Status, { foreignKey: "status_id" });
-Sede.belongsTo(User, { foreignKey: "user_id" });
-Client.belongsTo(Status, { foreignKey: "status_id" });
-Sede.belongsTo(Status, { foreignKey: "status_id" });
-User.belongsTo(Status, { foreignKey: "status_id" });
-Service.belongsTo(Status, { foreignKey: "status_id" });
-HistoryService.belongsTo(Sede, { foreignKey: "sede_id" });
+//Relaciones a 1:
+User.belongsTo(Branch, { foreignKey: "branch_id" });
+HistoryService.belongsTo(Branch, { foreignKey: "branch_id" });
 
+//Relaciones a muchos:
 User.belongsToMany(Specialty, { through: "user_specialty" });
-Service.belongsToMany(Sede, { through: "sede_id" });
-HistoryService.belongsToMany(Payment, { through: "history_service_payment" });
-HistoryService.belongsToMany(Service, { through: "history_service_service" });
+Service.belongsToMany(Branch, { through: "service_branch" });
+HistoryService.belongsToMany(Payment, { through: "history_payment" });
+HistoryService.belongsToMany(Service, { through: "history_service" });
 
 module.exports = {
-  Sede,
+  Branch,
   Client,
   HistoryService,
   Payment,
   Service,
   Specialty,
-  Status,
   User,
   conn: database,
 };

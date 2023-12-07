@@ -2,7 +2,7 @@ const { DataTypes } = require("sequelize");
 
 module.exports = (sequelize) => {
   sequelize.define(
-    "Sede",
+    "Branch",
     {
       id: {
         type: DataTypes.UUID, // clave impredecible, versión 4
@@ -37,6 +37,10 @@ module.exports = (sequelize) => {
       workingDays: {
         type: DataTypes.TEXT,
         allowNull: true,
+      },
+      active: {
+        type: DataTypes.ENUM("1", "0"),
+        allowNull: false,
       },
     },
     { timestamps: false }

@@ -12,5 +12,9 @@ module.exports = (sequelize) => {
       type: DataTypes.TEXT,
       allowNull: false,
     },
+    active: {
+      type: DataTypes.ENUM("1", "0"),
+      allowNull: false,
+    },
   });
 };
