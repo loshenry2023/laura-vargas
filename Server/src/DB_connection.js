@@ -52,21 +52,17 @@ const {
   User,
 } = database.models;
 
-Payment.belongsTo(Status, { through: "payment_status" });
+Payment.belongsTo(Status, { foreignKey: "status_id" });
+Sede.belongsTo(User, { foreignKey: "user_id" });
+Client.belongsTo(Status, { foreignKey: "status_id" });
+Sede.belongsTo(Status, { foreignKey: "status_id" });
+User.belongsTo(Status, { foreignKey: "status_id" });
+Service.belongsTo(Status, { foreignKey: "status_id" });
+HistoryService.belongsTo(Sede, { foreignKey: "sede_id" });
 
-Sede.belongsTo(Status, { through: "sede_status" });
-Sede.belongsTo(User, { through: "sede_user" });
-
-Client.belongsTo(Status, { through: "client_status" });
-
-User.belongsTo(Status, { through: "user_status" });
 User.belongsToMany(Specialty, { through: "user_specialty" });
-
-Service.belongsToMany(Sede, { through: "service_sede" });
-Service.belongsTo(Status, { through: "service_status" });
-
+Service.belongsToMany(Sede, { through: "sede_id" });
 HistoryService.belongsToMany(Payment, { through: "history_service_payment" });
-HistoryService.belongsTo(Sede, { through: "history_service_sede" });
 HistoryService.belongsToMany(Service, { through: "history_service_service" });
 
 module.exports = {

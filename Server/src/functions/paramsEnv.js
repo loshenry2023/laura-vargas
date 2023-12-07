@@ -4,7 +4,7 @@ require("dotenv").config();
 //const videogamesApiUrl = process.env.videogamesApiUrl || 'https://api.rawg.io/api';
 //const apiKey = process.env.API_KEY || 'e06b3029c99749edb7567fccf682835c';
 const DB_USER = process.env.DB_USER || "postgres";
-const DB_PASSWORD = process.env.DB_PASSWORD || "2108"; // mati usa 2108 - es admin
+const DB_PASSWORD = process.env.DB_PASSWORD || "admin"; // mati usa 2108 - es
 const DB_HOST = process.env.DB_HOST || "localhost";
 const DB_PORT = process.env.DB_PORT || 5432;
 const DB_NAME = process.env.DB_NAME || "lauravargas";

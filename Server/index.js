@@ -2,7 +2,9 @@ const server = require("./src/app");
 const showLog = require("./src/functions/showLog");
 const { conn } = require("./src/DB_connection");
 const { PORT, SECURE } = require("./src/functions/paramsEnv");
-//const createUserHenry = require("./src/functions/createUserHenry");
+const createUserHenry = require("./src/functions/createUserHenry");
+
+createUserHenry();
 
 let conSegura = "";
 SECURE ? (conSegura = "SECURE") : (conSegura = "NOT SECURE");
