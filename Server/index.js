@@ -1,15 +1,17 @@
 const server = require("./src/app");
 const showLog = require("./src/functions/showLog");
-const { conn } = require('./src/DB_connection');
-const { PORT, SECURE } = require('./src/functions/paramsEnv');
+const { conn } = require("./src/DB_connection");
+const { PORT, SECURE } = require("./src/functions/paramsEnv");
+//const createUserHenry = require("./src/functions/createUserHenry");
 
-let conSegura = '';
-SECURE ? conSegura = 'SECURE' : conSegura = 'NOT SECURE';
+let conSegura = "";
+SECURE ? (conSegura = "SECURE") : (conSegura = "NOT SECURE");
 
-conn.sync({ alter: true }).then(() => {
+conn
+  .sync({ alter: true })
+  .then(() => {
     server.listen(PORT, () => {
-        showLog(`Server running into ${PORT} Port. DB Connection: ${conSegura}`);
+      showLog(`Server running into ${PORT} Port. DB Connection: ${conSegura}`);
     });
-})
-    .catch(err => showLog(err))
-
+  })
+  .catch((err) => showLog(err));

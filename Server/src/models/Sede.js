@@ -2,7 +2,7 @@ const { DataTypes } = require("sequelize");
 
 module.exports = (sequelize) => {
   sequelize.define(
-    "Branch",
+    "Sede",
     {
       id: {
         type: DataTypes.UUID, // clave impredecible, versión 4

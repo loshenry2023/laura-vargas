@@ -1,7 +1,7 @@
 const router = require("express").Router();
 //Controllers:
 const getMain = require("../controllers/getMain");
-const postUser = require("../controllers/postUser");
+const getUser = require("../controllers/getUser");
 
 // const { getVideogames } = require("../controllers/getVideogames");
 // const getGenres = require("../controllers/getGenres");
@@ -13,7 +13,7 @@ const postUser = require("../controllers/postUser");
 
 //Rutas:
 router.get("/", getMain);
-router.post("/Users", postUser);
+router.get("/Users", getUser);
 //router.get("/laura-vargas", getVideogames); // obtiene un arreglo de objetos con los videojuegos
 // router.get("/videogames/:id", getVideogames); // obtiene el detalle de un videojuego por id
 // router.get("/genres", getGenres); // obtiene el listado de géneros

@@ -26,11 +26,11 @@ module.exports = (sequelize) => {
     },
     phoneNumber1: {
       type: DataTypes.TEXT, //validar!
-      allowNull: true,
+      allowNull: false,
     },
     phoneNumber2: {
       type: DataTypes.TEXT, //validar!
-      allowNull: false,
+      allowNull: true,
     },
     image: {
       type: DataTypes.STRING,
