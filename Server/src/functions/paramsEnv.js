@@ -1,26 +1,26 @@
 //! Unico lugar donde obtengo las variables de entorno. Ya cambié el apiKey porque consumí los del mes.
-require('dotenv').config();
+require("dotenv").config();
 
 //const videogamesApiUrl = process.env.videogamesApiUrl || 'https://api.rawg.io/api';
 //const apiKey = process.env.API_KEY || 'e06b3029c99749edb7567fccf682835c';
-const DB_USER = process.env.DB_USER || 'postgres';
-const DB_PASSWORD = process.env.DB_PASSWORD || 'admin';
-const DB_HOST = process.env.DB_HOST || 'localhost';
+const DB_USER = process.env.DB_USER || "postgres";
+const DB_PASSWORD = process.env.DB_PASSWORD || "admin"; // mati usa 2108 - es
+const DB_HOST = process.env.DB_HOST || "localhost";
 const DB_PORT = process.env.DB_PORT || 5432;
-const DB_NAME = process.env.DB_NAME || 'videogames';
+const DB_NAME = process.env.DB_NAME || "lauravargas";
 const SECURE = process.env.SECURE || false;
 const MUST_LOG = process.env.MUST_LOG || 1;
 const PORT = process.env.PORT || 3001;
 
 module.exports = {
-    //    videogamesApiUrl,
-    //    apiKey,
-    DB_USER,
-    DB_PASSWORD,
-    DB_HOST,
-    DB_PORT,
-    DB_NAME,
-    SECURE,
-    PORT,
-    MUST_LOG
+  //    videogamesApiUrl,
+  //    apiKey,
+  DB_USER,
+  DB_PASSWORD,
+  DB_HOST,
+  DB_PORT,
+  DB_NAME,
+  SECURE,
+  PORT,
+  MUST_LOG,
 };
