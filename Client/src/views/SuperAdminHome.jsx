@@ -1,8 +1,10 @@
 import React from "react";
+
+// Components
 import SideBar from "../components/SideBar";
 import NavBar from "../components/NavBar";
 
-const Home = () => {
+const SuperAdminHome = () => {
   return (
     <div>
       <NavBar />
@@ -11,4 +13,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default SuperAdminHome;
