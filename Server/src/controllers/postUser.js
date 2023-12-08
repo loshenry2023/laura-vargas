@@ -20,12 +20,12 @@ const postUser = async (req, res) => {
         }
         // Creo el registro si no existe:
         const [UserCreated, created] = await User.findOrCreate({
-            where: { userName, notificationEmail, name, lastName, phoneNumber1, phoneNumber2, image, comission, token, role, active: "1" },
+            where: { userName, notificationEmail, name, lastName, phoneNumber1: phone1, phoneNumber2: phone1, image, comission, token: "", role, active: "1" },
         });
         //Agrego relación:
         await UserCreated.setBranch(branch);
         showLog(`postUser OK`);
-        return res.status(200).json({ "created": "ok", "id": createdVideogameId });
+        return res.status(200).json({ "created": "ok" });
     } catch (err) {
         showLog(`postUser ERROR-> ${err.message}`);
         return res.status(500).send(err.message);
