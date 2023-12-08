@@ -46,7 +46,7 @@ async function createBasicData() {
       for (let i = 0; i < paymentList.length; i++) {
         const [paymentCreated, created] = await Payment.findOrCreate({
           where: {
-            PaymentMethodName: paymentList[i],
+            paymentMethodName: paymentList[i],
             active: "1",
           },
         });

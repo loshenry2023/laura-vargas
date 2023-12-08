@@ -25,5 +25,18 @@ module.exports = (sequelize) => {
       type: DataTypes.TEXT,
       allowNull: true,
     },
+    branchName: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+    },
+    paymentMethodName: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+    },
+    serviceName: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+    },
+
   });
 };
