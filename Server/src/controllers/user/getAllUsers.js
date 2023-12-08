@@ -1,7 +1,7 @@
-// ! Obtiene todos los usuarios desde la BD.
+// ! Obtiene todos los usuarios.
 const axios = require('axios');
-const { User } = require('../DB_connection');
-const showLog = require("../functions/showLog");
+const { User } = require('../../DB_connection');
+const showLog = require("../../functions/showLog");
 
 const getAllUsers = async (req, res) => {
     try {

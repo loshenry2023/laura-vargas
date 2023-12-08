@@ -1,7 +1,7 @@
-// ! Obtiene las especialidades desde la BD.
+// ! Obtiene las especialidades.
 const axios = require('axios');
-const { Specialty } = require('../DB_connection');
-const showLog = require("../functions/showLog");
+const { Specialty } = require('../../DB_connection');
+const showLog = require("../../functions/showLog");
 
 const getSpecialties = async (req, res) => {
     try {

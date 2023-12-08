@@ -1,7 +1,7 @@
-// ! Obtiene los medios de pago desde la BD.
+// ! Obtiene los medios de pago.
 const axios = require('axios');
-const { Payment } = require('../DB_connection');
-const showLog = require("../functions/showLog");
+const { Payment } = require('../../DB_connection');
+const showLog = require("../../functions/showLog");
 
 const getPayments = async (req, res) => {
     try {

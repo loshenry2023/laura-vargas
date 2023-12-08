@@ -1,6 +1,6 @@
-// ! Obtiene los datos del usuario desde ls BD.
-const { User } = require('../DB_connection');
-const showLog = require("../functions/showLog");
+// ! Obtiene los datos del usuario.
+const { User } = require('../../DB_connection');
+const showLog = require("../../functions/showLog");
 const { Op } = require('sequelize');
 
 const getUser = async (req, res) => {

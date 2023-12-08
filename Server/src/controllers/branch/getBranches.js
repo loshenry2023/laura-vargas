@@ -1,7 +1,7 @@
-// ! Obtiene las sedes desde la BD.
+// ! Obtiene las sedes.
 const axios = require('axios');
-const { Branch } = require('../DB_connection');
-const showLog = require("../functions/showLog");
+const { Branch } = require('../../DB_connection');
+const showLog = require("../../functions/showLog");
 
 const getBranches = async (req, res) => {
     try {
