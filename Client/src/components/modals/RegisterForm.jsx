@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { IoClose } from "react-icons/io5";
 
+
+
 function RegisterForm({ setShowResgisterFormModal }) {
 
+
   const specialitys = ["Cejas", "Pestañas", "Micropigmentación", "Lifting", "Administración"];
-  const roles = ["Super Admin", "Admin", "Especialista"]
+  const roles = ["superAdmin", "admin", "specialist"]
   const sedes = ["Villavicencio", "Restrepo"]
 
   const [userData, setUserData] = useState({
@@ -31,16 +34,14 @@ function RegisterForm({ setShowResgisterFormModal }) {
     console.log(userData)
   }, [userData])
 
-  const logIn = (e) => {
+
+
+
+  const handleSubmit = (e) => {
     e.preventDefault()
 
-    const userInfoFirebase = {
-      email: userData.email,
-      password: userData.password,
-      rol: userData.rol
-    }
     console.log(userData, "Esto va para el back")
-    console.log(userInfoFirebase, "esto va para firebase")
+   
   }
 
   const closeModal = () => {
@@ -52,7 +53,7 @@ function RegisterForm({ setShowResgisterFormModal }) {
 
     <>
       <div className=' absolute top-0 left-0 flex items-center justify-center w-full h-full bg-black opacity-95'>
-      <form className="z-10 opacity-100 bg-white bg-opacity-90 rounded-lg shadow md:mt-0 sm:max-w-md xl:px-6 py-2 space-y-4 md:space-y-6" onSubmit={logIn}>
+      <form className="z-10 opacity-100 bg-white bg-opacity-90 rounded-lg shadow md:mt-0 sm:max-w-md xl:px-6 py-2 space-y-4 md:space-y-6" onSubmit={handleSubmit}>
         <span
           onClick={closeModal}
           className='ml-[600px] cursor-pointer text-gray-600 hover:text-gray-800'
@@ -77,6 +78,7 @@ function RegisterForm({ setShowResgisterFormModal }) {
                 required
               />
             </div>
+
             <div className="mb-4">
               <label className="block mb-2 text-sm font-medium text-gray-900">
                 Contraseña
@@ -195,10 +197,9 @@ function RegisterForm({ setShowResgisterFormModal }) {
         </button>
       </form>
       </div>
-      
+     
     </>
 
   )
 }
-
 export default RegisterForm
