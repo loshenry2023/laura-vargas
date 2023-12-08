@@ -1,12 +1,13 @@
 // Vistas:
 import Landing from "./views/Landing.jsx";
 import LogIn from "./views/LogIn.jsx";
-import Profiles from "./views/Profiles.jsx";
+import Profiles from "./views/UserProfiles.jsx";
+import Home from "./views/Home.jsx";
 // hooks, routers, reducers:
 import { Route, Routes} from "react-router-dom";
 // Variables de entorno:
 import getParamsEnv from "./functions/getParamsEnv.js";
-const { ROOT, LOGIN } = getParamsEnv();
+const { ROOT, LOGIN, USERPROFILES, HOME } = getParamsEnv();
 
 const App = () => {
 
@@ -15,7 +16,8 @@ const App = () => {
       <Routes>
         <Route path={ROOT} element={<Landing />} />
         <Route path={LOGIN} element={<LogIn />} />
-        <Route path={"/profilesList"} element={<Profiles />} />
+        <Route path={HOME} element={<Home />} />
+        <Route path={USERPROFILES} element={<Profiles />} />
         {/* <Route path={DETAIL} element={<Detail />} />
         <Route path={EDIT} element={<Edit />} />
         <Route path={ABOUT} element={<About />} />

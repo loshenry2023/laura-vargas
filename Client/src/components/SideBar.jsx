@@ -4,6 +4,8 @@ import { FaLocationPin } from "react-icons/fa6";
 import { IoMdAnalytics } from "react-icons/io";
 import { HiMiniUserGroup } from "react-icons/hi2";
 import { GiFingernail } from "react-icons/gi";
+import { ImProfile } from "react-icons/im";
+import { Link } from "react-router-dom";
 
 const SideBar = () => {
   return (
@@ -12,6 +14,9 @@ const SideBar = () => {
       <a href="">
         <FaCalendar className="w-7 h-7 hover:text-beige" />
       </a>
+      <Link to="/userprofiles">
+        <ImProfile className="w-7 h-7 hover:text-beige" />
+      </Link>
       <a href="">
         <FaLocationPin className="w-7 h-7 hover:text-beige" />
       </a>
