@@ -13,7 +13,6 @@ const putSpeciality = async (req, res) => {
             showLog(`putSpeciality: ${specialtyName} not found.`);
             return res.status(404).send(`${specialtyName} not found.`);
         }
-        // Actualizo los campos:
         existingSpec.specialtyName = specialtyName;
         await existingSpec.save();
         showLog('putSpeciality OK');

@@ -13,7 +13,6 @@ const putPayment = async (req, res) => {
             showLog(`putPayment: ${paymentMethodName} not found.`);
             return res.status(404).send(`${paymentMethodName} not found.`);
         }
-        // Actualizo los campos:
         existingPay.paymentMethodName = paymentMethodName;
         await existingPay.save();
         showLog('putPayment OK');

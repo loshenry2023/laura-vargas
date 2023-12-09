@@ -8,7 +8,6 @@ const postPayment = async (req, res) => {
     showLog(`postPayment`);
     try {
         if (!paymentMethodName) { throw Error("Data missing"); }
-        // Verifico si ya existe un registro con la misma descripción:
         const payLowercase = paymentMethodName.toLowerCase();
         const existingPayment = await Payment.findOne({
             where: { paymentMethodName: { [Op.iLike]: payLowercase } },
@@ -17,7 +16,6 @@ const postPayment = async (req, res) => {
             showLog(`postPayment: ${paymentMethodName} already exists`);
             return res.status(409).send(`${paymentMethodName} already exists.`);
         }
-        // Creo el registro si no existe:
         const [PayCreated, created] = await Payment.findOrCreate({
             where: { paymentMethodName },
         });

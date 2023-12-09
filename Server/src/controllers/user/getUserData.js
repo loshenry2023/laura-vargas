@@ -20,7 +20,6 @@ const getUserData = async (req, res) => {
                     attributes: ['id', 'branchName'],
                 },
             ],
-
         });
         if (!existingUser) {
             showLog(`getUserData: ${id} not found.`);

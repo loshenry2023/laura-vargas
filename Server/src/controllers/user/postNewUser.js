@@ -9,7 +9,6 @@ const postNewUser = async (req, res) => {
     let transaction; // manejo transacciones para evitar registros defectuosos por relaciones mal solicitadas
     try {
         if (!userName || !name || !lastName || !role || !notificationEmail || !phone1 || !image || !comission || !branch || !specialty) { throw Error("Data missing"); }
-        // Verifico si ya existe el registro:
         const nameLowercase = userName.toLowerCase();
         const existingUser = await User.findOne({
             where: { userName: { [Op.iLike]: nameLowercase } },
@@ -20,7 +19,6 @@ const postNewUser = async (req, res) => {
         }
         // Inicio la transacción:
         transaction = await conn.transaction();
-        // Creo el registro:
         const [UserCreated, created] = await User.findOrCreate({
             where: { userName, notificationEmail, name, lastName, phoneNumber1: phone1, phoneNumber2: phone2, image, comission, token: "", role },
             transaction,
@@ -31,12 +29,10 @@ const postNewUser = async (req, res) => {
         for (const spec of specialty) {
             await UserCreated.addSpecialties(spec, { transaction });
         }
-        // Confirmo la transacción:
         await transaction.commit();
         showLog(`postNewUser OK`);
         return res.status(200).json({ "created": "ok" });
     } catch (err) {
-        // Revierto la transacción:
         if (transaction) await transaction.rollback();
         showLog(`postNewUser ERROR-> ${err.message}`);
         return res.status(500).send(err.message);

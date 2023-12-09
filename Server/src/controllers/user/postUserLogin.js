@@ -8,7 +8,6 @@ const postUserLogin = async (req, res) => {
     showLog(`postUserLogin`);
     try {
         if (!nameUser || !idUser) { throw Error("Data missing"); }
-        // Verifico que el usuario exista en tabla:
         const nameLowercase = nameUser.toLowerCase();
         const existingUser = await User.findOne({
             where: { userName: { [Op.iLike]: nameLowercase } },
@@ -34,7 +33,6 @@ const postUserLogin = async (req, res) => {
         const branchData = existingUser.Branch ? { id: existingUser.Branch.id, branchName: existingUser.Branch.branchName } : null;
         // Obtengo las especialidades relacionadas:
         const userSpecialties = existingUser.Specialties.map(specialty => ({ id: specialty.id, specialtyName: specialty.specialtyName }));
-        // Devuelvo los datos del usuario:
         const userData = {
             id: existingUser.id,
             branch: branchData,

@@ -8,7 +8,6 @@ const postSpecialty = async (req, res) => {
     showLog(`postSpecialty`);
     try {
         if (!specialtyName) { throw Error("Data missing"); }
-        // Verifico si ya existe un registro con la misma especialidad:
         const specLowercase = specialtyName.toLowerCase();
         const existingSpec = await Specialty.findOne({
             where: { specialtyName: { [Op.iLike]: specLowercase } },
@@ -17,7 +16,6 @@ const postSpecialty = async (req, res) => {
             showLog(`postSpecialty: ${specialtyName} already exists`);
             return res.status(409).send(`${specialtyName} already exists.`);
         }
-        // Creo el registro si no existe:
         const [SpecCreated, created] = await Specialty.findOrCreate({
             where: { specialtyName },
         });
