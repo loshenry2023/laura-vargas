@@ -2,11 +2,12 @@ import React from 'react';
 
 const TablaDatos = ({ datos }) => {
     return (
-        <div className="max-w-4xl mx-auto bg-white p-8 rounded shadow overflow-x-auto">
-            <table className="min-w-full border-collapse border text-sm">
+        <div className="mx-auto p-2 rounded shadow">
+            <table className="border-collapse border bg-white text-sm">
                 <thead>
                     <tr>
-                        <th className="py-2 px-4 bg-secondaryPink text-black border">Nombre y Apellido</th>
+                        <th className="py-2 px-4 bg-secondaryPink text-black border">Nombre</th>
+                        <th className="py-2 px-4 bg-secondaryPink text-black border">Apellido</th>
                         <th className="py-2 px-4 bg-secondaryPink text-black border">Correo</th>
                         <th className="py-2 px-4 bg-secondaryPink text-black border">Especialidad</th>
                         <th className="py-2 px-4 bg-secondaryPink text-black border">Rol</th>
@@ -16,8 +17,9 @@ const TablaDatos = ({ datos }) => {
                 </thead>
                 <tbody>
                     {datos.map((fila, index) => (
-                        <tr key={index}>
+                        <tr key={index} className='text-xs'>
                             <td className="py-2 px-4 border">{fila.name}</td>
+                            <td className="py-2 px-4 border">{fila.lastName}</td>
                             <td className="py-2 px-4 border">{fila.email}</td>
                             <td className="py-2 px-4 border">{fila.speciality}</td>
                             <td className="py-2 px-4 border">{fila.rol}</td>

@@ -12,22 +12,22 @@ const SideBar = () => {
     <div className="bg-primaryPink w-20 min-h-[calc(100vh-80px)] flex flex-col items-center gap-8 pointer-events:auto shadow-lg shadow-gray-300">
       <hr className="w-14 h-[1px] bg-beige border-0"/>
       <a href="">
-        <FaCalendar className="w-7 h-7 hover:text-beige" />
+        <FaCalendar className="w-6 h-6 hover:text-beige" />
       </a>
       <Link to="/userprofiles">
-        <ImProfile className="w-7 h-7 hover:text-beige" />
+        <ImProfile className="w-6 h-6 hover:text-beige" />
       </Link>
       <a href="">
-        <FaLocationPin className="w-7 h-7 hover:text-beige" />
+        <FaLocationPin className="w-6 h-6 hover:text-beige" />
       </a>
       <a href="">
-        <GiFingernail className="w-7 h-7 hover:text-beige" />
+        <GiFingernail className="w-6 h-6 hover:text-beige" />
       </a>
       <a href="">
-        <HiMiniUserGroup className="w-7 h-7 hover:text-beige" />
+        <HiMiniUserGroup className="w-6 h-6 hover:text-beige" />
       </a>
       <a href="">
-        <IoMdAnalytics className="w-7 h-7 hover:text-beige" />
+        <IoMdAnalytics className="w-6 h-6 hover:text-beige" />
       </a>
     </div>
   );
