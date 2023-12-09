@@ -1,0 +1,10 @@
+DB_USER=default
+DB_PASSWORD=gC0aqIkcSs6R
+DB_HOST=ep-solitary-band-15211281.us-east-1.postgres.vercel-storage.com
+DB_PORT=5432
+DB_NAME=verceldb
+PORT=3001
+videogamesApiUrl=https://api.rawg.io/api
+SECURE=true
+MUST_LOG=1
+FIRST_SUPERADMIN = loshenry2023@gmail.com
