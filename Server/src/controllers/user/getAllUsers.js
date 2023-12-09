@@ -2,20 +2,20 @@
 const axios = require("axios");
 const { User, Specialty, Branch } = require("../../DB_connection");
 const { Op } = require("sequelize");
+const showLog = require("../../functions/showLog");
 
 const getAllUsers = async (
   nameOrLastName = "",
   attribute = "createdAt",
   order = "desc",
   page = 0,
-  size = 4,
+  size = 10,
   branch = "",
   specialty = "",
   role = "",
   createDateEnd = "",
   createDateStart = ""
 ) => {
-  const { count, rows } = await User.findAndCountAll({
   try {
     const { count, rows } = await User.findAndCountAll({
       include: [
@@ -60,4 +60,5 @@ const getAllUsers = async (
     return { message: err.message };
   }
 };
+showLog("getAllUsers cargados");
 module.exports = getAllUsers;
