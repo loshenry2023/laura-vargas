@@ -8,7 +8,6 @@ const getSpecialties = async (req, res) => {
         showLog(`getSpecialties`);
         reg = await Specialty.findAll({
             attributes: ["id", "specialtyName"],
-            where: { active: "1" },
         });
         showLog(`getSpecialties OK`);
         res.status(200).json(reg);

@@ -8,7 +8,6 @@ const getAllUsers = async (req, res) => {
         showLog(`getAllUsers`);
         reg = await User.findAll({
             attributes: ["id", "userName", "notificationEmail", "name", "lastName", "phoneNumber1", "phoneNumber2", "image", "comission", "role"],
-            where: { active: "1" },
         });
         showLog(`getAllUsers OK`);
         res.status(200).json(reg);

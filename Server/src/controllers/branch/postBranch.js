@@ -19,7 +19,7 @@ const postBranch = async (req, res) => {
         }
         // Creo el registro si no existe:
         const [BranchCreated, created] = await Branch.findOrCreate({
-            where: { branchName, phoneNumber, address, active: "1", coordinates, openningHours, clossingHours, workingDays },
+            where: { branchName, phoneNumber, address, coordinates, openningHours, clossingHours, workingDays },
         });
         showLog(`postBranch OK`);
         return res.status(200).json({ "created": "ok" });

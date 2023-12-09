@@ -15,8 +15,7 @@ const deleteUser = async (req, res) => {
             throw Error("Not allowed");
         }
         // Elimino el usuario. Es con marcado lógico:
-        userToDelete.active = "0";
-        await userToDelete.save();
+        await userToDelete.destroy();
         showLog(`deleteUser OK`);
         return res.status(200).json({ "deleted": "ok" });
     } catch (err) {

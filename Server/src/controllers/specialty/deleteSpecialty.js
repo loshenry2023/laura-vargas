@@ -11,8 +11,7 @@ const deleteSpecialty = async (req, res) => {
         const specToDelete = await Specialty.findByPk(id);
         if (!specToDelete) { throw Error("ID not found"); }
         // Elimino el registro. Es con marcado lógico:
-        specToDelete.active = "0";
-        await specToDelete.save();
+        await specToDelete.destroy();
         showLog(`deleteSpecialty OK`);
         return res.status(200).json({ "deleted": "ok" });
     } catch (err) {
