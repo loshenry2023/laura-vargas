@@ -46,13 +46,14 @@ async function createBasicData() {
       for (let i = 0; i < paymentList.length; i++) {
         const [paymentCreated, created] = await Payment.findOrCreate({
           where: {
-            PaymentMethodName: paymentList[i],
+            paymentMethodName: paymentList[i],
             active: "1",
           },
         });
       }
       // Crear las especialidades:
       const specialityList = ["Cejas", "Pestañas", "Micropigmentación", "Lifting", "Administración"];
+      let specCrtd;
       for (let i = 0; i < specialityList.length; i++) {
         const [specialityCreated, created] = await Specialty.findOrCreate({
           where: {
@@ -60,6 +61,7 @@ async function createBasicData() {
             active: "1",
           },
         });
+        specCrtd = specialityCreated;
       }
       // Crear el usuario inicial:
       const [existingUserHenry, userCreated] = await User.findOrCreate({
@@ -76,8 +78,13 @@ async function createBasicData() {
           active: "1",
         },
       });
-      // Relación:
+      // Relación a sedes:
       await existingUserHenry.setBranch(branchCrtd);
+      // Relación a especialidades:
+      let specCreated = await Specialty.findAll({
+        where: { specialtyName: "Administración" }
+      });
+      existingUserHenry.addSpecialty(specCreated)
       showLog(`Basic data created`);
     }
   } catch (error) {

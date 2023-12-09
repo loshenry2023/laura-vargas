@@ -50,13 +50,10 @@ const {
 
 //Relaciones a 1:
 User.belongsTo(Branch, { foreignKey: "branch_id" });
-HistoryService.belongsTo(Branch, { foreignKey: "branch_id" });
 
 //Relaciones a muchos:
 User.belongsToMany(Specialty, { through: "user_specialty" });
 Service.belongsToMany(Branch, { through: "service_branch" });
-HistoryService.belongsToMany(Payment, { through: "history_payment" });
-HistoryService.belongsToMany(Service, { through: "history_service" });
 
 module.exports = {
   Branch,
