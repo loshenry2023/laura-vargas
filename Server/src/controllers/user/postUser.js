@@ -20,7 +20,7 @@ const postUser = async (req, res) => {
         }
         // Creo el registro si no existe:
         const [UserCreated, created] = await User.findOrCreate({
-            where: { userName, notificationEmail, name, lastName, phoneNumber1: phone1, phoneNumber2: phone2, image, comission, token: "", role, active: "1" },
+            where: { userName, notificationEmail, name, lastName, phoneNumber1: phone1, phoneNumber2: phone2, image, comission, token: "", role },
         });
         //Agrego relación:
         await UserCreated.setBranch(branch);

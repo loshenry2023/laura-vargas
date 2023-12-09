@@ -11,8 +11,7 @@ const deleteBranch = async (req, res) => {
         const branchToDelete = await Branch.findByPk(id);
         if (!branchToDelete) { throw Error("ID not found"); }
         // Elimino el registro. Es con marcado lógico:
-        branchToDelete.active = "0";
-        await branchToDelete.save();
+        await branchToDelete.destroy();
         showLog(`deleteBranch OK`);
         return res.status(200).json({ "deleted": "ok" });
     } catch (err) {

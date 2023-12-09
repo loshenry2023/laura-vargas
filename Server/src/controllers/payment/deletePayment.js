@@ -11,8 +11,7 @@ const deletePayment = async (req, res) => {
         const payToDelete = await Payment.findByPk(id);
         if (!payToDelete) { throw Error("ID not found"); }
         // Elimino el registro. Es con marcado lógico:
-        payToDelete.active = "0";
-        await payToDelete.save();
+        await payToDelete.destroy();
         showLog(`deletePayment OK`);
         return res.status(200).json({ "deleted": "ok" });
     } catch (err) {

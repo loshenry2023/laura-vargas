@@ -8,7 +8,6 @@ const getPayments = async (req, res) => {
         showLog(`getPayments`);
         reg = await Payment.findAll({
             attributes: ["id", "paymentMethodName"],
-            where: { active: "1" },
         });
         showLog(`getPayments OK`);
         res.status(200).json(reg);

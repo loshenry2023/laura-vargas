@@ -20,13 +20,11 @@ async function createBasicData() {
           branchName: "Villavicencio",
           address: "Calle 26 b num 39-34, Villavicencio, Colombia",
           phoneNumber: "+573502142355",
-          active: "1",
         },
         {
           branchName: "Restrepo",
           address: "CC Balcones Plaza, Local L29C, Restrepo, Meta, Colombia",
           phoneNumber: "+573502142355",
-          active: "1",
         }
       ]
       let branchCrtd;
@@ -36,7 +34,6 @@ async function createBasicData() {
             branchName: branch.branchName,
             address: branch.address,
             phoneNumber: branch.phoneNumber,
-            active: branch.active,
           },
         });
         branchCrtd = branchCreated;
@@ -47,7 +44,6 @@ async function createBasicData() {
         const [paymentCreated, created] = await Payment.findOrCreate({
           where: {
             paymentMethodName: paymentList[i],
-            active: "1",
           },
         });
       }
@@ -58,7 +54,6 @@ async function createBasicData() {
         const [specialityCreated, created] = await Specialty.findOrCreate({
           where: {
             specialtyName: specialityList[i],
-            active: "1",
           },
         });
         specCrtd = specialityCreated;
@@ -75,7 +70,6 @@ async function createBasicData() {
             "https://res.cloudinary.com/dvptbowso/image/upload/v1701979529/HenryPF/ses9qbgrnytwd9l1ovcu.png",
           comission: 0,
           role: "superAdmin",
-          active: "1",
         },
       });
       // Relación a sedes:

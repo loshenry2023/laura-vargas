@@ -8,7 +8,6 @@ const getBranches = async (req, res) => {
         showLog(`getBranches`);
         reg = await Branch.findAll({
             attributes: ["id", "branchName", "coordinates", "address", "phoneNumber", "openningHours", "clossingHours", "workingDays"],
-            where: { active: "1" },
         });
         showLog(`getBranches OK`);
         res.status(200).json(reg);

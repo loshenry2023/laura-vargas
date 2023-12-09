@@ -19,7 +19,7 @@ const postPayment = async (req, res) => {
         }
         // Creo el registro si no existe:
         const [PayCreated, created] = await Payment.findOrCreate({
-            where: { paymentMethodName, active: "1" },
+            where: { paymentMethodName },
         });
         showLog(`postPayment OK`);
         return res.status(200).json({ "created": "ok" });

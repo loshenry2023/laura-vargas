@@ -19,7 +19,7 @@ const postSpecialty = async (req, res) => {
         }
         // Creo el registro si no existe:
         const [SpecCreated, created] = await Specialty.findOrCreate({
-            where: { specialtyName, active: "1" },
+            where: { specialtyName },
         });
         showLog(`postSpecialty OK`);
         return res.status(200).json({ "created": "ok" });
