@@ -17,7 +17,6 @@ const putUser = async (req, res) => {
         }
         // Inicio la transacción:
         transaction = await conn.transaction();
-        // Actualizo los campos:
         existingUser.name = name;
         existingUser.lastName = lastName;
         existingUser.notificationEmail = notificationEmail;
@@ -38,12 +37,10 @@ const putUser = async (req, res) => {
                 await existingUser.setSpecialties(spec, { transaction });
             }
         }
-        // Confirmo la transacción:
         await transaction.commit();
         showLog('putUser OK');
         return res.status(200).json({ updated: 'ok', id: existingUser.id });
     } catch (err) {
-        // Revierto la transacción:
         if (transaction) await transaction.rollback();
         showLog(`putUser ERROR -> ${err.message}`);
         return res.status(500).send(err.message);

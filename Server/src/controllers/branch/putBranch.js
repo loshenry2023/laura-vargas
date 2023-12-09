@@ -13,7 +13,6 @@ const putBranch = async (req, res) => {
             showLog(`putBranch: ${paymentMethodName} not found.`);
             return res.status(404).send(`${paymentMethodName} not found.`);
         }
-        // Actualizo los campos:
         existingBranch.branchName = branchName;
         existingBranch.coordinates = coordinates;
         existingBranch.address = address;
