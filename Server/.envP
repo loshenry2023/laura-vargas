@@ -7,3 +7,4 @@ PORT=3001
 videogamesApiUrl=https://api.rawg.io/api
 SECURE=true
 MUST_LOG=1
+FIRST_SUPERADMIN = loshenry2023@gmail.com

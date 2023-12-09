@@ -4,6 +4,7 @@ const getMain = require("../controllers/getMain");
 
 const getAllUsers = require("../controllers/user/getAllUsers");
 const getUser = require("../controllers/user/getUser");
+const getUserData = require("../controllers/user/getUserData");
 const postUser = require("../controllers/user/postUser");
 const putUser = require("../controllers/user/putUser");
 const deleteUser = require("../controllers/user/deleteUser");
@@ -27,7 +28,8 @@ const deleteBranch = require("../controllers/branch/deleteBranch");
 router.get("/", getMain);
 router.get("/users", getAllUsers); // obtiene todos los usuarios
 
-router.get("/userdata", getUser); // obtiene los datos del usuario
+router.get("/userdata", getUser); // obtiene los datos del usuario para el login
+router.get("/userdata/:id", getUserData); // obtiene los detalles del usuario por id
 router.get("/specialties", getSpecialties); // obtiene las especialidades
 router.get("/payments", getPayments); // obtiene los medios de pago
 router.get("/branches", getBranches); // obtiene las sedes

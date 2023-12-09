@@ -1,20 +1,24 @@
 // ! Elimina un usuario.
 const { User } = require('../../DB_connection');
 const showLog = require("../../functions/showLog");
+const { FIRST_SUPERADMIN } = require("../../functions/paramsEnv");
 
 const deleteUser = async (req, res) => {
     const { id } = req.params;
     showLog(`deleteUser ${id}`);
     try {
         if (!id) { throw Error("Data missing"); }
-        // Busco el usuario por su ID:
+        // Busco el usuario:
         const userToDelete = await User.findByPk(id);
         if (!userToDelete) { throw Error("ID not found"); }
-        //        showLog(`userToDelete.userName: ${userToDelete.userName}`);
-        if (userToDelete.userName === "loshenry2023@gmail.com") {
+        if (userToDelete.userName === FIRST_SUPERADMIN) {
             throw Error("Not allowed");
         }
-        // Elimino el usuario. Es con marcado lógico:
+        // Elimino la relación con Branch:
+        await userToDelete.setBranch(null);
+        // Elimino la relación con Specialty:
+        await userToDelete.removeSpecialties();
+        // Elimino el registro:
         await userToDelete.destroy();
         showLog(`deleteUser OK`);
         return res.status(200).json({ "deleted": "ok" });

@@ -1,5 +1,4 @@
 // ! Obtiene las sedes.
-const axios = require('axios');
 const { Branch } = require('../../DB_connection');
 const showLog = require("../../functions/showLog");
 
