@@ -28,16 +28,18 @@ const deleteBranch = require("../controllers/branch/deleteBranch");
 router.get("/", getMain);
 router.get("/users", getAllUsers); // obtiene todos los usuarios
 
-router.get("/userdata", getUser); // obtiene los datos del usuario para el login
+
 router.get("/userdata/:id", getUserData); // obtiene los detalles del usuario por id
 router.get("/specialties", getSpecialties); // obtiene las especialidades
 router.get("/payments", getPayments); // obtiene los medios de pago
 router.get("/branches", getBranches); // obtiene las sedes
 
-router.post("/userdata", postUser); //  crea un nuevo usuario
+router.post("/newuser", postUser); //  crea un nuevo usuario
 router.post("/specialty", postSpecialty); //  crea una especialidad
 router.post("/payment", postPayment); //  crea un pago
 router.post("/branch", postBranch); // crea una sede
+router.post("/userdata", getUser); // obtiene los datos del usuario para el login
+
 
 router.put("/userdata/:id", putUser); //  edita un usuario
 router.put("/specialty/:id", putSpeciality); //  edita una especialidad
