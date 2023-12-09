@@ -1,4 +1,4 @@
-// ! Almacena una nueva especialidad, si no es repetido.
+// ! Almacena una nueva especialidad, si no es repetida.
 const { Specialty } = require('../../DB_connection');
 const showLog = require("../../functions/showLog");
 const { Op } = require('sequelize');
