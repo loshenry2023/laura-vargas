@@ -3,9 +3,9 @@ const router = require("express").Router();
 const getMain = require("../controllers/getMain");
 
 const getAllUsers = require("../controllers/user/getAllUsers");
-const getUser = require("../controllers/user/getUser");
+const postUserLogin = require("../controllers/user/postUserLogin");
 const getUserData = require("../controllers/user/getUserData");
-const postUser = require("../controllers/user/postUser");
+const postNewUser = require("../controllers/user/postNewUser");
 const putUser = require("../controllers/user/putUser");
 const deleteUser = require("../controllers/user/deleteUser");
 
@@ -28,18 +28,16 @@ const deleteBranch = require("../controllers/branch/deleteBranch");
 router.get("/", getMain);
 router.get("/users", getAllUsers); // obtiene todos los usuarios
 
-
 router.get("/userdata/:id", getUserData); // obtiene los detalles del usuario por id
 router.get("/specialties", getSpecialties); // obtiene las especialidades
 router.get("/payments", getPayments); // obtiene los medios de pago
 router.get("/branches", getBranches); // obtiene las sedes
 
-router.post("/newuser", postUser); //  crea un nuevo usuario
+router.post("/newuser", postNewUser); //  crea un nuevo usuario
 router.post("/specialty", postSpecialty); //  crea una especialidad
 router.post("/payment", postPayment); //  crea un pago
 router.post("/branch", postBranch); // crea una sede
-router.post("/userdata", getUser); // obtiene los datos del usuario para el login
-
+router.post("/userdata", postUserLogin); // obtiene los datos del usuario para el login y registra el token
 
 router.put("/userdata/:id", putUser); //  edita un usuario
 router.put("/specialty/:id", putSpeciality); //  edita una especialidad
