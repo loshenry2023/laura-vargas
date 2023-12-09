@@ -1,5 +1,4 @@
 // ! Obtiene los medios de pago.
-const axios = require('axios');
 const { Payment } = require('../../DB_connection');
 const showLog = require("../../functions/showLog");
 

@@ -6,12 +6,13 @@
 
 const { User, Branch, Payment, Specialty } = require("../DB_connection");
 const showLog = require("../functions/showLog");
+const { FIRST_SUPERADMIN } = require("../functions/paramsEnv");
 
 async function createBasicData() {
   try {
     // Hago una sola consulta que determina si es necesario agregar todos los datos básicos:
     const existingUsr = await User.findOne({
-      where: { userName: "loshenry2023@gmail.com" },
+      where: { userName: FIRST_SUPERADMIN },
     });
     if (!existingUsr) {
       showLog(`First run. Adding basic data...`);
@@ -61,10 +62,10 @@ async function createBasicData() {
       // Crear el usuario inicial:
       const [existingUserHenry, userCreated] = await User.findOrCreate({
         where: {
-          userName: "loshenry2023@gmail.com",
-          notificationEmail: "loshenry2023@gmail.com",
-          name: "Henry",
-          lastName: "2023",
+          userName: FIRST_SUPERADMIN,
+          notificationEmail: FIRST_SUPERADMIN,
+          name: "Usuario",
+          lastName: "Inicial",
           phoneNumber1: "111111111",
           image:
             "https://res.cloudinary.com/dvptbowso/image/upload/v1701979529/HenryPF/ses9qbgrnytwd9l1ovcu.png",
