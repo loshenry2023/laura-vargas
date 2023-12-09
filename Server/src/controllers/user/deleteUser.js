@@ -14,9 +14,9 @@ const deleteUser = async (req, res) => {
         if (userToDelete.userName === FIRST_SUPERADMIN) {
             throw Error("Not allowed");
         }
-        // Elimino la relación con Branch:
+        // Elimino la relación con sede:
         await userToDelete.setBranch(null);
-        // Elimino la relación con Specialty:
+        // Elimino la relación con especialidades:
         await userToDelete.removeSpecialties();
         // Elimino el registro:
         await userToDelete.destroy();

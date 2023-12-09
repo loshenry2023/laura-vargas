@@ -3,9 +3,9 @@ const { User, Specialty, Branch } = require('../../DB_connection');
 const showLog = require("../../functions/showLog");
 const { Op } = require('sequelize');
 
-const getUser = async (req, res) => {
+const postUserLogin = async (req, res) => {
     const { nameUser, idUser } = req.body;
-    showLog(`getUser`);
+    showLog(`postUserLogin`);
     try {
         if (!nameUser || !idUser) { throw Error("Data missing"); }
         // Verifico que el usuario exista en tabla:
@@ -24,7 +24,7 @@ const getUser = async (req, res) => {
             ],
         });
         if (!existingUser) {
-            showLog(`getUser: user ${nameUser} not found`);
+            showLog(`postUserLogin: user ${nameUser} not found`);
             return res.status(404).send(`user ${nameUser} not found.`);
         }
         // Actualizo el token:
@@ -48,11 +48,11 @@ const getUser = async (req, res) => {
             comission: existingUser.comission,
             specialties: userSpecialties,
         }
-        showLog(`getUser OK`);
+        showLog(`postUserLogin OK`);
         return res.status(200).json(userData);
     } catch (err) {
-        showLog(`getUser ERROR-> ${err.message}`);
+        showLog(`postUserLogin ERROR-> ${err.message}`);
         return res.status(500).send(err.message);
     }
 }
-module.exports = getUser;
+module.exports = postUserLogin;
