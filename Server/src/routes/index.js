@@ -3,12 +3,12 @@ const router = require("express").Router();
 // Únicamente para el deploy:
 const getMain = require("../controllers/getMain");
 // Usuarios:
-const getAllUsers = require("../controllers/user/getAllUsers");
 const postUserLogin = require("../controllers/user/postUserLogin");
 const getUserData = require("../controllers/user/getUserData");
 const postNewUser = require("../controllers/user/postNewUser");
 const putUser = require("../controllers/user/putUser");
 const deleteUser = require("../controllers/user/deleteUser");
+const usersHandler = require("../Handlers/user/usersHandler");
 // Especialidades:
 const getSpecialties = require("../controllers/specialty/getSpecialties");
 const postSpecialty = require("../controllers/specialty/postSpecialty");
@@ -28,7 +28,7 @@ const deleteBranch = require("../controllers/branch/deleteBranch");
 //! Rutas
 // GET:
 router.get("/", getMain); // únicamente para el deploy
-router.get("/users", getAllUsers); // obtiene y devuelve todos los usuarios
+router.get("/users", usersHandler); // obtiene y devuelve todos los usuarios
 router.get("/userdata/:id", getUserData); // obtiene y devuelve los detalles de un usuario por id
 router.get("/specialties", getSpecialties); // obtiene y devuelve todas las especialidades
 router.get("/payments", getPayments); // obtiene y devuelve todos los medios de pago
@@ -38,7 +38,7 @@ router.post("/newuser", postNewUser); //  crea un usuario
 router.post("/specialty", postSpecialty); //  crea una especialidad
 router.post("/payment", postPayment); //  crea un pago
 router.post("/branch", postBranch); // crea una sede
-router.post("/userdata", postUserLogin); // obtiene los datos de un usuario para el login, registra el token y devuelve sus datos asociados 
+router.post("/userdata", postUserLogin); // obtiene los datos de un usuario para el login, registra el token y devuelve sus datos asociados
 // PUT:
 router.put("/userdata/:id", putUser); //  edita un usuario
 router.put("/specialty/:id", putSpeciality); //  edita una especialidad
