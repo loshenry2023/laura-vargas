@@ -80,6 +80,28 @@ async function createBasicData() {
         where: { specialtyName: "Administración" }
       });
       existingUserHenry.addSpecialty(specCreated)
+      // Crear un usuario secundario para pruebas de desarrollo. ESTE USUARIO SE DEBE ELIMINAR AL FINALIZAR EL DESARROLLO!!!!!:
+      const [existingUserHenrySec, userSecCreated] = await User.findOrCreate({
+        where: {
+          userName: "tomas.bombau@gmail.com",
+          notificationEmail: "tomas.bombau@gmail.com",
+          name: "Tomas",
+          lastName: "Bombau",
+          phoneNumber1: "55555555",
+          image:
+            "https://res.cloudinary.com/dvptbowso/image/upload/v1699463369/PI_Videogames/ImgNav_s1visa.png",
+          comission: 40,
+          role: "admin",
+        },
+      });
+      // Relación a sedes:
+      await existingUserHenrySec.setBranch(branchCrtd);
+      // Relación a especialidades:
+      let specSecCreated = await Specialty.findAll({
+        where: { specialtyName: "Administración" }
+      });
+      existingUserHenrySec.addSpecialty(specSecCreated)
+
       showLog(`Basic data created`);
     }
   } catch (error) {
