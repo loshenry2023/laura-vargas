@@ -8,7 +8,11 @@ let conSegura = "";
 SECURE ? (conSegura = "SECURE") : (conSegura = "NOT SECURE");
 
 conn
-  .sync({ alter: true })
+  .authenticate()
+  .then(() => {
+    // La base de datos existe:
+    return conn.sync({ alter: true });
+  })
   .then(() => {
     // Antes de hacer el listen me encargo de verificar que existan los registros mínimos
     // de trabajo en las tablas:
@@ -17,4 +21,6 @@ conn
       showLog(`Server running into ${PORT} Port. DB Connection: ${conSegura}`);
     });
   })
-  .catch((err) => showLog(err));
+  .catch((err) => {
+    showLog("Error connecting to the database (was it created?)");
+  });
