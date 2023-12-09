@@ -16,46 +16,49 @@ const getAllUsers = async (
   createDateEnd = "",
   createDateStart = ""
 ) => {
-  const { count, rows } = await User.findAndCountAll({
-    include: [
-      {
-        model: Specialty,
-        where: { specialtyName: { [Op.iLike]: `%${specialty}%` } },
-        as: "Specialties",
-        through: { attributes: [] },
-        attributes: ["id", "specialtyName"],
-      },
-      {
-        model: Branch,
-        where: { branchName: { [Op.iLike]: `%${branch}%` } },
-        attributes: ["id", "branchName"],
-      },
-    ],
-    attributes: ["id", "name", "lastName", "userName", "role", "createdAt"],
-    where: {
-      [Op.or]: [
-        //filtro por nombres
-        { name: { [Op.iLike]: `%${nameOrLastName}%` } },
-        { lastName: { [Op.iLike]: `%${nameOrLastName}%` } },
+  try {
+    const { count, rows } = await User.findAndCountAll({
+      include: [
+        {
+          model: Specialty,
+          where: { specialtyName: { [Op.iLike]: `%${specialty}%` } },
+          as: "Specialties",
+          through: { attributes: [] },
+          attributes: ["id", "specialtyName"],
+        },
+        {
+          model: Branch,
+          where: { branchName: { [Op.iLike]: `%${branch}%` } },
+          attributes: ["id", "branchName"],
+        },
       ],
-      role: role ? role : [`user`, `superAdmin`, `admin`],
+      attributes: ["id", "name", "lastName", "userName", "role", "createdAt"],
+      where: {
+        [Op.or]: [
+          //filtro por nombres
+          { name: { [Op.iLike]: `%${nameOrLastName}%` } },
+          { lastName: { [Op.iLike]: `%${nameOrLastName}%` } },
+        ],
+        role: role ? role : [`user`, `superAdmin`, `admin`],
 
-      createdAt: {
-        //para la fecha de creación
-        [Op.gte]: createDateStart || "1900-01-01",
-        [Op.lte]: createDateEnd || new Date(),
+        createdAt: {
+          //para la fecha de creación
+          [Op.gte]: createDateStart || "1900-01-01",
+          [Op.lte]: createDateEnd || new Date(),
+        },
       },
-    },
 
-    order: [[attribute, order]],
-    limit: size,
-    offset: size * page,
-  });
-  return {
-    count,
-    rows,
-  };
+      order: [[attribute, order]],
+      limit: size,
+      offset: size * page,
+    });
+    return {
+      count,
+      rows,
+    };
+  } catch (err) {
+    return { message: err.message };
+  }
 };
-
 showLog("getAllUsers cargados");
 module.exports = getAllUsers;
