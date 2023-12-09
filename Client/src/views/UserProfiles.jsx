@@ -1,59 +1,58 @@
-import React, { useState } from 'react';
-import ProfilesTable from '../components/ProfilesTable';
-import { IoPersonAddOutline } from 'react-icons/io5';
-import RegisterForm from '../components/modals/RegisterForm';
-import NavBar from '../components/NavBar';
-import SideBar from '../components/SideBar';
+import React, { useState } from "react";
+import ProfilesTable from "../components/ProfilesTable";
+import { IoPersonAddOutline } from "react-icons/io5";
+import RegisterForm from "../components/modals/RegisterForm";
+import NavBar from "../components/NavBar";
+import SideBar from "../components/SideBar";
 
 function UserProfiles() {
-    const [showResgisterFormModal, setShowResgisterFormModal] = useState(false);
+  const [showResgisterFormModal, setShowResgisterFormModal] = useState(false);
 
-    const datos = [
-        {
-            speciality: 'pestañas',
-            name: 'Laura Vargas',
-            email: 'lauraVargas@gmail.com',
-            rol: 'Super Admin',
-            branch: 'Villavicencio',
-            commission: '40%',
-        },
-        {
-            speciality: 'pestañas',
-            name: 'Diana Vargas',
-            email: 'dianaVargas@gmail.com',
-            rol: 'Admin',
-            branch: 'Villavicencio',
-            commission: '40%',
-        },
-    ];
+  const datos = [
+    {
+      speciality: "pestañas",
+      name: "Laura",
+      lastName: "Vargas",
+      email: "lauraVargas@gmail.com",
+      rol: "Super Admin",
+      branch: "Villavicencio",
+      commission: "40%",
+    },
+    {
+      speciality: "pestañas",
+      name: "Diana",
+      lastName: "Vargas",
+      email: "dianaVargas@gmail.com",
+      rol: "Admin",
+      branch: "Villavicencio",
+      commission: "40%",
+    },
+  ];
 
-    const handleShowProfilesModal = () => {
-        setShowResgisterFormModal(true);
-    };
+  const handleShowProfilesModal = () => {
+    setShowResgisterFormModal(true);
+  };
 
-    return (
-        <>
-            <NavBar />
-            <div className='flex flex-row'>
-                <SideBar />
-                <div className={`flex h-[calc(100vh-80px)] items-center justify-center m-auto`}>
-                    <div>
-                        <h1 className='text-[25px]'>Perfiles</h1>
-                        <div className='mt-[40px] text-right pr-4 pb-5 justify-self-end'>
-                            <IoPersonAddOutline onClick={handleShowProfilesModal} size={30} />
-                        </div>
-                        <div className=''>
-                            <ProfilesTable datos={datos} />
-                        </div>  
-                        {showResgisterFormModal ? (
-                            <RegisterForm setShowResgisterFormModal={setShowResgisterFormModal} />
-                        ) : null  
-                        }
-                    </div>
-                </div>
-            </div>
-        </>
-    );
+  return (
+    <>
+      <NavBar />
+      <div className="flex flex-row">
+        <SideBar />
+        <div className="flex flex-col gap-4 h-[calc(100vh-150px)] mt-10 m-auto">
+          <h1 className="text-xl">Perfiles</h1>
+          <div className="flex flex-col gap-4 items-end">
+              <IoPersonAddOutline className="cursor-pointer h-6 w-6" onClick={handleShowProfilesModal} />
+              <ProfilesTable datos={datos} />
+            {showResgisterFormModal ? (
+              <RegisterForm
+                setShowResgisterFormModal={setShowResgisterFormModal}   
+              />
+            ) : null}
+          </div>
+        </div>
+      </div>    
+    </>
+  );
 }
 
 export default UserProfiles;

@@ -7,14 +7,16 @@ import { IoExitOutline } from "react-icons/io5";
 import { GoPerson } from "react-icons/go";
 
 import getParamsEnv from "../functions/getParamsEnv.js";
-import { Link } from "react-router-dom";  
-const {ROOT}  = getParamsEnv();
+import { Link } from "react-router-dom";
+const { ROOT } = getParamsEnv();
 
 const NavBar = () => {
   return (
     <nav className="bg-primaryPink h-20 flex pl-2 pr-10 justify-between items-center shadow-lg shadow-gray-300">
       <div>
-        <img className="w-20 h-auto" src={logo} alt="logo" />
+        <Link to="/home">
+          <img className="w-20 h-auto" src={logo} alt="logo" />
+        </Link>
       </div>
       <div className="flex gap-2">
         <input
@@ -24,11 +26,11 @@ const NavBar = () => {
         />
       </div>
       <div className="flex gap-4 pointer-events:auto">
-        <CiBellOn className="w-8 h-8" />
-        <a href="">
-          <GoPerson className="w-8 h-8" />
-        </a>
-        <Link to={ROOT}><IoExitOutline className="w-8 h-8" /></Link>
+        <CiBellOn className="h-6 w-6" />
+        <GoPerson className="h-6 w-6 cursor-pointer" />
+        <Link to={ROOT}>
+          <IoExitOutline className="h-6 w-6" />
+        </Link>
       </div>
     </nav>
   );

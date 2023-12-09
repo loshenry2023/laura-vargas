@@ -1,24 +1,23 @@
-import React from "react";
+// components
 import SideBar from "../components/SideBar";
 import NavBar from "../components/NavBar";
 
+import { useSelector } from "react-redux";
 
-const Home = ({ user }) => {
+const Home = () => {
+  const user = useSelector((state) => state.user);
 
   return (
     <>
       <NavBar />
-      <SideBar />
-      <p>HOME</p>
-      {/* {user.rol === "superAdmin" ? (
-        <p>superAdmin</p>
-      ) : user.rol === "admin" ? (
-        <p>admin</p>
-      ) : user.rol === "specialist" ? (
-        <p>specialist</p>
-      ) : null} */}
+      <div className="flex">
+        <SideBar />
+        <h1 className='w-full text-2xl text-center mt-10'>
+          Hola {user.name}, tu rol es {user.role}
+        </h1>
+      </div>
     </>
-  );
+  );  
 };
 
 export default Home;
