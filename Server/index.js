@@ -22,5 +22,5 @@ conn
     });
   })
   .catch((err) => {
-    showLog("Error connecting to the database (was it created?)");
+    showLog("Error connecting to the database (was it created?). Please check and restart");
   });
