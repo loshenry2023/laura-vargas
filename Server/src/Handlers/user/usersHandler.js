@@ -29,14 +29,8 @@ const usersHandler = async (req, res) => {
       createDateEnd,
       createDateStart
     );
-
-    if (users.count) {
-      showLog(`getUserData OK`);
-      return res.status(200).json(users);
-    } else {
-      showLog(`getUserData ERROR-> User not match`);
-      return res.status(404).json({ message: "User not match" });
-    }
+    showLog(`getUserData OK`);
+    return res.status(200).json(users);
   } catch (err) {
     showLog(`getUserData ERROR-> ${err.message}`);
     return res.status(500).json({ message: err.message });

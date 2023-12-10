@@ -18,6 +18,7 @@ const UserDetail = () => {
   const userID = useSelector((state) => state?.userID);
 
   return (
+    //! falta componente para renderizar details
     <div>
       <NavBar />
       <div className="flex">
