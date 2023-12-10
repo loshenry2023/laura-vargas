@@ -8,7 +8,7 @@ import { Route, Routes} from "react-router-dom";
 // Variables de entorno:
 import getParamsEnv from "./functions/getParamsEnv.js";
 import UserDetail from "./views/UserDetail.jsx";
-const { ROOT, LOGIN, USERPROFILES, HOME, USERDETAIL } = getParamsEnv();
+const { ROOT, LOGIN, USERPROFILES, HOME} = getParamsEnv();
 
 const App = () => {
 
