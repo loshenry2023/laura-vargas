@@ -9,7 +9,7 @@ import { Link } from "react-router-dom";
 
 const SideBar = () => {
   return (
-    <div className="bg-primaryPink w-20 min-h-[calc(100vh-80px)] flex flex-col items-center gap-8 pointer-events:auto shadow-lg shadow-gray-300">
+    <div className="bg-secondaryPink w-20 min-h-[calc(100vh-80px)] flex flex-col items-center gap-8 pointer-events:auto shadow-lg shadow-gray-300">
       <hr className="w-14 h-[1px] bg-beige border-0"/>
       <a href="">
         <FaCalendar className="w-6 h-6 hover:text-beige" />
@@ -20,7 +20,7 @@ const SideBar = () => {
       <a href="">
         <FaLocationPin className="w-6 h-6 hover:text-beige" />
       </a>
-      <a href="">
+      <a href=""> 
         <GiFingernail className="w-6 h-6 hover:text-beige" />
       </a>
       <a href="">

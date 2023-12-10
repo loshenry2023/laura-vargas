@@ -5,10 +5,11 @@ import { useNavigate } from 'react-router-dom';
 const TablaDatos = () => {
     const navigate = useNavigate();
     const users = useSelector((state) => state?.users);
+    const count = useSelector((state) => state?.count);
 
     return (
         <>
-        {users.length !== 0 ? (<div className="mx-auto p-2 rounded shadow">
+        {count ? (<div className="mx-auto p-2 rounded shadow">
             <table className="border-collapse border bg-white text-sm">
                 <thead>
                     <tr>
@@ -37,7 +38,7 @@ const TablaDatos = () => {
                     ))}
                 </tbody>
             </table>
-        </div>) : <h2>NO HAY DATOS</h2>} </>
+        </div>) : <h2>No hay coincidencias</h2>} </>
     );
 };
 

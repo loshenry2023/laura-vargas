@@ -10,8 +10,8 @@ const Home = () => {
       <NavBar />
       <div className="flex">
         <SideBar />
-        <h1 className='w-full text-2xl text-center mt-10'>
-          HOME
+        <h1 className='w-full text-xl text-center mt-10'>
+          Home
         </h1>
       </div>
     </>

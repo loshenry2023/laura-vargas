@@ -56,7 +56,7 @@ const LogIn = () => {
       const { role } = userData;
       setRole(role);
     } catch (error) {
-      console.log(error)
+      console.log(error);
       if (error.code === "auth/account-exists-with-different-credential") {
         setErrorCredentials("Usted ya tiene una cuenta registrada con Google");
       }
@@ -82,7 +82,9 @@ const LogIn = () => {
       setRole(role);
     } catch (error) {
       if (error.code === "auth/account-exists-with-different-credential") {
-        setErrorCredentials("Usted ya tiene una cuenta registrada con Facebook");
+        setErrorCredentials(
+          "Usted ya tiene una cuenta registrada con Facebook"
+        );
       }
     }
   };
@@ -105,19 +107,23 @@ const LogIn = () => {
             </div>
             <button
               onClick={handleFacebook}
-              className="w-full px-4 py-2 border flex justify-center  gap-2 rounded-lg border-slate-700  text-slate-700 0 hover:bg-gradient-to-r from-secondaryPink to-primaryPink hover:shadow transition duration-150"
+              className="w-full px-4 py-2 border flex justify-center  gap-2 rounded-lg border-slate-700 hover:bg-grey hover:text-white transition-color duration-700 ease-in-out"
             >
               <AiFillFacebook className="h-6 w-6 text-blue-900" />
-              <span className="text-black">Login with Facebook</span>
+              <span>Login with Facebook</span>
             </button>
             <button
               onClick={handleGoogle}
-              className="w-full px-4 py-2 border flex justify-center  gap-2 rounded-lg border-slate-700  text-slate-700 0 hover:bg-gradient-to-r from-secondaryPink to-primaryPink hover:shadow transition duration-150"
+              className="w-full px-4 py-2 border flex justify-center gap-2 rounded-lg border-slate-700 hover:bg-grey hover:text-white transition-color duration-700 ease-in-out "
             >
               <FcGoogle className="h-6 w-6" />
-              <span className="text-black">Login with Google</span>
+              <span>Login with Google</span>
             </button>
-            {errorCredentials ? <p className="text-red-500 text-sm font-semibold ">{errorCredentials}</p> : null}
+            {errorCredentials ? (
+              <p className="text-red-500 text-sm font-semibold ">
+                {errorCredentials}
+              </p>
+            ) : null}
           </div>
         </div>
       </div>
