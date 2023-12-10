@@ -1,6 +1,8 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
-const TablaDatos = ({ datos }) => {
+const TablaDatos = ({ data }) => {
+    const navigate = useNavigate();
     return (
         <div className="mx-auto p-2 rounded shadow">
             <table className="border-collapse border bg-white text-sm">
@@ -16,15 +18,15 @@ const TablaDatos = ({ datos }) => {
                     </tr>
                 </thead>
                 <tbody>
-                    {datos.map((fila, index) => (
-                        <tr key={index} className='text-xs'>
+                    {data.map((fila, index) => (
+                        <tr props={fila} key={index} onClick={() => navigate(`/detail/${fila.id}`)} className='text-xs hover:bg-gray-200 cursor-pointer'>
                             <td className="py-2 px-4 border">{fila.name}</td>
                             <td className="py-2 px-4 border">{fila.lastName}</td>
-                            <td className="py-2 px-4 border">{fila.email}</td>
-                            <td className="py-2 px-4 border">{fila.speciality}</td>
-                            <td className="py-2 px-4 border">{fila.rol}</td>
-                            <td className="py-2 px-4 border">{fila.branch}</td>
-                            <td className="py-2 px-4 border">{fila.commission}</td>
+                            <td className="py-2 px-4 border">{fila.userName}</td>
+                            <td className="py-2 px-4 border">{fila.Specialties.map((specialty) => specialty.specialtyName).join(', ')}</td>
+                            <td className="py-2 px-4 border">{fila.role}</td>   
+                            <td className="py-2 px-4 border">{fila.Branch.branchName}</td>
+                            <td className="py-2 px-4 border">{fila.comission}</td>
                         </tr>
                     ))}
                 </tbody>
