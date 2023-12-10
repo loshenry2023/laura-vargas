@@ -12,15 +12,15 @@ import { Link } from "react-router-dom";
 
 //variables de entorno
 import getParamsEnv from "../functions/getParamsEnv.js";
-const { ROOT } = getParamsEnv();
+const { ROOT, HOME } = getParamsEnv();
 
 const NavBar = () => {
   const user = useSelector((state) => state.user);
 
   return (
-    <nav className="bg-primaryPink h-20 flex pl-2 pr-10 justify-between items-center shadow-lg shadow-gray-300">
+    <nav className="bg-secondaryPink h-20 flex pl-2 pr-10 justify-between items-center shadow-lg shadow-gray-100">
       <div>
-        <Link to="/home">
+        <Link to={HOME}>
           <img className="w-20 h-auto" src={logo} alt="logo" />
         </Link>
       </div>
