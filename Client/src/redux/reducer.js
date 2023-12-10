@@ -1,11 +1,13 @@
-import { GET_USER, GET_USERS, GET_USER_ID, GET_BRANCHES, GET_SPECIALTIES } from "./actionsTypes";
+import { GET_USER, GET_USERS, GET_USER_ID, GET_BRANCHES, GET_SPECIALTIES, ERROR } from "./actionsTypes";
 
 const initialState = {
   user: {},
   userID: {},
   users: [],
+  count: 0,
   branches: [],
   specialties: [],
+  error: null,
   // dataLoaded: false, // flag para saber si tengo previamente cargados los videojuegos y géneros
   // curPage: 1, // recuerdo el número de página para cuando regrese a la página
   // listoMostrar: false, // flag para que home refresque registros mostrando reloj
@@ -14,7 +16,7 @@ const initialState = {
   // msgLoad: '', // indico en qué etapa de carga inicial está el programa
 };
 
-const rootReducer = (state = initialState, { type, payload }) => {
+const rootReducer = (state = initialState, { type, payload, count, error }) => {
   switch (type) {
     case GET_USER:
       return {
@@ -25,7 +27,8 @@ const rootReducer = (state = initialState, { type, payload }) => {
     case GET_USERS:
       return {
         ...state,
-        users: [...payload],
+        users: payload,
+        count: count,
       };
 
     case GET_USER_ID:
@@ -45,6 +48,14 @@ const rootReducer = (state = initialState, { type, payload }) => {
         ...state,
         specialties: [ ...payload ],
       };
+
+      case ERROR:
+        return {
+          ...state,
+          users: payload,
+          count: count,
+          error: error,
+        };
 
     default:
       return { ...state };
