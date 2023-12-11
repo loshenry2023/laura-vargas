@@ -24,6 +24,9 @@ const UserInfo = () => {
 
   const specialties = useSelector((state) => state.specialties)
   const branches = useSelector((state) => state.branches)
+  const userID = useSelector((state) => state?.userID);
+
+  console.log(userID, "data Usuario")
 
   useEffect(() => {
     dispatch(getUserId(detailId));
@@ -36,7 +39,8 @@ const UserInfo = () => {
       navigate(USERPROFILES)
     }
   }
-  const userID = useSelector((state) => state?.userID);
+
+
 
   const especialidades = userID.specialties;
 
@@ -54,13 +58,16 @@ const UserInfo = () => {
               <Link to={USERPROFILES}>
                 <IoMdArrowRoundBack className="h-5 w-5 mt-1" />
               </Link>
-              <h3 className="underline font-semibold text-xl leading-tight truncate ">
+              <h2 className="underline font-semibold text-xl leading-tight truncate ">
                 Perfil de {userID.name} {userID.lastName}
-              </h3>
+              </h2>
             </div>
-            <h2 className="text-lg leading-tight truncate">
+            <h3 className="text-lg leading-tight truncate">
+              Usuario: <span className="text-md font-light">{userID.userName}</span>
+            </h3>
+            <h3 className="text-lg leading-tight truncate">
               Rol: <span className="text-md font-light">{userID.role}</span>
-            </h2>
+            </h3>
             <h3 className="text-lg leading-tight truncate">
               Teléfono:{" "}
               <span className="text-md font-light">{userID.phone1}</span>
@@ -71,6 +78,12 @@ const UserInfo = () => {
                 {" "}
                 {userID.notificationEmail}{" "}
               </span>
+            </h3>
+            <h3 className="text-lg leading-tight truncate">
+              Comisión: <span className="text-md font-light">{userID.comission}%</span>
+            </h3>
+            <h3 className="text-lg leading-tight truncate">
+              Sede: <span className="text-md font-light">{userID.branch.branchName}</span>
             </h3>
             <h3 className="text-lg leading-tight truncate">
               Especialidades:

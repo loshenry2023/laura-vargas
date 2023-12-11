@@ -20,13 +20,15 @@ const putUser = async (req, res) => {
         existingUser.name = name;
         existingUser.lastName = lastName;
         existingUser.notificationEmail = notificationEmail;
-        existingUser.phone1 = phone1;
-        existingUser.phone2 ? phone2 : "";
+        existingUser.phoneNumber1 = phone1;
+        existingUser.phoneNumber2 ? phone2 : "";
         existingUser.image = image;
         existingUser.comission = comission;
         if (existingUser.userName !== FIRST_SUPERADMIN) {
             existingUser.role = role;
         }
+
+        console.log(existingUser, "probando en el back")
         await existingUser.save();
         // Actualizo la relación con sede:
         await existingUser.setBranch(branch, { transaction });
@@ -34,7 +36,7 @@ const putUser = async (req, res) => {
             // Busco las especialidades para actualizar las relaciones:
             await existingUser.removeSpecialties(); // elimino las relaciones previas
             for (const spec of specialty) {
-                await existingUser.setSpecialties(spec, { transaction });
+                await existingUser.addSpecialties(spec, { transaction });
             }
         }
         await transaction.commit();
