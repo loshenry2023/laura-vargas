@@ -1,6 +1,6 @@
-const getAllUsers = require("../../controllers/user/getAllUsers");
-const showLog = require("../../functions/showLog");
-const checkToken = require('../../functions/checkToken');
+const getAllUsers = require("../controllers/user/getAllUsers");
+const showLog = require("../functions/showLog");
+const checkToken = require('../functions/checkToken');
 
 const usersHandler = async (req, res) => {
   showLog(`usersHandler - Handler`);

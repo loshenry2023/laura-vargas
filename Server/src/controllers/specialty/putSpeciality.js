@@ -9,18 +9,18 @@ const putSpeciality = async (req, res) => {
     const { token } = req.query;
     showLog('putSpeciality');
     try {
-        // Verifico token. Sólo un admin puede editar:
+        // Verifico token. Sólo un superAdmin puede editar:
         // if (!token) { throw Error("Token required"); }
         // const checked = await checkToken(token);
-        // if (!checked.exist || checked.role !== "admin") {
+        // if (!checked.exist || checked.role !== "superAdmin") {
         //     showLog(`Wrong token.`);
         //     return res.status(401).send(`Unauthorized.`);
         // }
         if (!specialtyName || !id) { throw Error("Data missing"); }
         const existingSpec = await Specialty.findByPk(id);
         if (!existingSpec) {
-            showLog(`putSpeciality: ${specialtyName} not found.`);
-            return res.status(404).send(`${specialtyName} not found.`);
+            showLog(`putSpeciality: ${id} not found.`);
+            return res.status(404).send(`${id} not found.`);
         }
         existingSpec.specialtyName = specialtyName;
         await existingSpec.save();

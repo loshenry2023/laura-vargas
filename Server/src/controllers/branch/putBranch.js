@@ -19,8 +19,8 @@ const putBranch = async (req, res) => {
         // }
         const existingBranch = await Branch.findByPk(id);
         if (!existingBranch) {
-            showLog(`putBranch: ${paymentMethodName} not found.`);
-            return res.status(404).send(`${paymentMethodName} not found.`);
+            showLog(`putBranch: ${id} not found.`);
+            return res.status(404).send(`${id} not found.`);
         }
         existingBranch.branchName = branchName;
         existingBranch.coordinates = coordinates;

@@ -9,18 +9,18 @@ const putPayment = async (req, res) => {
     const { token } = req.query;
     showLog('putPayment');
     try {
-        // Verifico token. Sólo un admin puede editar:
+        // Verifico token. Sólo un superAdmin puede editar:
         // if (!token) { throw Error("Token required"); }
         // const checked = await checkToken(token);
-        // if (!checked.exist || checked.role !== "admin") {
+        // if (!checked.exist || checked.role !== "superAdmin") {
         //     showLog(`Wrong token.`);
         //     return res.status(401).send(`Unauthorized.`);
         // }
         if (!paymentMethodName || !id) { throw Error("Data missing"); }
         const existingPay = await Payment.findByPk(id);
         if (!existingPay) {
-            showLog(`putPayment: ${paymentMethodName} not found.`);
-            return res.status(404).send(`${paymentMethodName} not found.`);
+            showLog(`putPayment: ${id} not found.`);
+            return res.status(404).send(`${id} not found.`);
         }
         existingPay.paymentMethodName = paymentMethodName;
         await existingPay.save();

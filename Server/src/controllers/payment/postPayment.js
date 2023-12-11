@@ -9,10 +9,10 @@ const postPayment = async (req, res) => {
     const { token } = req.query;
     showLog(`postPayment`);
     try {
-        // Verifico token. Sólo un admin puede agregar:
+        // Verifico token. Sólo un superAdmin puede agregar:
         // if (!token) { throw Error("Token required"); }
         // const checked = await checkToken(token);
-        // if (!checked.exist || checked.role !== "admin") {
+        // if (!checked.exist || checked.role !== "superAdmin") {
         //     showLog(`Wrong token.`);
         //     return res.status(401).send(`Unauthorized.`);
         // }
