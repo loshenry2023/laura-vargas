@@ -47,6 +47,7 @@ const postUserLogin = async (req, res) => {
             comission: existingUser.comission,
             specialties: userSpecialties,
             token: existingUser.token,
+            createdAt: existingUser.createdAt,
         }
         showLog(`postUserLogin OK`);
         return res.status(200).json(userData);

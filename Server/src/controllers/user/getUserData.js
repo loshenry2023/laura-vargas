@@ -49,7 +49,8 @@ const getUserData = async (req, res) => {
             phone2: existingUser.phoneNumber2,
             image: existingUser.image,
             comission: existingUser.comission,
-            specialties: existingUser.Specialties
+            specialties: existingUser.Specialties,
+            createdAt: existingUser.createdAt
         }
         showLog(`getUserData OK`);
         return res.status(200).json(userData);
