@@ -1,4 +1,12 @@
-import { GET_USER, GET_USERS, GET_USER_ID, GET_BRANCHES, GET_SPECIALTIES, ERROR } from "./actionsTypes";
+import {
+  GET_USER,
+  GET_USERS,
+  GET_USER_ID,
+  GET_BRANCHES,
+  GET_SPECIALTIES,
+  ERROR,
+  DELETE_USER,
+} from "./actionsTypes";
 
 const initialState = {
   user: {},
@@ -16,7 +24,7 @@ const initialState = {
   // msgLoad: '', // indico en qué etapa de carga inicial está el programa
 };
 
-const rootReducer = (state = initialState, { type, payload, count, error }) => {
+const rootReducer = (state = initialState, { type, payload, count, error, idDelete}) => {
   switch (type) {
     case GET_USER:
       return {
@@ -37,25 +45,32 @@ const rootReducer = (state = initialState, { type, payload, count, error }) => {
         userID: { ...payload },
       };
 
+      case DELETE_USER:
+        let copy = users.filter(user => user.uid !== idDelete)
+        return {
+          ...state,
+          users: [...copy],
+        };
+
     case GET_BRANCHES:
       return {
         ...state,
-        branches: [ ...payload ],
+        branches: [...payload],
       };
 
     case GET_SPECIALTIES:
       return {
         ...state,
-        specialties: [ ...payload ],
+        specialties: [...payload],
       };
 
-      case ERROR:
-        return {
-          ...state,
-          users: payload,
-          count: count,
-          error: error,
-        };
+    case ERROR:
+      return {
+        ...state,
+        users: payload,
+        count: count,
+        error: error,
+      };
 
     default:
       return { ...state };

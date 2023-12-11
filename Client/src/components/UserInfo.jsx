@@ -1,7 +1,7 @@
 // hooks, routers, reducers:
 import React, { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
-import { getUserId } from "../redux/actions";
+import { useParams, Link, useNavigate } from "react-router-dom";
+import { deleteUser, getUserId } from "../redux/actions";
 import { useDispatch, useSelector } from "react-redux";
 import EditModal from "./modals/EditModal.jsx";
 
@@ -16,8 +16,9 @@ const { USERPROFILES } = getParamsEnv();
 
 const UserInfo = () => {
   const params = useParams();
-  const dispatch = useDispatch();
   const detailId = params.id;
+  const dispatch = useDispatch();
+  const navigate = useNavigate()
 
   const [showEditModal, setShowEditModal] = useState(false)
 
@@ -28,6 +29,13 @@ const UserInfo = () => {
     dispatch(getUserId(detailId));
   }, [detailId]);
 
+  const confirmDelete = (detailId) => {
+    const response = confirm("¿Estás seguro que deseas eliminar el usuario?");
+    if(response === true){
+      dispatch(deleteUser(detailId))
+      navigate(USERPROFILES)
+    }
+  }
   const userID = useSelector((state) => state?.userID);
 
   const especialidades = userID.specialties;
@@ -84,28 +92,13 @@ const UserInfo = () => {
               </span>
             </h3> */}
             <div className="flex gap-5">
-              <MdEdit onClick={() => setShowEditModal(true)} className="h-6 w-6 hover:animate-bounce" />
-              <MdDelete className="h-6 w-6 hover:animate-bounce" />
+              <MdEdit onClick={() => setShowEditModal(true)} className="h-6 w-6 hover:text-primaryPink hover:animate-bounce cursor-pointer delay-200" />
+              <MdDelete onClick={() => confirmDelete(detailId)} className="h-6 w-6 hover:text-red-600 hover:animate-bounce cursor-pointer delay-200" />
             </div>
           </div>
         </div>
       </div>
     </div>
-    {/* // <div className="flex flex-wrap gap-3 items-center h-[calc(100vh-150px)] mt-10 m-auto">
-    //   <div className="w-60 h-60 overflow-hidden rounded-full">
-    //     <img className="w-full h-full object-cover" src={userID.image} alt="" />
-    //   </div>
-    //   <div>
-    //     <h1 className="underline">
-    //       Perfil de {userID.name} {userID.lastName}
-    //     </h1>
-    //     <h2>Rol: {userID.role}</h2>
-    //     <h2>Teléfono: {userID.phone1}</h2>
-    //     <h2>Email: {userID.notificationEmail}</h2>
-    //     <h2>Especialidades</h2>
-
-    //   </div>
-    // </div> */}
     {showEditModal ? (
       <EditModal
         setShowEditModal={setShowEditModal}

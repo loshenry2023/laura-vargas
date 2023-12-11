@@ -7,7 +7,7 @@ import { UploadWidget } from '../Uploadwidget';
 function RegisterForm({ setShowResgisterFormModal, branches, specialties }) {
 
   console.log(branches)
-  const roles = ["superAdmin", "admin", "specialist"];
+  const roles = ["superAdmin", "admin", "user"];
  
 
 
