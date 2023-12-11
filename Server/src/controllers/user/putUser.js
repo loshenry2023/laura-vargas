@@ -43,7 +43,7 @@ const putUser = async (req, res) => {
             // Busco las especialidades para actualizar las relaciones:
             await existingUser.removeSpecialties(); // elimino las relaciones previas
             for (const spec of specialty) {
-                await existingUser.setSpecialties(spec, { transaction });
+                await existingUser.addSpecialties(spec, { transaction });
             }
         }
         await transaction.commit();
