@@ -1,4 +1,4 @@
-// ! Obtiene todos los usuarios. get all user
+// ! Obtiene todos los usuarios. Llamado desde el handler. Acá no se verifica token porque lo hace el handler.
 const axios = require("axios");
 const { User, Specialty, Branch } = require("../../DB_connection");
 const { Op } = require("sequelize");

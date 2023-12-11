@@ -1,12 +1,21 @@
 // ! Almacena un nuevo pago, si no es repetido.
 const { Payment } = require('../../DB_connection');
 const showLog = require("../../functions/showLog");
+const checkToken = require('../../functions/checkToken');
 const { Op } = require('sequelize');
 
 const postPayment = async (req, res) => {
     const { paymentMethodName } = req.body;
+    const { token } = req.query;
     showLog(`postPayment`);
     try {
+        // Verifico token. Sólo un admin puede agregar:
+        // if (!token) { throw Error("Token required"); }
+        // const checked = await checkToken(token);
+        // if (!checked.exist || checked.role !== "admin") {
+        //     showLog(`Wrong token.`);
+        //     return res.status(401).send(`Unauthorized.`);
+        // }
         if (!paymentMethodName) { throw Error("Data missing"); }
         const payLowercase = paymentMethodName.toLowerCase();
         const existingPayment = await Payment.findOne({

@@ -1,12 +1,21 @@
 // ! Elimina un usuario.
 const { User } = require('../../DB_connection');
 const showLog = require("../../functions/showLog");
+const checkToken = require('../../functions/checkToken');
 const { FIRST_SUPERADMIN } = require("../../functions/paramsEnv");
 
 const deleteUser = async (req, res) => {
     const { id } = req.params;
+    const { token } = req.query;
     showLog(`deleteUser ${id}`);
     try {
+        // Verifico token. Sólo un superAdmin puede eliminar:
+        // if (!token) { throw Error("Token required"); }
+        // const checked = await checkToken(token);
+        // if (!checked.exist || checked.role !== "superAdmin") {
+        //     showLog(`Wrong token.`);
+        //     return res.status(401).send(`Unauthorized.`);
+        // }
         if (!id) { throw Error("Data missing"); }
         const userToDelete = await User.findByPk(id);
         if (!userToDelete) { throw Error("ID not found"); }

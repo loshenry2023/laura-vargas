@@ -1,10 +1,19 @@
 // ! Obtiene las sedes.
 const { Branch } = require('../../DB_connection');
 const showLog = require("../../functions/showLog");
+const checkToken = require('../../functions/checkToken');
 
 const getBranches = async (req, res) => {
+    const { token } = req.query;
+    showLog(`getBranches`);
     try {
-        showLog(`getBranches`);
+        // Verifico token:
+        // if (!token) { throw Error("Token required"); }
+        // const checked = await checkToken(token);
+        // if (!checked.exist) {
+        //     showLog(`Wrong token.`);
+        //     return res.status(401).send(`Unauthorized.`);
+        // }
         reg = await Branch.findAll({
             attributes: ["id", "branchName", "coordinates", "address", "phoneNumber", "openningHours", "clossingHours", "workingDays"],
         });
