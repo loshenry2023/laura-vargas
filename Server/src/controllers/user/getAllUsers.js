@@ -58,8 +58,9 @@ const getAllUsers = async (
       rows,
     };
   } catch (err) {
+    showLog(`usersHandler -> getAllUsers error: ${err.message}`);
     return { message: err.message };
   }
 };
-showLog("getAllUsers cargados");
+
 module.exports = getAllUsers;

@@ -35,6 +35,7 @@ const postUserLogin = async (req, res) => {
         const userSpecialties = existingUser.Specialties.map(specialty => ({ id: specialty.id, specialtyName: specialty.specialtyName }));
         const userData = {
             id: existingUser.id,
+            userName: existingUser.userName,
             branch: branchData,
             name: existingUser.name,
             lastName: existingUser.lastName,
