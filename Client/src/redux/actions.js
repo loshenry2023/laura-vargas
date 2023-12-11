@@ -5,6 +5,7 @@ import {
   GET_BRANCHES,
   GET_SPECIALTIES,
   ERROR,
+  DELETE_USER,
 } from "./actionsTypes";
 import axios from "axios";
 
@@ -65,15 +66,26 @@ export const getUsers = (
       const { data } = await axios.get(
         `${endPoint}nameOrLastName=${nameOrLastName}&attribute=${attribute}&order=${order}&page=${page}&size=${size}&branch=${branch}&specialty=${specialty}&role=${role}&createDateEnd=${createDateEnd}&createDateStart=${createDateStart}`
       );
+      const modifiedData = data.rows.map((user) => {
+        const { createdAt, ...rest } = user;
+        const createdAtInBogotaTimezone = new Date(createdAt).toLocaleString(
+          "en-US",
+          {
+            timeZone: "America/Bogota",
+          }
+        );
+        return { ...rest, createdAt: createdAtInBogotaTimezone };
+      });
+
       return dispatch({
         type: GET_USERS,
-        payload: data.rows,
+        payload: modifiedData,
         count: data.count,
       });
     } catch (error) {
       throw Error(error.message);
-    }
-  };
+    }
+  };
 };
 
 export const getUserId = (id) => {
@@ -90,4 +102,22 @@ export const getUserId = (id) => {
       throw Error(error.message);
     }
   };
+}
+
+export const deleteUser = (id) => {
+  return async function (dispatch) {
+    try {
+      const response = await axios.delete(
+        `http://localhost:3001/laura-vargas/userdata/${id}`
+      );
+      return dispatch({
+        type: DELETE_USER,
+        payload: response.data,
+        idDelete: id,
+      });
+    } catch (error) {
+      throw Error(error.message);
+    }
+  };
 };
+

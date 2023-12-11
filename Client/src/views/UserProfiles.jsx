@@ -101,7 +101,7 @@ function UserProfiles() {
             </div>
           </section>
           <section className="flex flex-col items-start sm:w-full">
-            <div className="flex flex-col md:flex-row md:items-center md:gap-3">
+            <div className="flex flex-col items-center w-full gap-3 lg:flex-row lg:items-center lg:gap-3">
               <input
                 value={nameOrLastName}
                 onChange={(e) => {
@@ -110,14 +110,14 @@ function UserProfiles() {
                 }}
                 type="text"
                 placeholder="Buscar por nombre..."
-                className="border border-black focus:outline-none focus:ring-1 focus:ring-grey  px-1 text-sm"
+                className="w-full border border-black focus:outline-none focus:ring-1 focus:ring-grey px-1 text-sm"
               />
               <select
                 onChange={(e) => {
                   setOrder(e.target.value);
                   setPage(0);
                 }}
-                className="border border-black rounded-md text-xs "
+                className="w-full border border-black rounded-md text-xs "
               >
                 <option value="asc"> -- Ordenar por -- </option>
                 <option value="asc">A-Z</option>
@@ -128,7 +128,7 @@ function UserProfiles() {
                   setAttribute(e.target.value);
                   setPage(0);
                 }}
-                className="border border-black rounded-md text-xs "
+                className="w-full border border-black rounded-md text-xs "
               >
                 <option value="createdAt"> -- Ordenar por -- </option>
                 <option value="name">Nombre</option>
@@ -140,7 +140,7 @@ function UserProfiles() {
                   setBranch(e.target.value);
                   setPage(0);
                 }}
-                className="border border-black rounded-md text-xs "
+                className="w-full border border-black rounded-md text-xs "
               >
                 <option value=""> -- Seleccionar Sede -- </option>
                 {branches.map((branch, index) => (
@@ -154,7 +154,7 @@ function UserProfiles() {
                   setSpecialty(e.target.value);
                   setPage(0);
                 }}
-                className="border border-black rounded-md text-xs"
+                className="w-full border border-black rounded-md text-xs"
               >
                 <option value=""> -- Seleccionar Especialidad -- </option>
                 {specialties.map((branch, index) => (
@@ -168,7 +168,7 @@ function UserProfiles() {
                   setRole(e.target.value);
                   setPage(0);
                 }}
-                className="border border-black rounded-md text-xs"
+                className="w-full border border-black rounded-md text-xs"
               >
                 <option value=""> -- Seleccionar Rol --</option>
                 <option value="superAdmin">superAdmin</option>
@@ -183,14 +183,13 @@ function UserProfiles() {
               </div>
             </div>
           </section>
-          <section className="flex flex-col items-center gap-5">
+          <section className="flex flex-col items-center gap-5 w-full">
             <ProfilesTable />
             {showResgisterFormModal ? (
               <RegisterForm
                 setShowResgisterFormModal={setShowResgisterFormModal}
                 specialties={specialties}
                 branches={branches}
-
               />
             ) : null}
             <select
@@ -220,8 +219,8 @@ function UserProfiles() {
               onClick={
                 page
                   ? () => {
-                    setPage(page - 1);
-                  }
+                      setPage(page - 1);
+                    }
                   : null
               }
             >
@@ -233,8 +232,8 @@ function UserProfiles() {
               onClick={
                 page < pagination - 1
                   ? () => {
-                    setPage(page + 1);
-                  }
+                      setPage(page + 1);
+                    }
                   : null
               }
             >

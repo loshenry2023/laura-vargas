@@ -8,7 +8,7 @@ function EditModal({ setShowEditModal, branches, specialties, userId }) {
 
     console.log(userId)
  
-  const roles = ["superAdmin", "admin", "specialist"];
+  const roles = ["superAdmin", "admin", "user"];
 
     const specialtiesId = []
  
