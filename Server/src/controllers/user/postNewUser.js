@@ -1,14 +1,23 @@
 // ! Almacena un nuevo usuario, si no es repetido.
 const { conn, User } = require('../../DB_connection');
 const showLog = require("../../functions/showLog");
+const checkToken = require('../../functions/checkToken');
 const { Op } = require('sequelize');
 
 const postNewUser = async (req, res) => {
     const { userName, name, lastName, role, notificationEmail, phone1, phone2, image, comission, branch, specialty } = req.body;
+    const { token } = req.query;
     showLog(`postNewUser`);
     let transaction; // manejo transacciones para evitar registros defectuosos por relaciones mal solicitadas
     try {
         if (!userName || !name || !lastName || !role || !notificationEmail || !phone1 || !image || !comission || !branch || !specialty) { throw Error("Data missing"); }
+        // Verifico token. Sólo un superAdmin puede agregar:
+        // if (!token) { throw Error("Token required"); }
+        // const checked = await checkToken(token);
+        // if (!checked.exist || checked.role !== "superAdmin") {
+        //     showLog(`Wrong token.`);
+        //     return res.status(401).send(`Unauthorized.`);
+        // }
         const nameLowercase = userName.toLowerCase();
         const existingUser = await User.findOne({
             where: { userName: { [Op.iLike]: nameLowercase } },

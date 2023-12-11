@@ -1,5 +1,6 @@
-const getAllUsers = require("../../controllers/user/getAllUsers");
-const showLog = require("../../functions/showLog");
+const getAllUsers = require("../controllers/user/getAllUsers");
+const showLog = require("../functions/showLog");
+const checkToken = require('../functions/checkToken');
 
 const usersHandler = async (req, res) => {
   showLog(`usersHandler - Handler`);
@@ -15,7 +16,16 @@ const usersHandler = async (req, res) => {
       role,
       createDateEnd,
       createDateStart,
+      token,
     } = req.query;
+
+    // Verifico token:
+    // if (!token) { throw Error("Token required"); }
+    // const checked = await checkToken(token);
+    // if (!checked.exist) {
+    //   showLog(`Wrong token.`);
+    //   return res.status(401).send(`Unauthorized.`);
+    // }
 
     const users = await getAllUsers(
       nameOrLastName,

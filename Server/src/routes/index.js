@@ -7,32 +7,34 @@ const postUserLogin = require("../controllers/user/postUserLogin");
 const getUserData = require("../controllers/user/getUserData");
 const postNewUser = require("../controllers/user/postNewUser");
 const putUser = require("../controllers/user/putUser");
-const deleteUser = require("../controllers/user/deleteUser");
-const usersHandler = require("../Handlers/user/usersHandler");
+const deleteUserHandler = require("../Handlers/deleteUserHandler");
+const usersHandler = require("../Handlers/usersHandler");
 // Especialidades:
-const getSpecialties = require("../controllers/specialty/getSpecialties");
+const getSpecialtiesHandler = require("../Handlers/getSpecialtiesHandler");
 const postSpecialty = require("../controllers/specialty/postSpecialty");
 const putSpeciality = require("../controllers/specialty/putSpeciality");
-const deleteSpecialty = require("../controllers/specialty/deleteSpecialty");
+const deleteSpecialtyHandler = require("../Handlers/deleteSpecialtyHandler");
+
 // Medios de pago:
-const getPayments = require("../controllers/payment/getPayments");
+const getPaymentsHandler = require("../Handlers/getPaymentsHandler");
 const postPayment = require("../controllers/payment/postPayment");
 const putPayment = require("../controllers/payment/putPayment");
-const deletePayment = require("../controllers/payment/deletePayment");
+const deletePaymentHandler = require("../Handlers/deletePaymentHandler");
+
 // Sedes:
-const getBranches = require("../controllers/branch/getBranches");
+const getBranchHandler = require("../Handlers/getBranchHandler");
 const postBranch = require("../controllers/branch/postBranch");
 const putBranch = require("../controllers/branch/putBranch");
-const deleteBranch = require("../controllers/branch/deleteBranch");
+const deleteBranchHandler = require("../Handlers/deleteBranchHandler");
 
 //! Rutas
 // GET:
 router.get("/", getMain); // únicamente para el deploy
 router.get("/users", usersHandler); // obtiene y devuelve todos los usuarios
 router.get("/userdata/:id", getUserData); // obtiene y devuelve los detalles de un usuario por id
-router.get("/specialties", getSpecialties); // obtiene y devuelve todas las especialidades
-router.get("/payments", getPayments); // obtiene y devuelve todos los medios de pago
-router.get("/branches", getBranches); // obtiene y devuelve todas las sedes
+router.get("/specialties", getSpecialtiesHandler); // obtiene y devuelve todas las especialidades
+router.get("/payments", getPaymentsHandler); // obtiene y devuelve todos los medios de pago
+router.get("/branches", getBranchHandler); // obtiene y devuelve todas las sedes
 // POST:
 router.post("/newuser", postNewUser); //  crea un usuario
 router.post("/specialty", postSpecialty); //  crea una especialidad
@@ -45,9 +47,9 @@ router.put("/specialty/:id", putSpeciality); //  edita una especialidad
 router.put("/payment/:id", putPayment); //  edita un pago
 router.put("/branch/:id", putBranch); // edita una sede
 // DELETE:
-router.delete("/userdata/:id", deleteUser); //  elimina un usuario
-router.delete("/specialty/:id", deleteSpecialty); //  elimina una especialidad
-router.delete("/payment/:id", deletePayment); //  elimina un medio de pago
-router.delete("/branch/:id", deleteBranch); //  elimina una sede
+router.delete("/userdata/:id", deleteUserHandler); //  elimina un usuario
+router.delete("/specialty/:id", deleteSpecialtyHandler); //  elimina una especialidad
+router.delete("/payment/:id", deletePaymentHandler); //  elimina un medio de pago
+router.delete("/branch/:id", deleteBranchHandler); //  elimina una sede
 
 module.exports = router;

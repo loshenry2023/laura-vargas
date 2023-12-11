@@ -1,11 +1,20 @@
 // ! Obtiene los datos de un usuario.
 const { User, Branch, Specialty } = require('../../DB_connection');
 const showLog = require("../../functions/showLog");
+const checkToken = require('../../functions/checkToken');
 
 const getUserData = async (req, res) => {
     const { id } = req.params;
+    const { token } = req.query;
     showLog(`getUserData`);
     try {
+        // Verifico token:
+        // if (!token) { throw Error("Token required"); }
+        // const checked = await checkToken(token);
+        // if (!checked.exist) {
+        //     showLog(`Wrong token.`);
+        //     return res.status(401).send(`Unauthorized.`);
+        // }
         if (!id) { throw Error("Data missing"); }
         const existingUser = await User.findByPk(id, {
             include: [

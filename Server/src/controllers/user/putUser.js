@@ -1,15 +1,24 @@
 // ! Edita un usuario.
 const { conn, User, Specialty } = require('../../DB_connection');
 const showLog = require('../../functions/showLog');
+const checkToken = require('../../functions/checkToken');
 const { FIRST_SUPERADMIN } = require("../../functions/paramsEnv");
 
 const putUser = async (req, res) => {
     const { name, lastName, role, notificationEmail, phone1, phone2, image, comission, branch, specialty } = req.body;
     const { id } = req.params;
+    const { token } = req.query;
     showLog('putUser');
     let transaction; // manejo transacciones para evitar registros defectuosos por relaciones mal solicitadas
     try {
         if (!name || !lastName || !role || !notificationEmail || !phone1 || !image || !comission || !branch || !specialty) { throw Error("Data missing"); }
+        // Verifico token. Sólo un superAdmin puede editar:
+        // if (!token) { throw Error("Token required"); }
+        // const checked = await checkToken(token);
+        // if (!checked.exist || checked.role !== "superAdmin") {
+        //     showLog(`Wrong token.`);
+        //     return res.status(401).send(`Unauthorized.`);
+        // }
         const existingUser = await User.findByPk(id);
         if (!existingUser) {
             showLog(`putUser: user ID ${id} not found.`);
