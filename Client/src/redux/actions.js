@@ -6,6 +6,7 @@ import {
   GET_SPECIALTIES,
   ERROR,
   DELETE_USER,
+  SET_ICON
 } from "./actionsTypes";
 import axios from "axios";
 
@@ -121,3 +122,7 @@ export const deleteUser = (id) => {
   };
 };
 
+export const setIcon = (iconName) => ({
+  type: SET_ICON,
+  payload: iconName,
+});

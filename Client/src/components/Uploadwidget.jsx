@@ -25,8 +25,11 @@ export const UploadWidget = ({ setUserData }) => {
   }, [setUserData]);
 
   return (
-    <button onClick={() => widgetRef.current.open()}>
+    <span
+  className="h-10 w-[130px] cursor-pointer bg-primaryPink text-black px-4 py-2 rounded-md hover:bg-blue-600 transition duration-300"
+  onClick={() => widgetRef.current.open()}
+>
       Subir Imagen
-    </button>
+    </span>
   );
 };

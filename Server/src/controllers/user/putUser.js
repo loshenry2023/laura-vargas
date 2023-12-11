@@ -29,13 +29,15 @@ const putUser = async (req, res) => {
         existingUser.name = name;
         existingUser.lastName = lastName;
         existingUser.notificationEmail = notificationEmail;
-        existingUser.phone1 = phone1;
-        existingUser.phone2 ? phone2 : "";
+        existingUser.phoneNumber1 = phone1;
+        existingUser.phoneNumber2 ? phone2 : "";
         existingUser.image = image;
         existingUser.comission = comission;
         if (existingUser.userName !== FIRST_SUPERADMIN) {
             existingUser.role = role;
         }
+
+        console.log(existingUser, "probando en el back")
         await existingUser.save();
         // Actualizo la relación con sede:
         await existingUser.setBranch(branch, { transaction });

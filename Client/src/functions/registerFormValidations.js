@@ -1,6 +1,8 @@
 const validateRegisterInput = (data) => {
   const validationErrors = {};
 
+  console.log(data, "dataValidations")
+
   const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const phonePattern = /^[0-9]{8,15}$/;
 
@@ -42,6 +44,15 @@ const validateRegisterInput = (data) => {
   if (!data.rol) {
     validationErrors.rol = "Selecciona un rol";
   }
+
+  if (!data.commission || data.commission > 100 || data.commission < 0) {
+    validationErrors.commission = "Ingrese comisión válida";
+}
+if (!data.notificationEmail) {
+  validationErrors.notificationEmail = "ingrese correo electrónico";
+} else if (!emailPattern.test(data.notificationEmail)) {
+  validationErrors.notificationEmail = "Correo electrónico no válido";
+}
   console.log(validationErrors)
   return validationErrors;
 };

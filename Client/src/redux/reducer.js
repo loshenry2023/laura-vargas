@@ -6,6 +6,7 @@ import {
   GET_SPECIALTIES,
   ERROR,
   DELETE_USER,
+  SET_ICON
 } from "./actionsTypes";
 
 const initialState = {
@@ -16,64 +17,79 @@ const initialState = {
   branches: [],
   specialties: [],
   error: null,
-  // dataLoaded: false, // flag para saber si tengo previamente cargados los videojuegos y géneros
-  // curPage: 1, // recuerdo el número de página para cuando regrese a la página
-  // listoMostrar: false, // flag para que home refresque registros mostrando reloj
-  // errors: '', // guardo los mensajes de error para mostrar en la pag.
-  // pagPending: false, // aviso a home para que no se equivoque con la paginación
-  // msgLoad: '', // indico en qué etapa de carga inicial está el programa
+  selectedIcon: null,
 };
 
-const rootReducer = (state = initialState, { type, payload, count, error, idDelete}) => {
+const rootReducer = (state = initialState, { type, payload, count, error, idDelete }) => {
   switch (type) {
     case GET_USER:
-      return {
+      const getUserState = {
         ...state,
         user: payload,
       };
+      localStorage.setItem('myAppReduxState', JSON.stringify(getUserState));
+      return getUserState;
 
     case GET_USERS:
-      return {
+      const getUsersState = {
         ...state,
         users: payload,
         count: count,
       };
+      localStorage.setItem('myAppReduxState', JSON.stringify(getUsersState));
+      return getUsersState;
 
     case GET_USER_ID:
-      return {
+      const getUserIDState = {
         ...state,
         userID: { ...payload },
       };
+      localStorage.setItem('myAppReduxState', JSON.stringify(getUserIDState));
+      return getUserIDState;
 
-      case DELETE_USER:
-        let copy = users.filter(user => user.uid !== idDelete)
-        return {
-          ...state,
-          users: [...copy],
-        };
+    case DELETE_USER:
+      const copy = state.users.filter(user => user.uid !== idDelete);
+      const deleteUserState = {
+        ...state,
+        users: [...copy],
+      };
+      localStorage.setItem('myAppReduxState', JSON.stringify(deleteUserState));
+      return deleteUserState;
 
     case GET_BRANCHES:
-      return {
+      const getBranchesState = {
         ...state,
         branches: [...payload],
       };
+      localStorage.setItem('myAppReduxState', JSON.stringify(getBranchesState));
+      return getBranchesState;
 
     case GET_SPECIALTIES:
-      return {
+      const getSpecialtiesState = {
         ...state,
         specialties: [...payload],
       };
+      localStorage.setItem('myAppReduxState', JSON.stringify(getSpecialtiesState));
+      return getSpecialtiesState;
 
     case ERROR:
-      return {
+      const errorState = {
         ...state,
         users: payload,
         count: count,
         error: error,
       };
-
+      localStorage.setItem('myAppReduxState', JSON.stringify(errorState));
+      return errorState;
+    case SET_ICON:
+      const setIconState = {
+        ...state,
+        selectedIcon: payload,
+      };
+      localStorage.setItem('YOUR_APP_NAME', JSON.stringify(setIconState));
+      return setIconState;
     default:
-      return { ...state };
+      return state;
   }
 };
 
