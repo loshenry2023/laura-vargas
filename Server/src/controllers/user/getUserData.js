@@ -30,6 +30,7 @@ const getUserData = async (req, res) => {
         // Devuelvo los datos del usuario:
         const userData = {
             id: existingUser.id,
+            userName: existingUser.userName,
             branch: branchData,
             name: existingUser.name,
             lastName: existingUser.lastName,
