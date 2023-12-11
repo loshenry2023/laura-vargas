@@ -29,7 +29,6 @@ const usersHandler = async (req, res) => {
       createDateEnd,
       createDateStart
     );
-
     if (users.count) {
       showLog(`usersHandler OK`);
       return res.status(200).json(users);

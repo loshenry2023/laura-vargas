@@ -32,7 +32,8 @@ const getAllUsers = async (
           attributes: ["id", "branchName"],
         },
       ],
-      attributes: ["id", "name", "lastName", "userName", "role", "createdAt"],
+      distinct:true,
+      attributes: ["id", "name", "lastName", "userName", "role", "createdAt", "comission"],
       where: {
         [Op.or]: [
           //filtro por nombres
