@@ -188,6 +188,9 @@ function UserProfiles() {
             {showResgisterFormModal ? (
               <RegisterForm
                 setShowResgisterFormModal={setShowResgisterFormModal}
+                specialties={specialties}
+                branches={branches}
+
               />
             ) : null}
             <select
@@ -217,8 +220,8 @@ function UserProfiles() {
               onClick={
                 page
                   ? () => {
-                      setPage(page - 1);
-                    }
+                    setPage(page - 1);
+                  }
                   : null
               }
             >
@@ -230,8 +233,8 @@ function UserProfiles() {
               onClick={
                 page < pagination - 1
                   ? () => {
-                      setPage(page + 1);
-                    }
+                    setPage(page + 1);
+                  }
                   : null
               }
             >

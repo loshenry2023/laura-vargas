@@ -4,38 +4,50 @@ import validateRegisterInput from '../../functions/registerFormValidations'
 import axios from 'axios';
 import { UploadWidget } from '../Uploadwidget';
 
-function RegisterForm({ setShowResgisterFormModal, branches, specialties }) {
+function EditModal({ setShowEditModal, branches, specialties, userId }) {
 
-  console.log(branches)
-  const roles = ["superAdmin", "admin", "specialist"];
+    console.log(userId)
  
+  const roles = ["superAdmin", "admin", "specialist"];
+
+    const specialtiesId = []
+ 
+    specialties.map((s) => {
+        
+        specialtiesId.push(s.id)
+    })
+
 
 
   const [userData, setUserData] = useState({
-    name: "",
-    lastName: "",
-    userName: "",
-    phoneNumber1: "",
-    phoneNumber2: "",
-    image: "imagen.jpg",
-    specialtyName: [],
-    commission: "",
-    branch: [],
-    rol: "",
+    name: userId.name,
+    lastName: userId.lastName,
+    userName: userId.userName,
+    phoneNumber1: userId.phone1,
+    phoneNumber2: userId.phone2,
+    image: userId.image,
+    specialtyName: specialtiesId,
+    commission: userId.comission,
+    branch: userId.branch,
+    rol: userId.role,
     notificationEmail: "notificationEmail@gmail.com"
   });
 
   const [errors, setErrors] = useState({
   });
 
+ 
+
+
   const closeModal = () => {
-    setShowResgisterFormModal(false);
+    setShowEditModal(false);
   };
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
   
     if (type === 'checkbox' && name === 'specialtyName') {
+    
       setUserData((prevInfo) => {
         const updatedSpecialities = checked
           ? [...prevInfo.specialtyName, value]
@@ -77,9 +89,8 @@ function RegisterForm({ setShowResgisterFormModal, branches, specialties }) {
         const data = {
           name: userData.name,
           lastName: userData.lastName,
-          userName: userData.userName,
           specialty: userData.specialtyName,
-          branch: userData.branch,
+          branch: userData.branch.id,
           phone1: userData.phoneNumber1,
           phone2: userData.phoneNumber2,
           role: userData.rol,
@@ -87,10 +98,11 @@ function RegisterForm({ setShowResgisterFormModal, branches, specialties }) {
           image: userData.image,
           comission: userData.commission
         }
-        const response = await axios.post("http://localhost:3001/laura-vargas/newuser", data)
+
+        const response = await axios.put(`http://localhost:3001/laura-vargas/userdata/${userId.id}`, data)
         console.log(response)
         
-        if (response.data.created === "ok") {
+        if (response.data.updated === "ok") {
           closeModal()
           setUserData(
             {
@@ -108,7 +120,7 @@ function RegisterForm({ setShowResgisterFormModal, branches, specialties }) {
             }
           )
 
-          window.alert("usuario creado exitosamente")
+          window.alert("usuario modificado exitosamente")
 
         } else {
           window.alert("Hubo un problema con la creacion")
@@ -153,8 +165,9 @@ function RegisterForm({ setShowResgisterFormModal, branches, specialties }) {
                     type="email"
                     name="userName"
                     value={userData.userName}
-                    className={`bg-gray-50 border text-black border-black sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 ${errors.userName !== undefined && "border-red-500"}`}
+                    className={`bg-gray-300 border text-gray-500 border-black sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 ${errors.userName !== undefined && "border-red-500"}`}
                     placeholder="lvargas@cejasypestañas.com"
+                    disabled
                     
                   />
                   {errors.userName !== "" && <p className="text-xs text-red-500">{errors.userName}</p>}
@@ -188,13 +201,14 @@ function RegisterForm({ setShowResgisterFormModal, branches, specialties }) {
                 <div className="mb-4">
                   <label className="block mb-2 text-sm font-medium text-gray-900">Especialidades</label>
                   {specialties.map((specialty, index) => (
+                    
                     <div key={index} className="flex items-center">
                       <input
                         type="checkbox"
-                        id={specialty}
+                        id={specialty.id}
                         name="specialtyName"
                         value={specialty.id}
-                        checked={userData.specialtyName.includes(specialty.id)}
+                        checked={userId.specialties.some(userSpecialty => userSpecialty.id === specialty.id)}
                         onChange={handleChange}
                         className="mr-2"
                       />
@@ -275,7 +289,7 @@ function RegisterForm({ setShowResgisterFormModal, branches, specialties }) {
                         id={branch}
                         name="branch"
                         value={branch.id}
-                        checked={userData.branch.includes(branch.id)}
+                        checked={userData.branch.id === branch.id}
                         onChange={handleChange}
                         className="mr-2"
                       />
@@ -287,7 +301,7 @@ function RegisterForm({ setShowResgisterFormModal, branches, specialties }) {
                   {errors.branch !== "" && <span className="text-xs text-red-500">{errors.branch}</span>}
                 </div>
                 <UploadWidget setUserData={setUserData}/>
-                <img className='w-[100px] h-[100px] m-auto' src={userData.image}></img>
+                <img className='w-[100px] h-[100px] m-auto' src={userId.image}></img>
               </div>
               
             </div>
@@ -302,4 +316,4 @@ function RegisterForm({ setShowResgisterFormModal, branches, specialties }) {
     );
   }
 
-  export default RegisterForm;
+  export default EditModal;

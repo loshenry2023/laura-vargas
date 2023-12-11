@@ -1,8 +1,9 @@
 // hooks, routers, reducers:
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { getUserId } from "../redux/actions";
 import { useDispatch, useSelector } from "react-redux";
+import EditModal from "./modals/EditModal.jsx";
 
 //icons
 import { MdEdit } from "react-icons/md";
@@ -18,6 +19,11 @@ const UserInfo = () => {
   const dispatch = useDispatch();
   const detailId = params.id;
 
+  const [showEditModal, setShowEditModal] = useState(false)
+
+  const specialties = useSelector((state) => state.specialties)
+  const branches = useSelector((state) => state.branches)
+
   useEffect(() => {
     dispatch(getUserId(detailId));
   }, [detailId]);
@@ -27,6 +33,7 @@ const UserInfo = () => {
   const especialidades = userID.specialties;
 
   return (
+    <>
     <div className="m-auto">
       <div className="container w-4/5 sm:w-full mx-auto flex flex-col ">
         <div
@@ -77,14 +84,14 @@ const UserInfo = () => {
               </span>
             </h3> */}
             <div className="flex gap-5">
-              <MdEdit className="h-6 w-6 hover:animate-bounce" />
+              <MdEdit onClick={() => setShowEditModal(true)} className="h-6 w-6 hover:animate-bounce" />
               <MdDelete className="h-6 w-6 hover:animate-bounce" />
             </div>
           </div>
         </div>
       </div>
     </div>
-    // <div className="flex flex-wrap gap-3 items-center h-[calc(100vh-150px)] mt-10 m-auto">
+    {/* // <div className="flex flex-wrap gap-3 items-center h-[calc(100vh-150px)] mt-10 m-auto">
     //   <div className="w-60 h-60 overflow-hidden rounded-full">
     //     <img className="w-full h-full object-cover" src={userID.image} alt="" />
     //   </div>
@@ -98,7 +105,17 @@ const UserInfo = () => {
     //     <h2>Especialidades</h2>
 
     //   </div>
-    // </div>
+    // </div> */}
+    {showEditModal ? (
+      <EditModal
+        setShowEditModal={setShowEditModal}
+        specialties={specialties}
+        branches={branches}
+        userId={userID}
+      />
+    ) : null}
+
+    </>
   );
 };
 
