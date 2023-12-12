@@ -6,7 +6,6 @@ import { UploadWidget } from '../Uploadwidget';
 
 function RegisterForm({ setShowResgisterFormModal, branches, specialties }) {
 
-  console.log(branches)
   const roles = ["superAdmin", "admin", "user"];
 
 
@@ -67,15 +66,12 @@ function RegisterForm({ setShowResgisterFormModal, branches, specialties }) {
     e.preventDefault();
 
     const validationErrors = validateRegisterInput(userData);
-    console.log(validationErrors)
     setErrors(validationErrors);
 
     const hasErrors = Object.values(validationErrors).some((error) => error !== undefined);
 
     if (hasErrors) {
-      console.log("Formulario inválido. Corrige los errores antes de enviar.");
     } else {
-      console.log("Enviando al backend:", userData);
       try {
         const data = {
           name: userData.name,
@@ -92,7 +88,7 @@ function RegisterForm({ setShowResgisterFormModal, branches, specialties }) {
         }
         const response = await axios.post("http://localhost:3001/laura-vargas/newuser", data)
         console.log(response)
-
+        
         if (response.data.created === "ok") {
           closeModal()
           setUserData(
@@ -110,37 +106,26 @@ function RegisterForm({ setShowResgisterFormModal, branches, specialties }) {
               notificationEmail: "notificationEmail@gmail.com"
             }
           )
-
           window.alert("usuario creado exitosamente")
-
         } else {
           window.alert("Hubo un problema con la creacion")
         }
-
       } catch (error) {
-        console.log(error)
+        window.alert(`Hubo un problema con la creacion. ${error.response.data}`)
       }
 
     }
   };
 
-  useEffect(() => {
-    console.log(errors, "errors");
-    console.log(userData, "userData");
-  }, [errors, userData]);
-
-
   return (
     <>
-
       <div className="absolute top-0 left-0 flex items-center justify-center w-full h-full bg-black opacity-95">
-        <div class="container mx-auto">
-          <div class="w-4/5 bg-white shadow rounded-lg p-6 mx-auto lg:w-1/2 xl:w-1/3">
-            <IoClose onClick={closeModal} className='cursor-pointer' />
-            <h1 class="text-xl font-semibold mb-4 text-black">Agregar usuario</h1>
-            <form
-              onSubmit={handleSubmit}>
-              <div class="first-letter:grid grid-cols-1 gap-4 mb-4">
+        <div class="container">
+          <div className="w-full bg-white shadow rounded-lg p-6 md:mx-auto md:w-1/2 2xl:w-1/3">
+            <IoClose onClick={closeModal} className='flex cursor-pointer' />
+            <h1 className="text-xl font-semibold mb-4 text-black">Agregar usuario</h1>
+            <form onSubmit={handleSubmit}>
+              <div className="first-letter:grid grid-cols-1 mb-2">
                 <input
                   placeholder="Mail username"
                   className="border border-black p-2 rounded w-full"
@@ -151,7 +136,7 @@ function RegisterForm({ setShowResgisterFormModal, branches, specialties }) {
                 />
                 {errors.userName !== "" && <p className="text-xs text-red-500">{errors.userName}</p>}
               </div>
-              <div class="grid grid-cols-1md:grid-cols-2 gap-4 mb-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-2">
                 <div>
                   <input
                     onChange={handleChange}
@@ -176,7 +161,7 @@ function RegisterForm({ setShowResgisterFormModal, branches, specialties }) {
                   {errors.lastName !== "" && <p className="text-xs text-red-500">{errors.lastName}</p>}
                 </div>
               </div>
-              <div class="first-letter:grid grid-cols-1 gap-4 mb-4">
+              <div className="first-letter:grid grid-cols-1 gap-4 mb-2">
                 <input
                   placeholder="Email para notifiaciones"
                   className="border border-black p-2 rounded w-full"
@@ -187,7 +172,7 @@ function RegisterForm({ setShowResgisterFormModal, branches, specialties }) {
                 />
                 {errors.notificationEmail !== "" && <p className="text-xs text-red-500">{errors.notificationEmail}</p>}
               </div>
-              <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-2">
                 <div>
                   <input
                     placeholder="Telefono 1"
@@ -211,7 +196,7 @@ function RegisterForm({ setShowResgisterFormModal, branches, specialties }) {
                   {errors.phoneNumber2 !== "" && <p className="text-xs text-red-500">{errors.phoneNumber2}</p>}
                 </div>
               </div>
-              <div class="grid grid-cols-2 gap-4 mb-4">
+              <div className="grid grid-cols-2 gap-4 mb-2">
                 <div>
                   <input
                     onChange={handleChange}
@@ -240,10 +225,9 @@ function RegisterForm({ setShowResgisterFormModal, branches, specialties }) {
                   </select>
                   {errors.rol !== "" && <p className="text-xs text-red-500">{errors.rol}</p>}
                 </div>
-
               </div>
-              <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                <div>
+              <div className="grid grid-cols-2 md:grid-cols-2 gap-4">
+                <div className="mb-2">
                   <label className="block mb-2 text-sm font-medium text-gray-900">Especialidades</label>
                   {specialties.map((specialty, index) => (
                     <div key={index} className="flex items-center">
@@ -263,42 +247,39 @@ function RegisterForm({ setShowResgisterFormModal, branches, specialties }) {
                   ))}
                   {errors.specialtyName !== "" && <p className="text-xs text-red-500">{errors.specialtyName}</p>}
                 </div>
-                <div className="">
-                  <label className="block mt-3 mb-2 text-sm font-medium text-gray-900">Sedes</label>
-                  {branches.map((branch, index) => (
-                    <div key={index} className="flex items-center">
-                      <input
-                        type="checkbox"
-                        id={branch}
-                        name="branch"
-                        value={branch.id}
-                        checked={userData.branch.includes(branch.id)}
-                        onChange={handleChange}
-                        className="mr-2"
-                      />
-                      <label htmlFor={branch} className="text-xs text-gray-900">
-                        {branch.branchName}
-                      </label>
-                    </div>
-                  ))}
-                  {errors.branch !== "" && <span className="text-xs text-red-500">{errors.branch}</span>}
+                <div>
+                  <label className="block mb-2 text-sm font-medium text-gray-900">Sedes</label>
+                    {branches.map((branch, index) => (
+                      <div key={index} className="flex items-center">
+                        <input
+                          type="checkbox"
+                          id={branch}
+                          name="branch"
+                          value={branch.id}
+                          checked={userData.branch.includes(branch.id)}
+                          onChange={handleChange}
+                          className="mr-2"
+                        />
+                        <label htmlFor={branch} className="text-xs text-gray-900">
+                          {branch.branchName}
+                        </label>
+                      </div>
+                    ))}
+                    {errors.branch !== "" && <span className="text-xs text-red-500">{errors.branch}</span>}
                 </div>
-
-                <div className="mb-4 ml-[-5px] flex flex-col items-center justify-center">
-                  <div>
-                    <UploadWidget setUserData={setUserData} />
-                  </div>
-                  <div className="mt-4">
-                    <img className='ml-[-85] w-[100px] h-[100px] rounded' src={userData.image} alt="user-avatar" />
-                  </div>
-                </div>
-
               </div>
-
+                <div>
+                  <div className="flex flex-col w-full items-center">
+                    <UploadWidget className="w-full" setUserData={setUserData} />
+                    <div className='mt-2 mb-2'>
+                      <img className='w-20 h-20 rounded' src={userData.image} alt="user-avatar" />
+                    </div>
+                    </div>  
+                </div>
               <button
                 type="submit"
                 id="theme-toggle"
-                className="w-full px-4 py-2 rounded bg-primaryPink text-black hover:bg-blue-600 focus:outline-none transition-colors"
+                className="w-full px-4 py-2 rounded shadow shadow-black bg-primaryPink text-black hover:bg-blue-600 focus:outline-none transition-colors"
               >
                 Crear Usuario
               </button>

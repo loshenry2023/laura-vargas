@@ -1,8 +1,6 @@
 const validateRegisterInput = (data) => {
   const validationErrors = {};
 
-  console.log(data, "dataValidations")
-
   const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const phonePattern = /^[0-9]{8,15}$/;
 
@@ -33,7 +31,6 @@ const validateRegisterInput = (data) => {
   }
 
   if (!data.specialtyName || data.specialtyName.length === 0) {
-    console.log(data.specialtyName)
     validationErrors.specialtyName = "Selecciona al menos una especialidad";
   }
 
@@ -53,7 +50,6 @@ if (!data.notificationEmail) {
 } else if (!emailPattern.test(data.notificationEmail)) {
   validationErrors.notificationEmail = "Correo electrónico no válido";
 }
-  console.log(validationErrors)
   return validationErrors;
 };
 

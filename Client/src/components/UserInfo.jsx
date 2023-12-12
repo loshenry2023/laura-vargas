@@ -43,50 +43,43 @@ const UserInfo = () => {
 
   return (
     <>
-    <div className="m-auto">
-      <div className="container w-4/5 sm:w-full mx-auto flex flex-col ">
+      <div className="container my-auto mx-auto">
         <div
-          className="flex flex-col md:flex-row overflow-hidden
-            bg-white rounded-lg shadow-md shadow-grey w-full"
+          className="gris grid-cols-1 mx-5 sm:mx-auto sm:w-3/5 lg:w-3/5 lg:grid lg:grid-cols-2 bg-white rounded-lg shadow-md shadow-grey"
         >
-          <img className="h-96 w-96 m-2 rounded-xl border-2 border-grey object-cover object-center" src={userID?.image} />
-          <div className=" py-2 px-6 text-gray-800 flex flex-col justify-evenly">
+          <div className="h-full">
+            <img className="rounded-xl border-2 w-full border-grey object-cover sm:h-96" src={userID?.image} />
+          </div>
+          <div className=" py-2 px-2 gap-2 text-gray-800 flex flex-col sm:items-start sm:justify-between">
             <div className="flex gap-2">
               <Link to={USERPROFILES}>
                 <IoMdArrowRoundBack className="h-5 w-5 mt-1" />
               </Link>
-              <h2 className="underline font-semibold text-xl leading-tight truncate ">
+              <h2 className="underline font-semibold text-xl leading-tight sm:truncate">
                 Perfil de {userID?.name} {userID?.lastName}
               </h2>
             </div>
-            <h3 className="text-lg leading-tight truncate">
+            <h3 className="text-lg leading-tight sm:truncate">
               Usuario: <span className="text-md font-light">{userID?.userName}</span>
             </h3>
-            <h3 className="text-lg leading-tight truncate">
-              Rol: <span className="text-md font-light">{userID?.role}</span>
+            <h3 className="flex text-lg leading-tight sm:truncate">
+              Rol: <span className="text-md font-light"> {userID?.role}</span>
             </h3>
-            <h3 className="text-lg leading-tight truncate">
+            <h3 className="text-lg leading-tight sm:truncate">
               Teléfono:{" "}
-              <span className="text-md font-light">{userID?.phone1}</span>
+              <span className="text-md font-light sm:truncate">{userID?.phone1}</span>
             </h3>
-            <h3 className="text-lg leading-tight truncate">
+            <h3 className="text-lg leading-tight sm:truncate">
               Email:{" "}
-              <span className="text-md font-light">
+              <span className="text-md font-light sm:truncate">
                 {" "}
                 {userID?.notificationEmail}{" "}
               </span>
             </h3>
-            <h3 className="text-lg leading-tight truncate">
+            <h3 className="text-lg leading-tight ">
               Comisión: <span className="text-md font-light">{userID?.comission}%</span>
             </h3>
-            <h3 className="text-lg leading-tight truncate">
-                Sede:{" "}
-                {sedes &&
-                <span className="text-md font-light">
-                  {sedes.branchName}
-                </span>}
-              </h3>
-              <h3 className="text-lg leading-tight truncate">
+              <h3 className="text-lg leading-tight sm:text-base lg:text-lg">
                 Especialidades:
                 {especialidades &&
                   especialidades.map((specialt, index) => (
@@ -96,10 +89,10 @@ const UserInfo = () => {
                     </span>
                   ))}
               </h3>
-            <h3 className="text-lg leading-tight truncate">
+            <h3 className="text-lg leading-tight sm:truncate">
               Sede:{" "}
-              <span className="text-md font-light">
-                {userID?.branch.branchName}
+              <span className="text-md font-light sm:truncate">
+                {sedes.branchName}
               </span>
             </h3>
             <div className="flex gap-5">
@@ -109,7 +102,6 @@ const UserInfo = () => {
           </div>
         </div>
       </div>
-    </div>
     {showEditModal ? (
       <EditModal
         setShowEditModal={setShowEditModal}
