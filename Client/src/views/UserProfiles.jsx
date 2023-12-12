@@ -143,7 +143,7 @@ function UserProfiles() {
                 className="w-full border border-black rounded-md text-xs "
               >
                 <option value=""> -- Seleccionar Sede -- </option>
-                {branches.map((branch, index) => (
+                {branches && branches.map((branch, index) => (
                   <option key={index} value={branch.branchName}>
                     {branch.branchName}
                   </option>
@@ -157,7 +157,7 @@ function UserProfiles() {
                 className="w-full border border-black rounded-md text-xs"
               >
                 <option value=""> -- Seleccionar Especialidad -- </option>
-                {specialties.map((branch, index) => (
+                {specialties && specialties.map((branch, index) => (
                   <option key={index} value={branch.specialtyName}>
                     {branch.specialtyName}
                   </option>
