@@ -70,7 +70,7 @@ function UserProfiles() {
   return (
     <>
       <NavBar />
-      <div className="flex flex-row">
+      <div className="flex flex-row bg-red">
         <SideBar />
         <div className="flex flex-col flex-wrap gap-4 items-center h-[calc(100vh-150px)] mt-10 m-auto">
           <h1 className="text-xl">Perfiles</h1>

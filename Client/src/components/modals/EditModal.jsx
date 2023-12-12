@@ -4,7 +4,7 @@ import { IoClose } from 'react-icons/io5';
 import validateRegisterInput from '../../functions/registerFormValidations';
 import axios from 'axios';
 import { UploadWidget } from '../Uploadwidget';
-import toast, { Toaster } from 'react-hot-toast';
+
 
 import getParamsEnv from "./../../functions/getParamsEnv"
 const { USERPROFILES } = getParamsEnv();
@@ -19,7 +19,7 @@ function EditModal({ setShowEditModal, branches, specialties, userId }) {
         lastName: userId.lastName,
         userName: userId.userName,
         phoneNumber1: userId.phone1,
-        phoneNumber2: userId.phone2,
+        phoneNumber2: userId.phone2 || "",
         image: userId.image,
         specialtyName: userId.specialties,
         commission: userId.comission,
@@ -47,7 +47,7 @@ function EditModal({ setShowEditModal, branches, specialties, userId }) {
                 };
             });
         } else if (type === 'checkbox' && name === 'specialtyName') {
-            // Handle specialties checkbox (similar to your existing code)
+           
             setUserData((prevInfo) => {
                 const updatedSpecialities = checked
                     ? [...prevInfo.specialtyName, { id: value, specialtyName: value }]
