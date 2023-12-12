@@ -21,7 +21,7 @@ const NavBar = () => {
     <nav className="bg-secondaryPink h-20 flex pl-2 pr-10 justify-between items-center shadow-lg shadow-gray-100">
       <div>
         <Link to={HOME}>
-          <img className="w-20 h-auto" src={logo} alt="logo" />
+          <img className="w-20 h-auto" src={"https://res.cloudinary.com/doqyrz0sg/image/upload/v1702388420/aznyz3d12hy3wr3kk9j9.png"} alt="logo" />
         </Link>
       </div>
         <h1 className="justify-self-start capitalize font-semibold ">{user.name} - {user.role}</h1>
