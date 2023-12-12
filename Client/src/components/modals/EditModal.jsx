@@ -58,7 +58,17 @@ function EditModal({ setShowEditModal, branches, specialties, userId }) {
                     [name]: updatedSpecialities,
                 };
             });
-        } else {
+        } else if(name === 'rol'){
+            if(userId.userName === 'loshenry2023@gmail.com'){
+                alert('Usted es el primer superAdmin. No puede cambiar su rol.')
+            } else{
+                setUserData((prevInfo) => ({
+                    ...prevInfo,
+                    [name]: value,
+                }));
+            }
+        }
+        else {
             setUserData((prevInfo) => ({
                 ...prevInfo,
                 [name]: value,
@@ -91,7 +101,7 @@ function EditModal({ setShowEditModal, branches, specialties, userId }) {
                     specialty: specialtiesId,
                     branch: userData.branch.id,
                     phone1: userData.phoneNumber1,
-                    phone2: userData.phoneNumber2,
+                    phone2: userData.phoneNumber2 || "",
                     role: userData.rol,
                     notificationEmail: userData.notificationEmail,
                     image: userData.image,
@@ -117,12 +127,11 @@ function EditModal({ setShowEditModal, branches, specialties, userId }) {
                     });
                     window.alert("Usuario modificado correctamente");
                     navigate(USERPROFILES);
-
                 } else {
                     window.alert("Hubo un problema con la creación");
                 }
             } catch (error) {
-                console.log(error);
+                window.alert(`Hubo un problema con la modificacion. ${error.response.data}`)
             }
         }
     };
@@ -135,12 +144,12 @@ function EditModal({ setShowEditModal, branches, specialties, userId }) {
     return (
         <>
             <div className="absolute top-0 left-0 flex items-center justify-center w-full h-full bg-black opacity-95">
-                <div className="container mx-auto">
-                    <div className="w-4/5 bg-white shadow rounded-lg p-6 mx-auto lg:w-1/2 xl:w-1/3">
+                <div className="container">
+                    <div className="w-full bg-white shadow rounded-lg p-6 md:mx-auto md:w-1/2 2xl:w-1/3">
                         <IoClose onClick={closeModal} className='flex cursor-pointer' />
                         <h1 className="text-xl font-semibold mb-4 text-black">Editar usuario</h1>
                         <form onSubmit={handleSubmit}>
-                            <div className="first-letter:grid grid-cols-1 gap-4 mb-4">
+                            <div className="first-letter:grid grid-cols-1 mb-2">
                                 <input
                                     placeholder="Gmail Usuario"
                                     className={`cursor-not-allowed border bg-gray-200 text-gray-500 border-black p-2 rounded w-full ${errors.userName !== undefined && "border-red-500"}`}
@@ -152,7 +161,7 @@ function EditModal({ setShowEditModal, branches, specialties, userId }) {
                                 />
                                 {errors.userName !== "" && <p className="text-xs text-red-500">{errors.userName}</p>}
                             </div>
-                            <div className="grid grid-cols-1md:grid-cols-2 gap-4 mb-4">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-2">
                                 <div>
                                     <input
                                         onChange={handleChange}
@@ -176,7 +185,7 @@ function EditModal({ setShowEditModal, branches, specialties, userId }) {
                                     {errors.lastName !== "" && <p className="text-xs text-red-500">{errors.lastName}</p>}
                                 </div>
                             </div>
-                            <div class="first-letter:grid grid-cols-1 gap-4 mb-4">
+                            <div className="first-letter:grid grid-cols-1 gap-4 mb-2">
                                 <input
                                     placeholder="Email para notifiaciones"
                                     className="border border-black p-2 rounded w-full"
@@ -187,7 +196,7 @@ function EditModal({ setShowEditModal, branches, specialties, userId }) {
                                 />
                                 {errors.notificationEmail !== "" && <p className="text-xs text-red-500">{errors.notificationEmail}</p>}
                             </div>
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-2">
                                 <div>
                                     <input
                                         placeholder="Telefono 1"
@@ -211,7 +220,7 @@ function EditModal({ setShowEditModal, branches, specialties, userId }) {
                                     {errors.phoneNumber2 !== "" && <p className="text-xs text-red-500">{errors.phoneNumber2}</p>}
                                 </div>
                             </div>
-                            <div className="grid grid-cols-2 gap-4 mb-4">
+                            <div className="grid grid-cols-2 gap-4 mb-2">
                                 <div>
                                     <input
                                         onChange={handleChange}
@@ -228,9 +237,9 @@ function EditModal({ setShowEditModal, branches, specialties, userId }) {
                                         onChange={handleChange}
                                         name="rol"
                                         value={userData.rol}
+                                        placeholder='Seleccione un rol'
                                         className={`bg-gray-50 border border-black text-black sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 ${errors.rol !== undefined && "border-red-500"}`}
                                     >
-                                        <option value="" disabled hidden>Selecciona un rol</option>
                                         {roles.map((rol, index) => (
                                             <option key={index} value={rol}>
                                                 {rol}
@@ -240,12 +249,11 @@ function EditModal({ setShowEditModal, branches, specialties, userId }) {
                                     {errors.rol !== "" && <p className="text-xs text-red-500">{errors.rol}</p>}
                                 </div>
                             </div>
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                                <div className="mb-4">
+                            <div className="grid grid-cols-2 md:grid-cols-2 gap-4">
+                                <div className="mb-2">
                                     <label className="block mb-2 text-sm font-medium text-gray-900">Especialidades</label>
                                     {specialties.map((specialty, index) => (
-
-                                        <div key={index} className="flex items-center">
+                                        <div key={index} className="flex items-center"> 
                                             <input
                                                 type="checkbox"
                                                 id={specialty.id}
@@ -262,8 +270,8 @@ function EditModal({ setShowEditModal, branches, specialties, userId }) {
                                     ))}
                                     {errors.specialtyName !== "" && <p className="text-xs text-red-500">{errors.specialtyName}</p>}
                                 </div>
-                                <div className="">
-                                    <label className="block mt-3 mb-2 text-sm font-medium text-gray-900">Sedes</label>
+                                <div>
+                                    <label className="block mb-2 text-sm font-medium text-gray-900">Sedes</label>
                                     {branches.map((branch, index) => (
                                         <div key={index} className="flex items-center">
                                             <input
@@ -271,7 +279,7 @@ function EditModal({ setShowEditModal, branches, specialties, userId }) {
                                                 id={branch}
                                                 name="branch"
                                                 value={branch.id}
-                                                checked={userData.branch.id === branch.id}
+                                                checked={userData.branch && userData.branch.id === branch.id}
                                                 onChange={handleChange}
                                                 className="mr-2"
                                             />
@@ -282,18 +290,18 @@ function EditModal({ setShowEditModal, branches, specialties, userId }) {
                                     ))}
                                     {errors.branch !== "" && <span className="text-xs text-red-500">{errors.branch}</span>}
                                 </div>
-                                <div className="mb-4 ml-[-5px] flex flex-col items-center justify-center">
-                                    <div>
-                                        <UploadWidget setUserData={setUserData} />
+                            </div>
+                            <div>
+                                <div className="flex flex-col w-full items-center">
+                                        <UploadWidget className="w-full" setUserData={setUserData} />
+                                    <div className='mt-2 mb-2'>
+                                        <img className='w-20 h-20 rounded' src={userData.image} alt="user-avatar" />
                                     </div>
-                                    <div className="mt-4">
-                                        <img className='w-[100px] h-[100px] rounded' src={userData.image} alt="user-avatar" />
-                                    </div>
-                                </div>
+                                </div>  
                             </div>
                             <button
                                 type="submit"
-                                className="px-4 py-2 w-full rounded bg-primaryPink text-black hover:bg-blue-600 focus:outline-none transition-colors"
+                                className="px-4 py-2 w-full rounded bg-primaryPink shadow shadow-black text-black hover:bg-blue-600 focus:outline-none transition-colors"
                             >
                                 Actualizar usuario
                             </button>
