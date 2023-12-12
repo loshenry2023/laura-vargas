@@ -22,11 +22,9 @@ const UserInfo = () => {
 
   const [showEditModal, setShowEditModal] = useState(false)
 
-  const specialties = useSelector((state) => state.specialties)
-  const branches = useSelector((state) => state.branches)
+  const specialties = useSelector((state) => state?.specialties);
+  const branches = useSelector((state) => state?.branches);
   const userID = useSelector((state) => state?.userID);
-
-  console.log(userID, "data Usuario")
 
   useEffect(() => {
     dispatch(getUserId(detailId));
@@ -34,15 +32,14 @@ const UserInfo = () => {
 
   const confirmDelete = (detailId) => {
     const response = confirm("¿Estás seguro que deseas eliminar el usuario?");
-    if(response === true){
-      dispatch(deleteUser(detailId))
-      navigate(USERPROFILES)
+    if (response === true) {
+      dispatch(deleteUser(detailId));
+      navigate(USERPROFILES);
     }
-  }
+  };
 
-
-
-  const especialidades = userID.specialties;
+  const especialidades = userID?.specialties;
+  const sedes = userID?.branch;
 
   return (
     <>
@@ -52,58 +49,59 @@ const UserInfo = () => {
           className="flex flex-col md:flex-row overflow-hidden
             bg-white rounded-lg shadow-md shadow-grey w-full"
         >
-          <img className="h-96 w-96 m-2 rounded-xl border-2 border-grey object-cover object-center" src={userID.image} />
+          <img className="h-96 w-96 m-2 rounded-xl border-2 border-grey object-cover object-center" src={userID?.image} />
           <div className=" py-2 px-6 text-gray-800 flex flex-col justify-evenly">
             <div className="flex gap-2">
               <Link to={USERPROFILES}>
                 <IoMdArrowRoundBack className="h-5 w-5 mt-1" />
               </Link>
               <h2 className="underline font-semibold text-xl leading-tight truncate ">
-                Perfil de {userID.name} {userID.lastName}
+                Perfil de {userID?.name} {userID?.lastName}
               </h2>
             </div>
             <h3 className="text-lg leading-tight truncate">
-              Usuario: <span className="text-md font-light">{userID.userName}</span>
+              Usuario: <span className="text-md font-light">{userID?.userName}</span>
             </h3>
             <h3 className="text-lg leading-tight truncate">
-              Rol: <span className="text-md font-light">{userID.role}</span>
+              Rol: <span className="text-md font-light">{userID?.role}</span>
             </h3>
             <h3 className="text-lg leading-tight truncate">
               Teléfono:{" "}
-              <span className="text-md font-light">{userID.phone1}</span>
+              <span className="text-md font-light">{userID?.phone1}</span>
             </h3>
             <h3 className="text-lg leading-tight truncate">
               Email:{" "}
               <span className="text-md font-light">
                 {" "}
-                {userID.notificationEmail}{" "}
+                {userID?.notificationEmail}{" "}
               </span>
             </h3>
             <h3 className="text-lg leading-tight truncate">
-              Comisión: <span className="text-md font-light">{userID.comission}%</span>
+              Comisión: <span className="text-md font-light">{userID?.comission}%</span>
             </h3>
             <h3 className="text-lg leading-tight truncate">
-              Sede: <span className="text-md font-light">{userID.branch.branchName}</span>
-            </h3>
+                Sede:{" "}
+                {sedes &&
+                <span className="text-md font-light">
+                  {sedes.branchName}
+                </span>}
+              </h3>
+              <h3 className="text-lg leading-tight truncate">
+                Especialidades:
+                {especialidades &&
+                  especialidades.map((specialt, index) => (
+                    <span className="text-md font-light" key={index}>
+                      {" "}
+                      {specialt.specialtyName}
+                    </span>
+                  ))}
+              </h3>
             <h3 className="text-lg leading-tight truncate">
-              Especialidades:
-              {especialidades && especialidades.length > 0 ? (
-                especialidades.map((specialt, index) => (
-                  <span className="text-md font-light" key={index}>
-                    {" "}
-                    {specialt.specialtyName}
-                  </span>
-                ))
-              ) : (
-                <span className="text-md font-light"> - </span>
-              )}
-            </h3>
-            {/* <h3 className="text-lg leading-tight truncate">
               Sede:{" "}
               <span className="text-md font-light">
-                {userID.branch.branchName}
+                {userID?.branch.branchName}
               </span>
-            </h3> */}
+            </h3>
             <div className="flex gap-5">
               <MdEdit onClick={() => setShowEditModal(true)} className="h-6 w-6 hover:text-primaryPink hover:animate-bounce cursor-pointer delay-200" />
               <MdDelete onClick={() => confirmDelete(detailId)} className="h-6 w-6 hover:text-red-600 hover:animate-bounce cursor-pointer delay-200" />
