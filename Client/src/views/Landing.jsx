@@ -14,10 +14,10 @@ const Landing = () => {
             'linear-gradient(45deg, #FAD0C4, #FF9A9E, #FF6A88)',
         }}
       >
-        <nav className="container flex items-center justify-between pr-5">
+        <nav className="flex items-center justify-between mx-10">
           <img
             src="https://res.cloudinary.com/doqyrz0sg/image/upload/v1702388420/aznyz3d12hy3wr3kk9j9.png"
-            className="ml-5 text-xl font-bold ml-3 h-[100px] w-[100px]"
+            className="ml-5 text-xl font-bold h-[100px] w-[100px]"
             alt="Logo"
           ></img>
           <ul className="flex">
