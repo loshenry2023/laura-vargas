@@ -5,17 +5,17 @@ const checkToken = require('../../functions/checkToken');
 
 const getUserData = async (req, res) => {
     const { id } = req.params;
-    const { token } = req.query;
+    const { token } = req.body;
     showLog(`getUserData`);
     try {
         // Verifico token:
-        // if (!token) { throw Error("Token required"); }
-        // const checked = await checkToken(token);
-        // if (!checked.exist) {
-        //     showLog(`Wrong token.`);
-        //     return res.status(401).send(`Unauthorized.`);
-        // }
-        if (!id) { throw Error("Data missing"); }
+        if (!token) { throw Error("Se requiere token"); }
+        const checked = await checkToken(token);
+        if (!checked.exist) {
+            showLog(`Wrong token.`);
+            return res.status(401).send(`Sin permiso.`);
+        }
+        if (!id) { throw Error("Faltan datos"); }
         const existingUser = await User.findByPk(id, {
             include: [
                 {
@@ -32,7 +32,7 @@ const getUserData = async (req, res) => {
         });
         if (!existingUser) {
             showLog(`getUserData: ${id} not found.`);
-            return res.status(404).send(`${id} not found.`);
+            return res.status(404).send(`${id} no encontrado.`);
         }
         // Obtengo la sede relacionada:
         const branchData = existingUser.Branch ? { id: existingUser.Branch.id, branchName: existingUser.Branch.branchName } : null;

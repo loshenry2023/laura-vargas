@@ -7,7 +7,7 @@ const postUserLogin = async (req, res) => {
     const { nameUser, idUser } = req.body;
     showLog(`postUserLogin`);
     try {
-        if (!nameUser || !idUser) { throw Error("Data missing"); }
+        if (!nameUser || !idUser) { throw Error("Faltan datos"); }
         const nameLowercase = nameUser.toLowerCase();
         const existingUser = await User.findOne({
             where: { userName: { [Op.iLike]: nameLowercase } },
@@ -24,7 +24,7 @@ const postUserLogin = async (req, res) => {
         });
         if (!existingUser) {
             showLog(`postUserLogin: user ${nameUser} not found`);
-            return res.status(404).send(`user ${nameUser} not found.`);
+            return res.status(404).send(`user ${nameUser} no encontrado.`);
         }
         // Actualizo el token:
         existingUser.token = idUser;

@@ -1,9 +1,8 @@
-const getAllUsers = require("../controllers/user/getAllUsers");
-const showLog = require("../functions/showLog");
-const checkToken = require('../functions/checkToken');
+const getAllUsers = require("../../controllers/user/getAllUsers");
+const showLog = require("../../functions/showLog");
+const checkToken = require('../../functions/checkToken');
 
 const usersHandler = async (req, res) => {
-  showLog(`usersHandler - Handler`);
   try {
     const {
       nameOrLastName,
@@ -16,17 +15,16 @@ const usersHandler = async (req, res) => {
       role,
       createDateEnd,
       createDateStart,
-      token,
     } = req.query;
-
+    const { token } = req.body;
+    showLog(`usersHandler - Handler`);
     // Verifico token:
-    // if (!token) { throw Error("Token required"); }
-    // const checked = await checkToken(token);
-    // if (!checked.exist) {
-    //   showLog(`Wrong token.`);
-    //   return res.status(401).send(`Unauthorized.`);
-    // }
-
+    if (!token) { throw Error("Se requiere token"); }
+    const checked = await checkToken(token);
+    if (!checked.exist) {
+      showLog(`Wrong token.`);
+      return res.status(401).send(`Sin permiso.`);
+    }
     const users = await getAllUsers(
       nameOrLastName,
       attribute,
@@ -45,6 +43,6 @@ const usersHandler = async (req, res) => {
     showLog(`getUserData ERROR-> ${err.message}`);
     return res.status(500).json({ message: err.message });
   }
-};  
+};
 
 module.exports = usersHandler;

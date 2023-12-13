@@ -1,19 +1,19 @@
-const { Payment } = require('../DB_connection');
-const getReg = require("../controllers/getReg");
-const showLog = require("../functions/showLog");
-const checkToken = require('../functions/checkToken');
+const { Payment } = require('../../DB_connection');
+const getReg = require("../../controllers/getReg");
+const showLog = require("../../functions/showLog");
+const checkToken = require('../../functions/checkToken');
 
 const getPaymentsHandler = async (req, res) => {
-  showLog(`getPaymentsHandler`);
   try {
-    const { token } = req.query;
+    const { token } = req.body;
+    showLog(`getPaymentsHandler`);
     // Verifico token:
-    // if (!token) { throw Error("Token required"); }
-    // const checked = await checkToken(token);
-    // if (!checked.exist) {
-    //     showLog(`Wrong token.`);
-    //     return res.status(401).send(`Unauthorized.`);
-    // }
+    if (!token) { throw Error("Se requiere token"); }
+    const checked = await checkToken(token);
+    if (!checked.exist) {
+      showLog(`Wrong token.`);
+      return res.status(401).send(`Sin permiso.`);
+    }
     const resp = await getReg(Payment, "Payment");
     if (resp) {
       showLog(`getPaymentsHandler OK`);

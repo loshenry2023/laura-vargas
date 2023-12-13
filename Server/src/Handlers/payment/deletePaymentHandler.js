@@ -1,20 +1,20 @@
-const { Payment } = require('../DB_connection');
-const deleteReg = require("../controllers/deleteReg");
-const showLog = require("../functions/showLog");
-const checkToken = require('../functions/checkToken');
+const { Payment } = require('../../DB_connection');
+const deleteReg = require("../../controllers/deleteReg");
+const showLog = require("../../functions/showLog");
+const checkToken = require('../../functions/checkToken');
 
 const deletePaymentHandler = async (req, res) => {
-  showLog(`deletePaymentHandler`);
   try {
     const { id } = req.params;
-    const { token } = req.query;
+    const { token } = req.body;
+    showLog(`deletePaymentHandler`);
     // Verifico token. Sólo un superAdmin puede eliminar:
-    // if (!token) { throw Error("Token required"); }
-    // const checked = await checkToken(token);
-    // if (!checked.exist || checked.role !== "superAdmin") {
-    //     showLog(`Wrong token.`);
-    //     return res.status(401).send(`Unauthorized.`);
-    // }
+    if (!token) { throw Error("Se requiere token"); }
+    const checked = await checkToken(token);
+    if (!checked.exist || checked.role !== "superAdmin") {
+      showLog(`Wrong token.`);
+      return res.status(401).send(`Sin permiso.`);
+    }
     const resp = await deleteReg(Payment, id, "Payment");
     if (resp.deleted === 'ok') {
       showLog(`deletePaymentHandler OK`);

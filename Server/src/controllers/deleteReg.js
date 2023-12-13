@@ -1,15 +1,14 @@
 // ! Elimina un registro.
 const showLog = require("../functions/showLog");
-const checkToken = require('../functions/checkToken');
 const { FIRST_SUPERADMIN } = require("../functions/paramsEnv");
 
 const deleteReg = async (tableName, id, tableNameText) => {
     try {
-        if (!id) { throw Error("Data missing"); }
+        if (!id) { throw Error("Faltan datos"); }
         const regToDelete = await tableName.findByPk(id);
-        if (!regToDelete) { throw Error("ID not found"); }
+        if (!regToDelete) { throw Error("Registro no encontrado"); }
         if (tableNameText === "User") {
-            if (regToDelete.userName === FIRST_SUPERADMIN) { throw Error("Not allowed"); }
+            if (regToDelete.userName === FIRST_SUPERADMIN) { throw Error("Sin permiso"); }
             // Elimino la relación con sede:
             await regToDelete.setBranch(null);
             // Elimino la relación con especialidades:
