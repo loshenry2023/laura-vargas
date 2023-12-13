@@ -4,8 +4,8 @@ const showLog = require('../../functions/showLog');
 const checkToken = require('../../functions/checkToken');
 
 const postUserLogout = async (req, res) => {
-    const { token } = req.query;
-    showLog(`postUserLogout (tkn ${token})`);
+    const { token } = req.body;
+    showLog(`postUserLogout`);
     try {
         // Verifico token, con parámetro de indicación de borrado:
         if (!token) { throw Error("Se requiere token"); }

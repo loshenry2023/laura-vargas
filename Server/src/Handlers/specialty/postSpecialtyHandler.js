@@ -5,8 +5,8 @@ const checkToken = require('../../functions/checkToken');
 
 const postSpecialtyHandler = async (req, res) => {
   try {
-    const { token } = req.query;
-    showLog(`postSpecialtyHandler (tkn ${token})`);
+    const { token } = req.body;
+    showLog(`postSpecialtyHandler`);
     // Verifico token. Sólo un superAdmin puede agregar:
     if (!token) { throw Error("Se requiere token"); }
     const checked = await checkToken(token);

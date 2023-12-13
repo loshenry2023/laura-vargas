@@ -1,6 +1,8 @@
 // ! Modifica un registro en tabla.
 
-const putReg = async (tableName, tableNameText, data, id) => {
+const { FIRST_SUPERADMIN } = require("../functions/paramsEnv");
+
+const putReg = async (tableName, tableNameText, data, id, conn = "") => {
     try {
         let resp;
         switch (tableNameText) {
@@ -13,11 +15,53 @@ const putReg = async (tableName, tableNameText, data, id) => {
             case "Specialty":
                 resp = await editRegSpecialty(tableName, data, id);
                 break;
+            case "User":
+                resp = await editRegUser(tableName, data, id, conn);
+                break;
             default:
         }
         return { "created": "ok" };
     } catch (err) {
         return { created: "error", message: err.message };
+    }
+}
+
+async function editRegUser(User, data, id, conn) {
+    const { name, lastName, role, notificationEmail, phone1, phone2, image, comission, branch, specialty } = data;
+    let transaction; // manejo transacciones para evitar registros defectuosos por relaciones mal solicitadas
+    try {
+        if (!name || !lastName || !role || !notificationEmail || !phone1 || !image || !comission || !branch || !specialty) { throw Error("Faltan datos"); }
+        const existingUser = await User.findByPk(id);
+        if (!existingUser) {
+            throw Error("Usuario no encontrado");
+        }
+        // Inicio la transacción:
+        transaction = await conn.transaction();
+        existingUser.name = name;
+        existingUser.lastName = lastName;
+        existingUser.notificationEmail = notificationEmail;
+        existingUser.phoneNumber1 = phone1;
+        existingUser.phoneNumber2 ? phone2 : "";
+        existingUser.image = image;
+        existingUser.comission = comission;
+        if (existingUser.userName !== FIRST_SUPERADMIN) {
+            existingUser.role = role;
+        }
+        await existingUser.save();
+        // Actualizo la relación con sede:
+        await existingUser.setBranch(branch, { transaction });
+        if (existingUser.userName !== FIRST_SUPERADMIN) {
+            // Busco las especialidades para actualizar las relaciones:
+            await existingUser.removeSpecialties(); // elimino las relaciones previas
+            for (const spec of specialty) {
+                await existingUser.addSpecialties(spec, { transaction });
+            }
+        }
+        await transaction.commit();
+        return;
+    } catch (error) {
+        if (transaction) await transaction.rollback();
+        throw Error(`${error}`);
     }
 }
 

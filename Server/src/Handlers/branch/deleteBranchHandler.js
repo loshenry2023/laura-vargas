@@ -6,8 +6,8 @@ const checkToken = require('../../functions/checkToken');
 const deleteBranchHandler = async (req, res) => {
   try {
     const { id } = req.params;
-    const { token } = req.query;
-    showLog(`deleteBranchHandler (tkn ${token})`);
+    const { token } = req.body;
+    showLog(`deleteBranchHandler`);
     // Verifico token. Sólo un superAdmin puede eliminar:
     if (!token) { throw Error("Se requiere token"); }
     const checked = await checkToken(token);

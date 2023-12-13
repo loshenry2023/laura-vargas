@@ -5,8 +5,8 @@ const checkToken = require('../../functions/checkToken');
 
 const getUserData = async (req, res) => {
     const { id } = req.params;
-    const { token } = req.query;
-    showLog(`getUserData (tkn ${token})`);
+    const { token } = req.body;
+    showLog(`getUserData`);
     try {
         // Verifico token:
         if (!token) { throw Error("Se requiere token"); }

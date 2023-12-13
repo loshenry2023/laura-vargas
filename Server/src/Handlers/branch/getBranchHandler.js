@@ -5,8 +5,8 @@ const checkToken = require('../../functions/checkToken');
 
 const getBranchHandler = async (req, res) => {
   try {
-    const { token } = req.query;
-    showLog(`getBranchHandler (tkn ${token})`);
+    const { token } = req.body;
+    showLog(`getBranchHandler`);
     // Verifico token:
     if (!token) { throw Error("Se requiere token"); }
     const checked = await checkToken(token);

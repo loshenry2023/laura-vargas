@@ -1,25 +1,64 @@
 // ! Almacena un nuevo registro en tabla.
-
+//const showLog = require("../functions/showLog");
 const { Op } = require('sequelize');
 
-const postReg = async (tableName, tableNameText, data) => {
+const postReg = async (tableName, tableNameText, data, conn = "") => {
     try {
         let resp;
         switch (tableNameText) {
             case "Branch":
                 resp = await AddRegBranch(tableName, data);
-                break;
+                return { "created": "ok" };
             case "Payment":
                 resp = await AddRegPayment(tableName, data);
-                break;
+                return { "created": "ok" };
             case "Specialty":
                 resp = await AddRegSpecialty(tableName, data);
-                break;
+                return { "created": "ok" };
+            case "User":
+                resp = await AddRegUser(tableName, data, conn);
+                return { "created": "ok", "id": resp };
             default:
         }
-        return { "created": "ok" };
     } catch (err) {
         return { created: "error", message: err.message };
+    }
+}
+
+async function AddRegUser(User, data, conn) {
+    const { userName, name, lastName, role, notificationEmail, phone1, phone2, image, comission, branch, specialty } = data;
+    let transaction; // manejo transacciones para evitar registros defectuosos por relaciones mal solicitadas
+    try {
+        if (!userName || !name || !lastName || !role || !notificationEmail || !phone1 || !image || !comission || !branch || !specialty) { throw Error("Faltan datos"); }
+        const nameLowercase = userName.toLowerCase();
+        const existingUser = await User.findOne({
+            where: { userName: { [Op.iLike]: nameLowercase } },
+        });
+        if (existingUser) {
+            throw Error("El usuario ya existe");
+        }
+        // Inicio la transacción:
+        transaction = await conn.transaction();
+        const [UserCreated, created] = await User.findOrCreate({
+            where: { userName, notificationEmail, name, lastName, phoneNumber1: phone1, phoneNumber2: phone2, image, comission, token: "", role },
+            transaction,
+        });
+        // Agrego relación con sede:
+        await UserCreated.setBranch(branch, { transaction });
+        // Busco las especialidades para agregar las relaciones:
+        for (const spec of specialty) {
+            await UserCreated.addSpecialties(spec, { transaction });
+        }
+        await transaction.commit();
+
+        // Obtengo el id para revolver:
+        const userCreated = await User.findOne({
+            where: { userName: userName },
+        });
+        return userCreated.id;
+    } catch (error) {
+        if (transaction) await transaction.rollback();
+        throw Error(`${error}`);
     }
 }
 

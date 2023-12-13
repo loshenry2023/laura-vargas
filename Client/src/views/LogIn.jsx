@@ -65,11 +65,20 @@ const LogIn = () => {
 
   const handleGoogle = async () => {
     try {
+      // Configuro el parámetro "prompt" para permitir seleccionar una nueva cuenta:
+      googleProvider.setCustomParameters({
+        prompt: "select_account",
+      });
+
       const googleUser = await signInWithPopup(auth, googleProvider);
+
+      // Obtengo el token de acceso:
+      const accessToken = await googleUser.user.getIdToken();
+      console.log("Token de acceso de Google:", accessToken);
 
       const dataToValidate = {
         nameUser: googleUser.user.email,
-        idUser: googleUser.user.uid,
+        idUser: accessToken, // mando el gigantesco token real
       };
       const retrieveUser = await axios.post(
         "http://localhost:3001/laura-vargas/userdata",
@@ -82,9 +91,7 @@ const LogIn = () => {
       setRole(role);
     } catch (error) {
       if (error.code === "auth/account-exists-with-different-credential") {
-        setErrorCredentials(
-          "Usted ya tiene una cuenta registrada con Facebook"
-        );
+        setErrorCredentials("Usted ya tiene una cuenta registrada con Facebook");
       }
     }
   };
