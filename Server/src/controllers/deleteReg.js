@@ -1,5 +1,4 @@
 // ! Elimina un registro.
-
 const showLog = require("../functions/showLog");
 const { FIRST_SUPERADMIN } = require("../functions/paramsEnv");
 

@@ -1,5 +1,4 @@
 // ! Modifica un registro en tabla.
-
 const { FIRST_SUPERADMIN } = require("../functions/paramsEnv");
 
 const putReg = async (tableName, tableNameText, data, id, conn = "") => {

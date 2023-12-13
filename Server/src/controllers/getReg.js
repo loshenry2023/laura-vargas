@@ -1,5 +1,4 @@
 // ! Obtiene registros.
-
 const showLog = require("../functions/showLog");
 
 const getReg = async (

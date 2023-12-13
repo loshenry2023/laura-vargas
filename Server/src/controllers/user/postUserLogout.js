@@ -1,5 +1,4 @@
 // ! Logout: elimino el token del usuario.
-const { User } = require('../../DB_connection');
 const showLog = require('../../functions/showLog');
 const checkToken = require('../../functions/checkToken');
 

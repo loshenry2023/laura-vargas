@@ -1,5 +1,4 @@
 //! Verifico que el token pertenezca a un usuario.
-
 const { User } = require("../DB_connection");
 const showLog = require("../functions/showLog");
 

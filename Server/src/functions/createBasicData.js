@@ -3,7 +3,6 @@
 // ! - 6 métodos de pago,
 // ! - 5 especialidades,
 // ! - 1 usuario superAdmin.
-
 const { User, Branch, Payment, Specialty } = require("../DB_connection");
 const showLog = require("../functions/showLog");
 const { FIRST_SUPERADMIN } = require("../functions/paramsEnv");
