@@ -13,8 +13,8 @@ const UserDetail = () => {
     <div>
       <NavBar />
       <div className="flex">
-        <SideBar />
-        <UserInfo />
+        <SideBar/>
+        <UserInfo/>
       </div>
     </div>
   );

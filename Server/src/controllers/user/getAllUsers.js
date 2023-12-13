@@ -32,7 +32,7 @@ const getAllUsers = async (
           attributes: ["id", "branchName"],
         },
       ],
-      distinct:true,
+      distinct: true,
       attributes: ["id", "name", "lastName", "userName", "role", "createdAt", "comission"],
       where: {
         [Op.or]: [

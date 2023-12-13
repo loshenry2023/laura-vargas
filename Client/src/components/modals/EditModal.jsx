@@ -145,14 +145,16 @@ function EditModal({ setShowEditModal, branches, specialties, userId }) {
         <>
             <div className="absolute top-0 left-0 flex items-center justify-center w-full h-full bg-black opacity-95">
                 <div className="container">
-                    <div className="w-full bg-white shadow rounded-lg p-6 md:mx-auto md:w-1/2 2xl:w-1/3">
-                        <IoClose onClick={closeModal} className='flex cursor-pointer' />
-                        <h1 className="text-xl font-semibold mb-4 text-black">Editar usuario</h1>
+                    <div className="w-full bg-white shadow rounded-lg p-6 md:mx-auto md:w-1/2 2xl:w-1/3 dark:bg-darkBackground">
+                        <div className='flex justify-between'>
+                        <h1 className="text-xl font-semibold mb-4 text-black dark:text-darkText">Editar usuario</h1>
+                        <IoClose onClick={closeModal} className='cursor-pointer mt-2 w-5 h-5 dark:text-darkText' />
+                        </div>
                         <form onSubmit={handleSubmit}>
                             <div className="first-letter:grid grid-cols-1 mb-2">
                                 <input
                                     placeholder="Gmail Usuario"
-                                    className={`cursor-not-allowed border bg-gray-200 text-gray-500 border-black p-2 rounded w-full ${errors.userName !== undefined && "border-red-500"}`}
+                                    className={`cursor-not-allowed border bg-gray-200 text-gray-500 border-black p-2 rounded w-full dark:bg-darkPrimary dark:text-darkText dark:border-none dark:shadow dark:shadow-white ${errors.userName !== undefined && "border-red-500"}`}
                                     onChange={handleChange}
                                     type="email"
                                     name="userName"
@@ -169,7 +171,7 @@ function EditModal({ setShowEditModal, branches, specialties, userId }) {
                                         name="name"
                                         value={userData.name}
                                         placeholder="Nombre"
-                                        className={`border border-black p-2 rounded w-full ${errors.name !== undefined && "border-red-500"}`}
+                                        className={`border border-black p-2 rounded w-full dark:bg-darkPrimary dark:text-darkText dark:border-none dark:shadow dark:shadow-white ${errors.name !== undefined && "border-red-500"}`}
                                     />
                                     {errors.name !== "" && <p className="text-xs text-red-500">{errors.name}</p>}
                                 </div>
@@ -177,10 +179,10 @@ function EditModal({ setShowEditModal, branches, specialties, userId }) {
                                     <input
                                         type="text"
                                         placeholder="Apellido"
-                                        className={`border border-black p-2 rounded w-full ${errors.lastName !== undefined && "border-red-500"}`}
                                         onChange={handleChange}
                                         name="lastName"
                                         value={userData.lastName}
+                                        className={`border border-black p-2 rounded w-full dark:bg-darkPrimary dark:text-darkText dark:border-none dark:shadow dark:shadow-white ${errors.lastName !== undefined && "border-red-500"}`}
                                     />
                                     {errors.lastName !== "" && <p className="text-xs text-red-500">{errors.lastName}</p>}
                                 </div>
@@ -188,7 +190,7 @@ function EditModal({ setShowEditModal, branches, specialties, userId }) {
                             <div className="first-letter:grid grid-cols-1 gap-4 mb-2">
                                 <input
                                     placeholder="Email para notifiaciones"
-                                    className="border border-black p-2 rounded w-full"
+                                    className="border border-black p-2 rounded w-full dark:bg-darkPrimary dark:text-darkText dark:border-none dark:shadow dark:shadow-white"
                                     onChange={handleChange}
                                     type="email"
                                     name="notificationEmail"
@@ -200,11 +202,11 @@ function EditModal({ setShowEditModal, branches, specialties, userId }) {
                                 <div>
                                     <input
                                         placeholder="Telefono 1"
-                                        className={`border border-black p-2 rounded w-full ${errors.phoneNumber1 !== undefined && "border-red-500"}`}
                                         onChange={handleChange}
                                         type="text"
                                         name="phoneNumber1"
                                         value={userData.phoneNumber1}
+                                        className={`border border-black p-2 rounded w-full dark:bg-darkPrimary dark:text-darkText dark:border-none dark:shadow dark:shadow-white ${errors.phoneNumber1 !== undefined && "border-red-500"}`}
                                     />
                                     {errors.phoneNumber1 !== "" && <p className="text-xs text-red-500">{errors.phoneNumber1}</p>}
                                 </div>
@@ -215,7 +217,7 @@ function EditModal({ setShowEditModal, branches, specialties, userId }) {
                                         name="phoneNumber2"
                                         value={userData.phoneNumber2}
                                         placeholder="Telefono 2"
-                                        className={`border border-black p-2 rounded w-full ${errors.phoneNumber2 !== undefined && "border-red-500"}`}
+                                        className={`border border-black p-2 rounded w-full dark:bg-darkPrimary dark:text-darkText dark:border-none dark:shadow dark:shadow-white ${errors.phoneNumber2 !== undefined && "border-red-500"}`}
                                     />
                                     {errors.phoneNumber2 !== "" && <p className="text-xs text-red-500">{errors.phoneNumber2}</p>}
                                 </div>
@@ -228,7 +230,7 @@ function EditModal({ setShowEditModal, branches, specialties, userId }) {
                                         name="commission"
                                         value={userData.commission}
                                         placeholder="Comision"
-                                        className={`border border-black p-2 rounded w-full ${errors.commission !== undefined && "border-red-500"}`}
+                                        className={`border border-black p-2 rounded w-full dark:bg-darkPrimary dark:opacity-100 dark:text-darkText dark:border-none dark:shadow dark:shadow-white ${errors.commission !== undefined && "border-red-500"}`}
                                     />
                                     {errors.commission !== "" && <p className="text-xs text-red-500 ">{errors.commission}</p>}
                                 </div>
@@ -238,7 +240,7 @@ function EditModal({ setShowEditModal, branches, specialties, userId }) {
                                         name="rol"
                                         value={userData.rol}
                                         placeholder='Seleccione un rol'
-                                        className={`bg-gray-50 border border-black text-black sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 ${errors.rol !== undefined && "border-red-500"}`}
+                                        className={`bg-gray-50 border border-black text-black sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-darkPrimary dark:text-darkText dark:border-none dark:shadow dark:shadow-white ${errors.rol !== undefined && "border-red-500"}`}
                                     >
                                         {roles.map((rol, index) => (
                                             <option key={index} value={rol}>
@@ -251,7 +253,7 @@ function EditModal({ setShowEditModal, branches, specialties, userId }) {
                             </div>
                             <div className="grid grid-cols-2 md:grid-cols-2 gap-4">
                                 <div className="mb-2">
-                                    <label className="block mb-2 text-sm font-medium text-gray-900">Especialidades</label>
+                                    <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-darkText">Especialidades</label>
                                     {specialties.map((specialty, index) => (
                                         <div key={index} className="flex items-center"> 
                                             <input
@@ -261,9 +263,9 @@ function EditModal({ setShowEditModal, branches, specialties, userId }) {
                                                 value={specialty.id}
                                                 checked={userData.specialtyName.map(s => s.id).includes(specialty.id)}
                                                 onChange={handleChange}
-                                                className="mr-2"
+                                                className="mr-2 dark:bg-darkPrimary dark:text-darkText dark:border-none "
                                             />
-                                            <label htmlFor={specialty} className="text-sm text-gray-900">
+                                            <label htmlFor={specialty} className="text-sm text-gray-900 dark:text-darkText">
                                                 {specialty.specialtyName}
                                             </label>
                                         </div>
@@ -271,7 +273,7 @@ function EditModal({ setShowEditModal, branches, specialties, userId }) {
                                     {errors.specialtyName !== "" && <p className="text-xs text-red-500">{errors.specialtyName}</p>}
                                 </div>
                                 <div>
-                                    <label className="block mb-2 text-sm font-medium text-gray-900">Sedes</label>
+                                    <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-darkText">Sedes</label>
                                     {branches.map((branch, index) => (
                                         <div key={index} className="flex items-center">
                                             <input
@@ -283,7 +285,7 @@ function EditModal({ setShowEditModal, branches, specialties, userId }) {
                                                 onChange={handleChange}
                                                 className="mr-2"
                                             />
-                                            <label htmlFor={branch} className="text-xs text-gray-900">
+                                            <label htmlFor={branch} className="text-xs text-gray-900 dark:text-darkText">
                                                 {branch.branchName}
                                             </label>
                                         </div>
@@ -301,7 +303,7 @@ function EditModal({ setShowEditModal, branches, specialties, userId }) {
                             </div>
                             <button
                                 type="submit"
-                                className="px-4 py-2 w-full rounded bg-primaryPink shadow shadow-black text-black hover:bg-blue-600 focus:outline-none transition-colors"
+                                className="px-4 py-2 w-full rounded bg-primaryPink shadow shadow-black text-black hover:bg-blue-600 focus:outline-none transition-colors dark:text-darkText dark:bg-darkPrimary dark:hover:bg-blue-600"
                             >
                                 Actualizar usuario
                             </button>

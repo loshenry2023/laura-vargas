@@ -18,25 +18,25 @@ const SideBar = () => {
   };
 
   return (
-    <div className="bg-secondaryPink w-20 min-h-[calc(100vh-80px)] flex flex-col items-center gap-8 pointer-events-auto shadow-lg shadow-gray-300">
+    <div className="bg-secondaryPink w-20 h-[calc(100vh-80px)] flex flex-col items-center gap-8 pointer-events-auto shadow-md shadow-grey dark:shadow-gray-100 dark:bg-darkPrimary dark:text-beige">
       <hr className="w-14 h-[1px] bg-beige border-0" />
       <a href="#" onClick={() => handleIconClick("calendar")}>
-        <FaCalendar className={`w-6 h-6 ${selectedIcon === "calendar" ? "text-black" : "text-black hover:text-beige"}`} />
+        <FaCalendar className={`w-6 h-6 dark:text-beige ${selectedIcon === "calendar" ? "text-black" : "text-black hover:text-beige"}`} />
       </a>
       <Link to="/userprofiles" onClick={() => handleIconClick("profile")}>
-        <ImProfile className={`w-6 h-6 ${selectedIcon === "profile" ? "text-black" : "text-black hover:text-beige"}`} />
+        <ImProfile className={`w-6 h-6  dark:text-beige ${selectedIcon === "profile" ? "text-black" : "text-black hover:text-beige"}`} />
       </Link>
       <a href="#" onClick={() => handleIconClick("location")}>
-        <FaLocationPin className={`w-6 h-6 ${selectedIcon === "location" ? "text-black" : "text-black hover:text-beige"}`} />
+        <FaLocationPin className={`w-6 h-6  dark:text-beige ${selectedIcon === "location" ? "text-black" : "text-black hover:text-beige"}`} />
       </a>
       <a href="#" onClick={() => handleIconClick("fingernail")}>
-        <GiFingernail className={`w-6 h-6 ${selectedIcon === "fingernail" ? "text-black" : "text-black hover:text-beige"}`} />
+        <GiFingernail className={`w-6 h-6  dark:text-beige ${selectedIcon === "fingernail" ? "text-black" : "text-black hover:text-beige"}`} />
       </a>
       <a href="#" onClick={() => handleIconClick("userGroup")}>
-        <HiMiniUserGroup className={`w-6 h-6 ${selectedIcon === "userGroup" ? "text-black" : "text-black hover:text-beige"}`} />
+        <HiMiniUserGroup className={`w-6 h-6  dark:text-beige ${selectedIcon === "userGroup" ? "text-black" : "text-black hover:text-beige"}`} />
       </a>
       <a href="#" onClick={() => handleIconClick("analytics")}>
-        <IoMdAnalytics className={`w-6 h-6 ${selectedIcon === "analytics" ? "text-black" : "text-black hover:text-beige"}`} />
+        <IoMdAnalytics className={`w-6 h-6  dark:text-beige ${selectedIcon === "analytics" ? "text-black" : "text-black hover:text-beige"}`} />
       </a>
     </div>
   );

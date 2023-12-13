@@ -1,5 +1,5 @@
 // ! Almacena un nuevo registro en tabla.
-//const showLog = require("../functions/showLog");
+const showLog = require("../functions/showLog");
 const { Op } = require('sequelize');
 
 const postReg = async (tableName, tableNameText, data, conn = "") => {
@@ -43,6 +43,8 @@ async function AddRegUser(User, data, conn) {
             where: { userName, notificationEmail, name, lastName, phoneNumber1: phone1, phoneNumber2: phone2, image, comission, token: "", role },
             transaction,
         });
+
+        showLog(role);
         // Agrego relación con sede:
         await UserCreated.setBranch(branch, { transaction });
         // Busco las especialidades para agregar las relaciones:
