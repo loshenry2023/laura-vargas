@@ -70,32 +70,32 @@ function UserProfiles() {
   return (
     <>
       <NavBar />
-      <div className="flex flex-row bg-red">
+      <div className="flex flex-row dark:bg-darkBackground">
         <SideBar />
         <div className="flex flex-col flex-wrap gap-4 items-center h-[calc(100vh-150px)] mt-10 m-auto">
-          <h1 className="text-xl">Perfiles</h1>
+          <h1 className="text-xl dark:text-beige">Perfiles</h1>
           <section className="flex flex-col gap-2 mx-auto sm:flex sm:flex-row sm:gap-5 sm:w-full">
             <div className="flex flex-col gap-6 md:flex-row">
               <div className="flex gap-2">
-                <label className="hidden md:inline">Fecha inicial</label>
+                <label className="hidden md:inline dark:text-darkText">Fecha inicial</label>
                 <input
                   onChange={(e) => {
                     setCreateDateStart(`${e.target.value} 00:00:00`);
                   }}
                   type="date"
                   defaultValue=""
-                  className="border rounded-md border-black px-2 text-sm"
+                  className="border rounded-md border-black px-2 text-sm dark:text-darkText dark:bg-darkPrimary dark:asd"
                 />
               </div>
               <div className="flex gap-2">
-                <label className="hidden md:inline">Fecha final</label>
+                <label className="hidden md:inline dark:text-darkText">Fecha final</label>
                 <input
                   onChange={(e) => {
                     setCreateDateEnd(`${e.target.value} 23:59:59`);
                   }}
                   type="date"
                   defaultValue=""
-                  className="border rounded-md border-black px-2 text-sm"
+                  className="border rounded-md border-black px-2 text-sm  dark:text-darkText dark:bg-darkPrimary"
                 />
               </div>
             </div>
@@ -110,14 +110,14 @@ function UserProfiles() {
                 }}
                 type="text"
                 placeholder="Buscar por nombre..."
-                className="w-full border border-black focus:outline-none focus:ring-1 focus:ring-grey px-1 text-sm"
+                className="w-full border border-black focus:outline-none focus:ring-1 focus:ring-grey px-1 text-sm dark:bg-darkPrimary dark:placeholder-darkText"
               />
               <select
                 onChange={(e) => {
                   setOrder(e.target.value);
                   setPage(0);
                 }}
-                className="w-full border border-black rounded-md text-xs "
+                className="w-full border border-black rounded-md text-xs dark:text-darkText dark:bg-darkPrimary"
               >
                 <option value="asc"> -- Ordenar por -- </option>
                 <option value="asc">A-Z</option>
@@ -128,7 +128,7 @@ function UserProfiles() {
                   setAttribute(e.target.value);
                   setPage(0);
                 }}
-                className="w-full border border-black rounded-md text-xs "
+                className="w-full border border-black rounded-md text-xs dark:text-darkText dark:bg-darkPrimary"
               >
                 <option value="createdAt"> -- Ordenar por -- </option>
                 <option value="name">Nombre</option>
@@ -140,7 +140,7 @@ function UserProfiles() {
                   setBranch(e.target.value);
                   setPage(0);
                 }}
-                className="w-full border border-black rounded-md text-xs "
+                className="w-full border border-black rounded-md text-xs dark:text-darkText dark:bg-darkPrimary"
               >
                 <option value=""> -- Seleccionar Sede -- </option>
                 {branches && branches.map((branch, index) => (
@@ -154,7 +154,7 @@ function UserProfiles() {
                   setSpecialty(e.target.value);
                   setPage(0);
                 }}
-                className="w-full border border-black rounded-md text-xs"
+                className="w-full border border-black rounded-md text-xs dark:text-darkText dark:bg-darkPrimary"
               >
                 <option value=""> -- Seleccionar Especialidad -- </option>
                 {specialties && specialties.map((branch, index) => (
@@ -168,7 +168,7 @@ function UserProfiles() {
                   setRole(e.target.value);
                   setPage(0);
                 }}
-                className="w-full border border-black rounded-md text-xs"
+                className=" w-full border border-black rounded-md text-xs dark:text-darkText dark:bg-darkPrimary"
               >
                 <option value=""> -- Seleccionar Rol --</option>
                 <option value="superAdmin">superAdmin</option>
@@ -177,7 +177,7 @@ function UserProfiles() {
               </select>
               <div className="justify-self-end">
                 <IoPersonAddOutline
-                  className="cursor-pointer h-6 w-6"
+                  className="cursor-pointer h-6 w-6 dark:text-darkText"
                   onClick={handleShowProfilesModal}
                 />
               </div>
@@ -200,6 +200,7 @@ function UserProfiles() {
                 setSize(e.target.value);
                 setPage(0);
               }}
+              className="shadow shadow-black rounded-md dark:text-darkText dark:bg-darkPrimary"
             >
               {" "}
               <option value={1}>1</option>
@@ -223,11 +224,12 @@ function UserProfiles() {
                     }
                   : null
               }
+              className="dark:text-darkText"
             >
               {" "}
               {"<"}
             </button>
-            <span>{page + 1}</span>
+            <span className="dark:text-darkText"> {page + 1} de {pagination} </span>
             <button
               onClick={
                 page < pagination - 1
@@ -236,6 +238,7 @@ function UserProfiles() {
                     }
                   : null
               }
+              className="dark:text-darkText"
             >
               {">"}
             </button>

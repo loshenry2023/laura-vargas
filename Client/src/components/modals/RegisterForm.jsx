@@ -87,7 +87,6 @@ function RegisterForm({ setShowResgisterFormModal, branches, specialties }) {
           comission: userData.commission
         }
         const response = await axios.post("http://localhost:3001/laura-vargas/newuser", data)
-        console.log(response)
         
         if (response.data.created === "ok") {
           closeModal()
@@ -121,20 +120,22 @@ function RegisterForm({ setShowResgisterFormModal, branches, specialties }) {
     <>
       <div className="absolute top-0 left-0 flex items-center justify-center w-full h-full bg-black opacity-95">
         <div class="container">
-          <div className="w-full bg-white shadow rounded-lg p-6 md:mx-auto md:w-1/2 2xl:w-1/3">
-            <IoClose onClick={closeModal} className='flex cursor-pointer' />
-            <h1 className="text-xl font-semibold mb-4 text-black">Agregar usuario</h1>
+          <div className="w-full bg-white shadow rounded-lg p-6 md:mx-auto md:w-1/2 2xl:w-1/3 dark:bg-darkBackground">
+          <div className='flex justify-between'>
+            <h1 className="text-xl font-semibold mb-4 text-black dark:text-darkText">Agregar usuario</h1>
+            <IoClose onClick={closeModal} className='cursor-pointer mt-2 w-5 h-5 dark:text-darkText' />
+          </div>
             <form onSubmit={handleSubmit}>
               <div className="first-letter:grid grid-cols-1 mb-2">
                 <input
-                  placeholder="Mail username"
-                  className="border border-black p-2 rounded w-full"
+                  placeholder="Mail de usuario"
+                  className="border border-black p-2 rounded w-full dark:bg-darkPrimary dark:text-darkText dark:border-none dark:shadow dark:shadow-white"
                   onChange={handleChange}
                   type="email"
                   name="userName"
                   value={userData.userName}
                 />
-                {errors.userName !== "" && <p className="text-xs text-red-500">{errors.userName}</p>}
+                {errors.userName !== "" && <p className="text-xs text-red-500 ">{errors.userName}</p>}
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-2">
                 <div>
@@ -144,7 +145,7 @@ function RegisterForm({ setShowResgisterFormModal, branches, specialties }) {
                     name="name"
                     value={userData.name}
                     placeholder="Nombre"
-                    class="border border-black p-2 rounded w-full"
+                    class="border border-black p-2 rounded w-full dark:bg-darkPrimary dark:text-darkText dark:border-none dark:shadow dark:shadow-white"
                   />
                   {errors.name !== "" && <p className="text-xs text-red-500">{errors.name}</p>}
                 </div>
@@ -152,7 +153,7 @@ function RegisterForm({ setShowResgisterFormModal, branches, specialties }) {
                   <input
                     type="text"
                     placeholder="Apellido"
-                    className="border border-black p-2 rounded w-full"
+                    className="border border-black p-2 rounded w-full dark:bg-darkPrimary dark:text-darkText dark:border-none dark:shadow dark:shadow-white"
                     onChange={handleChange}
                     name="lastName"
                     value={userData.lastName}
@@ -164,7 +165,7 @@ function RegisterForm({ setShowResgisterFormModal, branches, specialties }) {
               <div className="first-letter:grid grid-cols-1 gap-4 mb-2">
                 <input
                   placeholder="Email para notifiaciones"
-                  className="border border-black p-2 rounded w-full"
+                  className="border border-black p-2 rounded w-full dark:bg-darkPrimary dark:text-darkText dark:border-none dark:shadow dark:shadow-white"
                   onChange={handleChange}
                   type="email"
                   name="notificationEmail"
@@ -176,7 +177,7 @@ function RegisterForm({ setShowResgisterFormModal, branches, specialties }) {
                 <div>
                   <input
                     placeholder="Telefono 1"
-                    className="border border-black p-2 rounded w-full"
+                    className="border border-black p-2 rounded w-full dark:bg-darkPrimary dark:text-darkText dark:border-none dark:shadow dark:shadow-white"
                     onChange={handleChange}
                     type="text"
                     name="phoneNumber1"
@@ -191,7 +192,7 @@ function RegisterForm({ setShowResgisterFormModal, branches, specialties }) {
                     name="phoneNumber2"
                     value={userData.phoneNumber2}
                     placeholder="Telefono 2"
-                    class="border border-black p-2 rounded w-full"
+                    class="border border-black p-2 rounded w-full dark:bg-darkPrimary dark:text-darkText dark:border-none dark:shadow dark:shadow-white "
                   />
                   {errors.phoneNumber2 !== "" && <p className="text-xs text-red-500">{errors.phoneNumber2}</p>}
                 </div>
@@ -204,7 +205,7 @@ function RegisterForm({ setShowResgisterFormModal, branches, specialties }) {
                     name="commission"
                     value={userData.commission}
                     placeholder="Comision"
-                    class="border border-black p-2 rounded w-full"
+                    class="border border-black p-2 rounded w-full dark:bg-darkPrimary dark:text-darkText dark:border-none dark:shadow dark:shadow-white"
                   />
                   {errors.commission !== "" && <p className="text-xs text-red-500 ">{errors.commission}</p>}
                 </div>
@@ -213,7 +214,7 @@ function RegisterForm({ setShowResgisterFormModal, branches, specialties }) {
                     onChange={handleChange}
                     name="rol"
                     value={userData.rol}
-                    className={`bg-gray-50 border border-black text-black sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5`}
+                    className="bg-gray-50 border border-black text-black sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-darkPrimary dark:text-darkText dark:border-none dark:shadow dark:shadow-white"
 
                   >
                     <option value="" disabled hidden>Selecciona un rol</option>
@@ -228,7 +229,7 @@ function RegisterForm({ setShowResgisterFormModal, branches, specialties }) {
               </div>
               <div className="grid grid-cols-2 md:grid-cols-2 gap-4">
                 <div className="mb-2">
-                  <label className="block mb-2 text-sm font-medium text-gray-900">Especialidades</label>
+                  <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-darkText">Especialidades</label>
                   {specialties.map((specialty, index) => (
                     <div key={index} className="flex items-center">
                       <input
@@ -240,7 +241,7 @@ function RegisterForm({ setShowResgisterFormModal, branches, specialties }) {
                         onChange={handleChange}
                         className="mr-2"
                       />
-                      <label htmlFor={specialty} className="text-sm text-gray-900">
+                      <label htmlFor={specialty} className="text-sm text-gray-900 dark:text-darkText">
                         {specialty.specialtyName}
                       </label>
                     </div>
@@ -248,7 +249,7 @@ function RegisterForm({ setShowResgisterFormModal, branches, specialties }) {
                   {errors.specialtyName !== "" && <p className="text-xs text-red-500">{errors.specialtyName}</p>}
                 </div>
                 <div>
-                  <label className="block mb-2 text-sm font-medium text-gray-900">Sedes</label>
+                  <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-darkText">Sedes</label>
                     {branches.map((branch, index) => (
                       <div key={index} className="flex items-center">
                         <input
@@ -260,7 +261,7 @@ function RegisterForm({ setShowResgisterFormModal, branches, specialties }) {
                           onChange={handleChange}
                           className="mr-2"
                         />
-                        <label htmlFor={branch} className="text-xs text-gray-900">
+                        <label htmlFor={branch} className="text-xs text-gray-900 dark:text-darkText">
                           {branch.branchName}
                         </label>
                       </div>
@@ -270,7 +271,7 @@ function RegisterForm({ setShowResgisterFormModal, branches, specialties }) {
               </div>
                 <div>
                   <div className="flex flex-col w-full items-center">
-                    <UploadWidget className="w-full" setUserData={setUserData} />
+                    <UploadWidget setUserData={setUserData} />
                     <div className='mt-2 mb-2'>
                       <img className='w-20 h-20 rounded' src={userData.image} alt="user-avatar" />
                     </div>
@@ -279,7 +280,7 @@ function RegisterForm({ setShowResgisterFormModal, branches, specialties }) {
               <button
                 type="submit"
                 id="theme-toggle"
-                className="w-full px-4 py-2 rounded shadow shadow-black bg-primaryPink text-black hover:bg-blue-600 focus:outline-none transition-colors"
+                className="px-4 py-2 w-full rounded bg-primaryPink shadow shadow-black text-black hover:bg-blue-600 focus:outline-none transition-colors dark:text-darkText dark:bg-darkPrimary dark:hover:bg-blue-600"
               >
                 Crear Usuario
               </button>

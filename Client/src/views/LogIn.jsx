@@ -66,17 +66,19 @@ const LogIn = () => {
   const handleGoogle = async () => {
     try {
       const googleUser = await signInWithPopup(auth, googleProvider);
-
+      
       const dataToValidate = {
         nameUser: googleUser.user.email,
         idUser: googleUser.user.uid,
       };
+
       const retrieveUser = await axios.post(
         "http://localhost:3001/laura-vargas/userdata",
         dataToValidate
       );
 
       const userData = retrieveUser.data;
+      console.log(userData)
       dispatch(getUser(userData));
       const { role } = userData;
       setRole(role);
@@ -88,8 +90,6 @@ const LogIn = () => {
       }
     }
   };
-
-  console.log(role);
 
   return (
     <section className="bg-grey">
