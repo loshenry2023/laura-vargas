@@ -1,19 +1,19 @@
-const { Branch } = require('../DB_connection');
-const getReg = require("../controllers/getReg");
-const showLog = require("../functions/showLog");
-const checkToken = require('../functions/checkToken');
+const { Branch } = require('../../DB_connection');
+const getReg = require("../../controllers/getReg");
+const showLog = require("../../functions/showLog");
+const checkToken = require('../../functions/checkToken');
 
 const getBranchHandler = async (req, res) => {
-  showLog(`getBranchHandler`);
   try {
     const { token } = req.query;
+    showLog(`getBranchHandler (tkn ${token})`);
     // Verifico token:
-    // if (!token) { throw Error("Token required"); }
-    // const checked = await checkToken(token);
-    // if (!checked.exist) {
-    //     showLog(`Wrong token.`);
-    //     return res.status(401).send(`Unauthorized.`);
-    // }
+    if (!token) { throw Error("Se requiere token"); }
+    const checked = await checkToken(token);
+    if (!checked.exist) {
+      showLog(`Wrong token.`);
+      return res.status(401).send(`Sin permiso.`);
+    }
     const resp = await getReg(Branch, "Branch");
     if (resp) {
       showLog(`getBranchHandler OK`);

@@ -8,21 +8,21 @@ const putUser = async (req, res) => {
     const { name, lastName, role, notificationEmail, phone1, phone2, image, comission, branch, specialty } = req.body;
     const { id } = req.params;
     const { token } = req.query;
-    showLog('putUser');
+    showLog(`putUser (tkn ${token})`);
     let transaction; // manejo transacciones para evitar registros defectuosos por relaciones mal solicitadas
     try {
-        if (!name || !lastName || !role || !notificationEmail || !phone1 || !image || !comission || !branch || !specialty) { throw Error("Data missing"); }
+        if (!name || !lastName || !role || !notificationEmail || !phone1 || !image || !comission || !branch || !specialty) { throw Error("Faltan datos"); }
         // Verifico token. Sólo un superAdmin puede editar:
-        // if (!token) { throw Error("Token required"); }
-        // const checked = await checkToken(token);
-        // if (!checked.exist || checked.role !== "superAdmin") {
-        //     showLog(`Wrong token.`);
-        //     return res.status(401).send(`Unauthorized.`);
-        // }
+        if (!token) { throw Error("Se requiere token"); }
+        const checked = await checkToken(token);
+        if (!checked.exist || checked.role !== "superAdmin") {
+            showLog(`Wrong token.`);
+            return res.status(401).send(`Sin permiso.`);
+        }
         const existingUser = await User.findByPk(id);
         if (!existingUser) {
             showLog(`putUser: user ID ${id} not found.`);
-            return res.status(404).send(`user ID ${id} not found.`);
+            return res.status(404).send(`Usuario no encontrado.`);
         }
         // Inicio la transacción:
         transaction = await conn.transaction();
@@ -36,8 +36,6 @@ const putUser = async (req, res) => {
         if (existingUser.userName !== FIRST_SUPERADMIN) {
             existingUser.role = role;
         }
-
-        console.log(existingUser, "probando en el back")
         await existingUser.save();
         // Actualizo la relación con sede:
         await existingUser.setBranch(branch, { transaction });

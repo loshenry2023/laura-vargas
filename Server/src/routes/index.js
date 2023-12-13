@@ -4,28 +4,27 @@ const router = require("express").Router();
 const getMain = require("../controllers/getMain");
 // Usuarios:
 const postUserLogin = require("../controllers/user/postUserLogin");
+const postUserLogout = require("../controllers/user/postUserLogout");
 const getUserData = require("../controllers/user/getUserData");
 const postNewUser = require("../controllers/user/postNewUser");
 const putUser = require("../controllers/user/putUser");
-const deleteUserHandler = require("../Handlers/deleteUserHandler");
-const usersHandler = require("../Handlers/usersHandler");
+const deleteUserHandler = require("../Handlers/user/deleteUserHandler");
+const usersHandler = require("../Handlers/user/usersHandler");
 // Especialidades:
-const getSpecialtiesHandler = require("../Handlers/getSpecialtiesHandler");
-const postSpecialty = require("../controllers/specialty/postSpecialty");
-const putSpeciality = require("../controllers/specialty/putSpeciality");
-const deleteSpecialtyHandler = require("../Handlers/deleteSpecialtyHandler");
-
+const getSpecialtiesHandler = require("../Handlers/specialty/getSpecialtiesHandler");
+const postSpecialtyHandler = require("../Handlers/specialty/postSpecialtyHandler");
+const putSpecialtyHandler = require("../Handlers/specialty/putSpecialtyHandler");
+const deleteSpecialtyHandler = require("../Handlers/specialty/deleteSpecialtyHandler");
 // Medios de pago:
-const getPaymentsHandler = require("../Handlers/getPaymentsHandler");
-const postPayment = require("../controllers/payment/postPayment");
-const putPayment = require("../controllers/payment/putPayment");
-const deletePaymentHandler = require("../Handlers/deletePaymentHandler");
-
+const getPaymentsHandler = require("../Handlers/payment/getPaymentsHandler");
+const putPaymentHandler = require("../Handlers/payment/putPaymentHandler");
+const deletePaymentHandler = require("../Handlers/payment/deletePaymentHandler");
+const postPaymentHandler = require("../Handlers/payment/postPaymentHandler");
 // Sedes:
-const getBranchHandler = require("../Handlers/getBranchHandler");
-const postBranch = require("../controllers/branch/postBranch");
-const putBranch = require("../controllers/branch/putBranch");
-const deleteBranchHandler = require("../Handlers/deleteBranchHandler");
+const getBranchHandler = require("../Handlers/branch/getBranchHandler");
+const postBranchHandler = require("../Handlers/branch/postBranchHandler");
+const putBranchHandler = require("../Handlers/branch/putBranchHandler");
+const deleteBranchHandler = require("../Handlers/branch/deleteBranchHandler");
 
 //! Rutas
 // GET:
@@ -37,15 +36,16 @@ router.get("/payments", getPaymentsHandler); // obtiene y devuelve todos los med
 router.get("/branches", getBranchHandler); // obtiene y devuelve todas las sedes
 // POST:
 router.post("/newuser", postNewUser); //  crea un usuario
-router.post("/specialty", postSpecialty); //  crea una especialidad
-router.post("/payment", postPayment); //  crea un pago
-router.post("/branch", postBranch); // crea una sede
+router.post("/specialty", postSpecialtyHandler); //  crea una especialidad
+router.post("/payment", postPaymentHandler); //  crea un medio de pago
+router.post("/branch", postBranchHandler); // crea una sede
 router.post("/userdata", postUserLogin); // obtiene los datos de un usuario para el login, registra el token y devuelve sus datos asociados
+router.post("/logoutuser", postUserLogout); // logout de usuario, borra el token registrado
 // PUT:
 router.put("/userdata/:id", putUser); //  edita un usuario
-router.put("/specialty/:id", putSpeciality); //  edita una especialidad
-router.put("/payment/:id", putPayment); //  edita un pago
-router.put("/branch/:id", putBranch); // edita una sede
+router.put("/specialty/:id", putSpecialtyHandler); //  edita una especialidad
+router.put("/payment/:id", putPaymentHandler); //  edita un pago
+router.put("/branch/:id", putBranchHandler); // edita una sede
 // DELETE:
 router.delete("/userdata/:id", deleteUserHandler); //  elimina un usuario
 router.delete("/specialty/:id", deleteSpecialtyHandler); //  elimina una especialidad

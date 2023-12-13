@@ -1,4 +1,5 @@
 //! Unico lugar donde obtengo las variables de entorno. Ya cambié el apiKey porque consumí los del mes.
+
 require("dotenv").config();
 
 const DB_USER = process.env.DB_USER || "postgres";

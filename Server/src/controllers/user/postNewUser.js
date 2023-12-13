@@ -7,24 +7,24 @@ const { Op } = require('sequelize');
 const postNewUser = async (req, res) => {
     const { userName, name, lastName, role, notificationEmail, phone1, phone2, image, comission, branch, specialty } = req.body;
     const { token } = req.query;
-    showLog(`postNewUser`);
+    showLog(`postNewUser (tkn ${token})`);
     let transaction; // manejo transacciones para evitar registros defectuosos por relaciones mal solicitadas
     try {
-        if (!userName || !name || !lastName || !role || !notificationEmail || !phone1 || !image || !comission || !branch || !specialty) { throw Error("Data missing"); }
+        if (!userName || !name || !lastName || !role || !notificationEmail || !phone1 || !image || !comission || !branch || !specialty) { throw Error("Faltan datos"); }
         // Verifico token. Sólo un superAdmin puede agregar:
-        // if (!token) { throw Error("Token required"); }
-        // const checked = await checkToken(token);
-        // if (!checked.exist || checked.role !== "superAdmin") {
-        //     showLog(`Wrong token.`);
-        //     return res.status(401).send(`Unauthorized.`);
-        // }
+        if (!token) { throw Error("Se requiere token"); }
+        const checked = await checkToken(token);
+        if (!checked.exist || checked.role !== "superAdmin") {
+            showLog(`Wrong token.`);
+            return res.status(401).send(`Sin permiso.`);
+        }
         const nameLowercase = userName.toLowerCase();
         const existingUser = await User.findOne({
             where: { userName: { [Op.iLike]: nameLowercase } },
         });
         if (existingUser) {
             showLog(`postNewUser: the user ${userName} already exists`);
-            return res.status(409).send(`The user ${userName} already exists.`);
+            return res.status(409).send(`The user ${userName} ya existe.`);
         }
         // Inicio la transacción:
         transaction = await conn.transaction();

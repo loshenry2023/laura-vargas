@@ -1,7 +1,6 @@
 // ! Obtiene registros.
+
 const showLog = require("../functions/showLog");
-const checkToken = require('../functions/checkToken');
-const { FIRST_SUPERADMIN } = require("../functions/paramsEnv");
 
 const getReg = async (
     tableName, tableNameText,

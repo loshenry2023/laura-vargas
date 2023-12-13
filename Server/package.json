@@ -1,7 +1,7 @@
 {
-  "name": "pi-video-games-backend",
+  "name": "laura-vargas-backend",
   "version": "1.0.0",
-  "description": "PI Video games backend",
+  "description": "Laura Vargas backend",
   "main": "index.js",
   "directories": {
     "test": "test"

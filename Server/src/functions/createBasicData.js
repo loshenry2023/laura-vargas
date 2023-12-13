@@ -106,7 +106,7 @@ async function createBasicData() {
     }
   } catch (error) {
     showLog(`Error creating basic data: ${error}`);
-    throw error;
+    throw Error("Error creando datos básicos: " + error);
   }
 }
 
