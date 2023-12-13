@@ -45,7 +45,7 @@ module.exports = (sequelize) => {
       allowNull: true,
     },
     role: {
-      type: DataTypes.ENUM("superAdmin", "admin", "user"), //validar que no se borre 1 superadmin(los henry)!
+      type: DataTypes.ENUM("superAdmin", "admin", "especialista"),
     },
     deletedAt: {
       type: DataTypes.DATE,
