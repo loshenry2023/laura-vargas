@@ -18,6 +18,7 @@ const putReg = async (tableName, tableNameText, data, id, conn = "") => {
                 resp = await editRegUser(tableName, data, id, conn);
                 break;
             default:
+                throw new Error("Tabla no válida");
         }
         return { "created": "ok" };
     } catch (err) {
@@ -40,7 +41,7 @@ async function editRegUser(User, data, id, conn) {
         existingUser.lastName = lastName;
         existingUser.notificationEmail = notificationEmail;
         existingUser.phoneNumber1 = phone1;
-        existingUser.phoneNumber2 ? phone2 : "";
+        existingUser.phoneNumber2 = phone2 || null;
         existingUser.image = image;
         existingUser.comission = comission;
         if (existingUser.userName !== FIRST_SUPERADMIN) {

@@ -23,6 +23,8 @@ const getReg = async (
                 });
                 break;
             default:
+                throw new Error("Tabla no válida");
+
         }
         return reg;
     } catch (err) {
