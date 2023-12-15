@@ -1,144 +1,132 @@
-// import axios from 'axios';
-// // constantes que previenen errores de tipeo (action -> reducer):
-// export const GET_VIDEOGAMES = 'GET_VIDEOGAMES';
-// export const GET_GENRES = 'GET_GENRES'
-// export const GET_PLATFORMS = 'GET_PLATFORMS'
-// export const FILTER_ORIGIN_CREATE = 'FILTER_ORIGIN_CREATE'
-// export const FILTER_BY_GENRE = 'FILTER_BY_GENRE'
-// export const ORDER_BY_RATING = 'ORDER_BY_RATING'
-// export const ORDER_BY_AZ = 'ORDER_BY_AZ'
-// export const RESET_ALL = 'RESET_ALL'
-// export const SET_CURR_PAGE = 'SET_CURR_PAGE'
-// export const POST_GAME = 'POST_GAME'
-// export const PAG_PENDING = 'PAG_PENDING'
-// export const SET_LISTO_MOSTRAR = 'SET_LISTO_MOSTRAR'
-// export const SET_ERROR_MSG = 'SET_ERROR_MSG';
-// export const FILTER_BY_NAME = 'FILTER_BY_NAME';
-// export const CLEAR_FILTER_BY_NAME = 'CLEAR_FILTER_BY_NAME';
-// export const RESET_FILTER_ORDER = 'RESET_FILTER_ORDER';
-// export const REMOVE_CARD = 'REMOVE_CARD';
-// export const EDIT_GAME = 'EDIT_GAME';
-// export const RESET_ORDER = 'RESET_ORDER';
-// // Variables de entorno:
-// import getParamsEnv from "../functions/getParamsEnv.js";
-// const { VG_REMOVE } = getParamsEnv();
+import {
+  GET_USER,
+  GET_USERS,
+  GET_USER_ID,
+  GET_BRANCHES,
+  GET_SPECIALTIES,
+  ERROR,
+  DELETE_USER,
+  SET_ICON
+} from "./actionsTypes";
+import axios from "axios";
 
-// export function editVideogame(payload) {
-//     return {
-//         type: EDIT_GAME, payload,
-//     }
-// }
+export const getUser = (userData) => {
+  return {
+    type: GET_USER,
+    payload: userData,
+  };
+};
 
-// export function getGenres(payload) {
-//     return {
-//         type: GET_GENRES, payload,
-//     }
-// }
+export const getBranches = (token) => {
+  return async function (dispatch) {
+    try {
+      const response = await axios.post(
+        "http://localhost:3001/laura-vargas/branches", token
+      );
+      return dispatch({
+        type: GET_BRANCHES,
+        payload: response.data,
+      });
+    } catch (error) {
+      throw Error(error.message);
+    }
+  };
+};
 
-// export function getPlatforms(payload) {
-//     return {
-//         type: GET_PLATFORMS, payload,
-//     }
-// }
+export const getSpecialties = (token) => {
+  return async function (dispatch) {
+    try {
+      const response = await axios.post(
+        "http://localhost:3001/laura-vargas/specialties", token
+      );
+      return dispatch({
+        type: GET_SPECIALTIES,
+        payload: response.data,
+      });
+    } catch (error) {
+      throw Error(error.message);
+    }
+  };
+};
 
-// export function getVideogames(payload) {
-//     return {
-//         type: GET_VIDEOGAMES, payload,
-//     }
-// }
+export const getUsers = (
+  nameOrLastName,
+  attribute,
+  order,
+  page,
+  size,
+  branch,
+  specialty,
+  role,
+  createDateEnd,
+  createDateStart,
+  token
+) => {
+  const endPoint = "http://localhost:3001/laura-vargas/users?";
+  return async function (dispatch) {
+    try {
+      const { data } = await axios.post(
+        `${endPoint}nameOrLastName=${nameOrLastName}&attribute=${attribute}&order=${order}&page=${page}&size=${size}&branch=${branch}&specialty=${specialty}&role=${role}&createDateEnd=${createDateEnd}&createDateStart=${createDateStart}`, token
+      );
 
-// export function showError(payload) {
-//     return {
-//         type: SET_ERROR_MSG, payload,
-//     }
-// }
+      console.log("RESP: ", data);
 
-// export function postVidegame(payload) {
-//     return {
-//         type: POST_GAME, payload,
-//     }
-// }
+      const modifiedData = data.rows.map((user) => {
+        const { createdAt, ...rest } = user;
+        const createdAtInBogotaTimezone = new Date(createdAt).toLocaleString(
+          "en-US",
+          {
+            timeZone: "America/Bogota",
+          }
+        );
+        return { ...rest, createdAt: createdAtInBogotaTimezone };
+      });
 
-// export function removeCard(payload) {
-//     const endpoint = VG_REMOVE + "/" + payload;
-//     return async (dispatch) => {
-//         try {
-//             const { data } = await axios.delete(endpoint);
-//             return dispatch({
-//                 type: REMOVE_CARD,
-//                 payload: payload,
-//             });
-//         } catch (error) {
-//             return dispatch({
-//                 type: SET_ERROR_MSG,
-//                 payload: "Error removing card: " + error.message,
-//             });
-//         }
-//     };
-// }
+      return dispatch({
+        type: GET_USERS,
+        payload: modifiedData,
+        count: data.count,
+      });
+    } catch (error) {
+      throw Error(error.message);
+    }
+  };
+};
 
-// export function setListoMostrar() {
-//     return {
-//         type: SET_LISTO_MOSTRAR,
-//     }
-// }
+export const getUserId = (id, token) => {
+  return async function (dispatch) {
+    try {
+      const response = await axios.post(
+        `http://localhost:3001/laura-vargas/userdetails/${id}`, token
+      );
+      return dispatch({
+        type: GET_USER_ID,
+        payload: response.data,
+      });
+    } catch (error) {
+      throw Error(error.message);
+    }
+  };
+}
 
-// export function filterVideogamesByName(payload) {
-//     return {
-//         type: FILTER_BY_NAME, payload,
-//     }
-// }
+export const deleteUser = (id, token) => {
+  return async function (dispatch) {
+    try {
+      const response = await axios.post(
+        `http://localhost:3001/laura-vargas/deleteuserdata/${id}`, token
+      );
+      return dispatch({
+        type: DELETE_USER,
+        payload: response.data,
+        idDelete: id,
+      });
+    } catch (error) {
+      throw Error(error.message);
+    }
+  };
+};
 
-// export function clearFilterByName() {
-//     return {
-//         type: CLEAR_FILTER_BY_NAME,
-//     }
-// }
-
-// export function filterOriginData(payload) {
-//     return {
-//         type: FILTER_ORIGIN_CREATE, payload,
-//     }
-// }
-
-// export function filterVideogamesByGenre(payload) {
-//     return {
-//         type: FILTER_BY_GENRE, payload,
-//     }
-// }
-
-// export function orderByRating(payload) {
-//     return {
-//         type: ORDER_BY_RATING, payload,
-//     }
-// }
-
-// export function orderByAZ(payload) {
-//     return {
-//         type: ORDER_BY_AZ, payload,
-//     }
-// }
-
-// export function resetOrder() {
-//     return { type: RESET_ORDER }
-// }
-
-// export function resetFilterAndOrder() {
-//     return { type: RESET_FILTER_ORDER }
-// }
-
-// export function paginacionPendiente(payload) {
-//     return {
-//         type: PAG_PENDING, payload,
-//     }
-// }
-
-// export function resetAll() {
-//     return { type: RESET_ALL }
-// }
-
-// export function setCurrPage(payload) {
-//     return {
-//         type: SET_CURR_PAGE, payload,
-//     }
-// }
+export const setIcon = (iconName) => ({
+  type: SET_ICON,
+  payload: iconName,
+});

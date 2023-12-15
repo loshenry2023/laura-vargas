@@ -1,34 +1,53 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
-const TablaDatos = ({ datos }) => {
-    return (
-        <div className="max-w-4xl mx-auto bg-white p-8 rounded shadow overflow-x-auto">
-            <table className="min-w-full border-collapse border text-sm">
-                <thead>
-                    <tr>
-                        <th className="py-2 px-4 bg-secondaryPink text-black border">Nombre y Apellido</th>
-                        <th className="py-2 px-4 bg-secondaryPink text-black border">Correo</th>
-                        <th className="py-2 px-4 bg-secondaryPink text-black border">Especialidad</th>
-                        <th className="py-2 px-4 bg-secondaryPink text-black border">Rol</th>
-                        <th className="py-2 px-4 bg-secondaryPink text-black border">Sede</th>
-                        <th className="py-2 px-4 bg-secondaryPink text-black border">Comisión</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {datos.map((fila, index) => (
-                        <tr key={index}>
-                            <td className="py-2 px-4 border">{fila.name}</td>
-                            <td className="py-2 px-4 border">{fila.email}</td>
-                            <td className="py-2 px-4 border">{fila.speciality}</td>
-                            <td className="py-2 px-4 border">{fila.rol}</td>
-                            <td className="py-2 px-4 border">{fila.branch}</td>
-                            <td className="py-2 px-4 border">{fila.commission}</td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
-        </div>
-    );
-};
+const TablaDatos = () => {
+    const navigate = useNavigate();
+    const users = useSelector((state) => state?.users);
+    const count = useSelector((state) => state?.count);
 
+
+    if (users) {
+
+        console.log("Users ", users)
+        return (
+            <>
+                {count ? (<div className="rounded shadow w-full md:flex md:flex-col">
+                    <table className=" border-collapse bg-white text-sm w-full dark:shadow-lg dark:shadow-black">
+                        <thead>
+                            <tr className='border border-grey bg-secondaryPink text-black text-left dark:bg-darkPrimary dark:text-darkText dark:border-grey' >
+                                <th className="py-2 pr-4">Fecha de creación</th>
+                                <th className="py-2 pr-4">Nombre</th>
+                                <th className="py-2 pr-4">Apellido</th>
+                                <th className="py-2 pr-4">Correo</th>
+                                <th className="py-2 pr-4">Especialidad</th>
+                                <th className="py-2 pr-4">Rol</th>
+                                <th className="py-2 pr-4">Sede</th>
+                                <th className="py-2 pr-4">Comisión</th>
+                            </tr>
+                        </thead>
+                        <tbody className='border border-grey dark:bg-darkBackground dark:text-darkText dark:hover:border-black'>
+                            {users.map((fila, index) => (
+                                <tr props={fila} key={index} onClick={() => navigate(`/detail/${fila.id}`)} className='text-xs hover:bg-gray-200 cursor-pointer dark:hover:bg-gray-200 dark:hover:text-black'>
+                                    <td className="py-2 pr-4 ">{fila.createdAt}</td>
+                                    <td className="py-2 pr-4 ">{fila.name}</td>
+                                    <td className="py-2 pr-4 ">{fila.lastName}</td>
+                                    <td className="py-2 pr-4 ">{fila.userName}</td>
+                                    <td className="py-2 pr-4 ">{fila.Specialties.map((specialty) => specialty.specialtyName).join(', ')}</td>
+                                    <td className="py-2 pr-4 ">{fila.role}</td>
+                                    <td className="py-2 pr-4">{fila.Branches.map((branch) => branch.branchName).join(', ')}</td>
+                                    <td className="py-2 pr-4">{fila.comission}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>) : <h2 className="font-medium dark:text-darkText"> No hay coincidencias</h2>} </>
+        );
+    } else {
+        return (
+            <p>Loading...</p>
+        )
+    };
+}
 export default TablaDatos;

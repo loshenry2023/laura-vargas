@@ -3,15 +3,15 @@
 // ! - 6 métodos de pago,
 // ! - 5 especialidades,
 // ! - 1 usuario superAdmin.
-
 const { User, Branch, Payment, Specialty } = require("../DB_connection");
 const showLog = require("../functions/showLog");
+const { FIRST_SUPERADMIN } = require("../functions/paramsEnv");
 
 async function createBasicData() {
   try {
     // Hago una sola consulta que determina si es necesario agregar todos los datos básicos:
     const existingUsr = await User.findOne({
-      where: { userName: "loshenry2023@gmail.com" },
+      where: { userName: FIRST_SUPERADMIN },
     });
     if (!existingUsr) {
       showLog(`First run. Adding basic data...`);
@@ -20,13 +20,11 @@ async function createBasicData() {
           branchName: "Villavicencio",
           address: "Calle 26 b num 39-34, Villavicencio, Colombia",
           phoneNumber: "+573502142355",
-          active: "1",
         },
         {
           branchName: "Restrepo",
           address: "CC Balcones Plaza, Local L29C, Restrepo, Meta, Colombia",
           phoneNumber: "+573502142355",
-          active: "1",
         }
       ]
       let branchCrtd;
@@ -36,7 +34,6 @@ async function createBasicData() {
             branchName: branch.branchName,
             address: branch.address,
             phoneNumber: branch.phoneNumber,
-            active: branch.active,
           },
         });
         branchCrtd = branchCreated;
@@ -47,7 +44,6 @@ async function createBasicData() {
         const [paymentCreated, created] = await Payment.findOrCreate({
           where: {
             paymentMethodName: paymentList[i],
-            active: "1",
           },
         });
       }
@@ -58,7 +54,6 @@ async function createBasicData() {
         const [specialityCreated, created] = await Specialty.findOrCreate({
           where: {
             specialtyName: specialityList[i],
-            active: "1",
           },
         });
         specCrtd = specialityCreated;
@@ -66,30 +61,57 @@ async function createBasicData() {
       // Crear el usuario inicial:
       const [existingUserHenry, userCreated] = await User.findOrCreate({
         where: {
-          userName: "loshenry2023@gmail.com",
-          notificationEmail: "loshenry2023@gmail.com",
-          name: "Henry",
-          lastName: "2023",
+          userName: FIRST_SUPERADMIN,
+          notificationEmail: FIRST_SUPERADMIN,
+          name: "Usuario",
+          lastName: "Inicial",
           phoneNumber1: "111111111",
           image:
             "https://res.cloudinary.com/dvptbowso/image/upload/v1701979529/HenryPF/ses9qbgrnytwd9l1ovcu.png",
           comission: 0,
           role: "superAdmin",
-          active: "1",
         },
       });
       // Relación a sedes:
-      await existingUserHenry.setBranch(branchCrtd);
+      let brnchCreated = await Branch.findAll({
+        where: { branchName: "Restrepo" }
+      });
+      existingUserHenry.addBranch(brnchCreated)
       // Relación a especialidades:
       let specCreated = await Specialty.findAll({
         where: { specialtyName: "Administración" }
       });
       existingUserHenry.addSpecialty(specCreated)
+      // Crear un usuario secundario para pruebas de desarrollo. ESTE USUARIO SE DEBE ELIMINAR AL FINALIZAR EL DESARROLLO!!!!!:
+      const [existingUserHenrySec, userSecCreated] = await User.findOrCreate({
+        where: {
+          userName: "tomas.bombau@gmail.com",
+          notificationEmail: "tomas.bombau@gmail.com",
+          name: "Tomas",
+          lastName: "Bombau",
+          phoneNumber1: "55555555",
+          image:
+            "https://res.cloudinary.com/dvptbowso/image/upload/v1699463369/PI_Videogames/ImgNav_s1visa.png",
+          comission: 40,
+          role: "admin",
+        },
+      });
+      // Relación a sedes:
+      let brnchbCreated = await Branch.findAll({
+        where: { branchName: "Villavicencio" }
+      });
+      existingUserHenrySec.addBranch(brnchbCreated)
+      // Relación a especialidades:
+      let specSecCreated = await Specialty.findAll({
+        where: { specialtyName: "Administración" }
+      });
+      existingUserHenrySec.addSpecialty(specSecCreated)
+
       showLog(`Basic data created`);
     }
   } catch (error) {
     showLog(`Error creating basic data: ${error}`);
-    throw error;
+    throw Error("Error creando datos básicos: " + error);
   }
 }
 

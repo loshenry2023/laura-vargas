@@ -1,396 +1,96 @@
-// import {
-//     GET_VIDEOGAMES,
-//     GET_PLATFORMS,
-//     GET_GENRES,
-//     FILTER_BY_GENRE,
-//     FILTER_ORIGIN_CREATE,
-//     FILTER_BY_NAME,
-//     CLEAR_FILTER_BY_NAME,
-//     ORDER_BY_RATING,
-//     ORDER_BY_AZ,
-//     RESET_ALL,
-//     PAG_PENDING,
-//     SET_CURR_PAGE,
-//     POST_GAME,
-//     SET_LISTO_MOSTRAR,
-//     SET_ERROR_MSG,
-//     RESET_FILTER_ORDER,
-//     REMOVE_CARD,
-//     EDIT_GAME,
-//     RESET_ORDER
-// } from "./actions";
+import {
+  GET_USER,
+  GET_USERS,
+  GET_USER_ID,
+  GET_BRANCHES,
+  GET_SPECIALTIES,
+  ERROR,
+  DELETE_USER,
+  SET_ICON
+} from "./actionsTypes";
 
-// const initialState = {
-//     allVideogames: [], // están todos los videojuegos obtenidos desde el back
-//     videogames: [], // están los videojuegos que se muestran en pantalla luego de filtros y ordenamientos
-//     filteredVideogames: [], // resultados de búsquedas
-//     genres: [], // están todos los géneros obtenidos desde el back
-//     platforms: [], // están todas las plataformas obtenidos desde el back
-//     filters: { // es para que la lógica de los filtros respete las combinaciones previas
-//         genre: "All",
-//         create: "All",
-//         rating: "",
-//         azza: "",
-//         name: "",
-//     },
-//     dataLoaded: false, // flag para saber si tengo previamente cargados los videojuegos y géneros
-//     curPage: 1, // recuerdo el número de página para cuando regrese a la página
-//     listoMostrar: false, // flag para que home refresque registros mostrando reloj
-//     errors: '', // guardo los mensajes de error para mostrar en la pag.
-//     pagPending: false, // aviso a home para que no se equivoque con la paginación
-//     msgLoad: '', // indico en qué etapa de carga inicial está el programa
-// };
+const initialState = {
+  user: {},
+  userID: {},
+  users: [],
+  count: 0,
+  branches: [],
+  specialties: [],
+  error: null,
+  selectedIcon: null,
+};
 
-// const rootReducer = (state = initialState, { type, payload }) => {
-//     switch (type) {
-//         case EDIT_GAME:
-//             return {
-//                 ...state,
-//                 allVideogames: state.allVideogames.map((game) => {
-//                     if (game.id === payload.id) {
-//                         return payload;
-//                     }
-//                     return game;
-//                 }),
-//                 videogames: state.videogames.map((game) => {
-//                     if (game.id === payload.id) {
-//                         return payload;
-//                     }
-//                     return game;
-//                 }),
-//                 filteredVideogames: state.filteredVideogames.map((game) => {
-//                     if (game.id === payload.id) {
-//                         return payload;
-//                     }
-//                     return game;
-//                 }),
-//                 pagPending: false,
-//             };
-//         case POST_GAME:
-//             return {
-//                 ...state,
-//                 allVideogames: [...state.allVideogames, payload],
-//                 videogames: [...state.allVideogames, payload],
-//                 filteredVideogames: [...state.allVideogames, payload],
-//                 curPage: '1',
-//                 pagPending: false,
-//             };
-//         case REMOVE_CARD:
-//             return {
-//                 ...state,
-//                 allVideogames: state.allVideogames.filter(item => item.id !== payload),
-//                 videogames: state.videogames.filter(item => item.id !== payload),
-//                 filteredVideogames: state.filteredVideogames.filter(item => item.id !== payload),
-//             };
-//         case GET_VIDEOGAMES:
-//             return {
-//                 ...state,
-//                 allVideogames: payload,
-//                 videogames: payload,
-//                 filteredVideogames: payload,
-//                 listoMostrar: true,
-//                 dataLoaded: true,
-//                 msgLoad: "Videogames",
-//             };
-//         case GET_GENRES:
-//             return {
-//                 ...state,
-//                 genres: payload,
-//                 msgLoad: "Genres",
-//             };
-//         case GET_PLATFORMS:
-//             return {
-//                 ...state,
-//                 platforms: payload,
-//                 msgLoad: "Platforms",
-//             };
-//         case SET_ERROR_MSG:
-//             return {
-//                 ...state,
-//                 errors: payload,
-//             };
-//         case SET_LISTO_MOSTRAR:
-//             return {
-//                 ...state,
-//                 listoMostrar: false,
-//                 msgload: "Flagged",
-//             };
-//         case FILTER_BY_NAME:
-//             const filteredByName = state.allVideogames.filter((elem) => {
-//                 // Respeto el tipo de filtro de género existente:
-//                 const genreMatch =
-//                     (state.filters.genre === "All") ||
-//                     elem.Genres?.some((genre) => genre.name === state.filters.genre) ||
-//                     elem.Genres?.some((genre) => genre === state.filters.genre);
-//                 // Respeto el origin existente. True -> DB, False -> API:
-//                 const createMatch =
-//                     state.filters.create === "All" ||
-//                     (state.filters.create === "True" && elem.OriginDB) ||
-//                     (state.filters.create === "False" && !elem.OriginDB);
-//                 // Hago el filtro de nombre:
-//                 const NameMatch =
-//                     (state.filters.name === "") ||
-//                     (elem.name.toLowerCase().includes(payload.toLowerCase().trim()));
-//                 return NameMatch && genreMatch && createMatch; // va al filtro si cumple todas las condiciones
-//             });
-//             // Respeto el orden existente:
-//             let FilterAndOrderedName = '';
-//             if (state.filters.azza) {
-//                 FilterAndOrderedName = filteredByName.slice().sort((a, b) => {
-//                     if (state.filters.azza === "AZ") {
-//                         return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
-//                     } else if (state.filters.azza === "ZA") {
-//                         return b.name.toLowerCase().localeCompare(a.name.toLowerCase());
-//                     }
-//                     return 0;
-//                 });
-//             } else if (state.filters.rating) {
-//                 FilterAndOrderedName = filteredByName.slice().sort((a, b) => {
-//                     if (state.filters.rating === "Ascending") {
-//                         return a.rating - b.rating;
-//                     } else if (state.filters.rating === "Descending") {
-//                         return b.rating - a.rating;
-//                     }
-//                     return 0;
-//                 });
-//             } else {
-//                 FilterAndOrderedName = filteredByName;
-//             }
-//             return {
-//                 ...state,
-//                 videogames: FilterAndOrderedName,
-//                 filteredVideogames: FilterAndOrderedName,
-//                 curPage: '1',
-//                 // Establezco el filtro actual para recordar al combinar con otros a futuro:
-//                 filters: {
-//                     ...state.filters,
-//                     name: payload,
-//                 },
-//             };
-//         case CLEAR_FILTER_BY_NAME:
-//             const filtered = state.allVideogames.filter((elem) => {
-//                 // Respeto el tipo de filtro de género existente:
-//                 const genreMatch =
-//                     (state.filters.genre === "All") ||
-//                     elem.Genres?.some((genre) => genre.name === state.filters.genre) ||
-//                     elem.Genres?.some((genre) => genre === state.filters.genre);
-//                 // Respeto el origin existente. True -> DB, False -> API:
-//                 const createMatch =
-//                     state.filters.create === "All" ||
-//                     (state.filters.create === "True" && elem.OriginDB) ||
-//                     (state.filters.create === "False" && !elem.OriginDB);
-//                 return genreMatch && createMatch; // va al filtro si cumple ambas condiciones
-//             });
-//             // Respeto el orden existente:
-//             let FilterAndOrderedNameClear = '';
-//             if (state.filters.azza) {
-//                 FilterAndOrderedNameClear = filtered.slice().sort((a, b) => {
-//                     if (state.filters.azza === "AZ") {
-//                         return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
-//                     } else if (state.filters.azza === "ZA") {
-//                         return b.name.toLowerCase().localeCompare(a.name.toLowerCase());
-//                     }
-//                     return 0;
-//                 });
-//             } else if (state.filters.rating) {
-//                 FilterAndOrderedNameClear = filtered.slice().sort((a, b) => {
-//                     if (state.filters.rating === "Ascending") {
-//                         return a.rating - b.rating;
-//                     } else if (state.filters.rating === "Descending") {
-//                         return b.rating - a.rating;
-//                     }
-//                     return 0;
-//                 });
-//             } else {
-//                 FilterAndOrderedNameClear = filtered;
-//             }
-//             return {
-//                 ...state,
-//                 videogames: FilterAndOrderedNameClear,
-//                 filteredVideogames: FilterAndOrderedNameClear,
-//                 // Establezco el filtro actual para recordar al combinar con otros a futuro:
-//                 filters: {
-//                     ...state.filters,
-//                     name: "",
-//                 },
-//             };
-//         case FILTER_ORIGIN_CREATE:
-//             const filteredByOrigin = state.allVideogames.filter((elem) => {
-//                 // Respeto el tipo de filtro de género existente:
-//                 const genreMatch =
-//                     (state.filters.genre === "All") ||
-//                     elem.Genres?.some((genre) => genre.name === state.filters.genre) ||
-//                     elem.Genres?.some((genre) => genre === state.filters.genre);
-//                 // Respeto el filtro de nombre existente:
-//                 const NameMatch =
-//                     (state.filters.name === "") ||
-//                     (elem.name.toLowerCase().includes(state.filters.name.toLowerCase().trim()));
-//                 const createMatch =
-//                     payload === "All" ||
-//                     (payload === "True" && elem.OriginDB) ||
-//                     (payload === "False" && !elem.OriginDB);
-//                 return NameMatch && genreMatch && createMatch; // va al filtro si cumple todas las condiciones
-//             });
-//             // Respeto el orden existente:
-//             let FilterAndOrderedOrigin = '';
-//             if (state.filters.azza) {
-//                 FilterAndOrderedOrigin = filteredByOrigin.slice().sort((a, b) => {
-//                     if (state.filters.azza === "AZ") {
-//                         return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
-//                     } else if (state.filters.azza === "ZA") {
-//                         return b.name.toLowerCase().localeCompare(a.name.toLowerCase());
-//                     }
-//                     return 0;
-//                 });
-//             } else if (state.filters.rating) {
-//                 FilterAndOrderedOrigin = filteredByOrigin.slice().sort((a, b) => {
-//                     if (state.filters.rating === "Ascending") {
-//                         return a.rating - b.rating;
-//                     } else if (state.filters.rating === "Descending") {
-//                         return b.rating - a.rating;
-//                     }
-//                     return 0;
-//                 });
-//             } else {
-//                 FilterAndOrderedOrigin = filteredByOrigin;
-//             }
-//             return {
-//                 ...state,
-//                 videogames: FilterAndOrderedOrigin,
-//                 filteredVideogames: FilterAndOrderedOrigin,
-//                 // Establezco el filtro actual para recordar al combinar con otros a futuro:
-//                 filters: {
-//                     ...state.filters,
-//                     create: payload,
-//                 },
-//             };
-//         case FILTER_BY_GENRE:
-//             const filteredByGenre = state.allVideogames.filter((elem) => {
-//                 // Respeto el origin existente. True -> DB, False -> API:
-//                 const createMatch =
-//                     state.filters.create === "All" ||
-//                     (state.filters.create === "True" && elem.OriginDB) ||
-//                     (state.filters.create === "False" && !elem.OriginDB);
-//                 // Respeto el filtro de nombre existente:
-//                 const NameMatch =
-//                     (state.filters.name === "") ||
-//                     (elem.name.toLowerCase().includes(state.filters.name.toLowerCase().trim()));
-//                 const genreMatch =
-//                     (payload === "All") ||
-//                     elem.Genres?.some((genre) => genre.name === payload) ||
-//                     elem.Genres?.some((genre) => genre === payload);
-//                 return NameMatch && genreMatch && createMatch; // va al filtro si cumple todas las condiciones
-//             });
-//             // Respeto el orden existente:
-//             let FilterAndOrderedGenre = '';
-//             if (state.filters.azza) {
-//                 FilterAndOrderedGenre = filteredByGenre.slice().sort((a, b) => {
-//                     if (state.filters.azza === "AZ") {
-//                         return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
-//                     } else if (state.filters.azza === "ZA") {
-//                         return b.name.toLowerCase().localeCompare(a.name.toLowerCase());
-//                     }
-//                     return 0;
-//                 });
-//             } else if (state.filters.rating) {
-//                 FilterAndOrderedGenre = filteredByGenre.slice().sort((a, b) => {
-//                     if (state.filters.rating === "Ascending") {
-//                         return a.rating - b.rating;
-//                     } else if (state.filters.rating === "Descending") {
-//                         return b.rating - a.rating;
-//                     }
-//                     return 0;
-//                 });
-//             } else {
-//                 FilterAndOrderedGenre = filteredByGenre;
-//             }
-//             return {
-//                 ...state,
-//                 videogames: FilterAndOrderedGenre,
-//                 filteredVideogames: FilterAndOrderedGenre,
-//                 // Establezco el filtro actual para recordar al combinar con otros a futuro:
-//                 filters: {
-//                     ...state.filters,
-//                     genre: payload,
-//                 },
-//             };
-//         case ORDER_BY_RATING:
-//             const orderedByRating = state.filteredVideogames.slice().sort((a, b) => {
-//                 if (payload === "Ascending") {
-//                     return a.rating - b.rating;
-//                 } else if (payload === "Descending") {
-//                     return b.rating - a.rating;
-//                 }
-//                 return 0; // devuelvo cero si no hay cambios en el orden.
-//             });
-//             return {
-//                 ...state,
-//                 videogames: orderedByRating,
-//                 // Establezco el criterio actual para recordar al combinar con otros a futuro:
-//                 filters: {
-//                     ...state.filters,
-//                     rating: payload,
-//                 },
-//             };
-//         case ORDER_BY_AZ:
-//             const orderedByAZ = state.filteredVideogames.slice().sort((a, b) => {
-//                 if (payload === "AZ") {
-//                     return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
-//                 } else if (payload === "ZA") {
-//                     return b.name.toLowerCase().localeCompare(a.name.toLowerCase());
-//                 }
-//                 return 0;
-//             });
-//             return {
-//                 ...state,
-//                 videogames: orderedByAZ,
-//                 // Establezco el criterio actual para recordar al combinar con otros a futuro:
-//                 filters: {
-//                     ...state.filters,
-//                     azza: payload,
-//                 },
-//             };
-//         case RESET_ORDER:
-//             return {
-//                 ...state,
-//                 filters: {
-//                     ...state.filters,
-//                     rating: "",
-//                     azza: "",
-//                 },
-//             };
-//         case RESET_FILTER_ORDER:
-//             return {
-//                 ...state,
-//                 videogames: state.allVideogames,
-//                 filteredVideogames: state.allVideogames,
-//                 curPage: '1',
-//                 pagPending: false,
-//                 filters: {
-//                     ...state.filters,
-//                     genre: "All",
-//                     create: "All",
-//                     rating: "",
-//                     azza: "",
-//                     name: "",
-//                 },
-//             };
-//         case SET_CURR_PAGE:
-//             return {
-//                 ...state,
-//                 curPage: payload,
-//             };
-//         case PAG_PENDING:
-//             // Avisa a home que debe establecer la página
-//             return {
-//                 ...state,
-//                 pagPending: payload,
-//             }
-//         case RESET_ALL:
-//             return initialState;
-//         default:
-//             return { ...state };
-//     }
-// };
+const rootReducer = (state = initialState, { type, payload, count, error, idDelete }) => {
+  switch (type) {
+    case GET_USER:
+      const getUserState = {
+        ...state,
+        user: payload,
+      };
+      localStorage.setItem('myAppReduxState', JSON.stringify(getUserState));
+      return getUserState;
 
-// export default rootReducer;
+    case GET_USERS:
+      const getUsersState = {
+        ...state,
+        users: payload,
+        count: count,
+      };
+      localStorage.setItem('myAppReduxState', JSON.stringify(getUsersState));
+      return getUsersState;
+
+    case GET_USER_ID:
+      const getUserIDState = {
+        ...state,
+        userID: { ...payload },
+      };
+      localStorage.setItem('myAppReduxState', JSON.stringify(getUserIDState));
+      return getUserIDState;
+
+    case DELETE_USER:
+      const copy = state.users.filter(user => user.uid !== idDelete);
+      const deleteUserState = {
+        ...state,
+        users: [...copy],
+      };
+      localStorage.setItem('myAppReduxState', JSON.stringify(deleteUserState));
+      return deleteUserState;
+
+    case GET_BRANCHES:
+      const getBranchesState = {
+        ...state,
+        branches: [...payload],
+      };
+      localStorage.setItem('myAppReduxState', JSON.stringify(getBranchesState));
+      return getBranchesState;
+
+    case GET_SPECIALTIES:
+      const getSpecialtiesState = {
+        ...state,
+        specialties: [...payload],
+      };
+      localStorage.setItem('myAppReduxState', JSON.stringify(getSpecialtiesState));
+      return getSpecialtiesState;
+
+    case ERROR:
+      const errorState = {
+        ...state,
+        users: payload,
+        count: count,
+        error: error,
+      };
+      localStorage.setItem('myAppReduxState', JSON.stringify(errorState));
+      return errorState;
+    case SET_ICON:
+      const setIconState = {
+        ...state,
+        selectedIcon: payload,
+      };
+      localStorage.setItem('YOUR_APP_NAME', JSON.stringify(setIconState));
+      return setIconState;
+    default:
+      return state;
+  }
+};
+
+export default rootReducer;
