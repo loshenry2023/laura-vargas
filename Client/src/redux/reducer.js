@@ -7,7 +7,8 @@ import {
   ERROR,
   DELETE_USER,
   SET_ICON,
-  USER_LOGOUT
+  USER_LOGOUT,
+  CLEAR_USERID
 } from "./actionsTypes";
 
 const initialState = {
@@ -47,6 +48,13 @@ const rootReducer = (state = initialState, { type, payload, count, error, idDele
       };
       localStorage.setItem('myAppReduxState', JSON.stringify(getUserIDState));
       return getUserIDState;
+    case  CLEAR_USERID:
+      const clearUserId = {
+        ...state,
+        userID: payload
+      }
+      localStorage.setItem('myAppReduxState', JSON.stringify(clearUserId));
+      return clearUserId;
 
     case DELETE_USER:
       const copy = state.users.filter(user => user.uid !== idDelete);
@@ -94,6 +102,7 @@ const rootReducer = (state = initialState, { type, payload, count, error, idDele
         initialState
       }
       localStorage.removeItem('myAppReduxState');
+    
     default:
       return state;
   }

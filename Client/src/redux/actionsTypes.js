@@ -8,5 +8,6 @@ export const ERROR = "ERROR";
 export const DELETE_USER = "DELETE_USER"
 export const SET_ICON = "SET_ICON"
 export const USER_LOGOUT = "USER_LOGOUT"
+export const CLEAR_USERID = "CLEAR_USERID"
 
 
