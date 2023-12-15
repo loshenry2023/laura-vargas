@@ -9,8 +9,8 @@ const deleteReg = async (tableName, id, tableNameText) => {
         if (!regToDelete) { throw Error("Registro no encontrado"); }
         if (tableNameText === "User") {
             if (regToDelete.userName === FIRST_SUPERADMIN) { throw Error("Sin permiso"); }
-            // Elimino la relación con sede:
-            await regToDelete.setBranch(null);
+            // Elimino la relación con sedes:
+            await regToDelete.removeBranches();
             // Elimino la relación con especialidades:
             await regToDelete.removeSpecialties();
         }

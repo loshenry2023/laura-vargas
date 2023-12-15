@@ -16,6 +16,7 @@ const getAllUsers = async (
   createDateEnd = "",
   createDateStart = ""
 ) => {
+  // ! Recordatorio para verificar en el código: un usuario puede estar en más de una sede. Hice cambios a testear (Paulo)
   try {
     const { count, rows } = await User.findAndCountAll({
       include: [
@@ -29,8 +30,16 @@ const getAllUsers = async (
         {
           model: Branch,
           where: { branchName: { [Op.iLike]: `%${branch}%` } },
+          as: "Branches",
+          through: { attributes: [] },
           attributes: ["id", "branchName"],
         },
+        // Esta relación ya es obsoleta porque ahora es a muchos:
+        // {
+        //   model: Branch,
+        //   where: { branchName: { [Op.iLike]: `%${branch}%` } },
+        //   attributes: ["id", "branchName"],
+        // },
       ],
       distinct: true,
       attributes: ["id", "name", "lastName", "userName", "role", "createdAt", "comission"],
@@ -40,7 +49,7 @@ const getAllUsers = async (
           { name: { [Op.iLike]: `%${nameOrLastName}%` } },
           { lastName: { [Op.iLike]: `%${nameOrLastName}%` } },
         ],
-        role: role ? role : [`user`, `superAdmin`, `admin`],
+        role: role ? role : [`especialista`, `superAdmin`, `admin`],
 
         createdAt: {
           //para la fecha de creación

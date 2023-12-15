@@ -26,7 +26,9 @@ const getUserData = async (req, res) => {
                 },
                 {
                     model: Branch,
+                    as: 'Branches',
                     attributes: ['id', 'branchName'],
+                    through: { attributes: [] }
                 },
             ],
         });
@@ -40,7 +42,7 @@ const getUserData = async (req, res) => {
         const userData = {
             id: existingUser.id,
             userName: existingUser.userName,
-            branch: branchData,
+            branches: existingUser.Branches,
             name: existingUser.name,
             lastName: existingUser.lastName,
             role: existingUser.role,

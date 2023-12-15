@@ -25,27 +25,31 @@ const UserInfo = () => {
   const specialties = useSelector((state) => state?.specialties);
   const branches = useSelector((state) => state?.branches);
   const userID = useSelector((state) => state?.userID);
+  const user = useSelector((state) => state?.user);
+
+  const token = {token: user.token}
+  const tokenID = user.token
 
   useEffect(() => {
-    dispatch(getUserId(detailId));
+    dispatch(getUserId(detailId, token));
   }, [detailId]);
 
   const confirmDelete = (detailId) => {
     const response = confirm("¿Estás seguro que deseas eliminar el usuario?");
     if (response === true) {
-      dispatch(deleteUser(detailId));
+      dispatch(deleteUser(detailId, token));
       navigate(USERPROFILES);
     }
   };
 
   const especialidades = userID?.specialties;
-  const sedes = userID?.branch;
+  const sedes = userID?.branches
 
   return (
     <>
       <div className="w-full flex justify-center items-center dark:bg-darkBackground">
         <div
-          className="mx-5 sm:mx-auto sm:w-3/5 lg:w-3/5 lg:grid lg:grid-cols-2 bg-white rounded-lg shadow-md shadow-grey dark:shadow-black dark:bg-darkPrimary"
+          className="container mx-5 sm:mx-auto sm:w-3/5 lg:w-3/5 lg:grid lg:grid-cols-2 bg-white rounded-lg shadow-md shadow-grey dark:shadow-black dark:bg-darkPrimary"
         >
           <div className="h-full">
             <img className="rounded-xl border-2 w-full border-grey object-cover sm:h-96" src={userID?.image} />
@@ -59,40 +63,46 @@ const UserInfo = () => {
                 Perfil de {userID?.name} {userID?.lastName}
               </h2>
             </div>
-            <h3 className="text-lg leading-tight sm:truncate dark:text-darkText">
-              Usuario: <span className="text-md font-light">{userID?.userName}</span>
+            <h3 className="text-lg font-medium leading-tight sm:truncate dark:text-darkText">
+              Usuario: <span className="text-md tracking-wide font-light">{userID?.userName}</span>
             </h3>
-            <h3 className="flex text-lg leading-tight sm:truncate dark:text-darkText">
-              Rol: <span className="text-md font-light"> {userID?.role}</span>
+            <h3 className="flex text-lg font-medium leading-tight sm:truncate dark:text-darkText">
+              Rol: <span className="pl-1 text-md tracking-wide font-light sm:truncate"> {userID?.role}</span>
             </h3>
-            <h3 className="text-lg leading-tight sm:truncate dark:text-darkText">
+            <h3 className="text-lg leading-tight font-medium sm:truncate dark:text-darkText">
               Teléfono:{" "}
-              <span className="text-md font-light sm:truncate dark:text-darkText">{userID?.phone1}</span>
+              <span className="text-md tracking-wide font-light sm:truncate dark:text-darkText">{userID?.phone1}</span>
             </h3>
-            <h3 className="text-lg leading-tight sm:truncate dark:text-darkText">
+            <h3 className="text-lg leading-tight font-medium sm:truncate dark:text-darkText">
               Email:{" "}
-              <span className="text-md font-light sm:truncate dark:text-darkText">
+              <span className="text-md tracking-wide font-light sm:truncate dark:text-darkText">
                 {" "}
                 {userID?.notificationEmail}{" "}
               </span>
             </h3>
-            <h3 className="text-lg leading-tight dark:text-darkText">
-              Comisión: <span className="text-md font-light">{userID?.comission}%</span>
+            <h3 className="text-lg leading-tight font-medium sm:truncate dark:text-darkText">
+              Comisión: <span className="text-md tracking-wide font-light sm:truncate">{userID?.comission}%</span>
             </h3>
-              <h3 className="text-lg leading-tight sm:text-base lg:text-lg dark:text-darkText">
+              <h3 className="text-lg leading-tight font-medium sm:text-base lg:text-lg dark:text-darkText">
                 Especialidades:
                 {especialidades &&
                   especialidades.map((specialt, index) => (
-                    <span className="text-md font-light" key={index}>
+                    <span className="text-md tracking-wide font-light" key={index}>
                       {" "}
                       {specialt.specialtyName}
                     </span>
                   ))}
               </h3>
-            <h3 className="text-lg leading-tight sm:truncate dark:text-darkText">
+            <h3 className="text-lg leading-tight font-medium sm:truncate dark:text-darkText">
               Sede:{" "}
-              <span className="text-md font-light sm:truncate dark:text-darkText">
-                {sedes.branchName}
+              <span className="text-md tracking-wide font-light sm:truncate dark:text-darkText">
+              {sedes &&
+                  sedes.map((sede, index) => (
+                    <span className="text-md tracking-wide font-light sm:truncate" key={index}>
+                      {" "}
+                      {sede.branchName}
+                    </span>
+                  ))}
               </span>
             </h3>
             <div className="flex gap-5">
@@ -108,6 +118,7 @@ const UserInfo = () => {
         specialties={specialties}
         branches={branches}
         userId={userID}
+        tokenID={tokenID}
       />
     ) : null}
 

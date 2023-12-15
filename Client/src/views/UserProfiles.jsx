@@ -30,6 +30,9 @@ function UserProfiles() {
   const branches = useSelector((state) => state?.branches);
   const specialties = useSelector((state) => state?.specialties);
   const count = useSelector((state) => state?.count);
+  const user = useSelector((state) => state?.user);
+  const token = {token: user.token}
+  const tokenID = token.token
 
   useEffect(() => {
     dispatch(
@@ -43,11 +46,12 @@ function UserProfiles() {
         specialty,
         role,
         createDateEnd,
-        createDateStart
+        createDateStart,
+        token
       )
     );
-    dispatch(getBranches());
-    dispatch(getSpecialties());
+    dispatch(getBranches(token));
+    dispatch(getSpecialties(token));
   }, [
     nameOrLastName,
     attribute,
@@ -73,7 +77,7 @@ function UserProfiles() {
       <div className="flex flex-row dark:bg-darkBackground">
         <SideBar />
         <div className="flex flex-col flex-wrap gap-4 items-center h-[calc(100vh-150px)] mt-10 m-auto">
-          <h1 className="text-xl dark:text-beige">Perfiles</h1>
+          <h1 className="text-xl dark:text-beige">Plantilla de empleados</h1>
           <section className="flex flex-col gap-2 mx-auto sm:flex sm:flex-row sm:gap-5 sm:w-full">
             <div className="flex flex-col gap-6 md:flex-row">
               <div className="flex gap-2">
@@ -110,7 +114,7 @@ function UserProfiles() {
                 }}
                 type="text"
                 placeholder="Buscar por nombre..."
-                className="w-full border border-black focus:outline-none focus:ring-1 focus:ring-grey px-1 text-sm dark:bg-darkPrimary dark:placeholder-darkText"
+                className="w-full border border-black focus:outline-none focus:ring-1 focus:ring-grey px-1 text-sm dark:bg-darkPrimary dark:placeholder-darkText dark:text-darkText"
               />
               <select
                 onChange={(e) => {
@@ -171,9 +175,9 @@ function UserProfiles() {
                 className=" w-full border border-black rounded-md text-xs dark:text-darkText dark:bg-darkPrimary"
               >
                 <option value=""> -- Seleccionar Rol --</option>
-                <option value="superAdmin">superAdmin</option>
-                <option value="admin">admin</option>
-                <option value="user">user</option>
+                <option value="superAdmin">Super Admin</option>
+                <option value="admin">Admin</option>
+                <option value="especialista">Especialista</option>
               </select>
               <div className="justify-self-end">
                 <IoPersonAddOutline
@@ -190,6 +194,7 @@ function UserProfiles() {
                 setShowResgisterFormModal={setShowResgisterFormModal}
                 specialties={specialties}
                 branches={branches}
+                tokenID={tokenID}
               />
             ) : null}
             <select

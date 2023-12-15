@@ -18,7 +18,7 @@ const postUserLogin = async (req, res) => {
                 },
                 {
                     model: Branch,
-                    attributes: ['id', 'branchName'],
+                    through: 'user_branch',
                 },
             ],
         });
@@ -29,14 +29,14 @@ const postUserLogin = async (req, res) => {
         // Actualizo el token:
         existingUser.token = idUser;
         await existingUser.save();
-        // Obtengo la sede relacionada:
-        const branchData = existingUser.Branch ? { id: existingUser.Branch.id, branchName: existingUser.Branch.branchName } : null;
+        // Obtengo las sedes relacionadas:
+        const userBranches = existingUser.Branches.map(branch => ({ id: branch.id, branchName: branch.branchName }));
         // Obtengo las especialidades relacionadas:
         const userSpecialties = existingUser.Specialties.map(specialty => ({ id: specialty.id, specialtyName: specialty.specialtyName }));
         const userData = {
             id: existingUser.id,
             userName: existingUser.userName,
-            branch: branchData,
+            branches: userBranches,
             name: existingUser.name,
             lastName: existingUser.lastName,
             role: existingUser.role,

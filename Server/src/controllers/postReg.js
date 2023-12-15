@@ -43,10 +43,10 @@ async function AddRegUser(User, data, conn) {
             where: { userName, notificationEmail, name, lastName, phoneNumber1: phone1, phoneNumber2: phone2, image, comission, token: "", role },
             transaction,
         });
-
-        showLog(role);
-        // Agrego relación con sede:
-        await UserCreated.setBranch(branch, { transaction });
+        // Busco las sedes para agregar las relaciones:
+        for (const brnch of branch) {
+            await UserCreated.addBranches(brnch, { transaction });
+        }
         // Busco las especialidades para agregar las relaciones:
         for (const spec of specialty) {
             await UserCreated.addSpecialties(spec, { transaction });

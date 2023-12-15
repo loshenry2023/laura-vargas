@@ -17,11 +17,11 @@ export const getUser = (userData) => {
   };
 };
 
-export const getBranches = () => {
+export const getBranches = (token) => {
   return async function (dispatch) {
     try {
-      const response = await axios.get(
-        "http://localhost:3001/laura-vargas/branches"
+      const response = await axios.post(
+        "http://localhost:3001/laura-vargas/branches", token
       );
       return dispatch({
         type: GET_BRANCHES,
@@ -33,11 +33,11 @@ export const getBranches = () => {
   };
 };
 
-export const getSpecialties = () => {
+export const getSpecialties = (token) => {
   return async function (dispatch) {
     try {
-      const response = await axios.get(
-        "http://localhost:3001/laura-vargas/specialties"
+      const response = await axios.post(
+        "http://localhost:3001/laura-vargas/specialties", token
       );
       return dispatch({
         type: GET_SPECIALTIES,
@@ -59,13 +59,14 @@ export const getUsers = (
   specialty,
   role,
   createDateEnd,
-  createDateStart
+  createDateStart,
+  token
 ) => {
   const endPoint = "http://localhost:3001/laura-vargas/users?";
   return async function (dispatch) {
     try {
-      const { data } = await axios.get(
-        `${endPoint}nameOrLastName=${nameOrLastName}&attribute=${attribute}&order=${order}&page=${page}&size=${size}&branch=${branch}&specialty=${specialty}&role=${role}&createDateEnd=${createDateEnd}&createDateStart=${createDateStart}`
+      const { data } = await axios.post(
+        `${endPoint}nameOrLastName=${nameOrLastName}&attribute=${attribute}&order=${order}&page=${page}&size=${size}&branch=${branch}&specialty=${specialty}&role=${role}&createDateEnd=${createDateEnd}&createDateStart=${createDateStart}`, token
       );
       const modifiedData = data.rows.map((user) => {
         const { createdAt, ...rest } = user;
@@ -89,11 +90,11 @@ export const getUsers = (
   };
 };
 
-export const getUserId = (id) => {
+export const getUserId = (id, token) => {
   return async function (dispatch) {
     try {
-      const response = await axios.get(
-        `http://localhost:3001/laura-vargas/userdata/${id}`
+      const response = await axios.post(
+        `http://localhost:3001/laura-vargas/userdetails/${id}`, token
       );
       return dispatch({
         type: GET_USER_ID,
@@ -105,11 +106,11 @@ export const getUserId = (id) => {
   };
 }
 
-export const deleteUser = (id) => {
+export const deleteUser = (id, token) => {
   return async function (dispatch) {
     try {
-      const response = await axios.delete(
-        `http://localhost:3001/laura-vargas/userdata/${id}`
+      const response = await axios.post(
+        `http://localhost:3001/laura-vargas/deleteuserdata/${id}`, token
       );
       return dispatch({
         type: DELETE_USER,

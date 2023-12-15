@@ -32,13 +32,13 @@ const TablaDatos = () => {
                             <td className="py-2 pr-4 ">{fila.userName}</td>
                             <td className="py-2 pr-4 ">{fila.Specialties.map((specialty) => specialty.specialtyName).join(', ')}</td>
                             <td className="py-2 pr-4 ">{fila.role}</td>   
-                            <td className="py-2 pr-4">{fila.Branch.branchName}</td>
+                            <td className="py-2 pr-4">{fila.Branches.map((branch) => branch.branchName).join(', ')}</td>
                             <td className="py-2 pr-4">{fila.comission}</td>
                         </tr>
                     ))}
                 </tbody>
             </table>
-        </div>) : <h2>No hay coincidencias</h2>} </>
+        </div>) : <h2 className="font-medium dark:text-darkText"> No hay coincidencias</h2>} </>
     );
 };
 
