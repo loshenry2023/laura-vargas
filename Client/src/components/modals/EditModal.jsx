@@ -4,6 +4,7 @@ import { IoClose } from 'react-icons/io5';
 import validateRegisterInput from '../../functions/registerFormValidations';
 import axios from 'axios';
 import { UploadWidget } from '../Uploadwidget';
+import { Toaster, toast } from 'react-hot-toast'
 
 
 import getParamsEnv from "./../../functions/getParamsEnv"
@@ -13,6 +14,20 @@ function EditModal({ setShowEditModal, branches, specialties, userId, tokenID })
     const navigate = useNavigate();
 
     const roles = ["superAdmin", "admin", "especialista"];
+
+    const [controlData, setControlData] = useState ({
+        name: userId.name,
+        lastName: userId.lastName,
+        userName: userId.userName,
+        phoneNumber1: userId.phone1,
+        phoneNumber2: userId.phone2 || "",
+        image: userId.image,
+        specialtyName: userId.specialties,
+        commission: userId.comission,
+        branch: userId.branches,
+        rol: userId.role,
+        notificationEmail: "notificationEmail@gmail.com"
+    })
 
     const [userData, setUserData] = useState({
         name: userId.name,
@@ -60,10 +75,12 @@ function EditModal({ setShowEditModal, branches, specialties, userId, tokenID })
                     [name]: updatedSpecialities,
                 };
             });
-        } else if(name === 'rol'){
-            if(userId.userName === 'loshenry2023@gmail.com'){
-                alert('Usted es el primer superAdmin. No puede cambiar su rol.')
-            } else{
+        } else if (name === 'rol') {
+            if (userId.userName === 'loshenry2023@gmail.com') {
+                toast.error('Usted es el primer superAdmin. No puede cambiar su rol.',{
+                    id: 'editModal',
+                  })
+            } else {
                 setUserData((prevInfo) => ({
                     ...prevInfo,
                     [name]: value,
@@ -114,27 +131,31 @@ function EditModal({ setShowEditModal, branches, specialties, userId, tokenID })
                 const response = await axios.put(`http://localhost:3001/laura-vargas/edituserdata/${userId.id}`, data);
 
                 if (response.data.updated === "ok") {
-                    closeModal();
-                    setUserData({
-                        name: "",
-                        lastName: "",
-                        userName: "",
-                        phoneNumber1: "",
-                        phoneNumber2: "",
-                        image: "https://www.shutterstock.com/image-vector/default-avatar-profile-icon-vector-260nw-2271804793.jpg",
-                        specialtyName: [],
-                        commission: "",
-                        branches: [],
-                        rol: "",
-                        notificationEmail: "notificationEmail@gmail.com"
-                    });
-                    window.alert("Usuario modificado correctamente");
-                    navigate(USERPROFILES);
+                    toast.success("Usuario Modificado exitosamente")
+                    setTimeout(() => {
+                        closeModal();
+                        setUserData(
+                            {
+                                name: "",
+                                lastName: "",
+                                userName: "",
+                                phoneNumber1: "",
+                                phoneNumber2: "",
+                                image: "https://www.shutterstock.com/image-vector/default-avatar-profile-icon-vector-260nw-2271804793.jpg",
+                                specialtyName: [],
+                                commission: "",
+                                branch: [],
+                                rol: "",
+                                notificationEmail: "notificationEmail@gmail.com"
+                            }
+                        );
+                        navigate(USERPROFILES);
+                    }, 3000);
+                    
                 } else {
-                    window.alert("Hubo un problema con la creación");
                 }
             } catch (error) {
-                window.alert(`Hubo un problema con la modificacion. ${error.response.data}`)
+                toast.error(`Hubo un problema con la modificacion. ${error.response.data}`)
             }
         }
     };
@@ -148,10 +169,11 @@ function EditModal({ setShowEditModal, branches, specialties, userId, tokenID })
                         <IoClose onClick={closeModal} className='cursor-pointer mt-2 w-5 h-5 dark:text-darkText' />
                         </div>
                         <form onSubmit={handleSubmit}>
-                            <div className="first-letter:grid grid-cols-1 mb-2">
+                        <div className="first-letter:grid grid-cols-1 mb-2">
+                                <label className='block mb-2 text-sm font-medium text-gray-900'>Cuenta de usuario (Email)</label>
                                 <input
                                     placeholder="Gmail Usuario"
-                                    className={`cursor-not-allowed border bg-gray-200 text-gray-500 border-black p-2 rounded w-full dark:bg-gray-900 dark:text-darkText dark:border-none dark:shadow dark:shadow-white ${errors.userName !== undefined && "border-red-500"}`}
+                                    className={`cursor-not-allowed border bg-gray-200 text-gray-500 border-black p-2 rounded w-full ${errors.userName !== undefined && "border-red-500"}`}
                                     onChange={handleChange}
                                     type="email"
                                     name="userName"
@@ -162,32 +184,35 @@ function EditModal({ setShowEditModal, branches, specialties, userId, tokenID })
                             </div>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-2">
                                 <div>
+                                    <label className='block mb-2 text-sm font-medium text-gray-900'>Nombre</label>
                                     <input
                                         onChange={handleChange}
                                         type="text"
                                         name="name"
                                         value={userData.name}
                                         placeholder="Nombre"
-                                        className={`border border-black p-2 rounded w-full dark:bg-darkPrimary dark:text-darkText dark:border-none dark:shadow dark:shadow-white ${errors.name !== undefined && "border-red-500"}`}
+                                        className={`border border-black p-2 rounded w-full ${errors.name !== undefined && "border-red-500"}`}
                                     />
                                     {errors.name !== "" && <p className="text-xs text-red-500">{errors.name}</p>}
                                 </div>
                                 <div>
+                                    <label className='block mb-2 text-sm font-medium text-gray-900'>Apellido</label>
                                     <input
                                         type="text"
                                         placeholder="Apellido"
+                                        className={`border border-black p-2 rounded w-full ${errors.lastName !== undefined && "border-red-500"}`}
                                         onChange={handleChange}
                                         name="lastName"
                                         value={userData.lastName}
-                                        className={`border border-black p-2 rounded w-full dark:bg-darkPrimary dark:text-darkText dark:border-none dark:shadow dark:shadow-white ${errors.lastName !== undefined && "border-red-500"}`}
                                     />
                                     {errors.lastName !== "" && <p className="text-xs text-red-500">{errors.lastName}</p>}
                                 </div>
                             </div>
                             <div className="first-letter:grid grid-cols-1 gap-4 mb-2">
+                                <label className='block mb-2 text-sm font-medium text-gray-900'>Email para notificaciones</label>
                                 <input
                                     placeholder="Email para notifiaciones"
-                                    className="border border-black p-2 rounded w-full dark:bg-darkPrimary dark:text-darkText dark:border-none dark:shadow dark:shadow-white"
+                                    className="border border-black p-2 rounded w-full"
                                     onChange={handleChange}
                                     type="email"
                                     name="notificationEmail"
@@ -197,47 +222,51 @@ function EditModal({ setShowEditModal, branches, specialties, userId, tokenID })
                             </div>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-2">
                                 <div>
+                                    <label className='block mb-2 text-sm font-medium text-gray-900'>Telefono</label>
                                     <input
                                         placeholder="Telefono 1"
+                                        className={`border border-black p-2 rounded w-full ${errors.phoneNumber1 !== undefined && "border-red-500"}`}
                                         onChange={handleChange}
                                         type="text"
                                         name="phoneNumber1"
                                         value={userData.phoneNumber1}
-                                        className={`border border-black p-2 rounded w-full dark:bg-darkPrimary dark:text-darkText dark:border-none dark:shadow dark:shadow-white ${errors.phoneNumber1 !== undefined && "border-red-500"}`}
                                     />
                                     {errors.phoneNumber1 !== "" && <p className="text-xs text-red-500">{errors.phoneNumber1}</p>}
                                 </div>
                                 <div>
+                                    <label className='block mb-2 text-sm font-medium text-gray-900'>Telefono alternativo</label>
                                     <input
                                         onChange={handleChange}
                                         type="text"
                                         name="phoneNumber2"
                                         value={userData.phoneNumber2}
                                         placeholder="Telefono 2"
-                                        className={`border border-black p-2 rounded w-full dark:bg-darkPrimary dark:text-darkText dark:border-none dark:shadow dark:shadow-white ${errors.phoneNumber2 !== undefined && "border-red-500"}`}
+                                        className={`border border-black p-2 rounded w-full ${errors.phoneNumber2 !== undefined && "border-red-500"}`}
                                     />
                                     {errors.phoneNumber2 !== "" && <p className="text-xs text-red-500">{errors.phoneNumber2}</p>}
                                 </div>
                             </div>
                             <div className="grid grid-cols-2 gap-4 mb-2">
                                 <div>
+                                    <label className='block mb-2 text-sm font-medium text-gray-900'>% de comisión</label>
                                     <input
                                         onChange={handleChange}
                                         type="text"
                                         name="commission"
                                         value={userData.commission}
                                         placeholder="Comision"
-                                        className={`border border-black p-2 rounded w-full dark:bg-darkPrimary dark:opacity-100 dark:text-darkText dark:border-none dark:shadow dark:shadow-white ${errors.commission !== undefined && "border-red-500"}`}
+                                        className={`border border-black p-2 rounded w-full ${errors.commission !== undefined && "border-red-500"}`}
                                     />
                                     {errors.commission !== "" && <p className="text-xs text-red-500 ">{errors.commission}</p>}
                                 </div>
                                 <div>
+                                    <label className='block mb-2 text-sm font-medium text-gray-900'>Rol</label>
                                     <select
                                         onChange={handleChange}
                                         name="rol"
                                         value={userData.rol}
                                         placeholder='Seleccione un rol'
-                                        className={`bg-gray-50 border border-black text-black sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-darkPrimary dark:text-darkText dark:border-none dark:shadow dark:shadow-white ${errors.rol !== undefined && "border-red-500"}`}
+                                        className={`bg-gray-50 border border-black text-black sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 ${errors.rol !== undefined && "border-red-500"}`}
                                     >
                                         {roles.map((rol, index) => (
                                             <option key={index} value={rol}>

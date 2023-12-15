@@ -1,12 +1,14 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { getUsers } from '../redux/actions';
 
-const TablaDatos = () => {
+const TablaDatos = ({users, count}) => {
     const navigate = useNavigate();
-    const users = useSelector((state) => state?.users);
-    const count = useSelector((state) => state?.count);
 
+    useEffect(() => {
+        console.log(users)
+    })
 
     if (users) {
 

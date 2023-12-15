@@ -3,8 +3,9 @@ import { IoClose } from 'react-icons/io5';
 import validateRegisterInput from '../../functions/registerFormValidations'
 import axios from 'axios';
 import { UploadWidget } from '../Uploadwidget';
+import { Toaster, toast } from 'react-hot-toast'
 
-function RegisterForm({ setShowResgisterFormModal, branches, specialties, tokenID }) {
+function RegisterForm({ setShowResgisterFormModal, branches, specialties, tokenID, setActivarNuevoUsuario }) {
 
   const roles = ["superAdmin", "admin", "especialista"];
 
@@ -101,29 +102,36 @@ function RegisterForm({ setShowResgisterFormModal, branches, specialties, tokenI
         const response = await axios.post("http://localhost:3001/laura-vargas/newuser", data)
 
         if (response.data.created === "ok") {
-          closeModal()
-          setUserData(
-            {
-              name: "",
-              lastName: "",
-              userName: "",
-              phoneNumber1: "",
-              phoneNumber2: "",
-              image: "https://www.shutterstock.com/image-vector/default-avatar-profile-icon-vector-260nw-2271804793.jpg",
-              specialtyName: [],
-              commission: "",
-              branch: [],
-              rol: "",
-              notificationEmail: "notificationEmail@gmail.com"
-            }
-          )
-          window.alert("usuario creado exitosamente")
-          
+          toast.success("Usuario Creado exitosamente")
+          setActivarNuevoUsuario(true)
+          setTimeout(() => {
+            closeModal();
+            setUserData(
+              {
+                name: "",
+                lastName: "",
+                userName: "",
+                phoneNumber1: "",
+                phoneNumber2: "",
+                image: "https://www.shutterstock.com/image-vector/default-avatar-profile-icon-vector-260nw-2271804793.jpg",
+                specialtyName: [],
+                commission: "",
+                branch: [],
+                rol: "",
+                notificationEmail: "notificationEmail@gmail.com"
+              }
+            );
+           
+          }, 3000);
+
+          /*   window.alert("usuario creado exitosamente") */
         } else {
-          window.alert("Hubo un problema con la creacion")
+          toast.error("Hubo un problema con la creación")
+          /* window.alert("Hubo un problema con la creacion") */
         }
       } catch (error) {
-        window.alert(`Hubo un problema con la creacion. ${error.response.data}`)
+        toast.error(`Hubo un problema con la creacion. ${error.response.data}`)
+        /* window.alert(`Hubo un problema con la creacion. ${error.response.data}`) */
       }
 
     }
@@ -139,34 +147,38 @@ function RegisterForm({ setShowResgisterFormModal, branches, specialties, tokenI
             <IoClose onClick={closeModal} className='cursor-pointer mt-2 w-5 h-5 dark:text-darkText' />
           </div>
             <form onSubmit={handleSubmit}>
-              <div className="first-letter:grid grid-cols-1 mb-2">
+            <div className="first-letter:grid grid-cols-1 mb-2">
+                <label className='pl-1 text-sm font-bold'>Cuenta de usuario (Email)</label>
                 <input
-                  placeholder="Mail de usuario"
-                  className="border border-black p-2 rounded w-full dark:bg-darkPrimary dark:text-darkText dark:border-none dark:shadow dark:shadow-white"
+                  placeholder="Cuenta de usuario"
+                  className="border border-black p-2 rounded w-full"
                   onChange={handleChange}
                   type="email"
                   name="userName"
                   value={userData.userName}
                 />
-                {errors.userName !== "" && <p className="text-xs text-red-500 ">{errors.userName}</p>}
+                {errors.userName !== "" && <p className="text-xs text-red-500">{errors.userName}</p>}
               </div>
+              
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-2">
                 <div>
+                <label className='pl-1 text-sm font-bold'>Nombre</label>
                   <input
                     onChange={handleChange}
                     type="text"
                     name="name"
                     value={userData.name}
                     placeholder="Nombre"
-                    className="border border-black p-2 rounded w-full dark:bg-darkPrimary dark:text-darkText dark:border-none dark:shadow dark:shadow-white"
+                    class="border border-black p-2 rounded w-full"
                   />
                   {errors.name !== "" && <p className="text-xs text-red-500">{errors.name}</p>}
                 </div>
                 <div>
+                  <label className='pl-1 text-sm font-bold'>Apellido</label>
                   <input
                     type="text"
                     placeholder="Apellido"
-                    className="border border-black p-2 rounded w-full dark:bg-darkPrimary dark:text-darkText dark:border-none dark:shadow dark:shadow-white"
+                    className="border border-black p-2 rounded w-full"
                     onChange={handleChange}
                     name="lastName"
                     value={userData.lastName}
@@ -175,10 +187,11 @@ function RegisterForm({ setShowResgisterFormModal, branches, specialties, tokenI
                   {errors.lastName !== "" && <p className="text-xs text-red-500">{errors.lastName}</p>}
                 </div>
               </div>
+              <label className='pl-1 text-sm font-bold'>Email para notificaciones</label>
               <div className="first-letter:grid grid-cols-1 gap-4 mb-2">
                 <input
-                  placeholder="Email para notifiaciones"
-                  className="border border-black p-2 rounded w-full dark:bg-darkPrimary dark:text-darkText dark:border-none dark:shadow dark:shadow-white"
+                  placeholder="Email para notificaciones"
+                  className="border border-black p-2 rounded w-full"
                   onChange={handleChange}
                   type="email"
                   name="notificationEmail"
@@ -186,11 +199,13 @@ function RegisterForm({ setShowResgisterFormModal, branches, specialties, tokenI
                 />
                 {errors.notificationEmail !== "" && <p className="text-xs text-red-500">{errors.notificationEmail}</p>}
               </div>
+             
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-2">
                 <div>
+                <label className='pl-1 text-sm font-bold'>Telefono</label>
                   <input
                     placeholder="Telefono 1"
-                    className="border border-black p-2 rounded w-full dark:bg-darkPrimary dark:text-darkText dark:border-none dark:shadow dark:shadow-white"
+                    className="border border-black p-2 rounded w-full"
                     onChange={handleChange}
                     type="text"
                     name="phoneNumber1"
@@ -199,35 +214,38 @@ function RegisterForm({ setShowResgisterFormModal, branches, specialties, tokenI
                   {errors.phoneNumber1 !== "" && <p className="text-xs text-red-500">{errors.phoneNumber1}</p>}
                 </div>
                 <div>
+                  <label className='pl-1 text-sm font-bold'>Telefono alternativo</label>
                   <input
                     onChange={handleChange}
                     type="text"
                     name="phoneNumber2"
                     value={userData.phoneNumber2}
                     placeholder="Telefono 2"
-                    className="border border-black p-2 rounded w-full dark:bg-darkPrimary dark:text-darkText dark:border-none dark:shadow dark:shadow-white "
+                    class="border border-black p-2 rounded w-full"
                   />
                   {errors.phoneNumber2 !== "" && <p className="text-xs text-red-500">{errors.phoneNumber2}</p>}
                 </div>
               </div>
               <div className="grid grid-cols-2 gap-4 mb-2">
                 <div>
+                <label className='pl-1 text-sm font-bold'>% de Comisión</label>
                   <input
                     onChange={handleChange}
                     type="text"
                     name="commission"
                     value={userData.commission}
                     placeholder="Comision"
-                    className="border border-black p-2 rounded w-full dark:bg-darkPrimary dark:text-darkText dark:border-none dark:shadow dark:shadow-white"
+                    class="border border-black p-2 rounded w-full"
                   />
                   {errors.commission !== "" && <p className="text-xs text-red-500 ">{errors.commission}</p>}
                 </div>
                 <div>
+                  <label className='pl-1 text-sm font-bold'>Rol</label>
                   <select
                     onChange={handleChange}
                     name="rol"
                     value={userData.rol}
-                    className="bg-gray-50 border border-black text-black sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-darkPrimary dark:text-darkText dark:border-none dark:shadow dark:shadow-white"
+                    className={`bg-gray-50 border border-black text-black sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5`}
 
                   >
                     <option value="" disabled hidden>Selecciona un rol</option>
@@ -242,7 +260,7 @@ function RegisterForm({ setShowResgisterFormModal, branches, specialties, tokenI
               </div>
               <div className="grid grid-cols-2 md:grid-cols-2 gap-4">
                 <div className="mb-2">
-                  <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-darkText">Especialidades</label>
+                <label className='pl-1 text-sm font-bold'>Especialidad</label>
                   {specialties.map((specialty, index) => (
                     <div key={index} className="flex items-center">
                       <input
@@ -262,7 +280,7 @@ function RegisterForm({ setShowResgisterFormModal, branches, specialties, tokenI
                   {errors.specialtyName !== "" && <p className="text-xs text-red-500">{errors.specialtyName}</p>}
                 </div>
                 <div>
-                  <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-darkText">Sedes</label>
+                <label className='pl-1 text-sm font-bold'>Sede</label>
                     {branches.map((branch, index) => (
                       <div key={index} className="flex items-center">
                         <input
@@ -301,7 +319,49 @@ function RegisterForm({ setShowResgisterFormModal, branches, specialties, tokenI
           </div>
         </div>
       </div>
+      <Toaster
+        position="top-center"
+        reverseOrder={false}
+        gutter={8}
+        containerClassName=""
+        containerStyle={{
+          zIndex: 1000, // Puedes ajustar este valor según tus necesidades
+          // Otros estilos aquí
+        }}
+        toastOptions={{
+          // Define default options
+          className: '',
+          duration: 5000,
+          style: {
+            background: '#ffc8c8',
+            color: '#363636',
+          },
 
+          success: {
+            duration: 3000,
+            theme: {
+              primary: 'green',
+              secondary: 'black',
+            },
+            style: {
+              background: '#00A868',
+              color: '#FFFF',
+            }
+          },
+
+          error: {
+            duration: 2000,
+            theme: {
+              primary: 'pink',
+              secondary: 'black',
+            },
+            style: {
+              background: '#C43433',
+              color: '#fff',
+            }
+          },
+        }}
+      />
 
     </>
   );

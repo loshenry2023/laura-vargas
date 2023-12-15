@@ -114,7 +114,7 @@ export const deleteUser = (id, token) => {
   return async function (dispatch) {
     try {
       const response = await axios.post(
-        `http://localhost:3001/laura-vargas/deleteuserdata/${id}`, token
+        `http://localhost:3001/laura-vargas/deleteuserdata/${id}`, {token}
       );
       return dispatch({
         type: DELETE_USER,

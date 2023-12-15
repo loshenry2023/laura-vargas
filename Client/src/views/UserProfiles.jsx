@@ -1,16 +1,16 @@
-//hooks, reducer
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getBranches, getSpecialties, getUsers } from "../redux/actions";
+import "./loading.css"
 
 //icons
 import { IoPersonAddOutline } from "react-icons/io5";
 
-//components
 import RegisterForm from "../components/modals/RegisterForm";
 import NavBar from "../components/NavBar";
 import SideBar from "../components/SideBar";
 import ProfilesTable from "../components/ProfilesTable";
+import Loader from "../components/Loader";
 
 function UserProfiles() {
   const [showResgisterFormModal, setShowResgisterFormModal] = useState(false);
@@ -31,8 +31,13 @@ function UserProfiles() {
   const specialties = useSelector((state) => state?.specialties);
   const count = useSelector((state) => state?.count);
   const user = useSelector((state) => state?.user);
+  const users = useSelector((state) => state?.users);
   const token = { token: user.token }
   const tokenID = token.token
+
+  const [activarNuevoUsuario, setActivarNuevoUsuario] = useState(false)
+
+
 
   useEffect(() => {
     dispatch(
@@ -63,6 +68,7 @@ function UserProfiles() {
     role,
     createDateEnd,
     createDateStart,
+    activarNuevoUsuario
   ]);
 
   const handleShowProfilesModal = () => {
@@ -72,18 +78,13 @@ function UserProfiles() {
   const pagination = Math.ceil(count / size);
 
 
- 
-    return (
-      <>
-        <NavBar />
-        <div className="flex flex-row dark:bg-darkBackground">
-          <SideBar />
-
-          {user.role === "especialista" && 
-          <p>No tenes permiso</p>
-          }
-
-          {user.role !== "especialista" &&
+  return (
+    <>
+      <NavBar />
+      <div className="flex flex-row dark:bg-darkBackground">
+        <SideBar />
+        
+        {branches && specialties && count && user && users &&
           <div className="flex flex-col flex-wrap gap-4 items-center h-[calc(100vh-150px)] mt-10 m-auto">
             <h1 className="text-xl dark:text-beige">Plantilla de empleados</h1>
             <section className="flex flex-col gap-2 mx-auto sm:flex sm:flex-row sm:gap-5 sm:w-full">
@@ -196,13 +197,16 @@ function UserProfiles() {
               </div>
             </section>
             <section className="flex flex-col items-center gap-5 w-full">
-              <ProfilesTable />
+              <ProfilesTable
+                count={count}
+                users={users} />
               {showResgisterFormModal ? (
                 <RegisterForm
                   setShowResgisterFormModal={setShowResgisterFormModal}
                   specialties={specialties}
                   branches={branches}
                   tokenID={tokenID}
+                  setActivarNuevoUsuario={setActivarNuevoUsuario}
                 />
               ) : null}
               <select
@@ -257,12 +261,13 @@ function UserProfiles() {
               </button>
             </section>
           </div>
-          }
-          
-        </div>
-      </>
-    );
-
-  }
+        }
+        {!branches || !specialties || !count || !user || !users &&
+          <Loader />
+        }
+      </div>
+    </>
+  )
+      }
 
 export default UserProfiles;
