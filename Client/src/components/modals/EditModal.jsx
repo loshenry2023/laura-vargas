@@ -23,7 +23,7 @@ function EditModal({ setShowEditModal, branches, specialties, userId, tokenID })
         image: userId.image,
         specialtyName: userId.specialties,
         commission: userId.comission,
-        branches: userId.branches,
+        branch: userId.branches,
         rol: userId.role,
         notificationEmail: "notificationEmail@gmail.com"
     });
@@ -40,8 +40,8 @@ function EditModal({ setShowEditModal, branches, specialties, userId, tokenID })
         if (type === 'checkbox' && name === 'branches') {
             setUserData((prevInfo) => {
                 const updatedBranch = checked 
-                ?  [...prevInfo.branches, { id: value, branches: value }] 
-                :  prevInfo.branches.filter((asd) => asd.id !== value);
+                ?  [...prevInfo.branch, { id: value, branch: value }] 
+                :  prevInfo.branch.filter((asd) => asd.id !== value);
 
                 return {
                     ...prevInfo,
@@ -95,7 +95,7 @@ function EditModal({ setShowEditModal, branches, specialties, userId, tokenID })
         } else {
             try {
                 const specialtiesId = userData.specialtyName.map((specialty) => specialty.id);
-                const branchesId = userData.branches.map((branch) => branch.id);
+                const branchesId = userData.branch.map((b) => b.id);
 
                 const data = {
                     name: userData.name,
@@ -271,23 +271,23 @@ function EditModal({ setShowEditModal, branches, specialties, userId, tokenID })
                                 </div>
                                 <div>
                                     <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-darkText">Sedes</label>
-                                    {branches.map((branch, index) => (
+                                    {branches.map((b, index) => (
                                         <div key={index} className="flex items-center">
                                             <input
                                                 type="checkbox"
-                                                id={branch.id}
-                                                name="branches"
-                                                value={branch.id}
-                                                checked={userData.branches.map(s => s.id).includes(branch.id)}
+                                                id={b.id}
+                                                name="branch"
+                                                value={b.id}
+                                                checked={userData.branch.map(s => s.id).includes(b.id)}
                                                 onChange={handleChange}
                                                 className="mr-2"
                                             />
-                                            <label htmlFor={branch} className="text-xs text-gray-900 dark:text-darkText">
-                                                {branch.branchName}
+                                            <label htmlFor={b} className="text-xs text-gray-900 dark:text-darkText">
+                                                {b.branchName}
                                             </label>
                                         </div>
                                     ))}
-                                    {errors.branches !== "" && <span className="text-xs text-red-500">{errors.branches}</span>}
+                                    {errors.branch !== "" && <span className="text-xs text-red-500">{errors.branch}</span>}
                                 </div>
                             </div>
                             <div>

@@ -6,7 +6,8 @@ import {
   GET_SPECIALTIES,
   ERROR,
   DELETE_USER,
-  SET_ICON
+  SET_ICON,
+  USER_LOGOUT
 } from "./actionsTypes";
 import axios from "axios";
 
@@ -130,3 +131,20 @@ export const setIcon = (iconName) => ({
   type: SET_ICON,
   payload: iconName,
 });
+
+export const setLogout = (token) => {
+
+  console.log(token, "action")
+  return async function (dispatch) {
+    try {
+      const response = await axios.post(
+        "http://localhost:3001/laura-vargas/logoutuser", {token}
+      );
+      return dispatch({
+        type: USER_LOGOUT,
+      });
+    } catch (error) {
+      throw Error(error.message);
+    }
+  };
+};

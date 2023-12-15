@@ -7,8 +7,9 @@ import { MdDarkMode } from "react-icons/md";
 
 // hooks, routers, reducers:
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { setLogout } from "../redux/actions.js";
 
 //variables de entorno
 import getParamsEnv from "../functions/getParamsEnv.js";
@@ -17,13 +18,21 @@ const { ROOT, HOME } = getParamsEnv();
 const NavBar = () => {
   const [theme, setTheme] = useState('dark')
   const user = useSelector((state) => state.user);
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   const handleDarkMode = () => {
     setTheme(theme === 'dark' ? 'light' : 'dark')
     if(theme === 'light'){document.documentElement.classList.remove('dark')}
     else{document.documentElement.classList.add('dark')}
   }
-  
+
+  const handleLogout =  () => {
+    dispatch(setLogout(user.token))
+    navigate("/login")
+
+    
+  }
   return (
     <nav className="bg-secondaryPink h-20 flex pl-2 pr-10 justify-between items-center shadow-md shadow-grey dark:shadow-gray-100 dark:bg-darkPrimary dark:text-beige">
       <div>
@@ -41,7 +50,7 @@ const NavBar = () => {
         <CiBellOn className="h-6 w-6" />
         <GoPerson className="h-6 w-6 cursor-pointer" />
         <Link to={ROOT}>  
-          <IoExitOutline className="h-6 w-6" />
+          <IoExitOutline className="h-6 w-6" onClick={handleLogout}/>
         </Link>
       </div>
     </nav>

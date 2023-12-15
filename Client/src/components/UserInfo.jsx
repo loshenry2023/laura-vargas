@@ -27,7 +27,11 @@ const UserInfo = () => {
   const userID = useSelector((state) => state?.userID);
   const user = useSelector((state) => state?.user);
 
-  const token = {token: user.token}
+
+
+  console.log(userID, user)
+
+  const token = { token: user.token }
   const tokenID = user.token
 
   useEffect(() => {
@@ -59,8 +63,8 @@ const UserInfo = () => {
               <Link to={USERPROFILES}>
                 <IoMdArrowRoundBack className="h-5 w-5 mt-1 dark:text-darkText" />
               </Link>
-              <h2 className="underline font-semibold text-xl leading-tight sm:truncate dark:text-darkText">
-                Perfil de {userID?.name} {userID?.lastName}
+              <h2 className="underline font-semibold text-xl leading-tight dark:text-darkText">
+                {userID?.name} {userID?.lastName}
               </h2>
             </div>
             <h3 className="text-lg font-medium leading-tight sm:truncate dark:text-darkText">
@@ -83,20 +87,20 @@ const UserInfo = () => {
             <h3 className="text-lg leading-tight font-medium sm:truncate dark:text-darkText">
               Comisión: <span className="text-md tracking-wide font-light sm:truncate">{userID?.comission}%</span>
             </h3>
-              <h3 className="text-lg leading-tight font-medium sm:text-base lg:text-lg dark:text-darkText">
-                Especialidades:
-                {especialidades &&
-                  especialidades.map((specialt, index) => (
-                    <span className="text-md tracking-wide font-light" key={index}>
-                      {" "}
-                      {specialt.specialtyName}
-                    </span>
-                  ))}
-              </h3>
+            <h3 className="text-lg leading-tight font-medium sm:text-base lg:text-lg dark:text-darkText">
+              Especialidades:
+              {especialidades &&
+                especialidades.map((specialt, index) => (
+                  <span className="text-md tracking-wide font-light" key={index}>
+                    {" "}
+                    {specialt.specialtyName}
+                  </span>
+                ))}
+            </h3>
             <h3 className="text-lg leading-tight font-medium sm:truncate dark:text-darkText">
               Sede:{" "}
               <span className="text-md tracking-wide font-light sm:truncate dark:text-darkText">
-              {sedes &&
+                {sedes &&
                   sedes.map((sede, index) => (
                     <span className="text-md tracking-wide font-light sm:truncate" key={index}>
                       {" "}
@@ -105,22 +109,25 @@ const UserInfo = () => {
                   ))}
               </span>
             </h3>
-            <div className="flex gap-5">
-              <MdEdit onClick={() => setShowEditModal(true)} className="h-6 w-6 hover:text-primaryPink hover:animate-bounce cursor-pointer delay-200 dark:text-darkText dark:hover:text-primaryPink" />
-              <MdDelete onClick={() => confirmDelete(detailId)} className="h-6 w-6 hover:text-red-600 hover:animate-bounce cursor-pointer delay-200 dark:text-darkText dark:hover:text-red-600" />
-            </div>
+            {user.role == "superAdmin" &&
+              <div className="flex gap-5">
+                <MdEdit onClick={() => setShowEditModal(true)} className="h-6 w-6 hover:text-primaryPink hover:animate-bounce cursor-pointer delay-200 dark:text-darkText dark:hover:text-primaryPink" />
+                <MdDelete onClick={() => confirmDelete(detailId)} className="h-6 w-6 hover:text-red-600 hover:animate-bounce cursor-pointer delay-200 dark:text-darkText dark:hover:text-red-600" />
+              </div>
+            }
+
           </div>
         </div>
       </div>
-    {showEditModal ? (
-      <EditModal
-        setShowEditModal={setShowEditModal}
-        specialties={specialties}
-        branches={branches}
-        userId={userID}
-        tokenID={tokenID}
-      />
-    ) : null}
+      {showEditModal ? (
+        <EditModal
+          setShowEditModal={setShowEditModal}
+          specialties={specialties}
+          branches={branches}
+          userId={userID}
+          tokenID={tokenID}
+        />
+      ) : null}
 
     </>
   );
