@@ -6,7 +6,8 @@ import {
   GET_SPECIALTIES,
   ERROR,
   DELETE_USER,
-  SET_ICON
+  SET_ICON,
+  USER_LOGOUT
 } from "./actionsTypes";
 
 const initialState = {
@@ -86,8 +87,13 @@ const rootReducer = (state = initialState, { type, payload, count, error, idDele
         ...state,
         selectedIcon: payload,
       };
-      localStorage.setItem('YOUR_APP_NAME', JSON.stringify(setIconState));
+      localStorage.setItem('myAppReduxState', JSON.stringify(setIconState));
       return setIconState;
+    case USER_LOGOUT:
+      const logOut = {
+        initialState
+      }
+      localStorage.removeItem('myAppReduxState');
     default:
       return state;
   }
