@@ -12,7 +12,7 @@ import { AiFillFacebook } from "react-icons/ai";
 
 // Variables de entorno:
 import getParamsEnv from "../functions/getParamsEnv";
-const { ROOT, HOME } = getParamsEnv();
+const { ROOT, HOME, API_URL_BASE } = getParamsEnv();
 
 //Firebase
 import {
@@ -32,6 +32,7 @@ const LogIn = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+
   useEffect(() => {
     if (role === "superAdmin" || role === "admin" || role === "especialista") {
       navigate(HOME);
@@ -47,7 +48,7 @@ const LogIn = () => {
         idUser: facebookUser.user.uid,
       };
       const retrieveFacebookUser = await axios.post(
-        "http://localhost:3001/laura-vargas/userdata",
+        API_URL_BASE + "/userdata",
         dataToValidate
       );
 
@@ -81,7 +82,7 @@ const LogIn = () => {
       };
 
       const retrieveUser = await axios.post(
-        "http://localhost:3001/laura-vargas/userdata",
+        API_URL_BASE + "/userdata",
         dataToValidate
       );
 

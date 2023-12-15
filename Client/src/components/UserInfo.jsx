@@ -144,8 +144,8 @@ const UserInfo = () => {
                   <MdDelete onClick={() => confirmDelete(detailId)} className="h-6 w-6 hover:text-red-600 hover:animate-bounce cursor-pointer delay-200 dark:text-darkText dark:hover:text-red-600" />
                 </div>
               }
-              <h3 className="text-lg leading-tight font-medium sm:truncate dark:text-darkText">
-                Fecha de creación: <span className="text-md tracking-wide font-light">{createdAtInBogotaTimezone}</span>
+              <h3 className="text-lg leading-tight font-medium dark:text-darkText">
+                Fecha de creación: <span className="text-md tracking-wide font-light ">{createdAtInBogotaTimezone}</span>
               </h3>
 
             </div>

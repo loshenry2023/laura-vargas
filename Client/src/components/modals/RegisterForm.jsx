@@ -4,6 +4,8 @@ import validateRegisterInput from '../../functions/registerFormValidations'
 import axios from 'axios';
 import { UploadWidget } from '../Uploadwidget';
 import { Toaster, toast } from 'react-hot-toast'
+import getParamsEnv from '../../functions/getParamsEnv';
+const {API_URL_BASE} = getParamsEnv()
 
 function RegisterForm({ setShowResgisterFormModal, branches, specialties, tokenID, setActivarNuevoUsuario }) {
 
@@ -99,7 +101,7 @@ function RegisterForm({ setShowResgisterFormModal, branches, specialties, tokenI
           comission: userData.commission,
           token: tokenID
         }
-        const response = await axios.post("http://localhost:3001/laura-vargas/newuser", data)
+        const response = await axios.post(`${API_URL_BASE}/newuser`, data)
 
         if (response.data.created === "ok") {
           toast.success("Usuario Creado exitosamente")
