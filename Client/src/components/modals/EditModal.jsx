@@ -5,10 +5,9 @@ import validateRegisterInput from '../../functions/registerFormValidations';
 import axios from 'axios';
 import { UploadWidget } from '../Uploadwidget';
 import { Toaster, toast } from 'react-hot-toast'
+import getParamsEnv from '../../functions/getParamsEnv';
 
-
-import getParamsEnv from "./../../functions/getParamsEnv"
-const { USERPROFILES } = getParamsEnv();
+const { USERPROFILES, API_URL_BASE } = getParamsEnv();
 
 function EditModal({ setShowEditModal, branches, specialties, userId, tokenID }) {
     const navigate = useNavigate();
@@ -108,6 +107,9 @@ function EditModal({ setShowEditModal, branches, specialties, userId, tokenID })
 
         const hasErrors = Object.values(validationErrors).some((error) => error !== undefined);
 
+        if(userData === controlData) {
+            toast.error("")
+        }
         if (hasErrors) {
         } else {
             try {
@@ -128,7 +130,9 @@ function EditModal({ setShowEditModal, branches, specialties, userId, tokenID })
                     token: tokenID
                 };
 
-                const response = await axios.put(`http://localhost:3001/laura-vargas/edituserdata/${userId.id}`, data);
+                console.log(`${API_URL_BASE}/edituserdata/${userId.id}`)
+
+                const response = await axios.put(`${API_URL_BASE}/edituserdata/${userId.id}`, data);
 
                 if (response.data.updated === "ok") {
                     toast.success("Usuario Modificado exitosamente")
