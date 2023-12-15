@@ -34,8 +34,8 @@ const validateRegisterInput = (data) => {
     validationErrors.specialtyName = "Selecciona al menos una especialidad";
   }
 
-  if (!data.branch || data.branch.length === 0) {
-    validationErrors.branch = "Selecciona al menos una sede";
+  if (!data.branches || data.branches.length === 0) {
+    validationErrors.branches = "Selecciona al menos una sede";
   }
 
   if (!data.rol) {

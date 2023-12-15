@@ -49,10 +49,11 @@ const {
 } = database.models;
 
 //Relaciones a 1:
-User.belongsTo(Branch, { foreignKey: "branch_id" });
+//User.belongsTo(Branch, { foreignKey: "branch_id" });
 
 //Relaciones a muchos:
 User.belongsToMany(Specialty, { through: "user_specialty" });
+User.belongsToMany(Branch, { through: "user_branch" });
 Service.belongsToMany(Branch, { through: "service_branch" });
 
 module.exports = {

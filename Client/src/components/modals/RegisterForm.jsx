@@ -4,11 +4,9 @@ import validateRegisterInput from '../../functions/registerFormValidations'
 import axios from 'axios';
 import { UploadWidget } from '../Uploadwidget';
 
-function RegisterForm({ setShowResgisterFormModal, branches, specialties }) {
+function RegisterForm({ setShowResgisterFormModal, branches, specialties, tokenID }) {
 
-  const roles = ["superAdmin", "admin", "user"];
-
-
+  const roles = ["superAdmin", "admin", "especialista"];
 
   const [userData, setUserData] = useState({
     name: "",
@@ -21,9 +19,9 @@ function RegisterForm({ setShowResgisterFormModal, branches, specialties }) {
     commission: "",
     branch: [],
     rol: "",
-    notificationEmail: ""
+    notificationEmail: "",
   });
-
+  console.log(userData)
   const [errors, setErrors] = useState({
   });
 
@@ -43,9 +41,22 @@ function RegisterForm({ setShowResgisterFormModal, branches, specialties }) {
         return {
           ...prevInfo,
           [name]: updatedSpecialities,
+        }
+      })
+    }
+    else if (type === 'checkbox' && name === 'branch') {
+      setUserData((prevInfo) => {
+        const updatedBranches = checked
+          ? [...prevInfo.branch, value]
+          : prevInfo.branch.filter((branchName) => branchName !== value);
+
+        return {
+          ...prevInfo,
+          [name]: updatedBranches,
         };
-      });
-    } else {
+      })
+    }
+    else {
       setUserData((prevInfo) => ({
         ...prevInfo,
         [name]: value,
@@ -84,10 +95,11 @@ function RegisterForm({ setShowResgisterFormModal, branches, specialties }) {
           role: userData.rol,
           notificationEmail: userData.notificationEmail,
           image: userData.image,
-          comission: userData.commission
+          comission: userData.commission,
+          token: tokenID
         }
         const response = await axios.post("http://localhost:3001/laura-vargas/newuser", data)
-        
+
         if (response.data.created === "ok") {
           closeModal()
           setUserData(
@@ -106,6 +118,7 @@ function RegisterForm({ setShowResgisterFormModal, branches, specialties }) {
             }
           )
           window.alert("usuario creado exitosamente")
+          
         } else {
           window.alert("Hubo un problema con la creacion")
         }
@@ -119,7 +132,7 @@ function RegisterForm({ setShowResgisterFormModal, branches, specialties }) {
   return (
     <>
       <div className="absolute top-0 left-0 flex items-center justify-center w-full h-full bg-black opacity-95">
-        <div class="container">
+        <div className="container">
           <div className="w-full bg-white shadow rounded-lg p-6 md:mx-auto md:w-1/2 2xl:w-1/3 dark:bg-darkBackground">
           <div className='flex justify-between'>
             <h1 className="text-xl font-semibold mb-4 text-black dark:text-darkText">Agregar usuario</h1>
@@ -145,7 +158,7 @@ function RegisterForm({ setShowResgisterFormModal, branches, specialties }) {
                     name="name"
                     value={userData.name}
                     placeholder="Nombre"
-                    class="border border-black p-2 rounded w-full dark:bg-darkPrimary dark:text-darkText dark:border-none dark:shadow dark:shadow-white"
+                    className="border border-black p-2 rounded w-full dark:bg-darkPrimary dark:text-darkText dark:border-none dark:shadow dark:shadow-white"
                   />
                   {errors.name !== "" && <p className="text-xs text-red-500">{errors.name}</p>}
                 </div>
@@ -192,7 +205,7 @@ function RegisterForm({ setShowResgisterFormModal, branches, specialties }) {
                     name="phoneNumber2"
                     value={userData.phoneNumber2}
                     placeholder="Telefono 2"
-                    class="border border-black p-2 rounded w-full dark:bg-darkPrimary dark:text-darkText dark:border-none dark:shadow dark:shadow-white "
+                    className="border border-black p-2 rounded w-full dark:bg-darkPrimary dark:text-darkText dark:border-none dark:shadow dark:shadow-white "
                   />
                   {errors.phoneNumber2 !== "" && <p className="text-xs text-red-500">{errors.phoneNumber2}</p>}
                 </div>
@@ -205,7 +218,7 @@ function RegisterForm({ setShowResgisterFormModal, branches, specialties }) {
                     name="commission"
                     value={userData.commission}
                     placeholder="Comision"
-                    class="border border-black p-2 rounded w-full dark:bg-darkPrimary dark:text-darkText dark:border-none dark:shadow dark:shadow-white"
+                    className="border border-black p-2 rounded w-full dark:bg-darkPrimary dark:text-darkText dark:border-none dark:shadow dark:shadow-white"
                   />
                   {errors.commission !== "" && <p className="text-xs text-red-500 ">{errors.commission}</p>}
                 </div>

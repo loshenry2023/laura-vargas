@@ -33,7 +33,7 @@ const LogIn = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (role === "superAdmin" || role === "admin" || role === "users") {
+    if (role === "superAdmin" || role === "admin" || role === "especialista") {
       navigate(HOME);
     }
   }, [role]);
@@ -74,7 +74,6 @@ const LogIn = () => {
 
       // Obtengo el token de acceso:
       const accessToken = await googleUser.user.getIdToken();
-      console.log("Token de acceso de Google:", accessToken);
 
       const dataToValidate = {
         nameUser: googleUser.user.email,
@@ -87,7 +86,6 @@ const LogIn = () => {
       );
 
       const userData = retrieveUser.data;
-      console.log(userData)
       dispatch(getUser(userData));
       const { role } = userData;
       setRole(role);

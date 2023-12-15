@@ -73,7 +73,10 @@ async function createBasicData() {
         },
       });
       // Relación a sedes:
-      await existingUserHenry.setBranch(branchCrtd);
+      let brnchCreated = await Branch.findAll({
+        where: { branchName: "Restrepo" }
+      });
+      existingUserHenry.addBranch(brnchCreated)
       // Relación a especialidades:
       let specCreated = await Specialty.findAll({
         where: { specialtyName: "Administración" }
@@ -94,7 +97,10 @@ async function createBasicData() {
         },
       });
       // Relación a sedes:
-      await existingUserHenrySec.setBranch(branchCrtd);
+      let brnchbCreated = await Branch.findAll({
+        where: { branchName: "Villavicencio" }
+      });
+      existingUserHenrySec.addBranch(brnchbCreated)
       // Relación a especialidades:
       let specSecCreated = await Specialty.findAll({
         where: { specialtyName: "Administración" }

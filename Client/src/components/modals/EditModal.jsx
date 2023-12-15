@@ -9,10 +9,10 @@ import { UploadWidget } from '../Uploadwidget';
 import getParamsEnv from "./../../functions/getParamsEnv"
 const { USERPROFILES } = getParamsEnv();
 
-function EditModal({ setShowEditModal, branches, specialties, userId }) {
+function EditModal({ setShowEditModal, branches, specialties, userId, tokenID }) {
     const navigate = useNavigate();
 
-    const roles = ["superAdmin", "admin", "user"];
+    const roles = ["superAdmin", "admin", "especialista"];
 
     const [userData, setUserData] = useState({
         name: userId.name,
@@ -23,7 +23,7 @@ function EditModal({ setShowEditModal, branches, specialties, userId }) {
         image: userId.image,
         specialtyName: userId.specialties,
         commission: userId.comission,
-        branch: userId.branch,
+        branches: userId.branches,
         rol: userId.role,
         notificationEmail: "notificationEmail@gmail.com"
     });
@@ -37,9 +37,11 @@ function EditModal({ setShowEditModal, branches, specialties, userId }) {
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
 
-        if (type === 'checkbox' && name === 'branch') {
+        if (type === 'checkbox' && name === 'branches') {
             setUserData((prevInfo) => {
-                const updatedBranch = checked ? { id: value, branchName: value } : null;
+                const updatedBranch = checked 
+                ?  [...prevInfo.branches, { id: value, branches: value }] 
+                :  prevInfo.branches.filter((asd) => asd.id !== value);
 
                 return {
                     ...prevInfo,
@@ -90,25 +92,26 @@ function EditModal({ setShowEditModal, branches, specialties, userId }) {
         const hasErrors = Object.values(validationErrors).some((error) => error !== undefined);
 
         if (hasErrors) {
-            console.log("Formulario inválido. Corrige los errores antes de enviar.");
         } else {
             try {
                 const specialtiesId = userData.specialtyName.map((specialty) => specialty.id);
+                const branchesId = userData.branches.map((branch) => branch.id);
 
                 const data = {
                     name: userData.name,
                     lastName: userData.lastName,
                     specialty: specialtiesId,
-                    branch: userData.branch.id,
+                    branch: branchesId,
                     phone1: userData.phoneNumber1,
                     phone2: userData.phoneNumber2 || "",
                     role: userData.rol,
                     notificationEmail: userData.notificationEmail,
                     image: userData.image,
-                    comission: userData.commission
+                    comission: userData.commission,
+                    token: tokenID
                 };
 
-                const response = await axios.put(`http://localhost:3001/laura-vargas/userdata/${userId.id}`, data);
+                const response = await axios.put(`http://localhost:3001/laura-vargas/edituserdata/${userId.id}`, data);
 
                 if (response.data.updated === "ok") {
                     closeModal();
@@ -121,7 +124,7 @@ function EditModal({ setShowEditModal, branches, specialties, userId }) {
                         image: "https://www.shutterstock.com/image-vector/default-avatar-profile-icon-vector-260nw-2271804793.jpg",
                         specialtyName: [],
                         commission: "",
-                        branch: [],
+                        branches: [],
                         rol: "",
                         notificationEmail: "notificationEmail@gmail.com"
                     });
@@ -135,12 +138,6 @@ function EditModal({ setShowEditModal, branches, specialties, userId }) {
             }
         }
     };
-
-    useEffect(() => {
-        console.log(errors, "errors");
-        console.log(userData, "userData");
-    }, [errors, userData]);
-
     return (
         <>
             <div className="absolute top-0 left-0 flex items-center justify-center w-full h-full bg-black opacity-95">
@@ -154,7 +151,7 @@ function EditModal({ setShowEditModal, branches, specialties, userId }) {
                             <div className="first-letter:grid grid-cols-1 mb-2">
                                 <input
                                     placeholder="Gmail Usuario"
-                                    className={`cursor-not-allowed border bg-gray-200 text-gray-500 border-black p-2 rounded w-full dark:bg-darkPrimary dark:text-darkText dark:border-none dark:shadow dark:shadow-white ${errors.userName !== undefined && "border-red-500"}`}
+                                    className={`cursor-not-allowed border bg-gray-200 text-gray-500 border-black p-2 rounded w-full dark:bg-gray-900 dark:text-darkText dark:border-none dark:shadow dark:shadow-white ${errors.userName !== undefined && "border-red-500"}`}
                                     onChange={handleChange}
                                     type="email"
                                     name="userName"
@@ -278,10 +275,10 @@ function EditModal({ setShowEditModal, branches, specialties, userId }) {
                                         <div key={index} className="flex items-center">
                                             <input
                                                 type="checkbox"
-                                                id={branch}
-                                                name="branch"
+                                                id={branch.id}
+                                                name="branches"
                                                 value={branch.id}
-                                                checked={userData.branch && userData.branch.id === branch.id}
+                                                checked={userData.branches.map(s => s.id).includes(branch.id)}
                                                 onChange={handleChange}
                                                 className="mr-2"
                                             />
@@ -290,7 +287,7 @@ function EditModal({ setShowEditModal, branches, specialties, userId }) {
                                             </label>
                                         </div>
                                     ))}
-                                    {errors.branch !== "" && <span className="text-xs text-red-500">{errors.branch}</span>}
+                                    {errors.branches !== "" && <span className="text-xs text-red-500">{errors.branches}</span>}
                                 </div>
                             </div>
                             <div>

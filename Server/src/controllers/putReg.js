@@ -47,15 +47,10 @@ async function editRegUser(User, data, id, conn) {
             existingUser.role = role;
         }
         await existingUser.save();
-        // Actualizo la relación con sede:
-        await existingUser.setBranch(branch, { transaction });
-        if (existingUser.userName !== FIRST_SUPERADMIN) {
-            // Busco las especialidades para actualizar las relaciones:
-            await existingUser.removeSpecialties(); // elimino las relaciones previas
-            for (const spec of specialty) {
-                await existingUser.addSpecialties(spec, { transaction });
-            }
-        }
+        // Busco las sedes para agregar las relaciones:
+        await existingUser.setBranches(branch, { transaction });
+        // Busco las especialidades para agregar las relaciones:
+        await existingUser.setSpecialties(specialty, { transaction });
         await transaction.commit();
         return;
     } catch (error) {
