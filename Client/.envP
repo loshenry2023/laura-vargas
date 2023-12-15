@@ -1,4 +1,4 @@
-VITE_=https://videogames-ten-lime.vercel.app/videogames
+VITE\_=https://videogames-ten-lime.vercel.app/videogames
 VITE_ROOT=/
 VITE_HOME=/home
 VITE_ABOUT=/about
@@ -26,3 +26,13 @@ VITE_IMG_LOGO_NAV=https://res.cloudinary.com/dvptbowso/image/upload/v1699463369/
 VITE_IMG_LINKEDIN=https://res.cloudinary.com/dvptbowso/image/upload/v1699107827/PI_Videogames/LINKEDIN_kiluvy.png
 VITE_IMG_GITHUB=https://res.cloudinary.com/dvptbowso/image/upload/v1699107797/PI_Videogames/GIT_kaohrf.png
 VITE_API_URL_BASE=https://laura-vargas.vercel.app/laura-vargas
+
+VITE_APP_CLOUD_NAME=doqyrz0sg
+VITE_APP_UPLOAD_PRESET=gcx7ffyb
+
+VITE_APP_FIREBASE_API_KEY=AIzaSyAgacLbFO0UUII7SX_COA6tTgDCJh5MyIU
+VITE_APP_FIREBASE_AUTH_DOMAIN=laura-vargas-7f3ad.firebaseapp.com
+VITE_APP_FIREBASE_PROJECT_ID=laura-vargas-7f3ad
+VITE_APP_FIREBASE_STORAGE_BUCKET=laura-vargas-7f3ad.appspot.com
+VITE_APP_FIREBASE_MESSAGING_SENDER_ID=658315611360
+VITE_APP_FIREBASE_APP_ID=1:658315611360:web:56f139b3d2af20fb13d485
