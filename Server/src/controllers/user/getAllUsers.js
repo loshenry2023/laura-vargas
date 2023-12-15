@@ -1,5 +1,4 @@
 // ! Obtiene todos los usuarios. Llamado desde el handler. Acá no se verifica token porque lo hace el handler.
-const axios = require("axios");
 const { User, Specialty, Branch } = require("../../DB_connection");
 const { Op } = require("sequelize");
 const showLog = require("../../functions/showLog");
@@ -16,7 +15,6 @@ const getAllUsers = async (
   createDateEnd = "",
   createDateStart = ""
 ) => {
-  // ! Recordatorio para verificar en el código: un usuario puede estar en más de una sede. Hice cambios a testear (Paulo)
   try {
     const { count, rows } = await User.findAndCountAll({
       include: [
@@ -34,15 +32,9 @@ const getAllUsers = async (
           through: { attributes: [] },
           attributes: ["id", "branchName"],
         },
-        // Esta relación ya es obsoleta porque ahora es a muchos:
-        // {
-        //   model: Branch,
-        //   where: { branchName: { [Op.iLike]: `%${branch}%` } },
-        //   attributes: ["id", "branchName"],
-        // },
       ],
-      distinct: true,
       attributes: ["id", "name", "lastName", "userName", "role", "createdAt", "comission"],
+      distinct: true,
       where: {
         [Op.or]: [
           //filtro por nombres
@@ -50,14 +42,12 @@ const getAllUsers = async (
           { lastName: { [Op.iLike]: `%${nameOrLastName}%` } },
         ],
         role: role ? role : [`especialista`, `superAdmin`, `admin`],
-
         createdAt: {
           //para la fecha de creación
           [Op.gte]: createDateStart || "1900-01-01",
           [Op.lte]: createDateEnd || new Date(),
         },
       },
-
       order: [[attribute, order]],
       limit: size,
       offset: size * page,

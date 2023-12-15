@@ -9,8 +9,7 @@ const DB_NAME = process.env.DB_NAME || "lauravargas";
 const SECURE = process.env.SECURE || false;
 const MUST_LOG = process.env.MUST_LOG || 1;
 const PORT = process.env.PORT || 3001;
-const FIRST_SUPERADMIN =
-  process.env.FIRST_SUPERADMIN || "loshenry2023@gmail.com";
+const FIRST_SUPERADMIN = process.env.FIRST_SUPERADMIN || "loshenry2023@gmail.com";
 
 module.exports = {
   DB_USER,

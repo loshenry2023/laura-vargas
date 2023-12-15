@@ -1,5 +1,5 @@
 // ! Almacena un nuevo registro en tabla.
-const showLog = require("../functions/showLog");
+//const showLog = require("../functions/showLog");
 const { Op } = require('sequelize');
 
 const postReg = async (tableName, tableNameText, data, conn = "") => {
@@ -19,6 +19,7 @@ const postReg = async (tableName, tableNameText, data, conn = "") => {
                 resp = await AddRegUser(tableName, data, conn);
                 return { "created": "ok", "id": resp };
             default:
+                throw new Error("Tabla no válida");
         }
     } catch (err) {
         return { created: "error", message: err.message };
