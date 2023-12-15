@@ -1,9 +1,11 @@
 VITE\_=https://videogames-ten-lime.vercel.app/videogames
-VITE_ROOT=/
+VITE\*ROOT=/
 VITE_HOME=/home
 VITE_ABOUT=/about
 VITE_CREATE=/create
+VITE_LOGIN=/login
 VITE_DETAIL=/detail/:id
+VITE_VITE_PROFILES=/userProfiles
 VITE_DETAIL_BASE=/detail
 VITE_EDIT_BASE=/edit
 VITE_EDIT=/edit/:id

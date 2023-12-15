@@ -1,10 +1,11 @@
 //! Unico lugar donde obtengo las variables de entorno.
 export default function getParamsEnv() {
   const ROOT = import.meta.env.VITE_ROOT || "/";
-  const LOGIN = import.meta.env.VITE_ROOT || "/login";
+  const LOGIN = import.meta.env.VITE_LOGIN || "/login";
   const HOME = import.meta.env.VITE_HOME || "/home";
-  const USERPROFILES = import.meta.env.VITE_ROOT || "/userProfiles";
-  const USERDETAIL = import.meta.env.VITE_ROOT || "/detail/:id";
+  const USERPROFILES = import.meta.env.VITE_PROFILES || "/userProfiles";
+  const USERDETAIL = import.meta.env.VITE_DETAIL || "/detail/:id";
+  const USERDETAILBASE = import.meta.env.VITE_DETAIL_BASE || "/detail";
   const API_URL_BASE =
     import.meta.env.VITE_API_URL_BASE || "http://localhost:3001/laura-vargas";
 
@@ -32,6 +33,8 @@ export default function getParamsEnv() {
     ROOT,
     HOME,
     LOGIN,
+    USERDETAIL,
+    USERDETAILBASE,
     USERPROFILES,
     API_URL_BASE,
     CLOUD_NAME,
