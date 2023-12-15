@@ -1,7 +1,7 @@
 // hooks, routers, reducers:
 import React, { useEffect, useState } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
-import { deleteUser, getUserId } from "../redux/actions";
+import { clearUserId, deleteUser, getUserId } from "../redux/actions";
 import { useDispatch, useSelector } from "react-redux";
 import EditModal from "./modals/EditModal.jsx";
 import { Toaster, toast } from 'react-hot-toast'
@@ -66,6 +66,13 @@ const UserInfo = () => {
     }
   );
 
+  const handleGoBack = () => {
+   
+    dispatch(clearUserId())
+    navigate(USERPROFILES)
+    console.log(userID, "userId CLEAR")
+  }
+
 
   const especialidades = userID?.specialties;
   const sedes = userID?.branches;
@@ -82,9 +89,9 @@ const UserInfo = () => {
             </div>
             <div className=" py-2 px-2 gap-2 text-gray-800 flex flex-col sm:items-start sm:justify-between">
               <div className="flex gap-2">
-                <Link to={USERPROFILES}>
-                  <IoMdArrowRoundBack className="h-5 w-5 mt-1 dark:text-darkText" />
-                </Link>
+                
+                <IoMdArrowRoundBack onClick={handleGoBack} className="h-5 w-5 mt-1 dark:text-darkText" />
+                
                 <h2 className="underline font-semibold text-xl leading-tight dark:text-darkText">
                   {userID?.name} {userID?.lastName}
                 </h2>
@@ -138,7 +145,7 @@ const UserInfo = () => {
                 </div>
               }
               <h3 className="text-lg leading-tight font-medium sm:truncate dark:text-darkText">
-                Fecha de creación: <span className="text-md tracking-wide font-light sm:truncate">{createdAtInBogotaTimezone}</span>
+                Fecha de creación: <span className="text-md tracking-wide font-light">{createdAtInBogotaTimezone}</span>
               </h3>
 
             </div>

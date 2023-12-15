@@ -4,10 +4,10 @@ import {
   GET_USER_ID,
   GET_BRANCHES,
   GET_SPECIALTIES,
-  ERROR,
   DELETE_USER,
   SET_ICON,
-  USER_LOGOUT
+  USER_LOGOUT,
+  CLEAR_USERID
 } from "./actionsTypes";
 import axios from "axios";
 
@@ -148,3 +148,9 @@ export const setLogout = (token) => {
     }
   };
 };
+
+export const clearUserId = () => (
+  {type: CLEAR_USERID,
+  payload: {}}
+)
+
