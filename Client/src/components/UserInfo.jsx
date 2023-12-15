@@ -4,9 +4,8 @@ import { useParams, Link, useNavigate } from "react-router-dom";
 import { clearUserId, deleteUser, getUserId } from "../redux/actions";
 import { useDispatch, useSelector } from "react-redux";
 import EditModal from "./modals/EditModal.jsx";
-import { Toaster, toast } from 'react-hot-toast'
-import "./loading.css"
-
+import { Toaster, toast } from "react-hot-toast";
+import "./loading.css";
 
 //icons
 import { MdEdit } from "react-icons/md";
@@ -51,11 +50,11 @@ const UserInfo = () => {
     setShowDeleteConfirmation(false);
 
     if (confirmed) {
-      dispatch(deleteUser(detailId, user.token))
-      toast.success("Usuario elimnado correctamente")
+      dispatch(deleteUser(detailId, user.token));
+      toast.success("Usuario elimnado correctamente");
       setTimeout(() => {
-        navigate(USERPROFILES)
-      }, 3000)
+        navigate(USERPROFILES);
+      }, 3000);
     }
   };
 
@@ -67,12 +66,10 @@ const UserInfo = () => {
   );
 
   const handleGoBack = () => {
-   
-    dispatch(clearUserId())
-    navigate(USERPROFILES)
-    console.log(userID, "userId CLEAR")
-  }
-
+    dispatch(clearUserId());
+    navigate(USERPROFILES);
+    console.log(userID, "userId CLEAR");
+  };
 
   const especialidades = userID?.specialties;
   const sedes = userID?.branches;
@@ -81,30 +78,42 @@ const UserInfo = () => {
     return (
       <>
         <div className="w-full flex justify-center items-center dark:bg-darkBackground">
-          <div
-            className="container mx-5 sm:mx-auto sm:w-3/5 lg:w-3/5 lg:grid lg:grid-cols-2 bg-white rounded-lg shadow-md shadow-grey dark:shadow-black dark:bg-darkPrimary"
-          >
+          <div className="container mx-5 sm:mx-auto sm:w-3/5 lg:w-3/5 lg:grid lg:grid-cols-2 bg-white rounded-lg shadow-md shadow-grey dark:shadow-black dark:bg-darkPrimary">
             <div className="h-full">
-              <img className="rounded-xl border-2 w-full border-grey object-cover sm:h-96" src={userID?.image} />
+              <img
+                className="rounded-xl border-2 w-full border-grey object-cover sm:h-96"
+                src={userID?.image}
+              />
             </div>
             <div className=" py-2 px-2 gap-2 text-gray-800 flex flex-col sm:items-start sm:justify-between">
               <div className="flex gap-2">
-                
-                <IoMdArrowRoundBack onClick={handleGoBack} className="h-5 w-5 mt-1 dark:text-darkText" />
-                
+                <IoMdArrowRoundBack
+                  onClick={handleGoBack}
+                  className="h-5 w-5 mt-1 dark:text-darkText"
+                />
+
                 <h2 className="underline font-semibold text-xl leading-tight dark:text-darkText">
                   {userID?.name} {userID?.lastName}
                 </h2>
               </div>
               <h3 className="text-lg font-medium leading-tight sm:truncate dark:text-darkText">
-                Usuario: <span className="text-md tracking-wide font-light">{userID?.userName}</span>
+                Usuario:{" "}
+                <span className="text-md tracking-wide font-light">
+                  {userID?.userName}
+                </span>
               </h3>
               <h3 className="flex text-lg font-medium leading-tight sm:truncate dark:text-darkText">
-                Rol: <span className="pl-1 text-md tracking-wide font-light sm:truncate"> {userID?.role}</span>
+                Rol:{" "}
+                <span className="pl-1 text-md tracking-wide font-light sm:truncate">
+                  {" "}
+                  {userID?.role}
+                </span>
               </h3>
               <h3 className="text-lg leading-tight font-medium sm:truncate dark:text-darkText">
                 Teléfono:{" "}
-                <span className="text-md tracking-wide font-light sm:truncate dark:text-darkText">{userID?.phone1}</span>
+                <span className="text-md tracking-wide font-light sm:truncate dark:text-darkText">
+                  {userID?.phone1}
+                </span>
               </h3>
               <h3 className="text-lg leading-tight font-medium sm:truncate dark:text-darkText">
                 Email:{" "}
@@ -114,13 +123,19 @@ const UserInfo = () => {
                 </span>
               </h3>
               <h3 className="text-lg leading-tight font-medium sm:truncate dark:text-darkText">
-                Comisión: <span className="text-md tracking-wide font-light sm:truncate">{userID?.comission}%</span>
+                Comisión:{" "}
+                <span className="text-md tracking-wide font-light sm:truncate">
+                  {userID?.comission}%
+                </span>
               </h3>
               <h3 className="text-lg leading-tight font-medium sm:text-base lg:text-lg dark:text-darkText">
                 Especialidades:
                 {especialidades &&
                   especialidades.map((specialt, index) => (
-                    <span className="text-md tracking-wide font-light" key={index}>
+                    <span
+                      className="text-md tracking-wide font-light"
+                      key={index}
+                    >
                       {" "}
                       {specialt.specialtyName}
                     </span>
@@ -131,23 +146,34 @@ const UserInfo = () => {
                 <span className="text-md tracking-wide font-light sm:truncate dark:text-darkText">
                   {sedes &&
                     sedes.map((sede, index) => (
-                      <span className="text-md tracking-wide font-light sm:truncate" key={index}>
+                      <span
+                        className="text-md tracking-wide font-light sm:truncate"
+                        key={index}
+                      >
                         {" "}
                         {sede.branchName}
                       </span>
                     ))}
                 </span>
               </h3>
-              {user.role == "superAdmin" &&
-                <div className="flex gap-5">
-                  <MdEdit onClick={() => setShowEditModal(true)} className="h-6 w-6 hover:text-primaryPink hover:animate-bounce cursor-pointer delay-200 dark:text-darkText dark:hover:text-primaryPink" />
-                  <MdDelete onClick={() => confirmDelete(detailId)} className="h-6 w-6 hover:text-red-600 hover:animate-bounce cursor-pointer delay-200 dark:text-darkText dark:hover:text-red-600" />
-                </div>
-              }
               <h3 className="text-lg leading-tight font-medium dark:text-darkText">
-                Fecha de creación: <span className="text-md tracking-wide font-light ">{createdAtInBogotaTimezone}</span>
+                Fecha de creación:{" "}
+                <span className="text-md tracking-wide font-light ">
+                  {createdAtInBogotaTimezone}
+                </span>
               </h3>
-
+              {user.role == "superAdmin" && (
+                <div className="flex gap-5">
+                  <MdEdit
+                    onClick={() => setShowEditModal(true)}
+                    className="h-6 w-6 hover:text-primaryPink hover:animate-bounce cursor-pointer delay-200 dark:text-darkText dark:hover:text-primaryPink"
+                  />
+                  <MdDelete
+                    onClick={() => confirmDelete(detailId)}
+                    className="h-6 w-6 hover:text-red-600 hover:animate-bounce cursor-pointer delay-200 dark:text-darkText dark:hover:text-red-600"
+                  />
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -164,7 +190,11 @@ const UserInfo = () => {
 
         {showDeleteConfirmation && (
           <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-            <div className={`bg-white p-6 rounded-lg shadow-lg text-center sm:flex sm:flex-col ${window.innerWidth < 340 ? 'max-w-sm' : 'max-w-md'}`}>
+            <div
+              className={`bg-white p-6 rounded-lg shadow-lg text-center sm:flex sm:flex-col ${
+                window.innerWidth < 340 ? "max-w-sm" : "max-w-md"
+              }`}
+            >
               <p className="mb-4 text-sm sm:text-base">
                 ¿Estás seguro de que deseas eliminar este usuario?
               </p>
@@ -192,56 +222,47 @@ const UserInfo = () => {
           containerClassName=""
           containerStyle={{
             zIndex: 1000,
-            marginTop: '20px',
-            height: '150px'
+            marginTop: "20px",
+            height: "150px",
           }}
           toastOptions={{
-
-            className: '',
+            className: "",
             duration: 5000,
             style: {
-              background: '#ffc8c8',
-              color: '#363636',
+              background: "#ffc8c8",
+              color: "#363636",
             },
 
             success: {
               duration: 3000,
               theme: {
-                primary: 'green',
-                secondary: 'black',
+                primary: "green",
+                secondary: "black",
               },
               style: {
-                background: '#00A868',
-                color: '#FFFF',
-              }
+                background: "#00A868",
+                color: "#FFFF",
+              },
             },
 
             error: {
               duration: 5000,
               theme: {
-                primary: 'pink',
-                secondary: 'black',
+                primary: "pink",
+                secondary: "black",
               },
               style: {
-                background: '#C43433',
-                color: '#fff',
-              }
+                background: "#C43433",
+                color: "#fff",
+              },
             },
           }}
         />
-
       </>
     );
   } else {
-    return (
-
-      <Loader />
-    )
-
-
+    return <Loader />;
   }
-
-
 };
 
 export default UserInfo;
