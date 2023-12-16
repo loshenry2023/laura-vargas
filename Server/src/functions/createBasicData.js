@@ -38,6 +38,7 @@ async function createBasicData() {
         });
         branchCrtd = branchCreated;
       }
+      showLog(`... branches created`);
       // Crear los métodos de pago:
       const paymentList = ["Nequi", "DaviPlata", "Bancolombia", "efectivo", "banco de bogota", "wompi"];
       for (let i = 0; i < paymentList.length; i++) {
@@ -47,6 +48,7 @@ async function createBasicData() {
           },
         });
       }
+      showLog(`... payments created`);
       // Crear las especialidades:
       const specialityList = ["Cejas", "Pestañas", "Micropigmentación", "Lifting", "Administración"];
       let specCrtd;
@@ -58,6 +60,7 @@ async function createBasicData() {
         });
         specCrtd = specialityCreated;
       }
+      showLog(`... specialties created`);
       // Crear el usuario inicial:
       const [existingUserHenry, userCreated] = await User.findOrCreate({
         where: {
@@ -82,6 +85,7 @@ async function createBasicData() {
         where: { specialtyName: "Administración" }
       });
       existingUserHenry.addSpecialty(specCreated)
+      showLog(`... main user created`);
       // Crear un usuario secundario para pruebas de desarrollo. ESTE USUARIO SE DEBE ELIMINAR AL FINALIZAR EL DESARROLLO!!!!!:
       const [existingUserHenrySec, userSecCreated] = await User.findOrCreate({
         where: {
@@ -106,7 +110,7 @@ async function createBasicData() {
         where: { specialtyName: "Administración" }
       });
       existingUserHenrySec.addSpecialty(specSecCreated)
-
+      showLog(`... second user created`);
       showLog(`Basic data created`);
     }
   } catch (error) {

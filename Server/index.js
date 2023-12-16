@@ -7,20 +7,16 @@ const createBasicData = require("./src/functions/createBasicData");
 let conSegura = "";
 SECURE ? (conSegura = "SECURE") : (conSegura = "NOT SECURE");
 
-conn
-  .authenticate()
-  .then(() => {
-    // La base de datos existe:
-    return conn.sync({ alter: true });
-  })
-  .then(() => {
-    // Antes de hacer el listen me encargo de verificar que existan los registros mínimos
-    // de trabajo en las tablas:
-    createBasicData();
+(async () => {
+  try {
+    await conn.authenticate();
+    await conn.sync({ alter: true });
+    // Verifico que existan los registros mínimos antes de iniciar el servidor:
+    await createBasicData();
     server.listen(PORT, () => {
       showLog(`Server running into ${PORT} Port. DB Connection: ${conSegura}`);
     });
-  })
-  .catch((err) => {
+  } catch (err) {
     showLog("Error connecting to the database (was it created?). Please check and restart");
-  });
+  }
+})();

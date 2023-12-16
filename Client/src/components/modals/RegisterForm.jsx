@@ -119,7 +119,8 @@ function RegisterForm({ setShowResgisterFormModal, branches, specialties, tokenI
                 commission: "",
                 branch: [],
                 rol: "",
-                notificationEmail: "notificationEmail@gmail.com"
+                notificationEmail: ""
+                // notificationEmail: "notificationEmail@gmail.com"
               }
             );
 
