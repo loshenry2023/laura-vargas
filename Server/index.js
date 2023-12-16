@@ -16,7 +16,10 @@ conn
   .then(() => {
     // Antes de hacer el listen me encargo de verificar que existan los registros mínimos
     // de trabajo en las tablas:
-    createBasicData();
+    setTimeout(() => {
+      createBasicData();
+    }, 5000); // 5000 milisegundos = 5 segundos
+
     server.listen(PORT, () => {
       showLog(`Server running into ${PORT} Port. DB Connection: ${conSegura}`);
     });

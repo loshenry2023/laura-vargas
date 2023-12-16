@@ -37,8 +37,8 @@ async function createBasicData() {
           },
         });
         branchCrtd = branchCreated;
-        await sleep(2000); // Pausa de 2 segundos
       }
+      showLog(`... branches created`);
       // Crear los métodos de pago:
       const paymentList = ["Nequi", "DaviPlata", "Bancolombia", "efectivo", "banco de bogota", "wompi"];
       for (let i = 0; i < paymentList.length; i++) {
@@ -47,8 +47,8 @@ async function createBasicData() {
             paymentMethodName: paymentList[i],
           },
         });
-        await sleep(2000); // Pausa de 2 segundos
       }
+      showLog(`... payments created`);
       // Crear las especialidades:
       const specialityList = ["Cejas", "Pestañas", "Micropigmentación", "Lifting", "Administración"];
       let specCrtd;
@@ -59,21 +59,64 @@ async function createBasicData() {
           },
         });
         specCrtd = specialityCreated;
-        await sleep(2000); // Pausa de 2 segundos
       }
-      // Resto del código...
-
+      showLog(`... specialties created`);
+      // Crear el usuario inicial:
+      const [existingUserHenry, userCreated] = await User.findOrCreate({
+        where: {
+          userName: FIRST_SUPERADMIN,
+          notificationEmail: FIRST_SUPERADMIN,
+          name: "Usuario",
+          lastName: "Inicial",
+          phoneNumber1: "111111111",
+          image:
+            "https://res.cloudinary.com/dvptbowso/image/upload/v1701979529/HenryPF/ses9qbgrnytwd9l1ovcu.png",
+          comission: 0,
+          role: "superAdmin",
+        },
+      });
+      // Relación a sedes:
+      let brnchCreated = await Branch.findAll({
+        where: { branchName: "Restrepo" }
+      });
+      existingUserHenry.addBranch(brnchCreated)
+      // Relación a especialidades:
+      let specCreated = await Specialty.findAll({
+        where: { specialtyName: "Administración" }
+      });
+      existingUserHenry.addSpecialty(specCreated)
+      showLog(`... main user created`);
+      // Crear un usuario secundario para pruebas de desarrollo. ESTE USUARIO SE DEBE ELIMINAR AL FINALIZAR EL DESARROLLO!!!!!:
+      const [existingUserHenrySec, userSecCreated] = await User.findOrCreate({
+        where: {
+          userName: "tomas.bombau@gmail.com",
+          notificationEmail: "tomas.bombau@gmail.com",
+          name: "Tomas",
+          lastName: "Bombau",
+          phoneNumber1: "55555555",
+          image:
+            "https://res.cloudinary.com/dvptbowso/image/upload/v1699463369/PI_Videogames/ImgNav_s1visa.png",
+          comission: 40,
+          role: "admin",
+        },
+      });
+      // Relación a sedes:
+      let brnchbCreated = await Branch.findAll({
+        where: { branchName: "Villavicencio" }
+      });
+      existingUserHenrySec.addBranch(brnchbCreated)
+      // Relación a especialidades:
+      let specSecCreated = await Specialty.findAll({
+        where: { specialtyName: "Administración" }
+      });
+      existingUserHenrySec.addSpecialty(specSecCreated)
+      showLog(`... second user created`);
       showLog(`Basic data created`);
     }
   } catch (error) {
     showLog(`Error creating basic data: ${error}`);
     throw Error("Error creando datos básicos: " + error);
   }
-}
-
-// Función para pausar la ejecución durante un cierto tiempo
-function sleep(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 module.exports = createBasicData;
