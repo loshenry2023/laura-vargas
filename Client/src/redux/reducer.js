@@ -6,7 +6,9 @@ import {
   GET_SPECIALTIES,
   ERROR,
   DELETE_USER,
-  SET_ICON
+  SET_ICON,
+  USER_LOGOUT,
+  CLEAR_USERID
 } from "./actionsTypes";
 
 const initialState = {
@@ -46,6 +48,13 @@ const rootReducer = (state = initialState, { type, payload, count, error, idDele
       };
       localStorage.setItem('myAppReduxState', JSON.stringify(getUserIDState));
       return getUserIDState;
+    case CLEAR_USERID:
+      const clearUserId = {
+        ...state,
+        userID: payload
+      }
+      localStorage.setItem('myAppReduxState', JSON.stringify(clearUserId));
+      return clearUserId;
 
     case DELETE_USER:
       const copy = state.users.filter(user => user.uid !== idDelete);
@@ -86,8 +95,11 @@ const rootReducer = (state = initialState, { type, payload, count, error, idDele
         ...state,
         selectedIcon: payload,
       };
-      localStorage.setItem('YOUR_APP_NAME', JSON.stringify(setIconState));
+      localStorage.setItem('myAppReduxState', JSON.stringify(setIconState));
       return setIconState;
+    case USER_LOGOUT:
+      localStorage.removeItem('myAppReduxState');
+      return initialState;
     default:
       return state;
   }

@@ -12,7 +12,7 @@ import { AiFillFacebook } from "react-icons/ai";
 
 // Variables de entorno:
 import getParamsEnv from "../functions/getParamsEnv";
-const { ROOT, HOME } = getParamsEnv();
+const { ROOT, HOME, API_URL_BASE } = getParamsEnv();
 
 //Firebase
 import {
@@ -32,6 +32,7 @@ const LogIn = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+
   useEffect(() => {
     if (role === "superAdmin" || role === "admin" || role === "especialista") {
       navigate(HOME);
@@ -41,13 +42,12 @@ const LogIn = () => {
   const handleFacebook = async () => {
     try {
       const facebookUser = await signInWithPopup(auth, facebookProvider);
-      console.log(facebookUser);
       const dataToValidate = {
         nameUser: facebookUser.user.email,
         idUser: facebookUser.user.uid,
       };
       const retrieveFacebookUser = await axios.post(
-        "http://localhost:3001/laura-vargas/userdata",
+        API_URL_BASE + "/userdata",
         dataToValidate
       );
 
@@ -56,7 +56,6 @@ const LogIn = () => {
       const { role } = userData;
       setRole(role);
     } catch (error) {
-      console.log(error);
       if (error.code === "auth/account-exists-with-different-credential") {
         setErrorCredentials("Usted ya tiene una cuenta registrada con Google");
       }
@@ -81,7 +80,7 @@ const LogIn = () => {
       };
 
       const retrieveUser = await axios.post(
-        "http://localhost:3001/laura-vargas/userdata",
+        API_URL_BASE + "/userdata",
         dataToValidate
       );
 
