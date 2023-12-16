@@ -24,7 +24,6 @@ function RegisterForm({ setShowResgisterFormModal, branches, specialties, tokenI
     rol: "",
     notificationEmail: "",
   });
-  console.log(userData)
   const [errors, setErrors] = useState({
   });
 
@@ -104,7 +103,7 @@ function RegisterForm({ setShowResgisterFormModal, branches, specialties, tokenI
         const response = await axios.post(`${API_URL_BASE}/newuser`, data)
 
         if (response.data.created === "ok") {
-          toast.success("Usuario Creado exitosamente")
+          toast.success("Usuario creado exitosamente")
           setActivarNuevoUsuario(true)
           setTimeout(() => {
             closeModal();
@@ -126,14 +125,11 @@ function RegisterForm({ setShowResgisterFormModal, branches, specialties, tokenI
            
           }, 3000);
 
-          /*   window.alert("usuario creado exitosamente") */
         } else {
           toast.error("Hubo un problema con la creación")
-          /* window.alert("Hubo un problema con la creacion") */
         }
       } catch (error) {
         toast.error(`Hubo un problema con la creacion. ${error.response.data}`)
-        /* window.alert(`Hubo un problema con la creacion. ${error.response.data}`) */
       }
 
     }

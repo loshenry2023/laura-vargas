@@ -1,10 +1,11 @@
 // hooks, routers, reducers:
 import React, { useEffect, useState } from "react";
-import { useParams, Link, useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { clearUserId, deleteUser, getUserId } from "../redux/actions";
 import { useDispatch, useSelector } from "react-redux";
-import EditModal from "./modals/EditModal.jsx";
 import { Toaster, toast } from "react-hot-toast";
+import EditModal from "./modals/EditModal.jsx";
+import Loader from "./Loader.jsx";
 import "./loading.css";
 
 //icons
@@ -14,7 +15,6 @@ import { IoMdArrowRoundBack } from "react-icons/io";
 
 //variables de entorno
 import getParamsEnv from "../functions/getParamsEnv.js";
-import Loader from "./Loader.jsx";
 const { USERPROFILES } = getParamsEnv();
 
 const UserInfo = () => {
@@ -25,6 +25,7 @@ const UserInfo = () => {
 
   const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const specialties = useSelector((state) => state?.specialties);
   const branches = useSelector((state) => state?.branches);
@@ -35,7 +36,8 @@ const UserInfo = () => {
   const tokenID = user.token;
 
   useEffect(() => {
-    dispatch(getUserId(detailId, token));
+    dispatch(getUserId(detailId, token))
+    .then(() => {setLoading(false)})
   }, [detailId]);
 
   const confirmDelete = (detailId) => {
@@ -51,7 +53,7 @@ const UserInfo = () => {
 
     if (confirmed) {
       dispatch(deleteUser(detailId, user.token));
-      toast.success("Usuario elimnado correctamente");
+      toast.success("Usuario eliminado correctamente");
       setTimeout(() => {
         navigate(USERPROFILES);
       }, 3000);
@@ -68,15 +70,14 @@ const UserInfo = () => {
   const handleGoBack = () => {
     dispatch(clearUserId());
     navigate(USERPROFILES);
-    console.log(userID, "userId CLEAR");
   };
 
   const especialidades = userID?.specialties;
   const sedes = userID?.branches;
 
-  if (specialties && branches && userID && user) {
     return (
       <>
+        {loading ? <Loader /> : (
         <div className="w-full flex justify-center items-center dark:bg-darkBackground">
           <div className="container mx-5 sm:mx-auto sm:w-3/5 lg:w-3/5 lg:grid lg:grid-cols-2 bg-white rounded-lg shadow-md shadow-grey dark:shadow-black dark:bg-darkPrimary">
             <div className="h-full">
@@ -89,9 +90,8 @@ const UserInfo = () => {
               <div className="flex gap-2">
                 <IoMdArrowRoundBack
                   onClick={handleGoBack}
-                  className="h-5 w-5 mt-1 dark:text-darkText"
+                  className="h-5 w-5 mt-1 cursor-pointer dark:text-darkText"
                 />
-
                 <h2 className="underline font-semibold text-xl leading-tight dark:text-darkText">
                   {userID?.name} {userID?.lastName}
                 </h2>
@@ -176,7 +176,7 @@ const UserInfo = () => {
               )}
             </div>
           </div>
-        </div>
+        </div>)}
 
         {showEditModal ? (
           <EditModal
@@ -227,7 +227,7 @@ const UserInfo = () => {
           }}
           toastOptions={{
             className: "",
-            duration: 5000,
+            duration: 3000,
             style: {
               background: "#ffc8c8",
               color: "#363636",
@@ -246,7 +246,7 @@ const UserInfo = () => {
             },
 
             error: {
-              duration: 5000,
+              duration: 3000,
               theme: {
                 primary: "pink",
                 secondary: "black",
@@ -260,9 +260,7 @@ const UserInfo = () => {
         />
       </>
     );
-  } else {
-    return <Loader />;
-  }
-};
+  } 
+
 
 export default UserInfo;

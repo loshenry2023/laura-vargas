@@ -42,7 +42,6 @@ const LogIn = () => {
   const handleFacebook = async () => {
     try {
       const facebookUser = await signInWithPopup(auth, facebookProvider);
-      console.log(facebookUser);
       const dataToValidate = {
         nameUser: facebookUser.user.email,
         idUser: facebookUser.user.uid,
@@ -57,7 +56,6 @@ const LogIn = () => {
       const { role } = userData;
       setRole(role);
     } catch (error) {
-      console.log(error);
       if (error.code === "auth/account-exists-with-different-credential") {
         setErrorCredentials("Usted ya tiene una cuenta registrada con Google");
       }
