@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { getUser } from "../redux/actions";
 import axios from "axios";
+import { clearDataInicio } from "../redux/actions.js";
 
 //icons
 import { GiExitDoor } from "react-icons/gi";
@@ -40,6 +41,10 @@ const LogIn = () => {
   }, [role]);
 
   const handleFacebook = async () => {
+    // Limpio el storage antes de ingresar un nuevo usuario:
+    console.log("Limpio usuario previo");
+    dispatch(clearDataInicio())
+
     try {
       const facebookUser = await signInWithPopup(auth, facebookProvider);
       const dataToValidate = {
@@ -63,6 +68,10 @@ const LogIn = () => {
   };
 
   const handleGoogle = async () => {
+    // Limpio el storage antes de ingresar un nuevo usuario:
+    console.log("Limpio usuario previo");
+    dispatch(clearDataInicio())
+
     try {
       // Configuro el parámetro "prompt" para permitir seleccionar una nueva cuenta:
       googleProvider.setCustomParameters({
