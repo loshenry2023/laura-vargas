@@ -79,6 +79,9 @@ const LogIn = () => {
         idUser: accessToken, // mando el gigantesco token real
       };
 
+      console.log("POST ", API_URL_BASE + "/userdata")
+      console.log("DATA TO VALIDATE ", dataToValidate)
+
       const retrieveUser = await axios.post(
         API_URL_BASE + "/userdata",
         dataToValidate
