@@ -16,7 +16,6 @@ export const UploadWidget = ({ setUserData }) => {
       function (error, result) {
         if (!error && result && result.event === "success") {
           const imageUrl = result.info.secure_url;
-          console.log("URL de la imagen:", imageUrl);
           setUserData((prevUserData) => ({ ...prevUserData, image: imageUrl }));
         } else {
           console.error("Error al cargar la imagen:", error);

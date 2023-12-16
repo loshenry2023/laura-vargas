@@ -1,19 +1,22 @@
+//hooks, componentes, reducer
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getBranches, getSpecialties, getUsers } from "../redux/actions";
-import "./loading.css"
-
-//icons
-import { IoPersonAddOutline } from "react-icons/io5";
-
 import RegisterForm from "../components/modals/RegisterForm";
 import NavBar from "../components/NavBar";
 import SideBar from "../components/SideBar";
 import ProfilesTable from "../components/ProfilesTable";
 import Loader from "../components/Loader";
+import "./loading.css"
+
+//icons
+import { IoPersonAddOutline } from "react-icons/io5";
 
 function UserProfiles() {
+  const dispatch = useDispatch();
   const [showResgisterFormModal, setShowResgisterFormModal] = useState(false);
+  const [activarNuevoUsuario, setActivarNuevoUsuario] = useState(false)
+  const [loading, setLoading] = useState(true)
 
   const [nameOrLastName, setNameOrLastName] = useState("");
   const [attribute, setAttribute] = useState("createdAt");
@@ -25,8 +28,8 @@ function UserProfiles() {
   const [role, setRole] = useState("");
   const [createDateStart, setCreateDateStart] = useState("");
   const [createDateEnd, setCreateDateEnd] = useState("");
+  
 
-  const dispatch = useDispatch();
   const branches = useSelector((state) => state?.branches);
   const specialties = useSelector((state) => state?.specialties);
   const count = useSelector((state) => state?.count);
@@ -34,9 +37,6 @@ function UserProfiles() {
   const users = useSelector((state) => state?.users);
   const token = { token: user.token }
   const tokenID = token.token
-
-  const [activarNuevoUsuario, setActivarNuevoUsuario] = useState(false)
-
 
 
   useEffect(() => {
@@ -54,9 +54,10 @@ function UserProfiles() {
         createDateStart,
         token
       )
-    );
-    dispatch(getBranches(token));
-    dispatch(getSpecialties(token));
+    )
+    .then(dispatch(getBranches(token)))
+    .then(dispatch(getSpecialties(token)))
+    .then(() => {setLoading(false)})
   }, [
     nameOrLastName,
     attribute,
@@ -83,8 +84,7 @@ function UserProfiles() {
       <NavBar />
       <div className="flex flex-row dark:bg-darkBackground">
         <SideBar />
-        
-        {branches && specialties && count && user && users &&
+        {loading ? <Loader /> : (
           <div className="flex flex-col flex-wrap gap-4 items-center h-[calc(100vh-150px)] mt-10 m-auto">
             <h1 className="text-xl dark:text-beige">Plantilla de empleados</h1>
             <section className="flex flex-col gap-2 mx-auto sm:flex sm:flex-row sm:gap-5 sm:w-full">
@@ -189,10 +189,12 @@ function UserProfiles() {
                   <option value="especialista">Especialista</option>
                 </select>
                 <div className="justify-self-end">
-                  <IoPersonAddOutline
-                    className="cursor-pointer h-6 w-6 dark:text-darkText"
-                    onClick={handleShowProfilesModal}
-                  />
+                  {user.role === "superAdmin" ?
+                      <IoPersonAddOutline
+                      className="cursor-pointer h-6 w-6 dark:text-darkText"
+                      onClick={handleShowProfilesModal}
+                    /> : null
+                  }
                 </div>
               </div>
             </section>
@@ -260,14 +262,10 @@ function UserProfiles() {
                 {">"}
               </button>
             </section>
-          </div>
-        }
-        {!branches || !specialties || !count || !user || !users &&
-          <Loader />
-        }
+          </div>)}
       </div>
     </>
   )
-      }
+}
 
 export default UserProfiles;

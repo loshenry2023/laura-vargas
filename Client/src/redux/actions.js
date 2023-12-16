@@ -72,8 +72,6 @@ export const getUsers = (
         `${endPoint}nameOrLastName=${nameOrLastName}&attribute=${attribute}&order=${order}&page=${page}&size=${size}&branch=${branch}&specialty=${specialty}&role=${role}&createDateEnd=${createDateEnd}&createDateStart=${createDateStart}`, token
       );
 
-      console.log("RESP: ", data);
-
       const modifiedData = data.rows.map((user) => {
         const { createdAt, ...rest } = user;
         const createdAtInBogotaTimezone = new Date(createdAt).toLocaleString(
@@ -136,7 +134,6 @@ export const setIcon = (iconName) => ({
 
 export const setLogout = (token) => {
 
-  console.log(token, "action")
   return async function (dispatch) {
     try {
       const response = await axios.post(

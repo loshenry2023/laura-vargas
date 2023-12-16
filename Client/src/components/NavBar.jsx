@@ -32,8 +32,8 @@ const NavBar = () => {
     roleColor = "linear-gradient(to right, #e59494, #C21807)";
   } else if (user.role === "admin") {
     roleColor = "linear-gradient(to right, #e59494, #7676cc)";
-  } else if (user.role === "user") {
-    roleColor ="#e59494";
+  } else if (user.role === "especialista") {
+    roleColor ="#ffc8c8";
   }
 
   const handleLogout =  () => {

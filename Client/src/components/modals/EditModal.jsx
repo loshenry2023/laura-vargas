@@ -51,11 +51,11 @@ function EditModal({ setShowEditModal, branches, specialties, userId, tokenID })
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
 
-        if (type === 'checkbox' && name === 'branches') {
+        if (type === 'checkbox' && name === 'branch') {
             setUserData((prevInfo) => {
                 const updatedBranch = checked 
                 ?  [...prevInfo.branch, { id: value, branch: value }] 
-                :  prevInfo.branch.filter((asd) => asd.id !== value);
+                :  prevInfo.branch.filter((b) => b.id !== value);
 
                 return {
                     ...prevInfo,
@@ -130,12 +130,10 @@ function EditModal({ setShowEditModal, branches, specialties, userId, tokenID })
                     token: tokenID
                 };
 
-                console.log(`${API_URL_BASE}/edituserdata/${userId.id}`)
-
                 const response = await axios.put(`${API_URL_BASE}/edituserdata/${userId.id}`, data);
 
                 if (response.data.updated === "ok") {
-                    toast.success("Usuario Modificado exitosamente")
+                    toast.success("Usuario modificado exitosamente")
                     setTimeout(() => {
                         closeModal();
                         setUserData(

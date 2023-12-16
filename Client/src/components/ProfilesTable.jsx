@@ -8,12 +8,7 @@ const { USERDETAILBASE } = getParamsEnv();
 const TablaDatos = ({ users, count }) => {
   const navigate = useNavigate();
 
-  useEffect(() => {
-    console.log(users);
-  });
-
   if (users) {
-    console.log("Users ", users);
     return (
       <>
         {count ? (
