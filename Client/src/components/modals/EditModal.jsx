@@ -14,7 +14,7 @@ function EditModal({ setShowEditModal, branches, specialties, userId, tokenID })
 
     const roles = ["superAdmin", "admin", "especialista"];
 
-    const [controlData, setControlData] = useState ({
+    const [controlData, setControlData] = useState({
         name: userId.name,
         lastName: userId.lastName,
         userName: userId.userName,
@@ -25,7 +25,8 @@ function EditModal({ setShowEditModal, branches, specialties, userId, tokenID })
         commission: userId.comission,
         branch: userId.branches,
         rol: userId.role,
-        notificationEmail: "notificationEmail@gmail.com"
+        notificationEmail: userId.notificationEmail,
+        // notificationEmail: "notificationEmail@gmail.com"
     })
 
     const [userData, setUserData] = useState({
@@ -39,7 +40,8 @@ function EditModal({ setShowEditModal, branches, specialties, userId, tokenID })
         commission: userId.comission,
         branch: userId.branches,
         rol: userId.role,
-        notificationEmail: "notificationEmail@gmail.com"
+        notificationEmail: userId.notificationEmail,
+        // notificationEmail: "notificationEmail@gmail.com"
     });
 
     const [errors, setErrors] = useState({});
@@ -53,9 +55,9 @@ function EditModal({ setShowEditModal, branches, specialties, userId, tokenID })
 
         if (type === 'checkbox' && name === 'branch') {
             setUserData((prevInfo) => {
-                const updatedBranch = checked 
-                ?  [...prevInfo.branch, { id: value, branch: value }] 
-                :  prevInfo.branch.filter((b) => b.id !== value);
+                const updatedBranch = checked
+                    ? [...prevInfo.branch, { id: value, branch: value }]
+                    : prevInfo.branch.filter((b) => b.id !== value);
 
                 return {
                     ...prevInfo,
@@ -63,7 +65,7 @@ function EditModal({ setShowEditModal, branches, specialties, userId, tokenID })
                 };
             });
         } else if (type === 'checkbox' && name === 'specialtyName') {
-           
+
             setUserData((prevInfo) => {
                 const updatedSpecialities = checked
                     ? [...prevInfo.specialtyName, { id: value, specialtyName: value }]
@@ -76,9 +78,9 @@ function EditModal({ setShowEditModal, branches, specialties, userId, tokenID })
             });
         } else if (name === 'rol') {
             if (userId.userName === 'loshenry2023@gmail.com') {
-                toast.error('Usted es el primer superAdmin. No puede cambiar su rol.',{
+                toast.error('Usted es el primer superAdmin. No puede cambiar su rol.', {
                     id: 'editModal',
-                  })
+                })
             } else {
                 setUserData((prevInfo) => ({
                     ...prevInfo,
@@ -107,7 +109,7 @@ function EditModal({ setShowEditModal, branches, specialties, userId, tokenID })
 
         const hasErrors = Object.values(validationErrors).some((error) => error !== undefined);
 
-        if(userData === controlData) {
+        if (userData === controlData) {
             toast.error("")
         }
         if (hasErrors) {
@@ -153,7 +155,7 @@ function EditModal({ setShowEditModal, branches, specialties, userId, tokenID })
                         );
                         navigate(USERPROFILES);
                     }, 3000);
-                    
+
                 } else {
                 }
             } catch (error) {
@@ -167,11 +169,11 @@ function EditModal({ setShowEditModal, branches, specialties, userId, tokenID })
                 <div className="container">
                     <div className="w-full bg-white shadow rounded-lg p-6 md:mx-auto md:w-1/2 2xl:w-1/3 dark:bg-darkBackground">
                         <div className='flex justify-between'>
-                        <h1 className="text-xl font-semibold mb-4 text-black dark:text-darkText">Editar usuario</h1>
-                        <IoClose onClick={closeModal} className='cursor-pointer mt-2 w-5 h-5 dark:text-darkText' />
+                            <h1 className="text-xl font-semibold mb-4 text-black dark:text-darkText">Editar usuario</h1>
+                            <IoClose onClick={closeModal} className='cursor-pointer mt-2 w-5 h-5 dark:text-darkText' />
                         </div>
                         <form onSubmit={handleSubmit}>
-                        <div className="first-letter:grid grid-cols-1 mb-2">
+                            <div className="first-letter:grid grid-cols-1 mb-2">
                                 <label className='block mb-2 text-sm font-medium text-gray-900'>Cuenta de usuario (Email)</label>
                                 <input
                                     placeholder="Gmail Usuario"
@@ -283,7 +285,7 @@ function EditModal({ setShowEditModal, branches, specialties, userId, tokenID })
                                 <div className="mb-2">
                                     <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-darkText">Especialidades</label>
                                     {specialties.map((specialty, index) => (
-                                        <div key={index} className="flex items-center"> 
+                                        <div key={index} className="flex items-center">
                                             <input
                                                 type="checkbox"
                                                 id={specialty.id}
@@ -323,11 +325,11 @@ function EditModal({ setShowEditModal, branches, specialties, userId, tokenID })
                             </div>
                             <div>
                                 <div className="flex flex-col w-full items-center">
-                                        <UploadWidget className="w-full" setUserData={setUserData} />
+                                    <UploadWidget className="w-full" setUserData={setUserData} />
                                     <div className='mt-2 mb-2'>
                                         <img className='w-20 h-20 rounded' src={userData.image} alt="user-avatar" />
                                     </div>
-                                </div>  
+                                </div>
                             </div>
                             <button
                                 type="submit"

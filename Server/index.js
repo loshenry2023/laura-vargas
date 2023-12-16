@@ -11,10 +11,8 @@ SECURE ? (conSegura = "SECURE") : (conSegura = "NOT SECURE");
   try {
     await conn.authenticate();
     await conn.sync({ alter: true });
-
-    // Verificar que existan los registros mínimos antes de iniciar el servidor:
+    // Verifico que existan los registros mínimos antes de iniciar el servidor:
     await createBasicData();
-
     server.listen(PORT, () => {
       showLog(`Server running into ${PORT} Port. DB Connection: ${conSegura}`);
     });
