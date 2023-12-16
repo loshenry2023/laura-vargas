@@ -6,15 +6,12 @@ export default function getParamsEnv() {
   const USERPROFILES = import.meta.env.VITE_PROFILES || "/userProfiles";
   const USERDETAIL = import.meta.env.VITE_DETAIL || "/detail/:id";
   const USERDETAILBASE = import.meta.env.VITE_DETAIL_BASE || "/detail";
-  const API_URL_BASE =
-    import.meta.env.VITE_API_URL_BASE || "http://localhost:3001/laura-vargas";
+  const API_URL_BASE = import.meta.env.VITE_API_URL_BASE || "http://localhost:3001/laura-vargas";
 
   const CLOUD_NAME = import.meta.env.VITE_APP_CLOUD_NAME || "doqyrz0sg";
   const UPLOAD_PRESET = import.meta.env.VITE_APP_UPLOAD_PRESET || "gcx7ffyb";
 
-  const FIREBASE_API_KEY =
-    import.meta.env.VITE_APP_FIREBASE_API_KEY ||
-    "AIzaSyAgacLbFO0UUII7SX_COA6tTgDCJh5MyIU";
+  const FIREBASE_API_KEY = import.meta.env.VITE_APP_FIREBASE_API_KEY || "AIzaSyAgacLbFO0UUII7SX_COA6tTgDCJh5MyIU";
   const FIREBASE_AUTH_DOMAIN =
     import.meta.env.VITE_APP_FIREBASE_AUTH_DOMAIN ||
     "laura-vargas-7f3ad.firebaseapp.com";

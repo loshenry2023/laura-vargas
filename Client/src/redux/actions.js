@@ -11,7 +11,7 @@ import {
 } from "./actionsTypes";
 import axios from "axios";
 import getParamsEnv from "../functions/getParamsEnv";
-const {API_URL_BASE} = getParamsEnv()
+const { API_URL_BASE } = getParamsEnv()
 
 export const getUser = (userData) => {
   return {
@@ -98,7 +98,7 @@ export const getUserId = (id, token) => {
   return async function (dispatch) {
     try {
       const response = await axios.post(
-      `${API_URL_BASE}/userdetails/${id}`, token
+        `${API_URL_BASE}/userdetails/${id}`, token
       );
       return dispatch({
         type: GET_USER_ID,
@@ -114,7 +114,7 @@ export const deleteUser = (id, token) => {
   return async function (dispatch) {
     try {
       const response = await axios.post(
-        `${API_URL_BASE}/deleteuserdata/${id}`, {token}
+        `${API_URL_BASE}/deleteuserdata/${id}`, { token }
       );
       return dispatch({
         type: DELETE_USER,
@@ -133,11 +133,10 @@ export const setIcon = (iconName) => ({
 });
 
 export const setLogout = (token) => {
-
   return async function (dispatch) {
     try {
       const response = await axios.post(
-        API_URL_BASE + "/logoutuser", {token}
+        API_URL_BASE + "/logoutuser", { token }
       );
       return dispatch({
         type: USER_LOGOUT,
@@ -149,7 +148,9 @@ export const setLogout = (token) => {
 };
 
 export const clearUserId = () => (
-  {type: CLEAR_USERID,
-  payload: {}}
+  {
+    type: CLEAR_USERID,
+    payload: {}
+  }
 )
 

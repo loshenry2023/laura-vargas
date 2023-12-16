@@ -48,7 +48,7 @@ const rootReducer = (state = initialState, { type, payload, count, error, idDele
       };
       localStorage.setItem('myAppReduxState', JSON.stringify(getUserIDState));
       return getUserIDState;
-    case  CLEAR_USERID:
+    case CLEAR_USERID:
       const clearUserId = {
         ...state,
         userID: payload
@@ -98,11 +98,8 @@ const rootReducer = (state = initialState, { type, payload, count, error, idDele
       localStorage.setItem('myAppReduxState', JSON.stringify(setIconState));
       return setIconState;
     case USER_LOGOUT:
-      const logOut = {
-        initialState
-      }
       localStorage.removeItem('myAppReduxState');
-    
+      return initialState;
     default:
       return state;
   }
