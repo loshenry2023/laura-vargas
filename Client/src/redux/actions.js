@@ -154,3 +154,10 @@ export const clearUserId = () => (
   }
 )
 
+export const clearDataInicio = () => (
+  // Sólo limpia el storage al inicio del programa, donde aún no existe el token:
+  {
+    type: USER_LOGOUT,
+    payload: {}
+  }
+)

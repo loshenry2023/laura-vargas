@@ -8,7 +8,7 @@ import {
   DELETE_USER,
   SET_ICON,
   USER_LOGOUT,
-  CLEAR_USERID
+  CLEAR_USERID,
 } from "./actionsTypes";
 
 const initialState = {
