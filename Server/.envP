@@ -8,3 +8,4 @@ videogamesApiUrl=https://api.rawg.io/api
 SECURE=true
 MUST_LOG=1
 FIRST_SUPERADMIN = loshenry2023@gmail.com
+VITE_API_URL_BASE=https://laura-vargas.vercel.app/laura-vargas

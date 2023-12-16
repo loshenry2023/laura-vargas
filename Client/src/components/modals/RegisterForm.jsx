@@ -5,7 +5,7 @@ import axios from 'axios';
 import { UploadWidget } from '../Uploadwidget';
 import { Toaster, toast } from 'react-hot-toast'
 import getParamsEnv from '../../functions/getParamsEnv';
-const {API_URL_BASE} = getParamsEnv()
+const { API_URL_BASE } = getParamsEnv()
 
 function RegisterForm({ setShowResgisterFormModal, branches, specialties, tokenID, setActivarNuevoUsuario }) {
 
@@ -122,7 +122,7 @@ function RegisterForm({ setShowResgisterFormModal, branches, specialties, tokenI
                 notificationEmail: "notificationEmail@gmail.com"
               }
             );
-           
+
           }, 3000);
 
         } else {
@@ -140,12 +140,12 @@ function RegisterForm({ setShowResgisterFormModal, branches, specialties, tokenI
       <div className="absolute top-0 left-0 flex items-center justify-center w-full h-full bg-black opacity-95">
         <div className="container">
           <div className="w-full bg-white shadow rounded-lg p-6 md:mx-auto md:w-1/2 2xl:w-1/3 dark:bg-darkBackground">
-          <div className='flex justify-between'>
-            <h1 className="text-xl font-semibold mb-4 text-black dark:text-darkText">Agregar usuario</h1>
-            <IoClose onClick={closeModal} className='cursor-pointer mt-2 w-5 h-5 dark:text-darkText' />
-          </div>
+            <div className='flex justify-between'>
+              <h1 className="text-xl font-semibold mb-4 text-black dark:text-darkText">Agregar usuario</h1>
+              <IoClose onClick={closeModal} className='cursor-pointer mt-2 w-5 h-5 dark:text-darkText' />
+            </div>
             <form onSubmit={handleSubmit}>
-            <div className="first-letter:grid grid-cols-1 mb-2">
+              <div className="first-letter:grid grid-cols-1 mb-2">
                 <label className='pl-1 text-sm font-bold'>Cuenta de usuario (Email)</label>
                 <input
                   placeholder="Cuenta de usuario"
@@ -157,17 +157,17 @@ function RegisterForm({ setShowResgisterFormModal, branches, specialties, tokenI
                 />
                 {errors.userName !== "" && <p className="text-xs text-red-500">{errors.userName}</p>}
               </div>
-              
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-2">
                 <div>
-                <label className='pl-1 text-sm font-bold'>Nombre</label>
+                  <label className='pl-1 text-sm font-bold'>Nombre</label>
                   <input
                     onChange={handleChange}
                     type="text"
                     name="name"
                     value={userData.name}
                     placeholder="Nombre"
-                    class="border border-black p-2 rounded w-full"
+                    className="border border-black p-2 rounded w-full"
                   />
                   {errors.name !== "" && <p className="text-xs text-red-500">{errors.name}</p>}
                 </div>
@@ -197,10 +197,10 @@ function RegisterForm({ setShowResgisterFormModal, branches, specialties, tokenI
                 />
                 {errors.notificationEmail !== "" && <p className="text-xs text-red-500">{errors.notificationEmail}</p>}
               </div>
-             
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-2">
                 <div>
-                <label className='pl-1 text-sm font-bold'>Telefono</label>
+                  <label className='pl-1 text-sm font-bold'>Telefono</label>
                   <input
                     placeholder="Telefono 1"
                     className="border border-black p-2 rounded w-full"
@@ -219,21 +219,21 @@ function RegisterForm({ setShowResgisterFormModal, branches, specialties, tokenI
                     name="phoneNumber2"
                     value={userData.phoneNumber2}
                     placeholder="Telefono 2"
-                    class="border border-black p-2 rounded w-full"
+                    className="border border-black p-2 rounded w-full"
                   />
                   {errors.phoneNumber2 !== "" && <p className="text-xs text-red-500">{errors.phoneNumber2}</p>}
                 </div>
               </div>
               <div className="grid grid-cols-2 gap-4 mb-2">
                 <div>
-                <label className='pl-1 text-sm font-bold'>% de Comisión</label>
+                  <label className='pl-1 text-sm font-bold'>% de Comisión</label>
                   <input
                     onChange={handleChange}
                     type="text"
                     name="commission"
                     value={userData.commission}
                     placeholder="Comision"
-                    class="border border-black p-2 rounded w-full"
+                    className="border border-black p-2 rounded w-full"
                   />
                   {errors.commission !== "" && <p className="text-xs text-red-500 ">{errors.commission}</p>}
                 </div>
@@ -258,7 +258,7 @@ function RegisterForm({ setShowResgisterFormModal, branches, specialties, tokenI
               </div>
               <div className="grid grid-cols-2 md:grid-cols-2 gap-4">
                 <div className="mb-2">
-                <label className='pl-1 text-sm font-bold'>Especialidad</label>
+                  <label className='pl-1 text-sm font-bold'>Especialidad</label>
                   {specialties.map((specialty, index) => (
                     <div key={index} className="flex items-center">
                       <input
@@ -278,34 +278,34 @@ function RegisterForm({ setShowResgisterFormModal, branches, specialties, tokenI
                   {errors.specialtyName !== "" && <p className="text-xs text-red-500">{errors.specialtyName}</p>}
                 </div>
                 <div>
-                <label className='pl-1 text-sm font-bold'>Sede</label>
-                    {branches.map((branch, index) => (
-                      <div key={index} className="flex items-center">
-                        <input
-                          type="checkbox"
-                          id={branch}
-                          name="branch"
-                          value={branch.id}
-                          checked={userData.branch.includes(branch.id)}
-                          onChange={handleChange}
-                          className="mr-2"
-                        />
-                        <label htmlFor={branch} className="text-xs text-gray-900 dark:text-darkText">
-                          {branch.branchName}
-                        </label>
-                      </div>
-                    ))}
-                    {errors.branch !== "" && <span className="text-xs text-red-500">{errors.branch}</span>}
+                  <label className='pl-1 text-sm font-bold'>Sede</label>
+                  {branches.map((branch, index) => (
+                    <div key={index} className="flex items-center">
+                      <input
+                        type="checkbox"
+                        id={branch}
+                        name="branch"
+                        value={branch.id}
+                        checked={userData.branch.includes(branch.id)}
+                        onChange={handleChange}
+                        className="mr-2"
+                      />
+                      <label htmlFor={branch} className="text-xs text-gray-900 dark:text-darkText">
+                        {branch.branchName}
+                      </label>
+                    </div>
+                  ))}
+                  {errors.branch !== "" && <span className="text-xs text-red-500">{errors.branch}</span>}
                 </div>
               </div>
-                <div>
-                  <div className="flex flex-col w-full items-center">
-                    <UploadWidget setUserData={setUserData} />
-                    <div className='mt-2 mb-2'>
-                      <img className='w-20 h-20 rounded' src={userData.image} alt="user-avatar" />
-                    </div>
-                    </div>  
+              <div>
+                <div className="flex flex-col w-full items-center">
+                  <UploadWidget setUserData={setUserData} />
+                  <div className='mt-2 mb-2'>
+                    <img className='w-20 h-20 rounded' src={userData.image} alt="user-avatar" />
+                  </div>
                 </div>
+              </div>
               <button
                 type="submit"
                 id="theme-toggle"
