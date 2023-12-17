@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import getParamsEnv from "../functions/getParamsEnv.js";
 import React from "react";
 const { ROOT, LOGIN } = getParamsEnv();
+
 const TermsAndPrivacy = () => {
   return (
     <div className="flex flex-col">
