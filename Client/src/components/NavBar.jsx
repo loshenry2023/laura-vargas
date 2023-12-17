@@ -6,7 +6,7 @@ import { GoPerson } from "react-icons/go";
 import { MdDarkMode } from "react-icons/md";
 
 // hooks, routers, reducers:
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { setLogout } from "../redux/actions.js";
@@ -16,16 +16,26 @@ import getParamsEnv from "../functions/getParamsEnv.js";
 const { ROOT, HOME } = getParamsEnv();
 
 const NavBar = () => {
-  const [theme, setTheme] = useState('dark')
+  const [theme, setTheme] = useState('light')
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
   const handleDarkMode = () => {
-    setTheme(theme === 'dark' ? 'light' : 'dark')
-    if (theme === 'light') { document.documentElement.classList.remove('dark') }
-    else { document.documentElement.classList.add('dark') }
-  }
+    const newTheme = theme === 'light' ? 'dark' : 'light';
+    setTheme(newTheme)
+    localStorage.setItem('darkMode', JSON.stringify(newTheme))
+    }
+
+  useEffect(() => {
+    const storedTheme = JSON.parse(localStorage.getItem('darkMode'));
+    if (storedTheme === 'light' || !storedTheme) {
+      document.documentElement.classList.remove('dark');
+    } else {
+      document.documentElement.classList.add('dark');
+    }
+  }, [theme]); 
+
 
   let roleColor;
   if (user.role === "superAdmin") {

@@ -3,8 +3,11 @@ import Landing from "./views/Landing.jsx";
 import LogIn from "./views/LogIn.jsx";
 import Profiles from "./views/UserProfiles.jsx";
 import Home from "./views/Home.jsx";
+import Error from "./views/Error.jsx";
+
 // hooks, routers, reducers:
 import { Route, Routes } from "react-router-dom";
+
 // Variables de entorno:
 import getParamsEnv from "./functions/getParamsEnv.js";
 import UserDetail from "./views/UserDetail.jsx";
@@ -22,8 +25,8 @@ const App = () => {
         {/* <Route path={DETAIL} element={<Detail />} />
         <Route path={EDIT} element={<Edit />} />
         <Route path={ABOUT} element={<About />} />
-        <Route path={ERROR} element={<Error />} />
-        <Route path="*" element={<Error />} />   */}
+        <Route path={ERROR} element={<Error />} />*/}
+        <Route path="*" element={<Error />} />   
       </Routes>
     </div>
   );
