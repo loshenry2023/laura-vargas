@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import getParamsEnv from "../functions/getParamsEnv.js";
 import React from 'react';
 
-const { LOGIN } = getParamsEnv();
+const { LOGIN, LANDING, TERMSANDPRIVACY } = getParamsEnv();
 
 const Landing = () => {
   return (
@@ -22,13 +22,13 @@ const Landing = () => {
           ></img>
           <ul className="flex">
             <li className="mx-4 text-black hover:text-secondaryPink ">
-              <Link to="/login">Home</Link>
+              <Link to= {LANDING}>Home</Link>
             </li>
             <li className="mx-4 text-black hover:text-secondaryPink ">
-              <Link to="/login">Videos</Link>
+              <Link to={TERMSANDPRIVACY}>Terms and privacy</Link>
             </li>
             <li className="mx-4 text-black hover:text-secondaryPink ">
-              <Link to="/login">Log in</Link>
+              <Link to={LOGIN}>Log in</Link>
             </li>
           </ul>
         </nav>

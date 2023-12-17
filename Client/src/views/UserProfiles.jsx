@@ -93,7 +93,7 @@ function UserProfiles() {
                   <label className="hidden md:inline dark:text-darkText">Fecha inicial</label>
                   <input
                     onChange={(e) => {
-                      setCreateDateStart(`${e.target.value} 00:00:00`);
+                      setCreateDateStart(e.target.value ? `${e.target.value} 00:00:00`: "");
                     }}
                     type="date"
                     defaultValue=""
@@ -104,7 +104,7 @@ function UserProfiles() {
                   <label className="hidden md:inline dark:text-darkText">Fecha final</label>
                   <input
                     onChange={(e) => {
-                      setCreateDateEnd(`${e.target.value} 23:59:59`);
+                      setCreateDateEnd(e.target.value ? `${e.target.value} 23:59:59` : "");
                     }}
                     type="date"
                     defaultValue=""

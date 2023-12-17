@@ -8,7 +8,8 @@ import { Route, Routes } from "react-router-dom";
 // Variables de entorno:
 import getParamsEnv from "./functions/getParamsEnv.js";
 import UserDetail from "./views/UserDetail.jsx";
-const { ROOT, LOGIN, USERPROFILES, HOME, USERDETAIL } = getParamsEnv();
+import TermsAndPrivacy from "./views/termsAndPrivacy.jsx";
+const { ROOT, LOGIN, USERPROFILES, HOME, USERDETAIL, TERMSANDPRIVACY } = getParamsEnv();
 
 const App = () => {
   return (
@@ -19,6 +20,7 @@ const App = () => {
         <Route path={HOME} element={<Home />} />
         <Route path={USERPROFILES} element={<Profiles />} />
         <Route path={USERDETAIL} element={<UserDetail />} />
+        <Route path={TERMSANDPRIVACY} element={<TermsAndPrivacy />} />
         {/* <Route path={DETAIL} element={<Detail />} />
         <Route path={EDIT} element={<Edit />} />
         <Route path={ABOUT} element={<About />} />

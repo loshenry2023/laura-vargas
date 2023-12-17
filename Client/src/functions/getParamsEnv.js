@@ -6,6 +6,7 @@ export default function getParamsEnv() {
   const USERPROFILES = import.meta.env.VITE_PROFILES || "/userProfiles";
   const USERDETAIL = import.meta.env.VITE_DETAIL || "/detail/:id";
   const USERDETAILBASE = import.meta.env.VITE_DETAIL_BASE || "/detail";
+  const TERMSANDPRIVACY = import.meta.env.VITE_TERMS_AND_PRIVACY || "/terms-and-privacy";
   const API_URL_BASE = import.meta.env.VITE_API_URL_BASE || "http://localhost:3001/laura-vargas";
 
   const CLOUD_NAME = import.meta.env.VITE_APP_CLOUD_NAME || "doqyrz0sg";
@@ -31,6 +32,7 @@ export default function getParamsEnv() {
     HOME,
     LOGIN,
     USERDETAIL,
+    TERMSANDPRIVACY,
     USERDETAILBASE,
     USERPROFILES,
     API_URL_BASE,
