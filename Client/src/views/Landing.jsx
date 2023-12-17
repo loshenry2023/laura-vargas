@@ -4,7 +4,7 @@ import React from "react";
 import { AiFillInstagram } from "react-icons/ai";
 import { AiFillFacebook } from "react-icons/ai";
 
-const { LOGIN } = getParamsEnv();
+const { LOGIN, TERMSANDPRIVACY } = getParamsEnv();
 
 const Landing = () => {
   return (
@@ -27,6 +27,9 @@ const Landing = () => {
             </li>
             <li className="text-black hover:text-beige ">
               <Link to="https://www.instagram.com/lauravargas.cpmu/" target="_blank"><AiFillInstagram className="h-10 w-10 cursor-pointer" /></Link>
+            </li>
+            <li>
+              <Link to={TERMSANDPRIVACY} >Terms and privacy</Link>
             </li>
             <li className="flex items-center shadow-md shadow-black rounded-2xl border-1 border-black border-double bg-beige font-medium px-5 cursor-pointer hover:ring-1 hover:ring-black">
               <Link to={LOGIN}>Iniciar sesión</Link>
