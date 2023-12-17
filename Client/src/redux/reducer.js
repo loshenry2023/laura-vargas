@@ -90,6 +90,7 @@ const rootReducer = (state = initialState, { type, payload, count, error, idDele
       };
       localStorage.setItem('myAppReduxState', JSON.stringify(errorState));
       return errorState;
+      
     case SET_ICON:
       const setIconState = {
         ...state,
@@ -97,8 +98,10 @@ const rootReducer = (state = initialState, { type, payload, count, error, idDele
       };
       localStorage.setItem('myAppReduxState', JSON.stringify(setIconState));
       return setIconState;
+
     case USER_LOGOUT:
       localStorage.removeItem('myAppReduxState');
+      localStorage.removeItem('darkMode');
       return initialState;
     default:
       return state;

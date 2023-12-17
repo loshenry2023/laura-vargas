@@ -79,14 +79,14 @@ const UserInfo = () => {
       <>
         {loading ? <Loader /> : (
         <div className="w-full flex justify-center items-center dark:bg-darkBackground">
-          <div className="container mx-5 sm:mx-auto sm:w-3/5 lg:w-3/5 lg:grid lg:grid-cols-2 bg-white rounded-lg shadow-md shadow-grey dark:shadow-black dark:bg-darkPrimary">
-            <div className="h-full">
+          <div className=" bg-beige border-4 border-primaryPink border-double mx-auto sm:w-3/5 lg:w-3/5 lg:grid lg:grid-cols-2 rounded-lg shadow-md shadow-grey dark:shadow-black dark:bg-darkPrimary ">
+            <div className="flex items-center">
               <img
-                className="rounded-xl border-2 w-full border-grey object-cover sm:h-96"
+                className=" w-full shadow-md shadow-black rounded-xl border-grey object-cover sm:mx-2 sm:h-80"
                 src={userID?.image}
               />
             </div>
-            <div className=" py-2 px-2 gap-2 text-gray-800 flex flex-col sm:items-start sm:justify-between">
+            <div className="py-4 px-4 gap-2 bg-beige text-gray-800 flex flex-col sm:items-start sm:justify-between dark:bg-darkPrimary">
               <div className="flex gap-2">
                 <IoMdArrowRoundBack
                   onClick={handleGoBack}
@@ -96,15 +96,15 @@ const UserInfo = () => {
                   {userID?.name} {userID?.lastName}
                 </h2>
               </div>
-              <h3 className="text-lg font-medium leading-tight sm:truncate dark:text-darkText">
+              <h3 className="text-lg font-medium leading-tight dark:text-darkText">
                 Usuario:{" "}
                 <span className="text-md tracking-wide font-light">
                   {userID?.userName}
                 </span>
               </h3>
-              <h3 className="flex text-lg font-medium leading-tight sm:truncate dark:text-darkText">
+              <h3 className="flex text-lg font-medium leading-tight dark:text-darkText">
                 Rol:{" "}
-                <span className="pl-1 text-md tracking-wide font-light sm:truncate">
+                <span className="pl-1 text-md tracking-wide font-light ">
                   {" "}
                   {userID?.role}
                 </span>
