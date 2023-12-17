@@ -86,7 +86,7 @@ const UserInfo = () => {
                 src={userID?.image}
               />
             </div>
-            <div className="py-4 px-4 gap-2 bg-beige text-gray-800 flex flex-col sm:items-start sm:justify-between">
+            <div className="py-4 px-4 gap-2 bg-beige text-gray-800 flex flex-col sm:items-start sm:justify-between dark:bg-darkPrimary">
               <div className="flex gap-2">
                 <IoMdArrowRoundBack
                   onClick={handleGoBack}

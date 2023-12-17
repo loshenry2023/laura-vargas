@@ -20,8 +20,8 @@ export default {
         '3xl': '0 35px 60px -15px rgba(0, 0, 0, 0.3)',
       },
       fontFamily: {
-        fontTitle: ['x', 'y'],
-        fontNav: ['x', 'y'],
+        fontTitle: ['Bebas Neue'],
+        fontSubTitle: ['Grandiflora One'],
         fontParra: ['x', 'y'] // Hay que importarlas en el postcss.config
       }
     },

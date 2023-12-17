@@ -123,14 +123,14 @@ const LogIn = () => {
               className="w-full px-4 py-2 border flex justify-center  gap-2 rounded-lg border-slate-700 hover:bg-grey hover:text-white transition-color duration-700 ease-in-out"
             >
               <AiFillFacebook className="h-6 w-6 text-blue-900" />
-              <span>Login with Facebook</span>
+              <span>Iniciar sesión con Facebook</span>
             </button>
             <button
               onClick={handleGoogle}
               className="w-full px-4 py-2 border flex justify-center gap-2 rounded-lg border-slate-700 hover:bg-grey hover:text-white transition-color duration-700 ease-in-out "
             >
               <FcGoogle className="h-6 w-6" />
-              <span>Login with Google</span>
+              <span>Iniciar sesión con Google</span>
             </button>
             {errorCredentials ? (
               <p className="text-red-500 text-sm font-semibold ">
