@@ -4,7 +4,7 @@ VITE_HOME=/home
 VITE_VITE_PROFILES=/userProfiles
 VITE_DETAIL=/detail/:id
 VITE_DETAIL_BASE=/detail
-VITE_TERMS_AND_PRIVACY =/terms-and-privacy
+VITE_TERMS_AND_PRIVACY=/terms-and-privacy
 VITE_API_URL_BASE=https://laura-vargas.vercel.app/laura-vargas
 
 VITE_APP_CLOUD_NAME=doqyrz0sg
