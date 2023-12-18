@@ -7,3 +7,7 @@ PORT=3001
 SECURE=true
 MUST_LOG=1
 FIRST_SUPERADMIN = loshenry2023@gmail.com
+EMAIL=loshenry2023@gmail.com
+PASSWORD_EMAIL=zbca hpnf sire jglo
+NODEMAILER_HOST=smtp.gmail.com
+NODEMAILER_PORT=465

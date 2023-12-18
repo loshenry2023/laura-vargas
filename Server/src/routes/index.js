@@ -25,6 +25,8 @@ const postBranchHandler = require("../Handlers/branch/postBranchHandler");
 const putBranchHandler = require("../Handlers/branch/putBranchHandler");
 const deleteBranchHandler = require("../Handlers/branch/deleteBranchHandler");
 const getBranchHandler = require("../Handlers/branch/getBranchHandler");
+// Otros:
+const sendMail = require("../Handlers/mail/sendMailHandler");
 
 //! Rutas
 // Usuarios:
@@ -52,5 +54,6 @@ router.post("/deletebranch/:id", deleteBranchHandler); //  elimina una sede
 router.post("/branches", getBranchHandler); // obtiene y devuelve todas las sedes
 // Otras:
 router.get("/", getMain); // únicamente para el deploy
+router.post("/sendmail", sendMail); // envía un mail
 
 module.exports = router;
