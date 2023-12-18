@@ -80,13 +80,13 @@ function UserProfiles() {
 
 
   return (
-    <>
+    <div>
       <NavBar />
       <div className="flex flex-row dark:bg-darkBackground">
-        <SideBar />
+        <SideBar /> 
         {loading ? <Loader /> : (
-          <div className="flex flex-col flex-wrap gap-4 items-center h-[calc(100vh-150px)] mt-10 m-auto">
-            <h1 className="text-xl dark:text-beige">Plantilla de empleados</h1>
+          <div className="flex flex-col mt-10 gap-5 w-2/3 mx-auto"> 
+            <h1 className="text-xl text-center dark:text-beige sm:text-left" >Plantilla de empleados</h1>
             <section className="flex flex-col gap-2 mx-auto sm:flex sm:flex-row sm:gap-5 sm:w-full">
               <div className="flex flex-col gap-6 md:flex-row">
                 <div className="flex gap-2">
@@ -198,7 +198,7 @@ function UserProfiles() {
                 </div>
               </div>
             </section>
-            <section className="flex flex-col items-center gap-5 w-full">
+            <section>
               <ProfilesTable
                 count={count}
                 users={users} />
@@ -211,7 +211,9 @@ function UserProfiles() {
                   setActivarNuevoUsuario={setActivarNuevoUsuario}
                 />
               ) : null}
-              <select
+            </section>
+            <section className="flex flex-col items-center gap-5">
+            <select
                 name=""
                 id=""
                 defaultValue={10}
@@ -233,38 +235,38 @@ function UserProfiles() {
                 <option value={9}>9</option>
                 <option value={10}>10</option>
               </select>
-            </section>
-            <section>
-              <button
-                onClick={
-                  page
-                    ? () => {
-                      setPage(page - 1);
-                    }
-                    : null
-                }
-                className="dark:text-darkText"
-              >
-                {" "}
-                {"<"}
-              </button>
-              <span className="dark:text-darkText"> {page + 1} de {pagination} </span>
-              <button
-                onClick={
-                  page < pagination - 1
-                    ? () => {
-                      setPage(page + 1);
-                    }
-                    : null
-                }
-                className="dark:text-darkText"
-              >
-                {">"}
-              </button>
+                <div>
+                <button
+                  onClick={
+                    page
+                      ? () => {
+                        setPage(page - 1);
+                      }
+                      : null
+                  }
+                  className="dark:text-darkText"
+                >
+                  {" "}
+                  {"<"}
+                </button>
+                <span className="dark:text-darkText"> {page + 1} de {pagination} </span>
+                <button
+                  onClick={
+                    page < pagination - 1
+                      ? () => {
+                        setPage(page + 1);
+                      }
+                      : null
+                  }
+                  className="dark:text-darkText"
+                >
+                  {">"}
+                </button>
+                </div>
             </section>
           </div>)}
+       </div> 
       </div>
-    </>
   )
 }
 
