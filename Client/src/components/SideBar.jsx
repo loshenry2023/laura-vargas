@@ -18,7 +18,7 @@ const SideBar = () => {
   };
 
   return (
-    <div className="bg-secondaryPink w-20 h-[calc(100vh-80px)] flex flex-col items-center gap-8 pointer-events-auto shadow-md shadow-grey dark:shadow-gray-100 dark:bg-darkPrimary dark:text-beige">
+    <div className="bg-secondaryPink w-14 h-[calc(100vh-80px)] flex flex-col items-center gap-8 pointer-events-auto shadow-md shadow-grey dark:shadow-gray-100 dark:bg-darkPrimary dark:text-beige">
       <hr className="w-14 h-[1px] bg-beige border-0" />
       <a href="#" onClick={() => handleIconClick("calendar")}>
         <FaCalendar className={`w-6 h-6 dark:text-beige ${selectedIcon === "calendar" ? "text-black" : "text-black hover:text-beige"}`} />

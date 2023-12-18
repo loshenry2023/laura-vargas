@@ -170,11 +170,11 @@ function EditModal({ setShowEditModal, branches, specialties, userId, tokenID })
                     <div className="w-full bg-white shadow rounded-lg p-6 md:mx-auto md:w-1/2 2xl:w-1/3 dark:bg-darkBackground">
                         <div className='flex justify-between'>
                             <h1 className="text-xl font-semibold mb-4 text-black dark:text-darkText">Editar usuario</h1>
-                            <IoClose onClick={closeModal} className='cursor-pointer mt-2 w-5 h-5 dark:text-darkText' />
+                            <IoClose onClick={closeModal} className='cursor-pointer mt-2 w-5 h-5 hover:scale-125 dark:text-darkText' />
                         </div>
                         <form onSubmit={handleSubmit}>
                             <div className="first-letter:grid grid-cols-1 mb-2">
-                                <label className='block mb-2 text-sm font-medium text-gray-900'>Cuenta de usuario (Email)</label>
+                                <label className="mb-2 text-sm font-medium text-gray-900 dark:text-darkText">Cuenta de usuario (Email)</label>
                                 <input
                                     placeholder="Gmail Usuario"
                                     className={`cursor-not-allowed border bg-gray-200 text-gray-500 border-black p-2 rounded w-full ${errors.userName !== undefined && "border-red-500"}`}
@@ -188,7 +188,7 @@ function EditModal({ setShowEditModal, branches, specialties, userId, tokenID })
                             </div>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-2">
                                 <div>
-                                    <label className='block mb-2 text-sm font-medium text-gray-900'>Nombre</label>
+                                    <label className='block mb-2 text-sm font-medium text-gray-900 dark:text-darkText'>Nombre</label>
                                     <input
                                         onChange={handleChange}
                                         type="text"
@@ -200,7 +200,7 @@ function EditModal({ setShowEditModal, branches, specialties, userId, tokenID })
                                     {errors.name !== "" && <p className="text-xs text-red-500">{errors.name}</p>}
                                 </div>
                                 <div>
-                                    <label className='block mb-2 text-sm font-medium text-gray-900'>Apellido</label>
+                                    <label className='block mb-2 text-sm font-medium text-gray-900 dark:text-darkText'>Apellido</label>
                                     <input
                                         type="text"
                                         placeholder="Apellido"
@@ -213,7 +213,7 @@ function EditModal({ setShowEditModal, branches, specialties, userId, tokenID })
                                 </div>
                             </div>
                             <div className="first-letter:grid grid-cols-1 gap-4 mb-2">
-                                <label className='block mb-2 text-sm font-medium text-gray-900'>Email para notificaciones</label>
+                                <label className='block mb-2 text-sm font-medium text-gray-900 dark:text-darkText'>Email para notificaciones</label>
                                 <input
                                     placeholder="Email para notifiaciones"
                                     className="border border-black p-2 rounded w-full"
@@ -226,7 +226,7 @@ function EditModal({ setShowEditModal, branches, specialties, userId, tokenID })
                             </div>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-2">
                                 <div>
-                                    <label className='block mb-2 text-sm font-medium text-gray-900'>Telefono</label>
+                                    <label className='block mb-2 text-sm font-medium text-gray-900 dark:text-darkText'>Telefono</label>
                                     <input
                                         placeholder="Telefono 1"
                                         className={`border border-black p-2 rounded w-full ${errors.phoneNumber1 !== undefined && "border-red-500"}`}
@@ -238,7 +238,7 @@ function EditModal({ setShowEditModal, branches, specialties, userId, tokenID })
                                     {errors.phoneNumber1 !== "" && <p className="text-xs text-red-500">{errors.phoneNumber1}</p>}
                                 </div>
                                 <div>
-                                    <label className='block mb-2 text-sm font-medium text-gray-900'>Telefono alternativo</label>
+                                    <label className='block mb-2 text-sm font-medium text-gray-900 dark:text-darkText'>Telefono alternativo</label>
                                     <input
                                         onChange={handleChange}
                                         type="text"
@@ -252,7 +252,7 @@ function EditModal({ setShowEditModal, branches, specialties, userId, tokenID })
                             </div>
                             <div className="grid grid-cols-2 gap-4 mb-2">
                                 <div>
-                                    <label className='block mb-2 text-sm font-medium text-gray-900'>% de comisión</label>
+                                    <label className='block mb-2 text-sm font-medium text-gray-900 dark:text-darkText'>% de comisión</label>
                                     <input
                                         onChange={handleChange}
                                         type="text"
@@ -264,7 +264,7 @@ function EditModal({ setShowEditModal, branches, specialties, userId, tokenID })
                                     {errors.commission !== "" && <p className="text-xs text-red-500 ">{errors.commission}</p>}
                                 </div>
                                 <div>
-                                    <label className='block mb-2 text-sm font-medium text-gray-900'>Rol</label>
+                                    <label className='block mb-2 text-sm font-medium text-gray-900 dark:text-darkText'>Rol</label>
                                     <select
                                         onChange={handleChange}
                                         name="rol"

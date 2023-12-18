@@ -109,22 +109,22 @@ const UserInfo = () => {
                   {userID?.role}
                 </span>
               </h3>
-              <h3 className="text-lg leading-tight font-medium sm:truncate dark:text-darkText">
+              <h3 className="text-lg leading-tight font-medium  dark:text-darkText">
                 Teléfono:{" "}
-                <span className="text-md tracking-wide font-light sm:truncate dark:text-darkText">
+                <span className="text-md tracking-wide font-light dark:text-darkText">
                   {userID?.phone1}
                 </span>
               </h3>
-              <h3 className="text-lg leading-tight font-medium sm:truncate dark:text-darkText">
+              <h3 className="text-lg leading-tight font-medium dark:text-darkText">
                 Email:{" "}
-                <span className="text-md tracking-wide font-light sm:truncate dark:text-darkText">
+                <span className="text-md tracking-wide font-light dark:text-darkText">
                   {" "}
                   {userID?.notificationEmail}{" "}
                 </span>
               </h3>
-              <h3 className="text-lg leading-tight font-medium sm:truncate dark:text-darkText">
+              <h3 className="text-lg leading-tight font-medium dark:text-darkText">
                 Comisión:{" "}
-                <span className="text-md tracking-wide font-light sm:truncate">
+                <span className="text-md tracking-wide font-light ">
                   {userID?.comission}%
                 </span>
               </h3>
@@ -141,13 +141,13 @@ const UserInfo = () => {
                     </span>
                   ))}
               </h3>
-              <h3 className="text-lg leading-tight font-medium sm:truncate dark:text-darkText">
+              <h3 className="text-lg leading-tight font-medium first-line: dark:text-darkText">
                 Sede:{" "}
-                <span className="text-md tracking-wide font-light sm:truncate dark:text-darkText">
+                <span className="text-md tracking-wide font-light dark:text-darkText">
                   {sedes &&
                     sedes.map((sede, index) => (
                       <span
-                        className="text-md tracking-wide font-light sm:truncate"
+                        className="text-md tracking-wide font-light"
                         key={index}
                       >
                         {" "}
