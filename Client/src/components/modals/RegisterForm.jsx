@@ -143,11 +143,11 @@ function RegisterForm({ setShowResgisterFormModal, branches, specialties, tokenI
           <div className="w-full bg-white shadow rounded-lg p-6 md:mx-auto md:w-1/2 2xl:w-1/3 dark:bg-darkBackground">
             <div className='flex justify-between'>
               <h1 className="text-xl font-semibold mb-4 text-black dark:text-darkText">Agregar usuario</h1>
-              <IoClose onClick={closeModal} className='cursor-pointer mt-2 w-5 h-5 dark:text-darkText' />
+              <IoClose onClick={closeModal} className='cursor-pointer hover:scale-125 mt-2 w-5 h-5 dark:text-darkText' />
             </div>
             <form onSubmit={handleSubmit}>
               <div className="first-letter:grid grid-cols-1 mb-2">
-                <label className='pl-1 text-sm font-bold'>Cuenta de usuario (Email)</label>
+                <label className='pl-1 text-sm font-bold dark:text-darkText'>Cuenta de usuario (Email)</label>
                 <input
                   placeholder="Cuenta de usuario"
                   className="border border-black p-2 rounded w-full"
@@ -161,7 +161,7 @@ function RegisterForm({ setShowResgisterFormModal, branches, specialties, tokenI
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-2">
                 <div>
-                  <label className='pl-1 text-sm font-bold'>Nombre</label>
+                  <label className='pl-1 text-sm font-bold dark:text-darkText'>Nombre</label>
                   <input
                     onChange={handleChange}
                     type="text"
@@ -173,7 +173,7 @@ function RegisterForm({ setShowResgisterFormModal, branches, specialties, tokenI
                   {errors.name !== "" && <p className="text-xs text-red-500">{errors.name}</p>}
                 </div>
                 <div>
-                  <label className='pl-1 text-sm font-bold'>Apellido</label>
+                  <label className='pl-1 text-sm font-bold dark:text-darkText'>Apellido</label>
                   <input
                     type="text"
                     placeholder="Apellido"
@@ -186,7 +186,7 @@ function RegisterForm({ setShowResgisterFormModal, branches, specialties, tokenI
                   {errors.lastName !== "" && <p className="text-xs text-red-500">{errors.lastName}</p>}
                 </div>
               </div>
-              <label className='pl-1 text-sm font-bold'>Email para notificaciones</label>
+              <label className='pl-1 text-sm font-bold dark:text-darkText'>Email para notificaciones</label>
               <div className="first-letter:grid grid-cols-1 gap-4 mb-2">
                 <input
                   placeholder="Email para notificaciones"
@@ -201,7 +201,7 @@ function RegisterForm({ setShowResgisterFormModal, branches, specialties, tokenI
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-2">
                 <div>
-                  <label className='pl-1 text-sm font-bold'>Telefono</label>
+                  <label className='pl-1 text-sm font-bold dark:text-darkText'>Telefono</label>
                   <input
                     placeholder="Telefono 1"
                     className="border border-black p-2 rounded w-full"
@@ -213,7 +213,7 @@ function RegisterForm({ setShowResgisterFormModal, branches, specialties, tokenI
                   {errors.phoneNumber1 !== "" && <p className="text-xs text-red-500">{errors.phoneNumber1}</p>}
                 </div>
                 <div>
-                  <label className='pl-1 text-sm font-bold'>Telefono alternativo</label>
+                  <label className='pl-1 text-sm font-bold dark:text-darkText'>Telefono alternativo</label>
                   <input
                     onChange={handleChange}
                     type="text"
@@ -227,7 +227,7 @@ function RegisterForm({ setShowResgisterFormModal, branches, specialties, tokenI
               </div>
               <div className="grid grid-cols-2 gap-4 mb-2">
                 <div>
-                  <label className='pl-1 text-sm font-bold'>% de Comisión</label>
+                  <label className='pl-1 text-sm font-bold dark:text-darkText'>% de Comisión</label>
                   <input
                     onChange={handleChange}
                     type="text"
@@ -239,7 +239,7 @@ function RegisterForm({ setShowResgisterFormModal, branches, specialties, tokenI
                   {errors.commission !== "" && <p className="text-xs text-red-500 ">{errors.commission}</p>}
                 </div>
                 <div>
-                  <label className='pl-1 text-sm font-bold'>Rol</label>
+                  <label className='pl-1 text-sm font-bold dark:text-darkText'>Rol</label>
                   <select
                     onChange={handleChange}
                     name="rol"
@@ -259,7 +259,7 @@ function RegisterForm({ setShowResgisterFormModal, branches, specialties, tokenI
               </div>
               <div className="grid grid-cols-2 md:grid-cols-2 gap-4">
                 <div className="mb-2">
-                  <label className='pl-1 text-sm font-bold'>Especialidad</label>
+                  <label className='pl-1 text-sm font-bold dark:text-darkText'>Especialidad</label>
                   {specialties.map((specialty, index) => (
                     <div key={index} className="flex items-center">
                       <input
@@ -279,7 +279,7 @@ function RegisterForm({ setShowResgisterFormModal, branches, specialties, tokenI
                   {errors.specialtyName !== "" && <p className="text-xs text-red-500">{errors.specialtyName}</p>}
                 </div>
                 <div>
-                  <label className='pl-1 text-sm font-bold'>Sede</label>
+                  <label className='pl-1 text-sm font-bold dark:text-darkText'>Sede</label>
                   {branches.map((branch, index) => (
                     <div key={index} className="flex items-center">
                       <input
