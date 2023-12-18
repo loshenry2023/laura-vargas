@@ -8,14 +8,16 @@ const { LOGIN, TERMSANDPRIVACY } = getParamsEnv();
 
 const Landing = () => {
   return (
+    <section className="bg-primaryPink">
     <div
       id="home"
-      className="flex flex-col h-screen"
+      className="flex flex-col justify-evenly 2xl:h-screen"
       style={{
-        backgroundImage:
-          'url("https://images.unsplash.com/photo-1631214540553-ff044a3ff1d4?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D")',
-        backgroundSize: "cover", // Ajusta según tus necesidades
-        backgroundPosition: "center", // Ajusta según tus necesidades
+        // backgroundImage:
+        //   'url("https://images.unsplash.com/photo-1631214540553-ff044a3ff1d4?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D")',
+        // backgroundSize: "cover", // Ajusta según tus necesidades
+        // backgroundPosition: "center", // Ajusta según tus necesidades
+        // backgroundRepeat: "repeat"
       }}
     >
         <nav className="flex items-center justify-between px-10 h-20 bg-transparent">
@@ -77,12 +79,13 @@ const Landing = () => {
           </div>
         </div>
         <footer
-          className="text-sm flex justify-self-end justify-end items-center pr-10 h-20">
+          className="text-sm flex justify-end items-center h-20 pr-10">
           <Link className="font-medium hover:underline" to={TERMSANDPRIVACY}>
             Terms and privacy
           </Link>
         </footer>
       </div>
+      </section>
   );
 };
 
