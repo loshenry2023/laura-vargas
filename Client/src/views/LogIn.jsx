@@ -82,7 +82,7 @@ const LogIn = () => {
 
       // Obtengo el token de acceso:
       const accessToken = await googleUser.user.getIdToken();
-
+      console.log(accessToken)
       const dataToValidate = {
         nameUser: googleUser.user.email,
         idUser: accessToken, // mando el gigantesco token real
@@ -107,7 +107,7 @@ const LogIn = () => {
   return (
     <section className="mx-auto">
       <div className="bg-[url('https://res.cloudinary.com/doyafxwje/image/upload/v1702756196/LogIn/gynr0zwbrkjrkkqv5acv.png')] bg-cover bg-center flex flex-col items-center justify-center h-screen lg:py-0">
-        <div className="w-full bg-white rounded-lg shadow  md:mt-0 sm:max-w-md xl:p-0">
+        <div className="w-full bg-white rounded-lg shadow-xl shadow-black max-w-sm">
           <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
             <div className="flex justify-between">
               <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl ">

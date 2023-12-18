@@ -101,7 +101,6 @@ const rootReducer = (state = initialState, { type, payload, count, error, idDele
 
     case USER_LOGOUT:
       localStorage.removeItem('myAppReduxState');
-      localStorage.removeItem('darkMode');
       return initialState;
     default:
       return state;
