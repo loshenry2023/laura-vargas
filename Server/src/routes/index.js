@@ -27,7 +27,7 @@ const deleteBranchHandler = require("../Handlers/branch/deleteBranchHandler");
 const getBranchHandler = require("../Handlers/branch/getBranchHandler");
 // Otros:
 const sendMail = require("../Handlers/mail/sendMailHandler");
-// Especialidades:
+// Procedimientos:
 const putServiceHandler = require("../Handlers/service/putServiceHandler");
 const deleteServiceHandler = require("../Handlers/service/deleteServiceHandler");
 const getServicesHandler = require("../Handlers/service/getServicesHandler");
