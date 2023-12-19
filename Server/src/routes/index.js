@@ -37,6 +37,9 @@ const postClientHandler = require("../Handlers/client/postClientHandler");
 const deleteClientHandler = require("../Handlers/client/deleteClientHandler");
 const putClientHandler = require("../Handlers/client/putClientHandler");
 const getClientHandler = require("../Handlers/client/getClientHandler");
+// Histórico de procedimientos:
+const postHistoricProcHandler = require("../Handlers/historicServices/postHistoricProcHandler");
+const getHistoricProcHandler = require("../Handlers/historicServices/getHistoricProcHandler");
 
 //! Rutas
 // Usuarios:
@@ -75,5 +78,8 @@ router.post("/newclient", postClientHandler); //  crea un cliente
 router.put("/client/:id", putClientHandler); //  edita un cliente
 router.post("/deleteclient/:id", deleteClientHandler); //  elimina un cliente
 router.post("/getclients", getClientHandler); // obtiene y devuelve todos los clientes
+// Histórico de procedimientos:
+router.post("/newhistiricproc", postHistoricProcHandler); //  crea un registro en el histórico de procedimientos
+router.post("/gethistoricproc", getHistoricProcHandler); // obtiene y devuelve el histórico de los procedimientos
 
 module.exports = router;

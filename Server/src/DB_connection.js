@@ -59,9 +59,10 @@ const {
 
 //Relaciones a 1:
 //Calendar.belongsTo(Client, { foreignKey: "client_id" });
-Calendar.hasMany(Client, { foreignKey: "client_id" });
+//Calendar.hasMany(Client, { foreignKey: "client_id" }); //un calendario puede tener muchos clientes agendados??!
 //Client.belongsTo(Calendar); //un cliente pertenece a un solo calendario??!!
 Client.hasMany(Calendar); //un cliente puede tener muchas citas agendadas
+Client.hasMany(HistoryService); //un cliente puede tener muchos procedimientos hechos
 
 //Relaciones muchos a muchos:
 User.belongsToMany(Specialty, { through: "user_specialty" });

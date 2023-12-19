@@ -97,7 +97,7 @@ async function createBasicData() {
         serviceCreated1.addSpecialty(spec)
       }
       // Parte 3:
-      serviceList = ["Micropigmentación", "Retoque Micropigmentación", "Depilación  del bozo o bigote"];
+      serviceList = ["Micropigmentación", "Retoque Micropigmentación", "Depilación del bozo o bigote"];
       for (let i = 0; i < serviceList.length; i++) {
         const [serviceCreated1, created] = await Service.findOrCreate({
           where: {
