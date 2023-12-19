@@ -2,7 +2,7 @@
 const showLog = require("../functions/showLog");
 
 const getReg = async (
-    tableName, tableNameText, tableName2 = "",
+    tableName, tableNameText, tableName2 = "", tableName3 = "",
 ) => {
     try {
         let reg;
@@ -43,7 +43,16 @@ const getReg = async (
                             model: tableName2,
                             attributes: ['id', 'date_from', 'date_to', 'obs'],
                         },
+                        {
+                            model: tableName3,
+                            attributes: ['id', 'date', 'serviceName', 'price', 'imageServiceDone', 'conformity', 'branchName', 'paymentMethodName', 'attendedBy'],
+                        },
                     ],
+                });
+                break;
+            case "HistoryService":
+                reg = await tableName.findAll({
+                    attributes: ["id", "imageServiceDone", "date", "price", "conformity", "branchName", "paymentMethodName", "serviceName", "attendedBy", "email", "name", "lastName", "id_pers"],
                 });
                 break;
             default:

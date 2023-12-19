@@ -2,7 +2,7 @@
 //const showLog = require("../functions/showLog");
 const { Op } = require('sequelize');
 
-const postReg = async (tableName, tableNameText, data, conn = "") => {
+const postReg = async (tableName, tableNameText, data, conn = "", tableName2 = "") => {
     try {
         let resp;
         switch (tableNameText) {
@@ -26,9 +26,34 @@ const postReg = async (tableName, tableNameText, data, conn = "") => {
                 return { "created": "ok", "id": resp };
             default:
                 throw new Error("Tabla no válida");
+            case "HistoryService":
+                resp = await AddRegHistoricProc(tableName, data, conn, tableName2);
+                return { "created": "ok" };
         }
     } catch (err) {
         return { created: "error", message: err.message };
+    }
+}
+
+async function AddRegHistoricProc(HistoryService, data, conn, Client) {
+    const { idclient, imageServiceDone, date, price, conformity, branchName, paymentMethodName, serviceName, attendedBy, email, name, lastName, id_pers } = data;
+    let transaction; // manejo transacciones para evitar registros defectuosos por relaciones mal solicitadas
+    try {
+        if (!idclient || !imageServiceDone || !date || !conformity || !branchName || !paymentMethodName || !serviceName || !attendedBy || !email || !name || !lastName) { throw Error("Faltan datos"); }
+        // Inicio la transacción:
+        transaction = await conn.transaction();
+        const client = await Client.findByPk(idclient);
+        if (!client) { throw Error("Cliente no encontrado"); }
+        const regCreated = await HistoryService.create({
+            imageServiceDone, date, price, conformity, branchName, paymentMethodName, serviceName, attendedBy, email, name, lastName, id_pers,
+        });
+        // Relación: asocio el historial de servicio con el cliente:
+        await client.addHistoryService(regCreated, { transaction });
+        await transaction.commit();
+        return;
+    } catch (error) {
+        if (transaction) await transaction.rollback();
+        throw Error(`${error}`);
     }
 }
 
