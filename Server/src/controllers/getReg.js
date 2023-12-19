@@ -2,7 +2,7 @@
 const showLog = require("../functions/showLog");
 
 const getReg = async (
-    tableName, tableNameText,
+    tableName, tableNameText, tableName2 = "",
 ) => {
     try {
         let reg;
@@ -22,9 +22,21 @@ const getReg = async (
                     attributes: ["id", "specialtyName"],
                 });
                 break;
+            case "Service":
+                reg = await tableName.findAll({
+                    attributes: ["id", "serviceName", "duration", "price", "ImageService"],
+                    include: [
+                        {
+                            model: tableName2,
+                            as: 'Specialties',
+                            attributes: ['id', 'specialtyName'],
+                            through: { attributes: [] }
+                        },
+                    ],
+                });
+                break;
             default:
                 throw new Error("Tabla no válida");
-
         }
         return reg;
     } catch (err) {

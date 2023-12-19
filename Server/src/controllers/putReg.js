@@ -14,6 +14,9 @@ const putReg = async (tableName, tableNameText, data, id, conn = "") => {
             case "Specialty":
                 resp = await editRegSpecialty(tableName, data, id);
                 break;
+            case "Service":
+                resp = await editRegService(tableName, data, id, conn);
+                break;
             case "User":
                 resp = await editRegUser(tableName, data, id, conn);
                 break;
@@ -23,6 +26,32 @@ const putReg = async (tableName, tableNameText, data, id, conn = "") => {
         return { "created": "ok" };
     } catch (err) {
         return { created: "error", message: err.message };
+    }
+}
+
+async function editRegService(Service, data, id, conn) {
+    const { serviceName, duration, price, ImageService, specialty } = data;
+    let transaction; // manejo transacciones para evitar registros defectuosos por relaciones mal solicitadas
+    try {
+        if (!serviceName || !duration || !price || !ImageService || !specialty) { throw Error("Faltan datos"); }
+        const existingService = await Service.findByPk(id);
+        if (!existingService) {
+            throw Error("Procedimiento no encontrado");
+        }
+        // Inicio la transacción:
+        transaction = await conn.transaction();
+        existingService.serviceName = serviceName;
+        existingService.duration = duration;
+        existingService.price = price;
+        existingService.ImageService = ImageService;
+        await existingService.save();
+        // Busco las especialidades para agregar las relaciones:
+        await existingService.setSpecialties(specialty, { transaction });
+        await transaction.commit();
+        return;
+    } catch (error) {
+        if (transaction) await transaction.rollback();
+        throw Error(`${error}`);
     }
 }
 

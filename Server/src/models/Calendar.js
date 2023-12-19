@@ -1,39 +1,23 @@
 const { DataTypes } = require("sequelize");
 
 module.exports = (sequelize) => {
-  sequelize.define("Client", {
+  sequelize.define("Calendar", {
     id: {
       type: DataTypes.UUID, // clave impredecible, versión 4
       defaultValue: DataTypes.UUIDV4,
       primaryKey: true,
       allowNull: false,
     },
-    email: {
+    date_from: {
+      type: DataTypes.DATE,
+      allowNull: false,
+    },
+    date_to: {
+      type: DataTypes.DATE,
+      allowNull: false,
+    },
+    obs: {
       type: DataTypes.TEXT,
-      allowNull: false,
-    },
-    name: {
-      type: DataTypes.TEXT,
-      allowNull: false,
-    },
-    lastName: {
-      type: DataTypes.TEXT,
-      allowNull: false,
-    },
-    id_pers: {
-      type: DataTypes.TEXT,
-      allowNull: false,
-    },
-    phoneNumber1: {
-      type: DataTypes.TEXT, //validar!
-      allowNull: true,
-    },
-    phoneNumber2: {
-      type: DataTypes.TEXT, //validar!
-      allowNull: false,
-    },
-    image: {
-      type: DataTypes.STRING,
       allowNull: false,
     },
     deletedAt: {
