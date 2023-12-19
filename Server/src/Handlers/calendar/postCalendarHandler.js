@@ -1,33 +1,33 @@
-const { conn, HistoryService, Client, Incoming } = require('../../DB_connection');
+const { conn, Calendar, User, Service, Client, Branch } = require('../../DB_connection');
 const postReg = require("../../controllers/postReg");
 const showLog = require("../../functions/showLog");
 const checkToken = require('../../functions/checkToken');
 
-const postHistoricProcHandler = async (req, res) => {
+const postCalendarHandler = async (req, res) => {
   try {
     const { token } = req.body;
-    showLog(`postHistoricProcHandler`);
-    // Verifico token. Sólo un superAdmin puede agregar:
+    showLog(`postCalendarHandler`);
+    // Verifico token. Sólo un superAdmin o admin puede agregar:
     if (!token) { throw Error("Se requiere token"); }
     const checked = await checkToken(token);
-    if (!checked.exist || checked.role !== "superAdmin") {
+    if (!checked.exist || checked.role === "especialista") {
       showLog(`Wrong token.`);
       return res.status(401).send(`Sin permiso.`);
     }
-    const resp = await postReg(HistoryService, "HistoryService", req.body, conn, Client, Incoming);
+    const resp = await postReg(Calendar, "Calendar", req.body, conn, User, Service, Client, Branch);
 
     if (resp.created === 'ok') {
-      showLog(`postHistoricProcHandler OK`);
+      showLog(`postCalendarHandler OK`);
       return res.status(200).json({ "created": "ok" });
     } else {
-      showLog(`postHistoricProcHandler ERROR-> ${resp.message}`);
+      showLog(`postCalendarHandler ERROR-> ${resp.message}`);
       return res.status(500).send(resp.message);
     }
   } catch (err) {
-    showLog(`postHistoricProcHandler ERROR-> ${err.message}`);
+    showLog(`postCalendarHandler ERROR-> ${err.message}`);
     return res.status(500).send(err.message);
   }
 };
 
-module.exports = postHistoricProcHandler;
+module.exports = postCalendarHandler;
 

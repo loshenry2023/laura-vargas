@@ -1,34 +1,24 @@
 const { DataTypes } = require("sequelize");
 
 module.exports = (sequelize) => {
-  sequelize.define("Calendar", {
+  sequelize.define("Incoming", {
     id: {
       type: DataTypes.UUID, // clave impredecible, versión 4
       defaultValue: DataTypes.UUIDV4,
       primaryKey: true,
       allowNull: false,
     },
-    date_from: {
-      type: DataTypes.DATE,
+    amount: {
+      type: DataTypes.DOUBLE,
       allowNull: false,
     },
-    date_to: {
-      type: DataTypes.DATE,
-      allowNull: false,
-    },
-    obs: {
+    paymentMethodName: {
       type: DataTypes.TEXT,
       allowNull: false,
     },
-    current: {
-      type: DataTypes.BOOLEAN,
+    DateIncoming: {
+      type: DataTypes.DATE,
       allowNull: false,
     },
-    deletedAt: {
-      type: DataTypes.DATE,
-      allowNull: true,
-    },
-  }, {
-    paranoid: true, // Habilita eliminación suave
   });
 };

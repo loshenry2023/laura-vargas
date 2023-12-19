@@ -2,7 +2,7 @@
 //const showLog = require("../functions/showLog");
 const { Op } = require('sequelize');
 
-const postReg = async (tableName, tableNameText, data, conn = "", tableName2 = "") => {
+const postReg = async (tableName, tableNameText, data, conn = "", tableName2 = "", tableName3 = "", tableName4 = "", tableName5 = "") => {
     try {
         let resp;
         switch (tableNameText) {
@@ -24,29 +24,78 @@ const postReg = async (tableName, tableNameText, data, conn = "", tableName2 = "
             case "Client":
                 resp = await AddRegClient(tableName, data, conn);
                 return { "created": "ok", "id": resp };
+            case "HistoryService":
+                resp = await AddRegHistoricProc(tableName, data, conn, tableName2, tableName3);
+                return { "created": "ok" };
+            case "Calendar":
+                resp = await AddRegCalendar(tableName, data, conn, tableName2, tableName3, tableName4, tableName5);
+                return { "created": "ok", "id": resp };
             default:
                 throw new Error("Tabla no válida");
-            case "HistoryService":
-                resp = await AddRegHistoricProc(tableName, data, conn, tableName2);
-                return { "created": "ok" };
         }
     } catch (err) {
         return { created: "error", message: err.message };
     }
 }
 
-async function AddRegHistoricProc(HistoryService, data, conn, Client) {
-    const { idclient, imageServiceDone, date, price, conformity, branchName, paymentMethodName, serviceName, attendedBy, email, name, lastName, id_pers } = data;
+async function AddRegCalendar(Calendar, data, conn, User, Service, Client, Branch) {
+    const { idUser, idService, idClient, idBranch, date_from, date_to, obs } = data;
     let transaction; // manejo transacciones para evitar registros defectuosos por relaciones mal solicitadas
     try {
-        if (!idclient || !imageServiceDone || !date || !conformity || !branchName || !paymentMethodName || !serviceName || !attendedBy || !email || !name || !lastName) { throw Error("Faltan datos"); }
+        if (!idUser || !idService || !idClient || !idBranch || !date_from || !date_to || !obs) { throw Error("Faltan datos"); }
         // Inicio la transacción:
         transaction = await conn.transaction();
+        const regCreated = await Calendar.create({
+            date_from, date_to, obs, current: true,
+        }, { transaction });
+        // Relación: Asocio el Calendar con el User:
+        const user = await User.findByPk(idUser);
+        if (!user) {
+            throw Error("Usuario no encontrado");
+        }
+        await regCreated.setUser(user, { transaction });
+        // Relación: Asocio el Calendar con el Service:
+        const service = await Service.findByPk(idService);
+        if (!service) {
+            throw Error("Servicio no encontrado");
+        }
+        await regCreated.setService(service, { transaction });
+        // Relación: Asocio el Calendar con el Client:
+        const client = await Client.findByPk(idClient);
+        if (!client) {
+            throw Error("Cliente no encontrado");
+        }
+        await regCreated.setClient(client, { transaction });
+        // Relación: Asocio el Calendar con la Branch:
+        const branch = await Branch.findByPk(idBranch);
+        if (!branch) {
+            throw Error("Sede no encontrada");
+        }
+        await regCreated.setBranch(branch, { transaction });
+        await transaction.commit();
+        return;
+    } catch (error) {
+        if (transaction) await transaction.rollback();
+        throw Error(`${error}`);
+    }
+}
+
+async function AddRegHistoricProc(HistoryService, data, conn, Client, Incoming) {
+    const { idclient, imageServiceDone, date, amount1, amount2, conformity, branchName, paymentMethodName1, paymentMethodName2, serviceName, attendedBy, email, name, lastName, id_pers } = data;
+    let transaction; // manejo transacciones para evitar registros defectuosos por relaciones mal solicitadas
+    try {
+        if (!idclient || !imageServiceDone || !date || !conformity || !branchName || !paymentMethodName1 || !paymentMethodName2 || !serviceName || !attendedBy || !email || !name || !lastName || !amount1 || !amount2) { throw Error("Faltan datos"); }
+        // Inicio la transacción:
+        transaction = await conn.transaction();
+
         const client = await Client.findByPk(idclient);
         if (!client) { throw Error("Cliente no encontrado"); }
         const regCreated = await HistoryService.create({
-            imageServiceDone, date, price, conformity, branchName, paymentMethodName, serviceName, attendedBy, email, name, lastName, id_pers,
-        });
+            imageServiceDone, date, conformity, branchName, serviceName, attendedBy, email, name, lastName, id_pers,
+        }, { transaction });
+        // Registro los dos posibles medios de pago:
+        await Incoming.create({ amount: amount1, paymentMethodName: paymentMethodName1, DateIncoming: date, HistoryServiceId: regCreated.id }, { transaction });
+        await Incoming.create({ amount: amount2, paymentMethodName: paymentMethodName2, DateIncoming: date, HistoryServiceId: regCreated.id }, { transaction });
         // Relación: asocio el historial de servicio con el cliente:
         await client.addHistoryService(regCreated, { transaction });
         await transaction.commit();
@@ -77,7 +126,6 @@ async function AddRegClient(User, data, conn) {
             where: { email, name, lastName, id_pers, phoneNumber1: phone1, phoneNumber2: phone2, image },
             transaction,
         });
-        // PENDIENTE ANALIZAR RELACIONES antes del commit
         await transaction.commit();
         // Obtengo el id para devolver:
         const clientCreated = await User.findOne({
@@ -146,7 +194,6 @@ async function AddRegUser(User, data, conn) {
             await UserCreated.addSpecialties(spec, { transaction });
         }
         await transaction.commit();
-
         // Obtengo el id para devolver:
         const userCreated = await User.findOne({
             where: { userName: userName },
