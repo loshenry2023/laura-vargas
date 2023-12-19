@@ -91,7 +91,7 @@ router.post("/gethistoricproc", getHistoricProcHandler); // obtiene y devuelve e
 router.post("/newcalendar", postCalendarHandler); //  crea un evento en calendario
 router.put("/calendar/:id", putCalendarHandler); //  edita un evento en calendario
 router.post("/deletecalendar/:id", deleteCalendarHandler); //  elimina un evento en calendario
-// ! DANIEL VA A PONERLE QUERY POR FECHA, por especialista, por (nombre + apellildo + email) de cliente:
-router.post("/getcalendar", getCalendarHandler); // obtiene y devuelve todos los eventos en calendario
+// ! DANIEL VA A PONERLE QUERY POR (nombre + apellildo + email) de cliente:
+router.post("/getcalendar", getCalendarHandler); // obtiene y devuelve todos los eventos en calendario. Filtra por fecha y por especialista por query
 
 module.exports = router;
