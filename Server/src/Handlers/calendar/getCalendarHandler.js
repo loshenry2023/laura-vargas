@@ -1,12 +1,12 @@
-const { HistoryService, Incoming } = require('../../DB_connection');
+const { Calendar, User, Service, Client, Branch } = require('../../DB_connection');
 const getReg = require("../../controllers/getReg");
 const showLog = require("../../functions/showLog");
 const checkToken = require('../../functions/checkToken');
 
-const getHistoricProcHandler = async (req, res) => {
+const getCalendarHandler = async (req, res) => {
   try {
     const { token } = req.body;
-    showLog(`getHistoricProcHandler`);
+    showLog(`getCalendarHandler`);
     // Verifico token:
     if (!token) { throw Error("Se requiere token"); }
     const checked = await checkToken(token);
@@ -14,19 +14,19 @@ const getHistoricProcHandler = async (req, res) => {
       showLog(`Wrong token.`);
       return res.status(401).send(`Sin permiso.`);
     }
-    const resp = await getReg(HistoryService, "HistoryService", Incoming);
+    const resp = await getReg(Calendar, "Calendar", User, Service, Client, Branch);
     if (resp) {
-      showLog(`getHistoricProcHandler OK`);
+      showLog(`getCalendarHandler OK`);
       return res.status(200).json(resp);
     } else {
-      showLog(`getHistoricProcHandler ERROR-> Not found`);
+      showLog(`getCalendarHandler ERROR-> Not found`);
       return res.status(404).json({ message: "Not found" });
     }
   } catch (err) {
-    showLog(`getHistoricProcHandler ERROR-> ${err.message}`);
+    showLog(`getCalendarHandler ERROR-> ${err.message}`);
     return res.status(500).send(err.message);
   }
 };
 
-module.exports = getHistoricProcHandler;
+module.exports = getCalendarHandler;
 

@@ -26,6 +26,28 @@ const deleteReg = async (tableName, id, tableNameText) => {
                 await regToDelete.setCalendars(null);
             }
         }
+        if (tableNameText === "Calendar") {
+            // Elimino la relación con el usuario:
+            const users = await regToDelete.getUser();
+            if (users && users.length > 0) {
+                await regToDelete.setUsers(null);
+            }
+            // Elimino la relación con el cliente:
+            const clients = await regToDelete.getClient();
+            if (clients && clients.length > 0) {
+                await regToDelete.setClient(null);
+            }
+            // Elimino la relación con el procedimiento:
+            const proc = await regToDelete.getService();
+            if (proc && proc.length > 0) {
+                await regToDelete.setService(null);
+            }
+            // Elimino la relación con la sede:
+            const branch = await regToDelete.getBranch();
+            if (branch && branch.length > 0) {
+                await regToDelete.setBranch(null);
+            }
+        }
         await regToDelete.destroy();
         return { "deleted": "ok" };
     } catch (err) {

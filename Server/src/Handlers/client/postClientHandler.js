@@ -18,7 +18,7 @@ const postClientHandler = async (req, res) => {
 
     if (resp.created === 'ok') {
       showLog(`postClientHandler OK`);
-      return res.status(200).json({ "created": "ok" });
+      return res.status(200).json({ "created": "ok", "id": resp.id });
     } else {
       showLog(`postClientHandler ERROR-> ${resp.message}`);
       return res.status(500).send(resp.message);

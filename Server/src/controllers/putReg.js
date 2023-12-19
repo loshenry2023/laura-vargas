@@ -1,7 +1,8 @@
 // ! Modifica un registro en tabla.
 const { FIRST_SUPERADMIN } = require("../functions/paramsEnv");
+const showLog = require("../functions/showLog");
 
-const putReg = async (tableName, tableNameText, data, id, conn = "") => {
+const putReg = async (tableName, tableNameText, data, id, conn = "", tableName2 = "", tableName3 = "", tableName4 = "", tableName5 = "") => {
     try {
         let resp;
         switch (tableNameText) {
@@ -23,12 +24,68 @@ const putReg = async (tableName, tableNameText, data, id, conn = "") => {
             case "Client":
                 resp = await editRegClient(tableName, data, id, conn);
                 break;
+            case "Calendar":
+                resp = await editRegCalendar(tableName, data, id, conn, tableName2, tableName3, tableName4, tableName5);
+                break;
             default:
                 throw new Error("Tabla no válida");
         }
         return { "created": "ok" };
     } catch (err) {
         return { created: "error", message: err.message };
+    }
+}
+
+async function editRegCalendar(Calendar, data, id, conn, User, Service, Client, Branch) {
+    const { idUser, idService, idClient, idBranch, date_from, date_to, obs, current } = data;
+    let transaction; // manejo transacciones para evitar registros defectuosos por relaciones mal solicitadas
+    try {
+        if (!idUser || !idService || !idClient || !idBranch || !date_from || !date_to || !obs || !current) {
+            throw Error("Faltan datos");
+        }
+        const existingEvent = await Calendar.findByPk(id, {
+            include: [
+                { model: User },
+                { model: Service },
+                { model: Client },
+                { model: Branch },
+            ],
+        });
+        if (!existingEvent) {
+            throw Error("Evento de calendario no encontrado");
+        }
+        // Inicio la transacción:
+        transaction = await conn.transaction();
+        existingEvent.date_from = date_from;
+        existingEvent.date_to = date_to;
+        existingEvent.obs = obs;
+        existingEvent.current = current;
+        await existingEvent.save();
+        // Relación con User:
+        const user = await User.findByPk(idUser);
+        if (user) {
+            await existingEvent.setUser(user, { transaction });
+        }
+        // Relación con Service:
+        const service = await Service.findByPk(idService);
+        if (service) {
+            await existingEvent.setService(service, { transaction });
+        }
+        // Relación con Client:
+        const client = await Client.findByPk(idClient);
+        if (client) {
+            await existingEvent.setClient(client, { transaction });
+        }
+        // Relación con Branch:
+        const branch = await Branch.findByPk(idBranch);
+        if (branch) {
+            await existingEvent.setBranch(branch, { transaction });
+        }
+        await transaction.commit();
+        return;
+    } catch (error) {
+        if (transaction) await transaction.rollback();
+        throw Error(`${error}`);
     }
 }
 

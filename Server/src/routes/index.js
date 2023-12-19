@@ -40,6 +40,11 @@ const getClientHandler = require("../Handlers/client/getClientHandler");
 // Histórico de procedimientos:
 const postHistoricProcHandler = require("../Handlers/historicServices/postHistoricProcHandler");
 const getHistoricProcHandler = require("../Handlers/historicServices/getHistoricProcHandler");
+// Calendario:
+const postCalendarHandler = require("../Handlers/calendar/postCalendarHandler");
+const deleteCalendarHandler = require("../Handlers/calendar/deleteCalendarHandler");
+const putCalendarHandler = require("../Handlers/calendar/putCalendarHandler");
+const getCalendarHandler = require("../Handlers/calendar/getCalendarHandler");
 
 //! Rutas
 // Usuarios:
@@ -79,7 +84,14 @@ router.put("/client/:id", putClientHandler); //  edita un cliente
 router.post("/deleteclient/:id", deleteClientHandler); //  elimina un cliente
 router.post("/getclients", getClientHandler); // obtiene y devuelve todos los clientes
 // Histórico de procedimientos:
-router.post("/newhistiricproc", postHistoricProcHandler); //  crea un registro en el histórico de procedimientos
+router.post("/newhistoricproc", postHistoricProcHandler); //  crea un registro en el histórico de procedimientos
+// ! DANIEL VA A PONERLE QUERY POR RANGO DE FECHAS (ya tal vez otros):
 router.post("/gethistoricproc", getHistoricProcHandler); // obtiene y devuelve el histórico de los procedimientos
+// Calendario:
+router.post("/newcalendar", postCalendarHandler); //  crea un evento en calendario
+router.put("/calendar/:id", putCalendarHandler); //  edita un evento en calendario
+router.post("/deletecalendar/:id", deleteCalendarHandler); //  elimina un evento en calendario
+// ! DANIEL VA A PONERLE QUERY POR FECHA:
+router.post("/getcalendar", getCalendarHandler); // obtiene y devuelve todos los eventos en calendario
 
 module.exports = router;

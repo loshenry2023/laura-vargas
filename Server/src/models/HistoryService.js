@@ -17,19 +17,11 @@ module.exports = (sequelize) => {
       type: DataTypes.DATE,
       allowNull: false,
     },
-    price: {
-      type: DataTypes.DECIMAL,
-      allowNull: false,
-    },
     conformity: {
       type: DataTypes.TEXT,
       allowNull: true,
     },
     branchName: {
-      type: DataTypes.TEXT,
-      allowNull: false,
-    },
-    paymentMethodName: {
       type: DataTypes.TEXT,
       allowNull: false,
     },
