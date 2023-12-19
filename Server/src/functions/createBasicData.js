@@ -3,7 +3,7 @@
 // ! - 6 métodos de pago,
 // ! - 5 especialidades,
 // ! - 1 usuario superAdmin.
-const { User, Branch, Payment, Specialty } = require("../DB_connection");
+const { User, Branch, Payment, Specialty, Service } = require("../DB_connection");
 const showLog = require("../functions/showLog");
 const { FIRST_SUPERADMIN } = require("../functions/paramsEnv");
 
@@ -50,7 +50,7 @@ async function createBasicData() {
       }
       showLog(`... payments created`);
       // Crear las especialidades:
-      const specialityList = ["Cejas", "Pestañas", "Micropigmentación", "Lifting", "Administración"];
+      const specialityList = ["Cejas", "Pestañas", "Labios", "Micropigmentación", "Lifting", "Administración"];
       let specCrtd;
       for (let i = 0; i < specialityList.length; i++) {
         const [specialityCreated, created] = await Specialty.findOrCreate({
@@ -61,6 +61,58 @@ async function createBasicData() {
         specCrtd = specialityCreated;
       }
       showLog(`... specialties created`);
+      // Crear los procedimientos y sus relaciones:
+      let serviceList;
+      let spec;
+      // Parte 1:
+      serviceList = ["Micropigmentación", "Diseño y Depilación", "Diseño Depilación y henna", "Henna", "Laminado", "Retoque Micropigmentación", "Depilacion en las cejas"];
+      for (let i = 0; i < serviceList.length; i++) {
+        const [serviceCreated1, created] = await Service.findOrCreate({
+          where: {
+            serviceName: serviceList[i],
+            duration: 30,
+            price: 0,
+            ImageService: "https://res.cloudinary.com/ddlwjsfml/image/upload/v1702984759/cejas_nype4m.jpg",
+          },
+        });
+        spec = await Specialty.findAll({
+          where: { specialtyName: "Cejas" }
+        });
+        serviceCreated1.addSpecialty(spec)
+      }
+      // Parte 2:
+      serviceList = ["Lifting", "Pestañas pelo a pelo", "Pestañas fibras tecnológicas", "Retoque pestañas pelo a pelo", "Retoque pestañas fibras tecnológicas", "Retiro de pestañas", "Pestañas Volumen express", "Pestañas Volumen ruso"];
+      for (let i = 0; i < serviceList.length; i++) {
+        const [serviceCreated1, created] = await Service.findOrCreate({
+          where: {
+            serviceName: serviceList[i],
+            duration: 30,
+            price: 0,
+            ImageService: "https://res.cloudinary.com/ddlwjsfml/image/upload/v1702984852/pesta_tuejpe.jpg",
+          },
+        });
+        spec = await Specialty.findAll({
+          where: { specialtyName: "Pestañas" }
+        });
+        serviceCreated1.addSpecialty(spec)
+      }
+      // Parte 3:
+      serviceList = ["Micropigmentación", "Retoque Micropigmentación", "Depilación  del bozo o bigote"];
+      for (let i = 0; i < serviceList.length; i++) {
+        const [serviceCreated1, created] = await Service.findOrCreate({
+          where: {
+            serviceName: serviceList[i],
+            duration: 30,
+            price: 0,
+            ImageService: "https://res.cloudinary.com/ddlwjsfml/image/upload/v1702984891/labios_ib7eet.jpg",
+          },
+        });
+        spec = await Specialty.findAll({
+          where: { specialtyName: "Labios" }
+        });
+        serviceCreated1.addSpecialty(spec)
+      }
+      showLog(`... services created`);
       // Crear el usuario inicial:
       const [existingUserHenry, userCreated] = await User.findOrCreate({
         where: {
