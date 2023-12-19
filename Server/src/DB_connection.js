@@ -17,6 +17,7 @@ const PaymentModel = require("../src/models/Payment");
 const ServiceModel = require("../src/models/Service");
 const SpecialtyModel = require("../src/models/Specialty");
 const UserModel = require("../src/models/User");
+const CalendarModel = require("../src/models/Calendar");
 
 // Determino la conexión según el entorno:
 let strConn = "";
@@ -36,6 +37,7 @@ PaymentModel(database);
 ServiceModel(database);
 SpecialtyModel(database);
 UserModel(database);
+CalendarModel(database);
 
 // Relacionar modelos:
 const {
@@ -46,15 +48,20 @@ const {
   Service,
   Specialty,
   User,
+  Calendar
 } = database.models;
 
 //Relaciones a 1:
-//User.belongsTo(Branch, { foreignKey: "branch_id" });
+//Calendar.belongsTo(Client, { foreignKey: "client_id" });
+Calendar.hasMany(Client, { foreignKey: "client_id" });
+Client.belongsTo(Calendar);
 
 //Relaciones a muchos:
 User.belongsToMany(Specialty, { through: "user_specialty" });
 User.belongsToMany(Branch, { through: "user_branch" });
-Service.belongsToMany(Branch, { through: "service_branch" });
+// relaciones nuevas:
+Service.belongsToMany(Specialty, { through: "service_specialty" });
+Calendar.belongsToMany(Service, { through: "calendar_service" });
 
 module.exports = {
   Branch,
@@ -64,5 +71,6 @@ module.exports = {
   Service,
   Specialty,
   User,
+  Calendar,
   conn: database,
 };
