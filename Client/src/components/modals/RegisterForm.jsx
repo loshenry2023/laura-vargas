@@ -1,9 +1,19 @@
+
+// Hooks
 import React, { useEffect, useState } from 'react';
-import { IoClose } from 'react-icons/io5';
-import validateRegisterInput from '../../functions/registerFormValidations'
 import axios from 'axios';
+
+//icons
+import { IoClose } from 'react-icons/io5';
+
+//functions
+import validateRegisterInput from '../../functions/registerFormValidations'
+
+//Cloudinary
 import { UploadWidget } from '../Uploadwidget';
 import { Toaster, toast } from 'react-hot-toast'
+
+//Variables de entorno
 import getParamsEnv from '../../functions/getParamsEnv';
 const { API_URL_BASE } = getParamsEnv()
 

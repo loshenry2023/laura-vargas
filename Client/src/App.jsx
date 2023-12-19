@@ -5,14 +5,15 @@ import Profiles from "./views/UserProfiles.jsx";
 import Home from "./views/Home.jsx";
 import Error from "./views/Error.jsx";
 import TermsAndPrivacy from "./views/TermsAndPrivacy.jsx";
+import UserDetail from "./views/UserDetail.jsx";
+import Agenda from "./views/Agenda.jsx";
 
 // hooks, routers, reducers:
 import { Route, Routes } from "react-router-dom";
 
 // Variables de entorno:
 import getParamsEnv from "./functions/getParamsEnv.js";
-import UserDetail from "./views/UserDetail.jsx";
-const { ROOT, LOGIN, USERPROFILES, HOME, USERDETAIL, TERMSANDPRIVACY } = getParamsEnv();
+const { ROOT, LOGIN, USERPROFILES, HOME, USERDETAIL, TERMSANDPRIVACY, AGENDA } = getParamsEnv();
 
 const App = () => {
   return (
@@ -23,6 +24,7 @@ const App = () => {
         <Route path={HOME} element={<Home />} />
         <Route path={USERPROFILES} element={<Profiles />} />
         <Route path={USERDETAIL} element={<UserDetail />} />
+        <Route path={AGENDA} element={<Agenda />} />
         <Route path={TERMSANDPRIVACY} element={<TermsAndPrivacy />} />
         {/* <Route path={DETAIL} element={<Detail />} />
         <Route path={EDIT} element={<Edit />} />
