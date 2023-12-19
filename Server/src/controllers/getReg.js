@@ -2,7 +2,7 @@
 const showLog = require("../functions/showLog");
 
 const getReg = async (
-    tableName, tableNameText, tableName2 = "", tableName3 = "", tableName4 = "", tableName5 = "",
+    tableName, tableNameText, tableName2 = "", tableName3 = "", tableName4 = "", tableName5 = "", id = ""
 ) => {
     try {
         let reg;
@@ -36,19 +36,38 @@ const getReg = async (
                 });
                 break;
             case "Client":
-                reg = await tableName.findAll({
-                    attributes: ["id", "email", "name", "lastName", "id_pers", "phoneNumber1", "phoneNumber2", "image"],
-                    include: [
-                        {
-                            model: tableName2,
-                            attributes: ['id', 'date_from', 'date_to', 'obs'],
+                if (id) {
+                    reg = await tableName.findAll({
+                        attributes: ["id", "email", "name", "lastName", "id_pers", "phoneNumber1", "phoneNumber2", "image"],
+                        where: {
+                            id: id !== null ? id : { [Op.is]: null },
                         },
-                        {
-                            model: tableName3,
-                            attributes: ['id', 'date', 'serviceName', 'imageServiceDone', 'conformity', 'branchName', 'attendedBy'],
-                        },
-                    ],
-                });
+                        include: [
+                            {
+                                model: tableName2,
+                                attributes: ['id', 'date_from', 'date_to', 'obs'],
+                            },
+                            {
+                                model: tableName3,
+                                attributes: ['id', 'date', 'serviceName', 'imageServiceDone', 'conformity', 'branchName', 'attendedBy'],
+                            },
+                        ],
+                    });
+                } else {
+                    reg = await tableName.findAll({
+                        attributes: ["id", "email", "name", "lastName", "id_pers", "phoneNumber1", "phoneNumber2", "image"],
+                        include: [
+                            {
+                                model: tableName2,
+                                attributes: ['id', 'date_from', 'date_to', 'obs'],
+                            },
+                            {
+                                model: tableName3,
+                                attributes: ['id', 'date', 'serviceName', 'imageServiceDone', 'conformity', 'branchName', 'attendedBy'],
+                            },
+                        ],
+                    });
+                }
                 break;
             case "HistoryService":
                 reg = await tableName.findAll({
