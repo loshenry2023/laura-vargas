@@ -20,12 +20,42 @@ const putReg = async (tableName, tableNameText, data, id, conn = "") => {
             case "User":
                 resp = await editRegUser(tableName, data, id, conn);
                 break;
+            case "Client":
+                resp = await editRegClient(tableName, data, id, conn);
+                break;
             default:
                 throw new Error("Tabla no válida");
         }
         return { "created": "ok" };
     } catch (err) {
         return { created: "error", message: err.message };
+    }
+}
+
+async function editRegClient(Client, data, id, conn) {
+    const { email, name, lastName, id_pers, phone1, phone2, image } = data;
+    let transaction; // manejo transacciones para evitar registros defectuosos por relaciones mal solicitadas
+    try {
+        if (!email || !name || !lastName || !phone1 || !image) { throw Error("Faltan datos"); }
+        const existingClient = await Client.findByPk(id);
+        if (!existingClient) {
+            throw Error("Cliente no encontrado");
+        }
+        // Inicio la transacción:
+        transaction = await conn.transaction();
+        existingClient.name = name;
+        existingClient.lastName = lastName;
+        existingClient.email = email;
+        existingClient.id_pers = id_pers || null;
+        existingClient.phoneNumber1 = phone1;
+        existingClient.phoneNumber2 = phone2 || null;
+        existingClient.image = image;
+        await existingClient.save();
+        await transaction.commit();
+        return;
+    } catch (error) {
+        if (transaction) await transaction.rollback();
+        throw Error(`${error}`);
     }
 }
 

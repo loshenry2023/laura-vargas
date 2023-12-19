@@ -35,6 +35,17 @@ const getReg = async (
                     ],
                 });
                 break;
+            case "Client":
+                reg = await tableName.findAll({
+                    attributes: ["id", "email", "name", "lastName", "id_pers", "phoneNumber1", "phoneNumber2", "image"],
+                    include: [
+                        {
+                            model: tableName2,
+                            attributes: ['id', 'date_from', 'date_to', 'obs'],
+                        },
+                    ],
+                });
+                break;
             default:
                 throw new Error("Tabla no válida");
         }
