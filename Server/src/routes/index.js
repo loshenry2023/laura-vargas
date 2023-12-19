@@ -82,7 +82,7 @@ router.post("/getservices", getServicesHandler); // obtiene y devuelve todos los
 router.post("/newclient", postClientHandler); //  crea un cliente
 router.put("/client/:id", putClientHandler); //  edita un cliente
 router.post("/deleteclient/:id", deleteClientHandler); //  elimina un cliente
-router.post("/getclients", getClientHandler); // obtiene y devuelve todos los clientes
+router.post("/getclients", getClientHandler); // obtiene y devuelve los clientes (acepta query por id)
 // Histórico de procedimientos:
 router.post("/newhistoricproc", postHistoricProcHandler); //  crea un registro en el histórico de procedimientos
 // ! DANIEL VA A PONERLE QUERY POR RANGO DE FECHAS (ya tal vez otros):
@@ -91,7 +91,7 @@ router.post("/gethistoricproc", getHistoricProcHandler); // obtiene y devuelve e
 router.post("/newcalendar", postCalendarHandler); //  crea un evento en calendario
 router.put("/calendar/:id", putCalendarHandler); //  edita un evento en calendario
 router.post("/deletecalendar/:id", deleteCalendarHandler); //  elimina un evento en calendario
-// ! DANIEL VA A PONERLE QUERY POR FECHA:
+// ! DANIEL VA A PONERLE QUERY POR FECHA, por especialista, por (nombre + apellildo + email) de cliente:
 router.post("/getcalendar", getCalendarHandler); // obtiene y devuelve todos los eventos en calendario
 
 module.exports = router;

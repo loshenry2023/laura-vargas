@@ -5,6 +5,7 @@ const checkToken = require('../../functions/checkToken');
 
 const getClientHandler = async (req, res) => {
   try {
+    const { id } = req.query;
     const { token } = req.body;
     showLog(`getClientHandler`);
     // Verifico token:
@@ -14,7 +15,7 @@ const getClientHandler = async (req, res) => {
       showLog(`Wrong token.`);
       return res.status(401).send(`Sin permiso.`);
     }
-    const resp = await getReg(Client, "Client", Calendar, HistoryService);
+    const resp = await getReg(Client, "Client", Calendar, HistoryService, "", "", id);
     if (resp) {
       showLog(`getClientHandler OK`);
       return res.status(200).json(resp);
