@@ -15,6 +15,9 @@ const postReg = async (tableName, tableNameText, data, conn = "") => {
             case "Specialty":
                 resp = await AddRegSpecialty(tableName, data);
                 return { "created": "ok" };
+            case "Service":
+                resp = await AddRegService(tableName, data, conn);
+                return { "created": "ok" };
             case "User":
                 resp = await AddRegUser(tableName, data, conn);
                 return { "created": "ok", "id": resp };
@@ -23,6 +26,35 @@ const postReg = async (tableName, tableNameText, data, conn = "") => {
         }
     } catch (err) {
         return { created: "error", message: err.message };
+    }
+}
+
+async function AddRegService(Service, data, conn) {
+    const { serviceName, duration, price, ImageService, specialty } = data;
+    let transaction; // manejo transacciones para evitar registros defectuosos por relaciones mal solicitadas
+    try {
+        if (!serviceName || !duration || !price || !ImageService || !specialty) { throw Error("Faltan datos"); }
+        const svcLowercase = serviceName.toLowerCase();
+        const existingSpec = await Service.findOne({
+            where: { serviceName: { [Op.iLike]: svcLowercase } },
+        });
+        if (existingSpec) {
+            throw Error("El procedimiento ya existe");
+        }
+        // Inicio la transacción:
+        transaction = await conn.transaction();
+        const [SvcCreated, created] = await Service.findOrCreate({
+            where: { serviceName, duration, price, ImageService },
+        });
+        // Busco las especialidades para agregar las relaciones:
+        for (const spec of specialty) {
+            await SvcCreated.addSpecialties(spec, { transaction });
+        }
+        await transaction.commit();
+        return;
+    } catch (error) {
+        if (transaction) await transaction.rollback();
+        throw Error(`${error}`);
     }
 }
 

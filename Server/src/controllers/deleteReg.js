@@ -14,6 +14,10 @@ const deleteReg = async (tableName, id, tableNameText) => {
             // Elimino la relación con especialidades:
             await regToDelete.removeSpecialties();
         }
+        if (tableNameText === "Service") {
+            // Elimino la relación con especialidades:
+            await regToDelete.removeSpecialties();
+        }
         await regToDelete.destroy();
         return { "deleted": "ok" };
     } catch (err) {

@@ -25,6 +25,13 @@ const postBranchHandler = require("../Handlers/branch/postBranchHandler");
 const putBranchHandler = require("../Handlers/branch/putBranchHandler");
 const deleteBranchHandler = require("../Handlers/branch/deleteBranchHandler");
 const getBranchHandler = require("../Handlers/branch/getBranchHandler");
+// Otros:
+const sendMail = require("../Handlers/mail/sendMailHandler");
+// Especialidades:
+const putServiceHandler = require("../Handlers/service/putServiceHandler");
+const deleteServiceHandler = require("../Handlers/service/deleteServiceHandler");
+const getServicesHandler = require("../Handlers/service/getServicesHandler");
+const postServiceHandler = require("../Handlers/service/postServiceHandler");
 
 //! Rutas
 // Usuarios:
@@ -52,5 +59,11 @@ router.post("/deletebranch/:id", deleteBranchHandler); //  elimina una sede
 router.post("/branches", getBranchHandler); // obtiene y devuelve todas las sedes
 // Otras:
 router.get("/", getMain); // únicamente para el deploy
+router.post("/sendmail", sendMail); // envía un mail
+// Procedimientos:
+router.post("/service", postServiceHandler); //  crea un procedimientos
+router.put("/service/:id", putServiceHandler); //  edita un procedimiento
+router.post("/deleteservice/:id", deleteServiceHandler); //  elimina un procedimiento
+router.post("/getservices", getServicesHandler); // obtiene y devuelve todos los procedimientos
 
 module.exports = router;
