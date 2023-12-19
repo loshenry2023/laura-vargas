@@ -32,6 +32,11 @@ const putServiceHandler = require("../Handlers/service/putServiceHandler");
 const deleteServiceHandler = require("../Handlers/service/deleteServiceHandler");
 const getServicesHandler = require("../Handlers/service/getServicesHandler");
 const postServiceHandler = require("../Handlers/service/postServiceHandler");
+// Clientes:
+const postClientHandler = require("../Handlers/client/postClientHandler");
+const deleteClientHandler = require("../Handlers/client/deleteClientHandler");
+const putClientHandler = require("../Handlers/client/putClientHandler");
+const getClientHandler = require("../Handlers/client/getClientHandler");
 
 //! Rutas
 // Usuarios:
@@ -61,9 +66,14 @@ router.post("/branches", getBranchHandler); // obtiene y devuelve todas las sede
 router.get("/", getMain); // únicamente para el deploy
 router.post("/sendmail", sendMail); // envía un mail
 // Procedimientos:
-router.post("/service", postServiceHandler); //  crea un procedimientos
+router.post("/service", postServiceHandler); //  crea un procedimiento
 router.put("/service/:id", putServiceHandler); //  edita un procedimiento
 router.post("/deleteservice/:id", deleteServiceHandler); //  elimina un procedimiento
 router.post("/getservices", getServicesHandler); // obtiene y devuelve todos los procedimientos
+// Clientes:
+router.post("/newclient", postClientHandler); //  crea un cliente
+router.put("/client/:id", putClientHandler); //  edita un cliente
+router.post("/deleteclient/:id", deleteClientHandler); //  elimina un cliente
+router.post("/getclients", getClientHandler); // obtiene y devuelve todos los clientes
 
 module.exports = router;

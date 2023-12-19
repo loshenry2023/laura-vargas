@@ -18,6 +18,14 @@ const deleteReg = async (tableName, id, tableNameText) => {
             // Elimino la relación con especialidades:
             await regToDelete.removeSpecialties();
         }
+        if (tableNameText === "Client") {
+            // Elimino la relación con el calendario:
+            const calendars = await regToDelete.getCalendars();
+            if (calendars && calendars.length > 0) {
+                // Elimino la relación con calendarios
+                await regToDelete.setCalendars(null);
+            }
+        }
         await regToDelete.destroy();
         return { "deleted": "ok" };
     } catch (err) {

@@ -21,11 +21,47 @@ const postReg = async (tableName, tableNameText, data, conn = "") => {
             case "User":
                 resp = await AddRegUser(tableName, data, conn);
                 return { "created": "ok", "id": resp };
+            case "Client":
+                resp = await AddRegClient(tableName, data, conn);
+                return { "created": "ok", "id": resp };
             default:
                 throw new Error("Tabla no válida");
         }
     } catch (err) {
         return { created: "error", message: err.message };
+    }
+}
+
+async function AddRegClient(User, data, conn) {
+    const { email, name, lastName, id_pers, phone1, phone2, image } = data;
+    let transaction; // manejo transacciones para evitar registros defectuosos por relaciones mal solicitadas
+    try {
+        if (!email || !name || !lastName || !phone1 || !image) { throw Error("Faltan datos"); }
+        const nameLowercase = name.toLowerCase();
+        const lastNameLowercase = lastName.toLowerCase();
+        const existingClient = await User.findOne({
+            // no comparo con el id_pers (DNI) porque no es un dato obligatorio
+            where: { name: { [Op.iLike]: nameLowercase }, lastName: { [Op.iLike]: lastNameLowercase }, email: email },
+        });
+        if (existingClient) {
+            throw Error("El cliente ya existe");
+        }
+        // Inicio la transacción:
+        transaction = await conn.transaction();
+        const [ClientCreated, created] = await User.findOrCreate({
+            where: { email, name, lastName, id_pers, phoneNumber1: phone1, phoneNumber2: phone2, image },
+            transaction,
+        });
+        // PENDIENTE ANALIZAR RELACIONES antes del commit
+        await transaction.commit();
+        // Obtengo el id para devolver:
+        const clientCreated = await User.findOne({
+            where: { name: name, lastName: lastName, email: email },
+        });
+        return clientCreated.id;
+    } catch (error) {
+        if (transaction) await transaction.rollback();
+        throw Error(`${error}`);
     }
 }
 
@@ -86,7 +122,7 @@ async function AddRegUser(User, data, conn) {
         }
         await transaction.commit();
 
-        // Obtengo el id para revolver:
+        // Obtengo el id para devolver:
         const userCreated = await User.findOne({
             where: { userName: userName },
         });

@@ -51,12 +51,19 @@ const {
   Calendar
 } = database.models;
 
+// Relaciones:
+// belongsTo: establece una relación de pertenencia entre dos modelos, donde un modelo "pertenece a" otro.
+// hasOne: establece una relación uno a uno entre dos modelos.
+// hasMany: establece una relación uno a muchos entre dos modelos.
+// belongsToMany: establece una relación muchos a muchos entre dos modelos.
+
 //Relaciones a 1:
 //Calendar.belongsTo(Client, { foreignKey: "client_id" });
 Calendar.hasMany(Client, { foreignKey: "client_id" });
-Client.belongsTo(Calendar);
+//Client.belongsTo(Calendar); //un cliente pertenece a un solo calendario??!!
+Client.hasMany(Calendar); //un cliente puede tener muchas citas agendadas
 
-//Relaciones a muchos:
+//Relaciones muchos a muchos:
 User.belongsToMany(Specialty, { through: "user_specialty" });
 User.belongsToMany(Branch, { through: "user_branch" });
 // relaciones nuevas:
