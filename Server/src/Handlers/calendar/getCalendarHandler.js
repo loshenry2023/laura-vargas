@@ -14,7 +14,7 @@ const getCalendarHandler = async (req, res) => {
       showLog(`Wrong token.`);
       return res.status(401).send(`Sin permiso.`);
     }
-    const resp = await getReg(Calendar, "Calendar", User, Service, Client, Branch);
+    const resp = await getReg(Calendar, "Calendar", User, Service, Client, Branch, "", req.query);
     if (resp) {
       showLog(`getCalendarHandler OK`);
       return res.status(200).json(resp);

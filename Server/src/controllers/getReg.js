@@ -1,8 +1,10 @@
 // ! Obtiene registros.
+const { Op } = require('sequelize');
+
 const showLog = require("../functions/showLog");
 
 const getReg = async (
-    tableName, tableNameText, tableName2 = "", tableName3 = "", tableName4 = "", tableName5 = "", id = ""
+    tableName, tableNameText, tableName2 = "", tableName3 = "", tableName4 = "", tableName5 = "", id = "", dataQuery = "",
 ) => {
     try {
         let reg;
@@ -36,38 +38,22 @@ const getReg = async (
                 });
                 break;
             case "Client":
-                if (id) {
-                    reg = await tableName.findAll({
-                        attributes: ["id", "email", "name", "lastName", "id_pers", "phoneNumber1", "phoneNumber2", "image"],
-                        where: {
-                            id: id !== null ? id : { [Op.is]: null },
+                reg = await tableName.findAll({
+                    attributes: ["id", "email", "name", "lastName", "id_pers", "phoneNumber1", "phoneNumber2", "image"],
+                    where: {
+                        id: id !== null && id !== '' ? id : { [Op.is]: null },
+                    },
+                    include: [
+                        {
+                            model: tableName2,
+                            attributes: ['id', 'date_from', 'date_to', 'obs'],
                         },
-                        include: [
-                            {
-                                model: tableName2,
-                                attributes: ['id', 'date_from', 'date_to', 'obs'],
-                            },
-                            {
-                                model: tableName3,
-                                attributes: ['id', 'date', 'serviceName', 'imageServiceDone', 'conformity', 'branchName', 'attendedBy'],
-                            },
-                        ],
-                    });
-                } else {
-                    reg = await tableName.findAll({
-                        attributes: ["id", "email", "name", "lastName", "id_pers", "phoneNumber1", "phoneNumber2", "image"],
-                        include: [
-                            {
-                                model: tableName2,
-                                attributes: ['id', 'date_from', 'date_to', 'obs'],
-                            },
-                            {
-                                model: tableName3,
-                                attributes: ['id', 'date', 'serviceName', 'imageServiceDone', 'conformity', 'branchName', 'attendedBy'],
-                            },
-                        ],
-                    });
-                }
+                        {
+                            model: tableName3,
+                            attributes: ['id', 'date', 'serviceName', 'imageServiceDone', 'conformity', 'branchName', 'attendedBy'],
+                        },
+                    ],
+                });
                 break;
             case "HistoryService":
                 reg = await tableName.findAll({
@@ -81,12 +67,37 @@ const getReg = async (
                 });
                 break;
             case "Calendar":
+                // Preparo los filtros previos a la consulta:
+                const { date, userid } = dataQuery;
+                let dateFrom = "";
+                let dateTo = "";
+                if (date) {
+                    dateFrom = date + "T00:00:00.000Z"
+                    dateTo = date + "T23:59:59.000Z"
+                } else {
+                    dateFrom = "2020-01-01T00:00:00.000Z"
+                    dateTo = "2050-01-01T23:59:59.000Z"
+                }
+                // if (userid) {
+                //     dateFrom = date + "T00:00:00.000Z"
+                //     dateTo = date + "T23:59:59.000Z"
+                // } else {
+                //     dateFrom = "2020-01-01T00:00:00.000Z"
+                //     dateTo = "2050-01-01T23:59:59.000Z"
+                // }
+
                 reg = await tableName.findAll({
                     attributes: ["id", "date_from", "date_to", "obs", "current"],
+                    where: {
+                        date_from: {
+                            [Op.gte]: dateFrom, [Op.lte]: dateTo,
+                        },
+                    },
                     include: [
                         { // user
                             model: tableName2,
                             attributes: ["id", "userName", "name", "lastName"],
+                            where: userid ? { id: userid } : {},
                         },
                         { // Service
                             model: tableName3,
