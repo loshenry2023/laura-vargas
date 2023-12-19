@@ -1,9 +1,10 @@
 import { Link } from "react-router-dom";
-import getParamsEnv from "../functions/getParamsEnv.js";
 import React from "react";
 import { AiFillInstagram } from "react-icons/ai";
 import { AiFillFacebook } from "react-icons/ai";
 
+//Variables de entorno
+import getParamsEnv from "../functions/getParamsEnv.js";
 const { LOGIN, TERMSANDPRIVACY } = getParamsEnv();
 
 const Landing = () => {

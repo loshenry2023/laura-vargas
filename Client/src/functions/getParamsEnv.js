@@ -4,6 +4,7 @@ export default function getParamsEnv() {
   const LOGIN = import.meta.env.VITE_LOGIN || "/login";
   const HOME = import.meta.env.VITE_HOME || "/home";
   const USERPROFILES = import.meta.env.VITE_PROFILES || "/userProfiles";
+  const AGENDA = import.meta.env.AGENDA || "/agenda";
   const USERDETAIL = import.meta.env.VITE_DETAIL || "/detail/:id";
   const USERDETAILBASE = import.meta.env.VITE_DETAIL_BASE || "/detail";
   const TERMSANDPRIVACY = import.meta.env.VITE_TERMS_AND_PRIVACY || "/terms-and-privacy"
@@ -32,6 +33,7 @@ export default function getParamsEnv() {
     HOME,
     LOGIN,
     USERDETAIL,
+    AGENDA,
     TERMSANDPRIVACY,
     USERDETAILBASE,
     USERPROFILES,
