@@ -25,6 +25,15 @@ const postBranchHandler = require("../Handlers/branch/postBranchHandler");
 const putBranchHandler = require("../Handlers/branch/putBranchHandler");
 const deleteBranchHandler = require("../Handlers/branch/deleteBranchHandler");
 const getBranchHandler = require("../Handlers/branch/getBranchHandler");
+
+// inventario:
+const addPriceIfDifferentHandler = require("../Handlers/forInventory/priceHandler/addPriceIfDifferentHandler");
+const getPriceHistoryHandler = require("../Handlers/forInventory/priceHandler/getPriceHistoryHandler");
+const createProductHandler = require("../Handlers/forInventory/productsHandler/createProductHandler");
+const getAllProductsWithLatestPriceHandler = require("../Handlers/forInventory/productsHandler/getAllProductsWithLatestPriceHandler");
+const updateProductHandler = require("../Handlers/forInventory/productsHandler/updateProductHandler");
+const deleteProductHandler = require("../Handlers/forInventory/productsHandler/deleteProductHandler");
+
 // Otros:
 const sendMail = require("../Handlers/mail/sendMailHandler");
 
@@ -52,6 +61,15 @@ router.post("/branch", postBranchHandler); // crea una sede
 router.put("/branch/:id", putBranchHandler); // edita una sede
 router.post("/deletebranch/:id", deleteBranchHandler); //  elimina una sede
 router.post("/branches", getBranchHandler); // obtiene y devuelve todas las sedes
+
+// inventario:
+router.post("/addpricedifferent/:productCode", addPriceIfDifferentHandler);
+router.get("/pricehistory/:productCode", getPriceHistoryHandler);
+router.post("/createproduct", createProductHandler);
+router.get("/products/latestprice", getAllProductsWithLatestPriceHandler);
+router.put("/products/:productId", updateProductHandler);
+router.delete("/products/:productId", deleteProductHandler);
+
 // Otras:
 router.get("/", getMain); // únicamente para el deploy
 router.post("/sendmail", sendMail); // envía un mail

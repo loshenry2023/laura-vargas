@@ -28,7 +28,7 @@ module.exports = (sequelize) => {
       },
     },
     {
-      timestamps: false, // No necesitamos campos de createdAt y updatedAt
+      timestamps: false,
     },
     {
       paranoid: true, // Habilita eliminación suave

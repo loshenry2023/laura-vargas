@@ -17,6 +17,8 @@ const PaymentModel = require("../src/models/Payment");
 const ServiceModel = require("../src/models/Service");
 const SpecialtyModel = require("../src/models/Specialty");
 const UserModel = require("../src/models/User");
+const ProductModel = require("../src/models/Product");
+const PriceHistoryModel = require("../src/models/PriceHistory");
 
 // Determino la conexión según el entorno:
 let strConn = "";
@@ -36,6 +38,8 @@ PaymentModel(database);
 ServiceModel(database);
 SpecialtyModel(database);
 UserModel(database);
+ProductModel(database);
+PriceHistoryModel(database);
 
 // Relacionar modelos:
 const {
@@ -46,10 +50,16 @@ const {
   Service,
   Specialty,
   User,
+  Product,
+  PriceHistory,
 } = database.models;
 
-//Relaciones a 1:
-//User.belongsTo(Branch, { foreignKey: "branch_id" });
+//Relacion 1 a muchos esto es para el inventario:
+
+Product.hasMany(PriceHistory, {
+  foreignKey: "product_code", // Claveen la tabla PriceHistory
+  sourceKey: "code", // Clave en la tabla Product
+});
 
 //Relaciones a muchos:
 User.belongsToMany(Specialty, { through: "user_specialty" });
@@ -64,5 +74,7 @@ module.exports = {
   Service,
   Specialty,
   User,
+  Product,
+  PriceHistory,
   conn: database,
 };

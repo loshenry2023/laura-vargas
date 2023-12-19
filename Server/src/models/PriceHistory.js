@@ -9,15 +9,15 @@ module.exports = (sequelize) => {
         primaryKey: true,
         allowNull: false,
       },
-      codigo_producto: {
+      product_code: {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
-      precio: {
+      price: {
         type: DataTypes.DECIMAL(10, 2),
         allowNull: false,
       },
-      fecha_modificacion: {
+      date_modification: {
         type: DataTypes.DATE,
         defaultValue: DataTypes.NOW,
         allowNull: false,
