@@ -1,10 +1,11 @@
-const { HistoryService, Incoming } = require('../../DB_connection');
+const { HistoryService, Incoming, Client } = require('../../DB_connection');
 const getReg = require("../../controllers/getReg");
 const showLog = require("../../functions/showLog");
 const checkToken = require('../../functions/checkToken');
 
 const getHistoricProcHandler = async (req, res) => {
   try {
+    const { id } = req.params;
     const { token } = req.body;
     showLog(`getHistoricProcHandler`);
     // Verifico token:
@@ -14,7 +15,8 @@ const getHistoricProcHandler = async (req, res) => {
       showLog(`Wrong token.`);
       return res.status(401).send(`Sin permiso.`);
     }
-    const resp = await getReg(HistoryService, "HistoryService", Incoming);
+    if (!id) { throw Error("Faltan datos"); }
+    const resp = await getReg(HistoryService, "HistoryService", Incoming, Client, "", "", id);
     if (resp) {
       showLog(`getHistoricProcHandler OK`);
       return res.status(200).json(resp);

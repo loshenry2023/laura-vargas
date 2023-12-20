@@ -7,6 +7,7 @@ const getReg = async (
     tableName, tableNameText, tableName2 = "", tableName3 = "", tableName4 = "", tableName5 = "", id = "", dataQuery = "",
 ) => {
     try {
+
         let reg;
         switch (tableNameText) {
             case "Branch":
@@ -40,9 +41,7 @@ const getReg = async (
             case "Client":
                 reg = await tableName.findAll({
                     attributes: ["id", "email", "name", "lastName", "id_pers", "phoneNumber1", "phoneNumber2", "image"],
-                    where: {
-                        id: id !== null && id !== '' ? id : { [Op.is]: null },
-                    },
+                    where: { id: id, },
                     include: [
                         {
                             model: tableName2,
@@ -55,9 +54,15 @@ const getReg = async (
                     ],
                 });
                 break;
+            case "Clients":
+                reg = await tableName.findAll({
+                    attributes: ["id", "email", "name", "lastName", "id_pers", "phoneNumber1", "phoneNumber2", "image"],
+                });
+                break;
             case "HistoryService":
                 reg = await tableName.findAll({
-                    attributes: ["id", "imageServiceDone", "date", "conformity", "branchName", "serviceName", "attendedBy", "email", "name", "lastName", "id_pers"],
+                    attributes: ["id", "imageServiceDone", "date", "conformity", "branchName", "serviceName", "attendedBy", "email", "name", "lastName", "id_pers", "ClientId"],
+                    where: id ? { ClientId: id } : {},
                     include: [
                         { // incoming
                             model: tableName2,
@@ -78,14 +83,6 @@ const getReg = async (
                     dateFrom = "2020-01-01T00:00:00.000Z"
                     dateTo = "2050-01-01T23:59:59.000Z"
                 }
-                // if (userid) {
-                //     dateFrom = date + "T00:00:00.000Z"
-                //     dateTo = date + "T23:59:59.000Z"
-                // } else {
-                //     dateFrom = "2020-01-01T00:00:00.000Z"
-                //     dateTo = "2050-01-01T23:59:59.000Z"
-                // }
-
                 reg = await tableName.findAll({
                     attributes: ["id", "date_from", "date_to", "obs", "current"],
                     where: {
