@@ -1,13 +1,11 @@
 // ! Obtiene registros.
 const { Op } = require('sequelize');
-
 const showLog = require("../functions/showLog");
 
 const getReg = async (
     tableName, tableNameText, tableName2 = "", tableName3 = "", tableName4 = "", tableName5 = "", id = "", dataQuery = "",
 ) => {
     try {
-
         let reg;
         switch (tableNameText) {
             case "Branch":

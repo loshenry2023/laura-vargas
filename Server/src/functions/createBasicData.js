@@ -9,7 +9,6 @@
 // ! - 1 cliente (ELIMINAR AL ENTREGAR).
 // ! - 1 evento de calendario (ELIMINAR AL ENTREGAR).
 // ! - 1 historial de atención (ELIMINAR AL ENTREGAR).
-
 const { User, Branch, Payment, Specialty, Service, CatGastos, Calendar, HistoryService, Client, Incoming } = require("../DB_connection");
 const showLog = require("../functions/showLog");
 const { FIRST_SUPERADMIN } = require("../functions/paramsEnv");
