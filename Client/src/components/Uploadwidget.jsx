@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import getParamsEnv from "../functions/getParamsEnv";
 const { CLOUD_NAME, UPLOAD_PRESET } = getParamsEnv();
 

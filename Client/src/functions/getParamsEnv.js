@@ -5,8 +5,11 @@ export default function getParamsEnv() {
   const HOME = import.meta.env.VITE_HOME || "/home";
   const USERPROFILES = import.meta.env.VITE_PROFILES || "/userProfiles";
   const AGENDA = import.meta.env.AGENDA || "/agenda";
-  const USERDETAIL = import.meta.env.VITE_DETAIL || "/detail/:id";
   const USERDETAILBASE = import.meta.env.VITE_DETAIL_BASE || "/detail";
+  const USERDETAIL = import.meta.env.VITE_DETAIL || "/detail/:id";
+  const CLIENTDETAILBASE = import.meta.env.VITE_CLIENT_DETAIL_BASE || "/client-detail";
+  const CLIENTDETAIL = import.meta.env.VITE_CLIENT_DETAIL || "/client-detail/:id";
+  const CLIENTSPROFILES = import.meta.env.VITE_CLIENTS_PROFILES || "/clientsProfiles";
   const TERMSANDPRIVACY = import.meta.env.VITE_TERMS_AND_PRIVACY || "/terms-and-privacy"
   const API_URL_BASE = import.meta.env.VITE_API_URL_BASE || "http://localhost:3001/laura-vargas";
 
@@ -37,6 +40,8 @@ export default function getParamsEnv() {
     TERMSANDPRIVACY,
     USERDETAILBASE,
     USERPROFILES,
+    CLIENTDETAIL,
+    CLIENTDETAILBASE,
     API_URL_BASE,
     CLOUD_NAME,
     UPLOAD_PRESET,
@@ -46,5 +51,6 @@ export default function getParamsEnv() {
     FIREBASE_STORAGE_BUCKET,
     FIREBASE_MESSAGING_SENDER_ID,
     FIREBASE_APP_ID,
+    CLIENTSPROFILES,
   };
 }
