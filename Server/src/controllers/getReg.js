@@ -77,10 +77,8 @@ const getReg = async (
                 });
                 break;
             case "HistoryServiceUser":
-                //showLog(id);
-                // PENDIENTE:
                 reg = await tableName.findAll({
-                    attributes: ["id", "imageServiceDone", "date", "conformity", "branchName", "serviceName", "attendedBy", "email", "name", "lastName", "id_pers", "ClientId", "idUser"],
+                    attributes: ["id", "imageServiceDone", "date", "conformity", "branchName", "serviceName", "attendedBy", "email", "name", "lastName", "id_pers", "ClientId"],
                     where: id ? { idUser: id } : {},
                     include: [
                         { // incoming
