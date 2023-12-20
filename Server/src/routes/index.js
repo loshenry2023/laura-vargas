@@ -37,6 +37,7 @@ const postClientHandler = require("../Handlers/client/postClientHandler");
 const deleteClientHandler = require("../Handlers/client/deleteClientHandler");
 const putClientHandler = require("../Handlers/client/putClientHandler");
 const getClientHandler = require("../Handlers/client/getClientHandler");
+const getAllClientHandler = require("../Handlers/client/getAllClientHandler");
 // Histórico de procedimientos:
 const postHistoricProcHandler = require("../Handlers/historicServices/postHistoricProcHandler");
 const getHistoricProcHandler = require("../Handlers/historicServices/getHistoricProcHandler");
@@ -82,16 +83,15 @@ router.post("/getservices", getServicesHandler); // obtiene y devuelve todos los
 router.post("/newclient", postClientHandler); //  crea un cliente
 router.put("/client/:id", putClientHandler); //  edita un cliente
 router.post("/deleteclient/:id", deleteClientHandler); //  elimina un cliente
-router.post("/getclients", getClientHandler); // obtiene y devuelve los clientes (acepta query por id)
+router.post("/getclient/:id", getClientHandler); // obtiene y devuelve los detalles de un cliente
+router.post("/getclients", getAllClientHandler); // obtiene y devuelve los datos principales de todos los clientes
 // Histórico de procedimientos:
 router.post("/newhistoricproc", postHistoricProcHandler); //  crea un registro en el histórico de procedimientos
-// ! DANIEL VA A PONERLE QUERY POR RANGO DE FECHAS (ya tal vez otros):
-router.post("/gethistoricproc", getHistoricProcHandler); // obtiene y devuelve el histórico de los procedimientos
+// registrar el id de cliente y llamar por params
+router.post("/gethistoricproc/:id", getHistoricProcHandler); // obtiene y devuelve el histórico de los procedimientos. Filtra por client id
 // Calendario:
 router.post("/newcalendar", postCalendarHandler); //  crea un evento en calendario
 router.put("/calendar/:id", putCalendarHandler); //  edita un evento en calendario
 router.post("/deletecalendar/:id", deleteCalendarHandler); //  elimina un evento en calendario
-// ! DANIEL VA A PONERLE QUERY POR (nombre + apellildo + email) de cliente:
 router.post("/getcalendar", getCalendarHandler); // obtiene y devuelve todos los eventos en calendario. Filtra por fecha y por especialista por query
-
 module.exports = router;
