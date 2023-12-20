@@ -84,16 +84,16 @@ async function AddRegCalendar(Calendar, data, conn, User, Service, Client, Branc
 }
 
 async function AddRegHistoricProc(HistoryService, data, conn, Client, Incoming) {
-    const { idclient, imageServiceDone, date, amount1, amount2, conformity, branchName, paymentMethodName1, paymentMethodName2, serviceName, attendedBy, email, name, lastName, id_pers } = data;
+    const { idUser, idclient, imageServiceDone, date, amount1, amount2, conformity, branchName, paymentMethodName1, paymentMethodName2, serviceName, attendedBy, email, name, lastName, id_pers } = data;
     let transaction; // manejo transacciones para evitar registros defectuosos por relaciones mal solicitadas
     try {
-        if (!idclient || !imageServiceDone || !date || !conformity || !branchName || !paymentMethodName1 || !paymentMethodName2 || !serviceName || !attendedBy || !email || !name || !lastName || !amount1 || !amount2) { throw Error("Faltan datos"); }
+        if (!idUser || !idclient || !imageServiceDone || !date || !conformity || !branchName || !paymentMethodName1 || !paymentMethodName2 || !serviceName || !attendedBy || !email || !name || !lastName || !amount1 || !amount2) { throw Error("Faltan datos"); }
         // Inicio la transacción:
         transaction = await conn.transaction();
         const client = await Client.findByPk(idclient);
         if (!client) { throw Error("Cliente no encontrado"); }
         const regCreated = await HistoryService.create({
-            imageServiceDone, date, conformity, branchName, serviceName, attendedBy, email, name, lastName, id_pers,
+            imageServiceDone, date, conformity, branchName, serviceName, attendedBy, email, name, lastName, id_pers, idUser,
         }, { transaction });
         // Registro los dos posibles medios de pago:
         await Incoming.create({ amount: amount1, paymentMethodName: paymentMethodName1, DateIncoming: date, HistoryServiceId: regCreated.id }, { transaction });

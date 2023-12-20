@@ -40,7 +40,8 @@ const getClientHandler = require("../Handlers/client/getClientHandler");
 const getAllClientHandler = require("../Handlers/client/getAllClientHandler");
 // Histórico de procedimientos:
 const postHistoricProcHandler = require("../Handlers/historicServices/postHistoricProcHandler");
-const getHistoricProcHandler = require("../Handlers/historicServices/getHistoricProcHandler");
+const getHistoricByClientHandler = require("../Handlers/historicServices/getHistoricByClientHandler");
+const getHistoricByUsertHandler = require("../Handlers/historicServices/getHistoricByUsertHandler");
 // Calendario:
 const postCalendarHandler = require("../Handlers/calendar/postCalendarHandler");
 const deleteCalendarHandler = require("../Handlers/calendar/deleteCalendarHandler");
@@ -93,7 +94,8 @@ router.post("/getclients", getAllClientHandler); // obtiene y devuelve los datos
 // Histórico de procedimientos:
 router.post("/newhistoricproc", postHistoricProcHandler); //  crea un registro en el histórico de procedimientos
 // registrar el id de cliente y llamar por params
-router.post("/gethistoricproc/:id", getHistoricProcHandler); // obtiene y devuelve el histórico de los procedimientos. Filtra por client id
+router.post("/gethistoricbyclient/:id", getHistoricByClientHandler); // obtiene y devuelve el histórico de los procedimientos. Filtra por client id
+router.post("/gethistoricbyuser/:id", getHistoricByUsertHandler); // obtiene y devuelve el histórico de los procedimientos. Filtra por usuario
 // Calendario:
 router.post("/newcalendar", postCalendarHandler); //  crea un evento en calendario
 router.put("/calendar/:id", putCalendarHandler); //  edita un evento en calendario
