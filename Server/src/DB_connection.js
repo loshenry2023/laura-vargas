@@ -19,6 +19,7 @@ const SpecialtyModel = require("../src/models/Specialty");
 const UserModel = require("../src/models/User");
 const CalendarModel = require("../src/models/Calendar");
 const IncomingModel = require("../src/models/Incoming");
+const CatGastosModel = require("../src/models/CatGastos");
 
 // Determino la conexión según el entorno:
 let strConn = "";
@@ -40,6 +41,7 @@ SpecialtyModel(database);
 UserModel(database);
 CalendarModel(database);
 IncomingModel(database);
+CatGastosModel(database);
 
 // Relacionar modelos:
 const {
@@ -51,7 +53,8 @@ const {
   Specialty,
   User,
   Calendar,
-  Incoming
+  Incoming,
+  CatGastos,
 } = database.models;
 
 // Relaciones:
@@ -86,5 +89,6 @@ module.exports = {
   User,
   Calendar,
   Incoming,
+  CatGastos,
   conn: database,
 };

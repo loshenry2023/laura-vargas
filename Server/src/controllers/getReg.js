@@ -25,6 +25,11 @@ const getReg = async (
                     attributes: ["id", "specialtyName"],
                 });
                 break;
+            case "CatGastos":
+                reg = await tableName.findAll({
+                    attributes: ["id", "catName"],
+                });
+                break;
             case "Service":
                 reg = await tableName.findAll({
                     attributes: ["id", "serviceName", "duration", "price", "ImageService"],

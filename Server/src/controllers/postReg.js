@@ -19,11 +19,14 @@ const postReg = async (tableName, tableNameText, data, conn = "", tableName2 = "
             case "Service":
                 resp = await AddRegService(tableName, data, conn);
                 return { "created": "ok", "id": resp };
+            case "Client":
+                resp = await AddRegClient(tableName, data, conn);
+                return { "created": "ok", "id": resp };
             case "User":
                 resp = await AddRegUser(tableName, data, conn);
                 return { "created": "ok", "id": resp };
-            case "Client":
-                resp = await AddRegClient(tableName, data, conn);
+            case "CatGastos":
+                resp = await AddRegCatGastos(tableName, data);
                 return { "created": "ok", "id": resp };
             case "HistoryService":
                 resp = await AddRegHistoricProc(tableName, data, conn, tableName2, tableName3);
@@ -31,7 +34,6 @@ const postReg = async (tableName, tableNameText, data, conn = "", tableName2 = "
             case "Calendar":
                 resp = await AddRegCalendar(tableName, data, conn, tableName2, tableName3, tableName4, tableName5);
                 return { "created": "ok" };
-            //return { "created": "ok", "id": resp };
             default:
                 throw new Error("Tabla no válida");
         }
@@ -39,8 +41,6 @@ const postReg = async (tableName, tableNameText, data, conn = "", tableName2 = "
         return { created: "error", message: err.message };
     }
 }
-
-//Modificar el siguiente código para corregir el error "SequelizeDatabaseError: el valor nulo en la columna «BranchId» de la relación «Calendars» viola la restricción de no nulo":
 
 async function AddRegCalendar(Calendar, data, conn, User, Service, Client, Branch) {
     const { idUser, idService, idClient, idBranch, date_from, date_to, obs } = data;
@@ -90,7 +90,6 @@ async function AddRegHistoricProc(HistoryService, data, conn, Client, Incoming) 
         if (!idclient || !imageServiceDone || !date || !conformity || !branchName || !paymentMethodName1 || !paymentMethodName2 || !serviceName || !attendedBy || !email || !name || !lastName || !amount1 || !amount2) { throw Error("Faltan datos"); }
         // Inicio la transacción:
         transaction = await conn.transaction();
-
         const client = await Client.findByPk(idclient);
         if (!client) { throw Error("Cliente no encontrado"); }
         const regCreated = await HistoryService.create({
@@ -279,6 +278,30 @@ async function AddRegSpecialty(Specialty, data) {
             where: { specialtyName: specialtyName },
         });
         return specCreated.id;
+    } catch (error) {
+        throw Error(`${error}`);
+    }
+}
+
+async function AddRegCatGastos(CatGastos, data) {
+    const { catName } = data;
+    try {
+        if (!catName) { throw Error("Faltan datos"); }
+        const catLowercase = catName.toLowerCase();
+        const existingCat = await CatGastos.findOne({
+            where: { catName: { [Op.iLike]: catLowercase } },
+        });
+        if (existingCat) {
+            throw Error("La categoría ya existe");
+        }
+        const [CatCreated, created] = await CatGastos.findOrCreate({
+            where: { catName },
+        });
+        // Obtengo el id para devolver:
+        const catCreated = await CatGastos.findOne({
+            where: { catName: catName },
+        });
+        return catCreated.id;
     } catch (error) {
         throw Error(`${error}`);
     }

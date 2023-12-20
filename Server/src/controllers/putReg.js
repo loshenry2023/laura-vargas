@@ -15,6 +15,9 @@ const putReg = async (tableName, tableNameText, data, id, conn = "", tableName2 
             case "Specialty":
                 resp = await editRegSpecialty(tableName, data, id);
                 break;
+            case "CatGastos":
+                resp = await editRegCatGastos(tableName, data, id);
+                break;
             case "Service":
                 resp = await editRegService(tableName, data, id, conn);
                 break;
@@ -224,6 +227,22 @@ async function editRegSpecialty(Specialty, data, id) {
         }
         existingSpec.specialtyName = specialtyName;
         await existingSpec.save();
+        return;
+    } catch (error) {
+        throw Error(`${error}`);
+    }
+}
+
+async function editRegCatGastos(CatGastos, data, id) {
+    const { catName } = data;
+    try {
+        if (!catName) { throw Error("Faltan datos"); }
+        const existingCat = await CatGastos.findByPk(id);
+        if (!existingCat) {
+            throw Error("Categoría no encontrada");
+        }
+        existingCat.catName = catName;
+        await existingCat.save();
         return;
     } catch (error) {
         throw Error(`${error}`);
