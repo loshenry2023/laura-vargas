@@ -2,6 +2,7 @@
 export default function getParamsEnv() {
   const ROOT = import.meta.env.VITE_ROOT || "/";
   const LOGIN = import.meta.env.VITE_LOGIN || "/login";
+  const BRANCH = import.meta.env.VITE_BRANCH || "/branch";
   const HOME = import.meta.env.VITE_HOME || "/home";
   const USERPROFILES = import.meta.env.VITE_PROFILES || "/userProfiles";
   const AGENDA = import.meta.env.AGENDA || "/agenda";
@@ -33,6 +34,7 @@ export default function getParamsEnv() {
 
   return {
     ROOT,
+    BRANCH,
     HOME,
     LOGIN,
     USERDETAIL,

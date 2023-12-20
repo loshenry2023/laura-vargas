@@ -14,7 +14,7 @@ import { AiFillFacebook } from "react-icons/ai";
 
 // Variables de entorno:
 import getParamsEnv from "../functions/getParamsEnv";
-const { ROOT, HOME, API_URL_BASE } = getParamsEnv();
+const { ROOT, HOME, API_URL_BASE, BRANCH } = getParamsEnv();
 
 //Firebase
 import {
@@ -30,6 +30,7 @@ const facebookProvider = new FacebookAuthProvider();
 
 const LogIn = () => {
   const [role, setRole] = useState("");
+  const [branches, setBranches] = useState([]);
   const [errorCredentials, setErrorCredentials] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -37,7 +38,12 @@ const LogIn = () => {
 
   useEffect(() => {
     if (role === "superAdmin" || role === "admin" || role === "especialista") {
-      navigate(HOME);
+      console.log(branches)
+      if(branches.length == 1){
+        navigate(HOME)
+      } else {
+        navigate(BRANCH)
+      }
     }
   }, [role]);
 
@@ -71,7 +77,6 @@ const LogIn = () => {
 
   const handleGoogle = async () => {
     dispatch(clearDataInicio())
-
     try {
       // Configuro el parámetro "prompt" para permitir seleccionar una nueva cuenta:
       googleProvider.setCustomParameters({
@@ -95,10 +100,10 @@ const LogIn = () => {
 
       const userData = retrieveUser.data;
       dispatch(getUser(userData));
-      const { role } = userData;
+      const { role, branches } = userData;
+      setBranches(branches);
       setRole(role);
       dispatch(getToken(accessToken));
-
     } catch (error) {
       if(error.message.includes("404")){{toast.error(`${error.response.data}`.charAt(0).toUpperCase() + `${error.response.data}`.slice(1))}}
       else{toast.error(error.message)}

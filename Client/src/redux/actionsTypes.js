@@ -1,4 +1,5 @@
 export const GET_USER = "GET_USER";
+export const SET_WORKING_BRANCH = "SET_WORKING_BRANCH";
 export const GET_USERS = "GET_USERS";
 export const GET_USER_ID = "GET_USER_ID";
 export const GET_BRANCHES = "GET_BRANCHES";

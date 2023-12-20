@@ -23,7 +23,9 @@ const Agenda = () => {
   const [loading, setLoading] = useState(true)
 
   const token = useSelector((state) => state?.token);
+  const user = useSelector((state) => state?.user);
   const branches = useSelector((state) => state?.branches);
+  const workingBranch = useSelector((state) => state?.workingBranch);
   const services = useSelector((state) => state?.services);
   const clients = useSelector((state) => state?.clients);
   const users = useSelector((state) => state?.users);
@@ -46,7 +48,6 @@ const Agenda = () => {
 
 useEffect(() => {
     dispatch(getToken(token))
-    dispatch(getBranches({ token: token }))
     dispatch(getServices({ token: token }))
     dispatch(getClients({ token: token }))
     dispatch(
@@ -74,6 +75,7 @@ useEffect(() => {
             <SideBar/>
             {loading ? <Loader /> : (
             <div className="w-full flex flex-col my-10 justify-evenly items-center 2xl:h-[calc(100vh-220px)]">
+            <h1 className='items-start text-2xl underline underline-offset-4 tracking-wide font-fontTitle dark:text-beige sm:text-left'>Agenda</h1>
             <section className='flex flex-col place-items-center gap-5 mb-10 md:flex-row'>
               <div>
                 <IoPersonAddOutline className='h-6 w-6 cursor-pointer dark:text-darkText' onClick={handleClientFormModal}/>
@@ -88,12 +90,9 @@ useEffect(() => {
                 })}
               </select>
               <select name="" id="" className="w-40 border border-black rounded-md text-md dark:text-darkText dark:bg-darkPrimary">
-              <option value=""> -- Sedes-- </option>
-                {branches.map((branch, index)=> {
-                  return (
-                    <option key={index} value={branch.branchName}>{branch.branchName}</option>
-                  )
-                })}
+              {workingBranch ? (
+                <option value=""> {workingBranch} </option>
+              ) : <option value={user.branches[0].branchName}> {user.branches[0].branchName} </option>}
               </select>
               <select name="" id="" className="w-40 border border-black rounded-md text-md dark:text-darkText dark:bg-darkPrimary">
               <option value=""> -- Procedimientos-- </option>

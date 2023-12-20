@@ -14,10 +14,12 @@ import {
   GET_CLIENTS,
   GET_CLIENT_ID,
   CLEAR_CLIENT_ID,
+  SET_WORKING_BRANCH,
 } from "./actionsTypes";
 
 const initialState = {
   token: "",
+  workingBranch: "",
   user: {},
   userID: {},
   users: [],
@@ -34,15 +36,22 @@ const initialState = {
 const rootReducer = (state = initialState, { type, payload, count, error, idDelete }) => {
   switch (type) {
 
-        //! Trae token
-        case TOKEN:
-          const getToken = {
-            ...state,
-            token: payload,
-          };
-          localStorage.setItem('myAppReduxState', JSON.stringify(getToken));
-          return getToken;
-    
+    //! Trae token
+    case TOKEN:
+      const getToken = {
+        ...state,
+        token: payload,
+      };
+      localStorage.setItem('myAppReduxState', JSON.stringify(getToken));
+      return getToken;
+
+    case SET_WORKING_BRANCH:
+      const setWorkingBranch = {
+        ...state,
+        workingBranch: payload,
+      };
+      localStorage.setItem('myAppReduxState', JSON.stringify(setWorkingBranch));
+      return setWorkingBranch;
 
     //! Trae usuario de logIn
     case GET_USER:

@@ -6,13 +6,12 @@ const HistoryServices = ({ history }) => {
     <section className='w-full my-10 flex flex-col flex-wrap justify-evenly gap-10 md:flex-row'>
       {history.map((service, index) => {
         return (
-          <div key={index} className='border-4 border-double border-primaryPink flex flex-col gap-0.5 flex-wrap w-80 mx-auto p-4 h-fit rounded overflow-hidden shadow-lg'>
+          <div key={index} className='border-4 border-double border-primaryPink flex flex-col gap-1 flex-wrap w-80 mx-auto p-4 h-fit rounded overflow-hidden shadow-lg'>
             <h4 className='text-center font-medium'>{service.date}</h4>
             <p className="text-center">Sede: {service.branchName}</p>
             <p className="text-center">Especialista a cargo: {service.attendedBy}</p>
-            <p className="text-center">Método de pago: {service.paymentMethodName}</p>
-            <p className="text-center">Precio: {service.price}$</p>
-            <p className="mx-auto cursor-pointer border border-black rounded-2xl w-fit px-5 bg-beige"           
+            <p className="text-center">Servicio: {service.serviceName}</p>
+            <p className="mx-auto cursor-pointer border border-black rounded-2xl w-fit my-1 px-5 bg-beige"           
             onClick={() => handleToggleFotos(index)}>
                <a href={service.imageServiceDone} target="_blank">Ver fotos</a>
             </p>
