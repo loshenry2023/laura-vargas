@@ -64,10 +64,24 @@ const getReg = async (
                     attributes: ["id", "email", "name", "lastName", "id_pers", "phoneNumber1", "phoneNumber2", "image"],
                 });
                 break;
-            case "HistoryService":
+            case "HistoryServiceClient":
                 reg = await tableName.findAll({
                     attributes: ["id", "imageServiceDone", "date", "conformity", "branchName", "serviceName", "attendedBy", "email", "name", "lastName", "id_pers", "ClientId"],
                     where: id ? { ClientId: id } : {},
+                    include: [
+                        { // incoming
+                            model: tableName2,
+                            attributes: ["id", "amount", "DateIncoming", "paymentMethodName"],
+                        },
+                    ],
+                });
+                break;
+            case "HistoryServiceUser":
+                //showLog(id);
+                // PENDIENTE:
+                reg = await tableName.findAll({
+                    attributes: ["id", "imageServiceDone", "date", "conformity", "branchName", "serviceName", "attendedBy", "email", "name", "lastName", "id_pers", "ClientId", "idUser"],
+                    where: id ? { idUser: id } : {},
                     include: [
                         { // incoming
                             model: tableName2,

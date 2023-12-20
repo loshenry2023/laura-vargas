@@ -49,5 +49,9 @@ module.exports = (sequelize) => {
       type: DataTypes.TEXT,
       allowNull: true,
     },
+    idUser: {
+      type: DataTypes.UUID,
+      allowNull: false,
+    },
   });
 };
