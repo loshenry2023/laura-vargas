@@ -88,7 +88,7 @@ const getReg = async (
                 break;
             case "Calendar":
                 // Preparo los filtros previos a la consulta:
-                const { date, userid } = dataQuery;
+                const { date, userid, branch } = dataQuery;
                 let dateFrom = "";
                 let dateTo = "";
                 if (date) {
@@ -122,6 +122,7 @@ const getReg = async (
                         { // Branch
                             model: tableName5,
                             attributes: ["id", "branchName"],
+                            where: branch ? { id: branch } : {},
                         },
                     ],
                 });
