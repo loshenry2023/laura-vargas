@@ -9,6 +9,7 @@ import {
   SET_ICON,
   USER_LOGOUT,
   CLEAR_USERID,
+  TOKEN,
 } from "./actionsTypes";
 
 const initialState = {
@@ -20,6 +21,7 @@ const initialState = {
   specialties: [],
   error: null,
   selectedIcon: null,
+  token: ""
 };
 
 const rootReducer = (state = initialState, { type, payload, count, error, idDelete }) => {
@@ -72,6 +74,15 @@ const rootReducer = (state = initialState, { type, payload, count, error, idDele
       };
       localStorage.setItem('myAppReduxState', JSON.stringify(getBranchesState));
       return getBranchesState;
+
+      case TOKEN:
+        const getToken = {
+          ...state,
+          token: payload,
+        };
+        localStorage.setItem('myAppReduxState', JSON.stringify(getToken));
+        return getToken;
+  
 
     case GET_SPECIALTIES:
       const getSpecialtiesState = {

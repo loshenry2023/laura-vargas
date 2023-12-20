@@ -13,7 +13,8 @@ import { Route, Routes } from "react-router-dom";
 
 // Variables de entorno:
 import getParamsEnv from "./functions/getParamsEnv.js";
-const { ROOT, LOGIN, USERPROFILES, HOME, USERDETAIL, TERMSANDPRIVACY, AGENDA } = getParamsEnv();
+import ClientDetail from "./views/ClientDetail.jsx";
+const { ROOT, LOGIN, USERPROFILES, HOME, USERDETAIL, TERMSANDPRIVACY, AGENDA, CLIENTDETAIL } = getParamsEnv();
 
 const App = () => {
   return (
@@ -25,6 +26,7 @@ const App = () => {
         <Route path={USERPROFILES} element={<Profiles />} />
         <Route path={USERDETAIL} element={<UserDetail />} />
         <Route path={AGENDA} element={<Agenda />} />
+        <Route path={CLIENTDETAIL} element={<ClientDetail />} />
         <Route path={TERMSANDPRIVACY} element={<TermsAndPrivacy />} />
         {/* <Route path={DETAIL} element={<Detail />} />
         <Route path={EDIT} element={<Edit />} />

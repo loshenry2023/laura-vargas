@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { getUser } from "../redux/actions";
+import { getToken, getUser } from "../redux/actions";
 import axios from "axios";
 import { Toaster, toast } from 'react-hot-toast'
 import { clearDataInicio } from "../redux/actions.js";
@@ -82,7 +82,6 @@ const LogIn = () => {
 
       // Obtengo el token de acceso:
       const accessToken = await googleUser.user.getIdToken();
-      console.log(accessToken)
       const dataToValidate = {
         nameUser: googleUser.user.email,
         idUser: accessToken, // mando el gigantesco token real
@@ -98,6 +97,8 @@ const LogIn = () => {
       dispatch(getUser(userData));
       const { role } = userData;
       setRole(role);
+      dispatch(getToken(accessToken));
+
     } catch (error) {
       if(error.message.includes("404")){{toast.error(`${error.response.data}`.charAt(0).toUpperCase() + `${error.response.data}`.slice(1))}}
       else{toast.error(error.message)}

@@ -7,7 +7,8 @@ import {
   DELETE_USER,
   SET_ICON,
   USER_LOGOUT,
-  CLEAR_USERID
+  CLEAR_USERID,
+  TOKEN
 } from "./actionsTypes";
 import axios from "axios";
 import getParamsEnv from "../functions/getParamsEnv";
@@ -151,6 +152,13 @@ export const clearUserId = () => (
   {
     type: CLEAR_USERID,
     payload: {}
+  }
+)
+
+export const getToken = (token) => (
+  {
+    type: TOKEN,
+    payload: token,
   }
 )
 

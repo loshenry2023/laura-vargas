@@ -3,32 +3,98 @@ import React, { useState } from "react";
 import { generateDate, months } from "../functions/calendar";
 import cn from "../functions/cn";
 import { GrFormNext, GrFormPrevious } from "react-icons/gr";
+
+//icons
+import { FaEye } from "react-icons/fa";
 import { MdEdit } from "react-icons/md";
 import { MdDelete } from "react-icons/md";
 
 const Calendar = () => {
 
-  const days = ["S", "M", "T", "W", "T", "F", "S"];
+	const days = ["S", "M", "T", "W", "T", "F", "S"];
 	const currentDate = dayjs();
 	const [today, setToday] = useState(currentDate);
-  const [selectDate, setSelectDate] = useState(currentDate);
+	const [selectDate, setSelectDate] = useState(currentDate);
+
+	const data = [{
+		date_from: "2024-01-10T10:00:00.000Z",
+		date_to: "2024-01-10T10:30:00.000Z",
+		obs: "Persona mayor",
+		User: {
+			id: "12163541654165",
+			userName: "dany@gmail.com",
+			name: "Daniel",
+			lastName: "Castañeda",
+		},
+		Branch: {
+			id: "dasdasdsad",
+			branchName: "Restrepo"
+		},		
+		Service:  {
+			id: "1216354sadasdasdasd1654165",
+			serviceName: "Micropigmentación",
+			duration: 30,
+			price: "0",
+			ImageService: "asdasd",
+		},
+		Client:  {
+			id: "1216354sadasdasdasd1654165",
+			email: "Micropigmentación",
+			name: "Tomas",
+			lastName: "Bombau",
+			id_pers: "456658",
+			phoneNumber1: "1165939393",
+			phoneNumber2: "1165939393",
+			image: "https://res.cloudinary.com/doqyrz0sg/image/upload/v1702302836/varpjl2p5dwvpwbmdiui.png",
+		}},
+		{
+		date_from: "2024-01-10T11:00:00.000Z",
+		date_to: "2024-01-10T11:10:00.000Z",
+		obs: "Piel irritable",
+		User: {
+			id: "12163541654165",
+			userName: "dany@gmail.com",
+			name: "Jorgelino",
+			lastName: "Perez",
+		},
+		Branch: {
+			id: "21312312321",
+			branchName: "Villavicencio"
+		},	
+		Service:  {
+			id: "1216354sadasdasdasd1654165",
+			serviceName: "Lifting",
+			duration: 10,
+			price: "1000",
+			ImageService: "asdasd",
+		},
+		Client:  {
+			id: "1216354sadasdasdasd1654165",
+			email: "ramiro.alet@gmail.com",
+			name: "Ramiro",
+			lastName: "Alet",
+			id_pers: "1125586",
+			phoneNumber1: "034155568",
+			phoneNumber2: "-",
+			image: "https://res.cloudinary.com/doqyrz0sg/image/upload/v1702302836/varpjl2p5dwvpwbmdiui.png",
+		}}]
 
   return (
 		<div className="flex gap-10 justify-center sm:divide-x sm:w-1/2 mx-auto items-center xl:flex-row flex-col">
 			<div className="w-96 h-96 ">
 				<div className="flex justify-between items-center">
-					<h1 className="select-none font-semibold">
+					<h1 className="select-none font-semibold dark:text-darkText">
 						{months[today.month()]}, {today.year()}
 					</h1>
 					<div className="flex gap-10 items-center ">
 						<GrFormPrevious
-							className="w-5 h-5 cursor-pointer hover:scale-105 transition-all"
+							className="w-5 h-5 cursor-pointer hover:scale-105 transition-all dark:text-darkText"
 							onClick={() => {
 								setToday(today.month(today.month() - 1));
 							}}
 						/>
 						<h1
-							className=" cursor-pointer hover:scale-105 transition-all"
+							className=" cursor-pointer hover:scale-105 transition-all dark:text-darkText"
 							onClick={() => {
 								setToday(currentDate);
 							}}
@@ -36,7 +102,7 @@ const Calendar = () => {
 							Today
 						</h1>
 						<GrFormNext
-							className="w-5 h-5 cursor-pointer hover:scale-105 transition-all"
+							className="w-5 h-5 cursor-pointer hover:scale-105 transition-all dark:text-darkText"
 							onClick={() => {
 								setToday(today.month(today.month() + 1));
 							}}
@@ -74,13 +140,13 @@ const Calendar = () => {
 												.toDate()
 												.toDateString() ===
 												date.toDate().toDateString()
-												? "bg-black text-white"
+												? "bg-black text-white dark:bg-darkText dark:text-black"
 												: "",
-											"h-10 w-10 rounded-full grid place-content-center hover:bg-black hover:text-white transition-all cursor-pointer select-none"
+											"h-10 w-10 rounded-full grid place-content-center hover:bg-black hover:text-white dark:hover:bg-darkText dark:hover:text-black file:transition-all cursor-pointer select-none"
 										)}
 										onClick={() => {
 											setSelectDate(date);
-                      console.log(date.$d)
+											console.log(date.$d)
 										}}
 									>
 										{date.date()}
@@ -92,71 +158,36 @@ const Calendar = () => {
 				</div>
 			</div>
 			<div className="h-96 w-96 sm:px-5 overflow-auto">
-				<h1 className=" font-semibold">
-					Schedule for {selectDate.toDate().toDateString()}
+				<h1 className=" font-semibold dark:text-darkText">
+					Agenda del {selectDate.toDate().toDateString()}
 				</h1>
         <div className="flex flex-row gap-2">
-				<button className="bg-secondaryPink px-1 rounded-md">08:00 a 12:00</button>
-				<button className="bg-secondaryPink px-1 rounded-md">12:00 a 16:00</button>
-				<button className="bg-secondaryPink px-1 rounded-md">16:00 a 18:00</button>
+				<button className="bg-secondaryPink px-1 rounded-md hover:scale-105 dark:text-darkText dark:border dark:border-beige dark:bg-darkPrimary">06:00 a 10:00</button>
+				<button className="bg-secondaryPink px-1 rounded-md hover:scale-105 dark:text-darkText dark:border dark:border-beige dark:bg-darkPrimary">10:00 a 14:00</button>
+				<button className="bg-secondaryPink px-1 rounded-md hover:scale-105 dark:text-darkText dark:border dark:border-beige dark:bg-darkPrimary">14:00 a 19:00</button>
         </div>
-        <div className="bg-beige border px-2 border-black mt-2 rounded-lg">
-          <div className="flex flex-row justify-between">
-          <h5 className="font-medium"> 10:00 - 10:15 <span>Tomas Bombau</span></h5> 
-          <div className="flex pt-[6px]">
-          <MdEdit />
-          <MdDelete />
-          </div>
-          </div>
-          <p className="text-sm">Especialista: Rami</p>
-          <p className="text-sm">Procedimiento: Cejas</p>
-        </div>
-        <div className="bg-beige border px-2 border-black mt-2 rounded-lg">
-          <div className="flex flex-row justify-between">
-          <h5 className="font-medium"> 10:00 - 10:15 <span>Tomas Bombau</span></h5> 
-          <div className="flex pt-[6px]">
-          <MdEdit />
-          <MdDelete />
-          </div>
-          </div>
-          <p className="text-sm">Especialista: Rami</p>
-          <p className="text-sm">Procedimiento: Cejas</p>
-        </div>
-        <div className="bg-beige border px-2 border-black mt-2 rounded-lg">
-          <div className="flex flex-row justify-between">
-          <h5 className="font-medium"> 10:00 - 10:15 <span>Tomas Bombau</span></h5> 
-          <div className="flex pt-[6px]">
-          <MdEdit />
-          <MdDelete />
-          </div>
-          </div>
-          <p className="text-sm">Especialista: Rami</p>
-          <p className="text-sm">Procedimiento: Cejas</p>
-        </div>
-        <div className="bg-beige border px-2 border-black mt-2 rounded-lg">
-          <div className="flex flex-row justify-between">
-          <h5 className="font-medium"> 10:00 - 10:15 <span>Tomas Bombau</span></h5> 
-          <div className="flex pt-[6px]">
-          <MdEdit />
-          <MdDelete />
-          </div>
-          </div>
-          <p className="text-sm">Especialista: Rami</p>
-          <p className="text-sm">Procedimiento: Cejas</p>
-        </div>
-        <div className="bg-beige border px-2 border-black mt-2 rounded-lg">
-          <div className="flex flex-row justify-between">
-          <h5 className="font-medium"> 10:00 - 10:15 <span>Tomas Bombau</span></h5> 
-          <div className="flex pt-[6px]">
-          <MdEdit />
-          <MdDelete />
-          </div>
-          </div>
-          <p className="text-sm">Especialista: Rami</p>
-          <p className="text-sm">Procedimiento: Cejas</p>
-        </div>
-               
-			</div>
+		{data.map(cita => {
+			return (
+			<div className="bg-beige border px-2 border-black mt-2 rounded-lg">
+				<div className="flex flex-col">
+					<div className="flex flex-row justify-between">
+					<h5 className="font-medium"> {cita.date_from.slice(11, 16)} - {cita.date_to.slice(11, 16)} <span> - {cita.Client.name} {cita.Client.lastName}</span></h5> 
+					<div className="flex pt-[6px] gap-2">
+							<FaEye className="hover:scale-125 hover:text-blue-500 cursor-pointer delay-200 dark:text-darkText dark:hover:text-blue-500" />
+							<MdEdit className="hover:scale-125 hover:text-primaryPink cursor-pointer delay-200 dark:text-darkText dark:hover:text-primaryPink" />
+							<MdDelete className="hover:scale-125 hover:text-red-500 cursor-pointer delay-200 dark:text-darkText dark:hover:text-red-500" />
+					</div>
+					</div>
+					<p className="text-sm"> <span className="">Sede:</span> {cita.Branch.branchName}</p>
+					<p className="text-sm"> <span className="">Especialista:</span> {cita.User.name} {cita.User.lastName}</p>
+					<p className="text-sm"><span className="">Procedimiento:</span> {cita.Service.serviceName}</p>
+					<p className="text-sm"><span className="">Duración:</span> {cita.Service.duration} min</p>
+					<p className="text-sm"><span className="">Precio:</span> {cita.Service.price}$</p>
+					<p className="text-sm"><span className="">Observaciones:</span> {cita.obs}</p>
+				</div>
+		  </div>)
+		})}
+		</div>
 		</div>
 	);
 }

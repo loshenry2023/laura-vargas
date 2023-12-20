@@ -3,17 +3,25 @@ const validateRegisterInput = (data) => {
 
   const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const phonePattern = /^[0-9]{8,15}$/;
+  const numberPattern = /^\d+$/;
+
 
   if (!data.userName) {
-    validationErrors.userName = "ingrese correo electrónico";
+    validationErrors.userName = "Ingrese un correo electrónico";
   } else if (!emailPattern.test(data.userName)) {
     validationErrors.userName = "Correo electrónico no válido";
+  }
+
+  if (!data.email) {
+    validationErrors.email = "Ingrese un correo electrónico";
+  } else if (!emailPattern.test(data.email)) {
+    validationErrors.email = "Correo electrónico no válido";
   }
 
   if (!data.name) {
     validationErrors.name = "Proporciona un nombre";
   } else if (data.name.length > 25) {
-    validationErrors.name = "no debe exceder los 25 caracteres";
+    validationErrors.name = "No debe exceder los 25 caracteres";
   }
 
   if (!data.lastName) {
@@ -22,11 +30,15 @@ const validateRegisterInput = (data) => {
     validationErrors.lastName = "No debe exceder los 25 caracteres";
   }
 
-  if (!data.phoneNumber1 || !phonePattern.test(data.phoneNumber1)) {
+  if (!data.phoneNumber1 || !numberPattern.test(data.phoneNumber1)) {
+    validationErrors.phoneNumber1 = "Debe ingresar números";
+  } else if (!data.phoneNumber1 || !phonePattern.test(data.phoneNumber1)) {
     validationErrors.phoneNumber1 = "Ingrese teléfono válido, 8-15 dig";
-  }
+  } 
 
-  if (data.phoneNumber2 && !phonePattern.test(data.phoneNumber2)) {
+  if (!data.phoneNumber2 || !numberPattern.test(data.phoneNumber2)) {
+    validationErrors.phoneNumber2 = "Debe ingresar números";
+  } else if (data.phoneNumber2 && !phonePattern.test(data.phoneNumber2)) {
     validationErrors.phoneNumber2 = "Ingrese teléfono válido, 8-15 dig";
   }
 
@@ -44,12 +56,21 @@ const validateRegisterInput = (data) => {
 
   if (!data.commission || data.commission > 100 || data.commission < 0) {
     validationErrors.commission = "Ingrese comisión válida";
-}
-if (!data.notificationEmail) {
-  validationErrors.notificationEmail = "ingrese correo electrónico";
-} else if (!emailPattern.test(data.notificationEmail)) {
-  validationErrors.notificationEmail = "Correo electrónico no válido";
-}
+  }
+
+  if (!data.notificationEmail) {
+    validationErrors.notificationEmail = "ingrese correo electrónico";
+  } else if (!emailPattern.test(data.notificationEmail)) {
+    validationErrors.notificationEmail = "Correo electrónico no válido";
+  }
+
+  if (!data.id_pers) {
+    validationErrors.id_pers = "Proporciona un ID";
+  } else if (!data.id_pers || !numberPattern.test(data.id_pers)) {
+    validationErrors.id_pers = "Debe ingresar números";
+  } else if (data.id.length !== 8) {
+    validationErrors.id_pers = "El documento debe tener 8 dígitos";
+  }
   return validationErrors;
 };
 

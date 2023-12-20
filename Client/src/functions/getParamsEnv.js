@@ -7,6 +7,7 @@ export default function getParamsEnv() {
   const AGENDA = import.meta.env.AGENDA || "/agenda";
   const USERDETAIL = import.meta.env.VITE_DETAIL || "/detail/:id";
   const USERDETAILBASE = import.meta.env.VITE_DETAIL_BASE || "/detail";
+  const CLIENTDETAIL = import.meta.env.VITE_CLIENT_DETAIL || "/client-detail";
   const TERMSANDPRIVACY = import.meta.env.VITE_TERMS_AND_PRIVACY || "/terms-and-privacy"
   const API_URL_BASE = import.meta.env.VITE_API_URL_BASE || "http://localhost:3001/laura-vargas";
 
@@ -37,6 +38,7 @@ export default function getParamsEnv() {
     TERMSANDPRIVACY,
     USERDETAILBASE,
     USERPROFILES,
+    CLIENTDETAIL,
     API_URL_BASE,
     CLOUD_NAME,
     UPLOAD_PRESET,
