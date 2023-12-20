@@ -237,8 +237,8 @@ async function createBasicData() {
       await Incoming.create({ amount: "25000", paymentMethodName: "efectivo", DateIncoming: "2024-01-25 11:37:00", HistoryServiceId: historCreated.id });
       // Relación: asocio el historial de servicio con el cliente:
       await client.addHistoryService(historCreated);
-      showLog(`... received log created`);
-      showLog(`Basic data created`);
+      showLog(`... received log created. Basic data created`);
+      //showLog(`Basic data created`);
     }
   } catch (error) {
     showLog(`Error creating basic data: ${error}`);
