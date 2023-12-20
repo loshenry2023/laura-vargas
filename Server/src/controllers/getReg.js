@@ -44,7 +44,7 @@ const getReg = async (
                 });
                 break;
             case "Client":
-                reg = await tableName.findAll({
+                reg = await tableName.findOne({
                     attributes: ["id", "email", "name", "lastName", "id_pers", "phoneNumber1", "phoneNumber2", "image"],
                     where: { id: id, },
                     include: [
