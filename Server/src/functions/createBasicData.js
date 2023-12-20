@@ -2,8 +2,9 @@
 // ! - 2 sedes,
 // ! - 6 métodos de pago,
 // ! - 5 especialidades,
+// ! - 5 categorías de gastos,
 // ! - 1 usuario superAdmin.
-const { User, Branch, Payment, Specialty, Service } = require("../DB_connection");
+const { User, Branch, Payment, Specialty, Service, CatGastos } = require("../DB_connection");
 const showLog = require("../functions/showLog");
 const { FIRST_SUPERADMIN } = require("../functions/paramsEnv");
 
@@ -61,6 +62,18 @@ async function createBasicData() {
         specCrtd = specialityCreated;
       }
       showLog(`... specialties created`);
+      // Crear las categorías de gastos:
+      const catList = ["Comisiones", "Personal", "Salario", "Insumos", "Arriendos"];
+      let catCrtd;
+      for (let i = 0; i < catList.length; i++) {
+        const [catCreated, created] = await CatGastos.findOrCreate({
+          where: {
+            catName: catList[i],
+          },
+        });
+        catCrtd = catCreated;
+      }
+      showLog(`... expense categories created`);
       // Crear los procedimientos y sus relaciones:
       let serviceList;
       let spec;

@@ -46,6 +46,11 @@ const postCalendarHandler = require("../Handlers/calendar/postCalendarHandler");
 const deleteCalendarHandler = require("../Handlers/calendar/deleteCalendarHandler");
 const putCalendarHandler = require("../Handlers/calendar/putCalendarHandler");
 const getCalendarHandler = require("../Handlers/calendar/getCalendarHandler");
+// Categorías de gastos:
+const postCatHandler = require("../Handlers/catGastos/postCatHandler");
+const putCatHandler = require("../Handlers/catGastos/putCatHandler");
+const deleteCatHandler = require("../Handlers/catGastos/deleteCatHandler");
+const getCatHandler = require("../Handlers/catGastos/getCatHandler");
 
 //! Rutas
 // Usuarios:
@@ -94,4 +99,10 @@ router.post("/newcalendar", postCalendarHandler); //  crea un evento en calendar
 router.put("/calendar/:id", putCalendarHandler); //  edita un evento en calendario
 router.post("/deletecalendar/:id", deleteCalendarHandler); //  elimina un evento en calendario
 router.post("/getcalendar", getCalendarHandler); // obtiene y devuelve todos los eventos en calendario. Filtra por fecha y por especialista por query
+// Categorías de gastos:
+router.post("/catgasto", postCatHandler); // crea una categoría
+router.put("/catgastos/:id", putCatHandler); // edita una categoría
+router.post("/deletecatgastos/:id", deleteCatHandler); //  elimina una categoría
+router.post("/catgastos", getCatHandler); // obtiene y devuelve todas las categorías
+
 module.exports = router;
