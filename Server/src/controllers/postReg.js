@@ -1,6 +1,7 @@
 // ! Almacena un nuevo registro en tabla.
 //const showLog = require("../functions/showLog");
 const { Op } = require('sequelize');
+const showLog = require('../functions/showLog');
 
 const postReg = async (tableName, tableNameText, data, conn = "", tableName2 = "", tableName3 = "", tableName4 = "", tableName5 = "") => {
     try {
@@ -8,16 +9,16 @@ const postReg = async (tableName, tableNameText, data, conn = "", tableName2 = "
         switch (tableNameText) {
             case "Branch":
                 resp = await AddRegBranch(tableName, data);
-                return { "created": "ok" };
+                return { "created": "ok", "id": resp };
             case "Payment":
                 resp = await AddRegPayment(tableName, data);
-                return { "created": "ok" };
+                return { "created": "ok", "id": resp };
             case "Specialty":
                 resp = await AddRegSpecialty(tableName, data);
-                return { "created": "ok" };
+                return { "created": "ok", "id": resp };
             case "Service":
                 resp = await AddRegService(tableName, data, conn);
-                return { "created": "ok" };
+                return { "created": "ok", "id": resp };
             case "User":
                 resp = await AddRegUser(tableName, data, conn);
                 return { "created": "ok", "id": resp };
@@ -29,7 +30,8 @@ const postReg = async (tableName, tableNameText, data, conn = "", tableName2 = "
                 return { "created": "ok" };
             case "Calendar":
                 resp = await AddRegCalendar(tableName, data, conn, tableName2, tableName3, tableName4, tableName5);
-                return { "created": "ok", "id": resp };
+                return { "created": "ok" };
+            //return { "created": "ok", "id": resp };
             default:
                 throw new Error("Tabla no válida");
         }
@@ -37,6 +39,8 @@ const postReg = async (tableName, tableNameText, data, conn = "", tableName2 = "
         return { created: "error", message: err.message };
     }
 }
+
+//Modificar el siguiente código para corregir el error "SequelizeDatabaseError: el valor nulo en la columna «BranchId» de la relación «Calendars» viola la restricción de no nulo":
 
 async function AddRegCalendar(Calendar, data, conn, User, Service, Client, Branch) {
     const { idUser, idService, idClient, idBranch, date_from, date_to, obs } = data;
@@ -46,9 +50,8 @@ async function AddRegCalendar(Calendar, data, conn, User, Service, Client, Branc
         // Inicio la transacción:
         transaction = await conn.transaction();
         const regCreated = await Calendar.create({
-            date_from, date_to, obs, current: true,
+            date_from, date_to, obs, current: true, BranchId: idBranch,
         }, { transaction });
-        // Relación: Asocio el Calendar con el User:
         const user = await User.findByPk(idUser);
         if (!user) {
             throw Error("Usuario no encontrado");
@@ -160,7 +163,11 @@ async function AddRegService(Service, data, conn) {
             await SvcCreated.addSpecialties(spec, { transaction });
         }
         await transaction.commit();
-        return;
+        // Obtengo el id para devolver:
+        const svcCreated = await Service.findOne({
+            where: { serviceName: serviceName },
+        });
+        return svcCreated.id;
     } catch (error) {
         if (transaction) await transaction.rollback();
         throw Error(`${error}`);
@@ -219,7 +226,11 @@ async function AddRegBranch(Branch, data) {
         const [BranchCreated, created] = await Branch.findOrCreate({
             where: { branchName, phoneNumber, address, coordinates, openningHours, clossingHours, workingDays },
         });
-        return;
+        // Obtengo el id para devolver:
+        const branchCreated = await Branch.findOne({
+            where: { branchName: branchName },
+        });
+        return branchCreated.id;
     } catch (error) {
         throw Error(`${error}`);
     }
@@ -239,7 +250,11 @@ async function AddRegPayment(Payment, data) {
         const [PayCreated, created] = await Payment.findOrCreate({
             where: { paymentMethodName },
         });
-        return;
+        // Obtengo el id para devolver:
+        const payCreated = await Payment.findOne({
+            where: { paymentMethodName: paymentMethodName },
+        });
+        return payCreated.id;
     } catch (error) {
         throw Error(`${error}`);
     }
@@ -259,7 +274,11 @@ async function AddRegSpecialty(Specialty, data) {
         const [SpecCreated, created] = await Specialty.findOrCreate({
             where: { specialtyName },
         });
-        return;
+        // Obtengo el id para devolver:
+        const specCreated = await Specialty.findOne({
+            where: { specialtyName: specialtyName },
+        });
+        return specCreated.id;
     } catch (error) {
         throw Error(`${error}`);
     }

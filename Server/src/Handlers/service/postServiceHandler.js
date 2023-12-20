@@ -15,10 +15,9 @@ const postServiceHandler = async (req, res) => {
       return res.status(401).send(`Sin permiso.`);
     }
     const resp = await postReg(Service, "Service", req.body, conn);
-
     if (resp.created === 'ok') {
       showLog(`postServiceHandler OK`);
-      return res.status(200).json({ "created": "ok" });
+      return res.status(200).json({ "created": "ok", "id": resp.id });
     } else {
       showLog(`postServiceHandler ERROR-> ${resp.message}`);
       return res.status(500).send(resp.message);

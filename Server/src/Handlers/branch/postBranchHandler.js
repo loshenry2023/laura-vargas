@@ -15,10 +15,9 @@ const postBranchHandler = async (req, res) => {
       return res.status(401).send(`Sin permiso.`);
     }
     const resp = await postReg(Branch, "Branch", req.body);
-
     if (resp.created === 'ok') {
       showLog(`postBranchHandler OK`);
-      return res.status(200).json({ "created": "ok" });
+      return res.status(200).json({ "created": "ok", "id": resp.id });
     } else {
       showLog(`postBranchHandler ERROR-> ${resp.message}`);
       return res.status(500).send(resp.message);
