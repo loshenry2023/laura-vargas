@@ -1,23 +1,33 @@
+//hooks,reducer
 import React, { useState } from 'react'
-
+import { useSelector } from 'react-redux';
+import axios from "axios"
+import { Toaster, toast } from 'react-hot-toast'
 
 //icons
 import { IoClose } from 'react-icons/io5';
+import { UploadWidget } from '../Uploadwidget';
 
-const CreateClient = ({setShowClientFormModal}) => {
+//funciones
+import validateClientInput from '../../functions/registerClient';
 
+//Variables de entorno
+import getParamsEnv from '../../functions/getParamsEnv';
+const { API_URL_BASE } = getParamsEnv()
 
+const CreateClient = ({setShowClientFormModal, setActivarNuevoCliente}) => {
+
+    const token = useSelector((state) => state?.token);
 
     const [client, setClient] = useState({
+        email: "",
         name: "",
         lastName: "",
-        email: "",
-        notificationEmail: "",
+        id_pers: "",
         phoneNumber1: "",
         phoneNumber2: "",
-        id: "",
-        image: [],
-        specialtyName: [],
+        image: "https://res.cloudinary.com/doqyrz0sg/image/upload/v1702302836/varpjl2p5dwvpwbmdiui.png",
+        token: token,
       });
       
       const [errors, setErrors] = useState({
@@ -27,25 +37,82 @@ const CreateClient = ({setShowClientFormModal}) => {
         setShowClientFormModal(false)
       }
 
-      const handleChange = () => {
+      const handleChange = (e) => {
         const { name, value } = e.target;
+
         setClient((prevInfo) => ({
             ...prevInfo,
             [name]: value,
           }));
+
+        setClient((prevInfo) => {
+        const validationErrors = validateClientInput({ ...prevInfo, [name]: value });
+        setErrors((prevErrors) => ({
+            ...prevErrors,
+            [name]: validationErrors[name],
+        }));
+        return prevInfo;
+      })
+    }
+
+    const handleSubmit = async (e) => {
+    e.preventDefault();
+    const validationErrors = validateClientInput(client);
+    setErrors(validationErrors);
+
+    const hasErrors = Object.values(validationErrors).some((error) => error !== undefined);
+    if (hasErrors) {
+    } else {
+      try {
+        const data = {
+          email: client.email,
+          name: client.name,
+          id_pers: client.id_pers,
+          lastName: client.lastName,
+          phone1: client.phoneNumber1,
+          phone2: client.phoneNumber2,
+          image: client.image,
+          token: client.token,
+        }
+        const response = await axios.post(`${API_URL_BASE}/newclient`, data)
+        
+        if (response.data.created === "ok") {
+        toast.success("Cliente creado exitosamente")
+        setActivarNuevoCliente(true)
+        setTimeout(() => {
+        closeModal();
+        setClient(
+            {
+                email: "",
+                name: "",
+                lastName: "",
+                phone1: "",
+                phone2: "",
+                image: "",
+                id_pers: "",
+                token: "",
+            }
+        )}, 3000);
+        } else {
+            toast.error("Hubo un problema con la creación")
+          }
+    } catch (error) {
+        toast.error(`Hubo un problema con la creacion. ${error.response.data}`)
       }
+    }
+}
 
 
     return (
         <>
             <div className="absolute top-0 left-0 flex items-center justify-center w-full h-full bg-black opacity-95">
                 <div className="container">
-                    <div className="w-full bg-white shadow rounded-lg p-6 md:mx-auto md:w-1/2 2xl:w-1/3 dark:bg-darkBackground">
+                    <div className="w-full bg-white opacity-100 shadow rounded-lg p-6 md:mx-auto md:w-1/2 2xl:w-1/3 dark:bg-darkBackground">
                         <div className='flex justify-between'>
-                            <h1 className="text-xl font-semibold mb-4 text-black dark:text-darkText">Editar usuario</h1>
+                            <h1 className="text-xl font-semibold mb-4 text-black dark:text-darkText">Crear cliente</h1>
                             <IoClose onClick={closeModal} className='cursor-pointer mt-2 w-5 h-5 hover:scale-125 dark:text-darkText' />
                         </div>
-                        <form>
+                        <form onSubmit={handleSubmit}>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-2">
                             <div>
                                 <label className='pl-1 text-sm font-bold dark:text-darkText'>Nombre</label>
@@ -56,7 +123,7 @@ const CreateClient = ({setShowClientFormModal}) => {
                                     value={client.name}
                                     placeholder="Nombre"
                                     className={`border border-black p-2 rounded w-full ${errors.name !== undefined && "border-red-500"}`}
-                                />
+                                />  
                                 {errors.name !== "" && <p className="text-xs text-red-500">{errors.name}</p>}
                             </div>
                             <div>
@@ -79,24 +146,24 @@ const CreateClient = ({setShowClientFormModal}) => {
                                     onChange={handleChange}
                                     type="email"
                                     name="email"
-                                    value={client.userName}
+                                    value={client.email}
                                     placeholder="Email cliente"
-                                    className={`border text-gray-500 border-black p-2 rounded w-full ${errors.userName !== undefined && "border-red-500"}`}
+                                    className={`border text-gray-500 border-black p-2 rounded w-full ${errors.email !== undefined && "border-red-500"}`}
                                 />
-                                {errors.userName !== "" && <p className="text-xs text-red-500">{errors.userName}</p>}
+                                {errors.email !== "" && <p className="text-xs text-red-500">{errors.email}</p>}
                             </div>
                             <div>
-                            <label className='pl-1 text-sm font-bold dark:text-darkText'>Email para notificaciones</label>
+                                <label className='mb-2 text-sm font-bold text-gray-900 dark:text-darkText'>ID de persona</label>
                                 <input
-                                onChange={handleChange}
-                                type="email"
-                                name="notificationEmail"
-                                value={client.notificationEmail}
-                                placeholder="Email para notificaciones"
-                                className="border border-black p-2 rounded w-full"
+                                    placeholder="ID"
+                                    className={`border border-black p-2 rounded w-full ${errors.id_pers !== undefined && "border-red-500"}`}
+                                    onChange={handleChange}
+                                    type="text"
+                                    name="id_pers"
+                                    value={client.id_pers}
                                 />
-                                {errors.notificationEmail !== "" && <p className="text-xs text-red-500">{errors.notificationEmail}</p>}
-                            </div>
+                                {errors.id_pers !== "" && <p className="text-xs text-red-500">{errors.id_pers}</p>}
+                         </div>
                         </div>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-2">
                             <div>
@@ -124,21 +191,17 @@ const CreateClient = ({setShowClientFormModal}) => {
                                 {errors.phoneNumber2 !== "" && <p className="text-xs text-red-500">{errors.phoneNumber2}</p>}
                             </div>
                         </div>
-                        <div className="grid grid-cols-1">
-                                <label className='pl-1 text-sm font-bold dark:text-darkText'>ID de persona</label>
-                                <input
-                                    placeholder="ID"
-                                    className="border border-black p-2 rounded w-full"
-                                    onChange={handleChange}
-                                    type="text"
-                                    name="id"
-                                    value={client.notificationEmail}
-                                />
-                                {errors.notificationEmail !== "" && <p className="text-xs text-red-500">{errors.notificationEmail}</p>}
+                        <div>
+                        <div className="mt-2 grid grid-cols-1 place-items-center">
+                            <UploadWidget setUserData={setClient} />
+                            <div className='mt-2 mb-2'>
+                                <img className='w-20 h-20 rounded' src={client.image} alt="user-avatar" />
+                            </div>
+                            </div>
                         </div>
                         <button
                             type="submit"
-                            className="mt-4 px-4 py-2 w-full rounded bg-primaryPink shadow shadow-black text-black hover:bg-blue-600 focus:outline-none transition-colors dark:text-darkText dark:bg-darkPrimary dark:hover:bg-blue-600"
+                            className="mt-2 px-4 py-2 w-full rounded bg-primaryPink shadow shadow-black text-black hover:bg-blue-600 focus:outline-none transition-colors dark:text-darkText dark:bg-darkPrimary dark:hover:bg-blue-600"
                         >
                             Registrar cliente
                         </button>
@@ -146,6 +209,49 @@ const CreateClient = ({setShowClientFormModal}) => {
                     </div>
                 </div>
             </div>
+            <Toaster
+        position="top-center"
+        reverseOrder={false}
+        gutter={8}
+        containerClassName=""
+        containerStyle={{
+          zIndex: 1000, // Puedes ajustar este valor según tus necesidades
+          // Otros estilos aquí
+        }}
+        toastOptions={{
+          // Define default options
+          className: '',
+          duration: 5000,
+          style: {
+            background: '#ffc8c8',
+            color: '#363636',
+          },
+
+          success: {
+            duration: 3000,
+            theme: {
+              primary: 'green',
+              secondary: 'black',
+            },
+            style: {
+              background: '#00A868',
+              color: '#FFFF',
+            }
+          },
+
+          error: {
+            duration: 2000,
+            theme: {
+              primary: 'pink',
+              secondary: 'black',
+            },
+            style: {
+              background: '#C43433',
+              color: '#fff',
+            }
+          },
+        }}
+      />
         </>
     );
 }

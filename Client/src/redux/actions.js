@@ -7,7 +7,12 @@ import {
   DELETE_USER,
   SET_ICON,
   USER_LOGOUT,
-  CLEAR_USERID
+  CLEAR_USERID,
+  GET_SERVICES,
+  TOKEN,
+  GET_CLIENTS,
+  GET_CLIENT_ID,
+  CLEAR_CLIENT_ID,
 } from "./actionsTypes";
 import axios from "axios";
 import getParamsEnv from "../functions/getParamsEnv";
@@ -51,6 +56,61 @@ export const getSpecialties = (token) => {
     }
   };
 };
+
+export const getServices = (token) => {
+  return async function (dispatch) {
+    try {
+      const response = await axios.post(
+        API_URL_BASE + "/getservices", token
+      );
+      return dispatch({
+        type: GET_SERVICES,
+        payload: response.data,
+      });
+    } catch (error) {
+      throw Error(error.message);
+    }
+  };
+};
+
+export const getClients = (token) => {
+  return async function (dispatch) {
+    try {
+      const response = await axios.post(
+        API_URL_BASE + "/getclients", token
+      );
+      return dispatch({
+        type: GET_CLIENTS,
+        payload: response.data,
+      });
+    } catch (error) {
+      throw Error(error.message);
+    }
+  };
+};
+
+export const getClientId = (id, token) => {
+  return async function (dispatch) {
+    try {
+      const response = await axios.post(
+        `${API_URL_BASE}/getclient/${id}`, token
+      );
+      return dispatch({
+        type: GET_CLIENT_ID,
+        payload: response.data,
+      });
+    } catch (error) {
+      throw Error(error.message);
+    }
+  };
+}
+
+export const clearClientId = () => (
+  {
+    type: CLEAR_CLIENT_ID,
+    payload: {}
+  }
+)
 
 export const getUsers = (
   nameOrLastName,
@@ -151,6 +211,13 @@ export const clearUserId = () => (
   {
     type: CLEAR_USERID,
     payload: {}
+  }
+)
+
+export const getToken = (token) => (
+  {
+    type: TOKEN,
+    payload: token,
   }
 )
 

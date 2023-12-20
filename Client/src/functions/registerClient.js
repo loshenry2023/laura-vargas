@@ -1,15 +1,14 @@
-const validateRegisterInput = (data) => {
+const validateClientInput = (data) => {
   const validationErrors = {};
 
   const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const phonePattern = /^[0-9]{8,15}$/;
   const numberPattern = /^\d+$/;
 
-
-  if (!data.userName) {
-    validationErrors.userName = "Ingrese un correo electrónico";
-  } else if (!emailPattern.test(data.userName)) {
-    validationErrors.userName = "Correo electrónico no válido";
+  if (!data.email) {
+    validationErrors.email = "Ingrese un correo electrónico";
+  } else if (!emailPattern.test(data.email)) {
+    validationErrors.email = "Correo electrónico no válido";
   }
 
   if (!data.name) {
@@ -34,30 +33,16 @@ const validateRegisterInput = (data) => {
     validationErrors.phoneNumber2 = "Ingrese teléfono válido, 8-15 dig";
   }
 
-  if (!data.specialtyName || data.specialtyName.length === 0) {
-    validationErrors.specialtyName = "Selecciona al menos una especialidad";
-  }
-
-  if (!data.branch || data.branch.length === 0) {
-    validationErrors.branch = "Selecciona al menos una sede";
-  }
-
-  if (!data.rol) {
-    validationErrors.rol = "Selecciona un rol";
-  }
-
-  if (!data.commission || data.commission > 100 || data.commission < 0) {
-    validationErrors.commission = "Ingrese comisión válida";
-  }
-
-  if (!data.notificationEmail) {
-    validationErrors.notificationEmail = "ingrese correo electrónico";
-  } else if (!emailPattern.test(data.notificationEmail)) {
-    validationErrors.notificationEmail = "Correo electrónico no válido";
+  if (!data.id_pers) {
+    validationErrors.id_pers = "Proporciona un ID";
+  } else if (!data.id_pers || !numberPattern.test(data.id_pers)) {
+    validationErrors.id_pers = "Debe ingresar números";
+  } else if (data.id_pers.length !== 8) {
+    validationErrors.id_pers = "El documento debe tener 8 dígitos";
   }
 
   return validationErrors;
 
 };
 
-export default validateRegisterInput;
+export default validateClientInput;

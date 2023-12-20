@@ -82,7 +82,7 @@ function UserProfiles() {
   return (
     <div>
       <NavBar />
-      <div className="flex flex-row h-screen dark:bg-darkBackground">
+      <div className="flex flex-row dark:bg-darkBackground">
         <SideBar /> 
         {loading ? <Loader /> : (
           <div className="flex flex-col mt-10 gap-5 w-2/3 mx-auto"> 
