@@ -1,7 +1,6 @@
 // ! Almacena un nuevo registro en tabla.
 //const showLog = require("../functions/showLog");
 const { Op } = require('sequelize');
-const showLog = require('../functions/showLog');
 
 const postReg = async (tableName, tableNameText, data, conn = "", tableName2 = "", tableName3 = "", tableName4 = "", tableName5 = "") => {
     try {
