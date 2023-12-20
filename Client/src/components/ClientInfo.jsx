@@ -12,9 +12,13 @@ import { clearClientId, getClientId } from "../redux/actions.js";
 
 //icons
 import { IoMdArrowRoundBack } from "react-icons/io";
+import { MdEdit } from "react-icons/md";
+import { MdDelete } from "react-icons/md";
+import { IoClose } from 'react-icons/io5';
 
 //variables de entorno
 import getParamsEnv from "../functions/getParamsEnv.js";
+import HistoryCalendar from "./HistoryCalendar.jsx";
 const { CLIENTSPROFILES } = getParamsEnv();
 
 const ClientInfo = () => {
@@ -25,6 +29,7 @@ const ClientInfo = () => {
     
     const [loading, setLoading] = useState(true);
     const [showHistory, setShowHistory] = useState(false)
+    const [showCalendar, setShowCalendar] = useState(false)
     const token = useSelector(state => state?.token)
     const clientInfo = useSelector(state => state?.clientID)
      
@@ -39,90 +44,59 @@ const ClientInfo = () => {
       navigate(CLIENTSPROFILES);
     };
 
-    const asd = [
-      {
-        id: "dasdasdasd",
-        date: "2023-12-19T03:00:00.000Z",
-        serviceName: "Depilación",
-        price: "10000",
-        imageServiceDone: "https://res.cloudinary.com/doyafxwje/image/upload/v1702824197/Landing/cnqujn8oeh8x6jfac8ib.jpg",
-        conformity: "https://res.cloudinary.com/doyafxwje/image/upload/v1702994690/PDF/xf8a45ywxyl7tk8t0gj9.pdf",
-        branchName: "Restrepo",
-        paymentMethodName: "Efectivo",
-        attendedBy: "Jorge",
-      },
-      {
-        id: "dasdasdasd",
-        date: "2023-12-19T03:00:00.000Z",
-        serviceName: "Depilación",
-        price: "10000",
-        imageServiceDone: "https://res.cloudinary.com/doyafxwje/image/upload/v1702824197/Landing/cnqujn8oeh8x6jfac8ib.jpg",
-        conformity: "https://res.cloudinary.com/doyafxwje/image/upload/v1702994690/PDF/xf8a45ywxyl7tk8t0gj9.pdf",
-        branchName: "Restrepo",
-        paymentMethodName: "Efectivo",
-        attendedBy: "Jorge",
-      },
-      {
-        id: "dasdasdasd",
-        date: "2023-12-19T03:00:00.000Z",
-        serviceName: "Depilación",
-        price: "10000",
-        imageServiceDone: "https://res.cloudinary.com/doyafxwje/image/upload/v1702824197/Landing/cnqujn8oeh8x6jfac8ib.jpg",
-        conformity: "https://res.cloudinary.com/doyafxwje/image/upload/v1702994690/PDF/xf8a45ywxyl7tk8t0gj9.pdf",
-        branchName: "Restrepo",
-        paymentMethodName: "Efectivo",
-        attendedBy: "Jorge",
-      },
-      {
-        id: "dasdasdasd",
-        date: "2023-12-19T03:00:00.000Z",
-        serviceName: "Depilación",
-        price: "10000",
-        imageServiceDone: "https://res.cloudinary.com/doyafxwje/image/upload/v1702824197/Landing/cnqujn8oeh8x6jfac8ib.jpg",
-        conformity: "https://res.cloudinary.com/doyafxwje/image/upload/v1702994690/PDF/xf8a45ywxyl7tk8t0gj9.pdf",
-        branchName: "Restrepo",
-        paymentMethodName: "Efectivo",
-        attendedBy: "Jorge",
-      },
-      {
-        id: "dasdasdasd",
-        date: "2023-12-19T03:00:00.000Z",
-        serviceName: "Depilación",
-        price: "10000",
-        imageServiceDone: "https://res.cloudinary.com/doyafxwje/image/upload/v1702824197/Landing/cnqujn8oeh8x6jfac8ib.jpg",
-        conformity: "https://res.cloudinary.com/doyafxwje/image/upload/v1702994690/PDF/xf8a45ywxyl7tk8t0gj9.pdf",
-        branchName: "Restrepo",
-        paymentMethodName: "Efectivo",
-        attendedBy: "Jorge",
+    const handleShowHistory = () => {
+      setShowHistory(!showHistory)
+      if (showCalendar === true){
+        setShowCalendar(!showCalendar)
       }
-    ]
+    }
+
+    const handleShowCalendar = () => {
+      setShowCalendar(!showCalendar)
+      if (showHistory === true){
+        setShowHistory(!showHistory)
+      }
+    }
 
   return (
     <>
     {loading ? <Loader /> : ( 
       <section className="flex flex-col w-full items-center">
-        <div className="border max-w-screen-sm h-fit mt-10 rounded overflow-hidden shadow-lg mx-auto">
-        <div className="grid grid-1 place-items-center sm:place-items-start sm:grid-cols-3 sm:m-10">
+        <div className="relative border max-w-screen-sm h-fit mt-10 rounded overflow-hidden shadow-lg mx-auto">
+          <div className="absolute top-0 right-0 mt-1 flex flex-col-reverse sm:flex sm:flex-row">
+          <MdEdit
+            className="h-8 w-8 hover:text-primaryPink hover:animate-bounce cursor-pointer delay-200 dark:text-darkText dark:hover:text-primaryPink"
+          />
+          <MdDelete
+            className="h-8 w-8 hover:text-red-600 hover:animate-bounce cursor-pointer delay-200 dark:text-darkText dark:hover:text-red-600"
+          />
+          </div> 
+          <IoMdArrowRoundBack onClick={handleGoBack} className="m-1 absolute top-0 left-0 cursor-pointer h-8 w-8 text-primaryPink"/>
+          
+        <div className="grid grid-1 place-items-center mt-5 sm:place-items-start sm:grid-cols-3 sm:p-5">
             <img
-                className="shadow shadow-black rounded-full sm:col-span-1 sm:w-full"
-                src={clientInfo[0].image}
+                className="w-40 shadow shadow-black rounded-full sm:col-span-1 sm:w-full"
+                src={clientInfo.image}
                 alt="client-photo"
             />
-            <div className="m-4 sm:col-span-2 sm:ml-10 sm:mt-0">
-                <p className=""> <span className="font-medium">Nombre:</span> {clientInfo[0].name}</p>
-                <p className=""> <span className="font-medium">Apellido:</span> {clientInfo[0].lastName}</p>
-                <p className=""><span className="font-medium">Email:</span> {clientInfo[0].email}</p>
-                <p className=""> <span className="font-medium">ID:</span> {clientInfo[0].id_pers}</p>
-                <p className=""><span className="font-medium">phoneNumber1:</span> {clientInfo[0].phoneNumber1}</p>
-                <p className=""><span className="font-medium">phoneNumber2</span> {clientInfo[0].phoneNumber2}</p>
-                <div className="flex flex-row mt-2 gap-5">
-                    <IoMdArrowRoundBack onClick={handleGoBack} className="cursor-pointer h-8 w-8 text-primaryPink"/>
-                    <IoBook onClick={() => setShowHistory(!showHistory)} className="cursor-pointer h-8 w-8 text-primaryPink"/>
+            <div className="m-4 sm:col-span-2 sm:ml-10 sm:mt-0 ">
+                <p className=""> <span className="font-medium">Nombre:</span> {clientInfo.name}</p>
+                <p className=""> <span className="font-medium">Apellido:</span> {clientInfo.lastName}</p>
+                <p className=""><span className="font-medium">Email:</span> {clientInfo.email}</p>
+                <p className=""> <span className="font-medium">ID:</span> {clientInfo.id_pers}</p>
+                <p className=""><span className="font-medium">phoneNumber1:</span> {clientInfo.phoneNumber1}</p>
+                <p className=""><span className="font-medium">phoneNumber2</span> {clientInfo.phoneNumber2}</p>
+                <div className="flex flex-row gap-5 mt-2">
+                    <button onClick={handleShowHistory} className="cursor-pointer rounded shadow-sm px-1 my-1 shadow-black bg-primaryPink">Procedimientos anteriores</button>
+                    <button onClick={handleShowCalendar} className="cursor-pointer rounded shadow-sm px-1 my-1 shadow-black bg-primaryPink">Turnos anteriores</button>
+                </div>
+                <div className="flex gap-5 pt-2">
                 </div>
             </div>
         </div>
     </div>
-    {showHistory ? <HistoryServices history={asd}/> : null}
+    {showHistory ? <HistoryServices history={clientInfo.HistoryServices} calendars={clientInfo.Calendars}/>: null}
+    {showCalendar ? <HistoryCalendar calendars={clientInfo.Calendars}/>: null}
     </section> )}
     </>
   );

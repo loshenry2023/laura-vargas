@@ -13,6 +13,7 @@ import {
   GET_CLIENTS,
   GET_CLIENT_ID,
   CLEAR_CLIENT_ID,
+  SET_WORKING_BRANCH,
 } from "./actionsTypes";
 import axios from "axios";
 import getParamsEnv from "../functions/getParamsEnv";
@@ -22,6 +23,13 @@ export const getUser = (userData) => {
   return {
     type: GET_USER,
     payload: userData,
+  };
+};
+
+export const setBranch = (branch) => {
+  return {
+    type: SET_WORKING_BRANCH,
+    payload: branch,
   };
 };
 

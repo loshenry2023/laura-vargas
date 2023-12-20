@@ -26,11 +26,11 @@ const ClientsProfiles = () => {
             <SideBar /> 
             {loading ? <Loader /> : (
               <div className="flex flex-col mt-10 gap-5 w-2/3 mx-auto"> 
-                <h1 className="text-xl text-center dark:text-beige sm:text-left" >Clientes</h1>
+                <h1 className="text-2xl underline underline-offset-4 tracking-wide text-center font-fontTitle dark:text-beige sm:text-left"> Clientes </h1>
                 <section className="flex flex-col gap-2 mx-auto sm:flex sm:flex-row sm:gap-5 sm:w-full">
                   <div className="flex flex-col gap-6 md:flex-row">
                     <div className="flex gap-2">
-                      <label className="hidden md:inline dark:text-darkText">Fecha inicial</label>
+                      <label className="hidden md:inline dark:text-darkText"> Fecha inicial </label>
                       <input
                         type="date"
                         defaultValue=""
@@ -50,17 +50,12 @@ const ClientsProfiles = () => {
                 <section className="flex flex-col items-start sm:w-full">
                   <div className="flex flex-col items-center w-full gap-3 lg:flex-row lg:items-center lg:gap-3">
                     <input
-                      value=""
+                      defaultValue=""
                       type="text"
                       placeholder="Buscar por nombre..."
                       className="w-full border border-black focus:outline-none focus:ring-1 focus:ring-grey px-1 text-sm dark:bg-darkPrimary dark:placeholder-darkText dark:text-darkText"
                     />
-                    <select
-                      onChange={(e) => {
-                        setOrder(e.target.value);
-                        setPage(0);
-                      }}
-                      className="w-full border border-black rounded-md text-xs dark:text-darkText dark:bg-darkPrimary"
+                    <select className="w-full border border-black rounded-md text-xs dark:text-darkText dark:bg-darkPrimary"
                     >
                       <option value="asc"> -- Ordenar por -- </option>
                       <option value="asc">A-Z</option>
