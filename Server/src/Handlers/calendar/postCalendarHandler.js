@@ -15,7 +15,6 @@ const postCalendarHandler = async (req, res) => {
       return res.status(401).send(`Sin permiso.`);
     }
     const resp = await postReg(Calendar, "Calendar", req.body, conn, User, Service, Client, Branch);
-
     if (resp.created === 'ok') {
       showLog(`postCalendarHandler OK`);
       return res.status(200).json({ "created": "ok" });
