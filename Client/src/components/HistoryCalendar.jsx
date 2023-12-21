@@ -19,9 +19,9 @@ const HistoryCalendar = ({calendars}) => {
     }
 
     return (
-        <section className='w-full mx-auto  my-10 flex flex-col flex-wrap justify-evenly gap-10 md:flex-row'>
+        <section className='w-full mx-auto my-10 flex flex-col flex-wrap justify-evenly gap-10 md:flex-row'>
             <div className='border-4 border-double border-primaryPink flex flex-col gap-1 flex-wrap  p-4 h-fit rounded overflow-hidden shadow-lg'>
-            <h2> Turnos </h2>
+            {calendars.length >= 1 ? <h2 className='font-medium text-center'> Turnos anteriores </h2> : <h2 className='font-medium text-center'> Sin turnos registrados </h2>}
             {calendars.map((calendar, index) => {
                 return (
                     <div key={index} className='flex flex-col justify-between shadow-md border p-2'>

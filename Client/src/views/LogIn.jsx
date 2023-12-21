@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { getToken, getUser } from "../redux/actions";
+import { getToken, getUser, setBranch } from "../redux/actions";
 import axios from "axios";
 import { Toaster, toast } from 'react-hot-toast'
 import { clearDataInicio } from "../redux/actions.js";
@@ -38,8 +38,8 @@ const LogIn = () => {
 
   useEffect(() => {
     if (role === "superAdmin" || role === "admin" || role === "especialista") {
-      console.log(branches)
       if(branches.length == 1){
+        dispatch(setBranch({...branches[0]}));
         navigate(HOME)
       } else {
         navigate(BRANCH)

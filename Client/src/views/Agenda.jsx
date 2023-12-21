@@ -90,9 +90,7 @@ useEffect(() => {
                 })}
               </select>
               <select name="" id="" className="w-40 border border-black rounded-md text-md dark:text-darkText dark:bg-darkPrimary">
-              {workingBranch ? (
-                <option value=""> {workingBranch} </option>
-              ) : <option value={user.branches[0].branchName}> {user.branches[0].branchName} </option>}
+                <option value=""> {workingBranch.branchName} </option>
               </select>
               <select name="" id="" className="w-40 border border-black rounded-md text-md dark:text-darkText dark:bg-darkPrimary">
               <option value=""> -- Procedimientos-- </option>

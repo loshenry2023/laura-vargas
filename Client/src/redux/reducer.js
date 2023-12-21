@@ -15,15 +15,18 @@ import {
   GET_CLIENT_ID,
   CLEAR_CLIENT_ID,
   SET_WORKING_BRANCH,
+  GET_CALENDAR,
 } from "./actionsTypes";
 
 const initialState = {
   token: "",
-  workingBranch: "",
+  workingBranch: {},
   user: {},
   userID: {},
   users: [],
+  calendar: [],
   count: 0,
+  countCalendar: 0,
   branches: [],
   specialties: [],
   services: [],
@@ -48,7 +51,7 @@ const rootReducer = (state = initialState, { type, payload, count, error, idDele
     case SET_WORKING_BRANCH:
       const setWorkingBranch = {
         ...state,
-        workingBranch: payload,
+        workingBranch: {...payload},
       };
       localStorage.setItem('myAppReduxState', JSON.stringify(setWorkingBranch));
       return setWorkingBranch;
@@ -71,6 +74,16 @@ const rootReducer = (state = initialState, { type, payload, count, error, idDele
       };
       localStorage.setItem('myAppReduxState', JSON.stringify(getUsersState));
       return getUsersState;
+
+     //! Trae el calendar 
+    case GET_CALENDAR:
+      const getCalendar = {
+        ...state,
+        calendar: payload,
+        countCalendar: count,
+      };
+      localStorage.setItem('myAppReduxState', JSON.stringify(getCalendar));
+      return getCalendar;
 
     //! Trae usuario por ID
     case GET_USER_ID:

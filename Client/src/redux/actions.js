@@ -13,6 +13,7 @@ import {
   GET_CLIENTS,
   GET_CLIENT_ID,
   CLEAR_CLIENT_ID,
+  GET_CALENDAR,
   SET_WORKING_BRANCH,
 } from "./actionsTypes";
 import axios from "axios";
@@ -154,6 +155,28 @@ export const getUsers = (
       return dispatch({
         type: GET_USERS,
         payload: modifiedData,
+        count: data.count,
+      });
+    } catch (error) {
+      throw Error(error.message);
+    }
+  };
+};
+
+export const getCalendar = (
+  branch,
+  token
+) => {
+  const endPoint = API_URL_BASE + "/getcalendar?";
+  return async function (dispatch) {
+    try {
+      const { data } = await axios.post(
+        `${endPoint}branch=${branch}`, token
+      );
+
+      return dispatch({
+        type: GET_CALENDAR,
+        payload: data,
         count: data.count,
       });
     } catch (error) {
