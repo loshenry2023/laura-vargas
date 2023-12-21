@@ -95,7 +95,7 @@ const ClientInfo = () => {
             </div>
         </div>
     </div>
-    {showHistory ? <HistoryServices history={clientInfo.HistoryServices} calendars={clientInfo.Calendars}/>: null}
+    {showHistory ? <HistoryServices history={clientInfo.HistoryServices}/>: null}
     {showCalendar ? <HistoryCalendar calendars={clientInfo.Calendars}/>: null}
     </section> )}
     </>

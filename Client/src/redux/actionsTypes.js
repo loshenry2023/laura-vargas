@@ -14,6 +14,7 @@ export const GET_SERVICES = "GET_SERVICES"
 export const GET_CLIENTS = "GET_CLIENTS"
 export const GET_CLIENT_ID = "GET_CLIENT_ID"
 export const CLEAR_CLIENT_ID = "CLEAR_CLIENT_ID"
+export const GET_CALENDAR = "GET_CALENDAR"
 export const TOKEN = "TOKEN"
 
 
