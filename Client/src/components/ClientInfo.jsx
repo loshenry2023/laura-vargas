@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 
 // hooks, routers, reducers:
-import { IoBook } from "react-icons/io5";
 import HistoryServices from "./HistoryServices";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -14,11 +13,13 @@ import { clearClientId, getClientId } from "../redux/actions.js";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { MdEdit } from "react-icons/md";
 import { MdDelete } from "react-icons/md";
-import { IoClose } from 'react-icons/io5';
 
 //variables de entorno
 import getParamsEnv from "../functions/getParamsEnv.js";
 import HistoryCalendar from "./HistoryCalendar.jsx";
+import axios from "axios";
+import ToasterConfig from "./Toaster.jsx";
+import { toast } from "react-hot-toast";
 const { CLIENTSPROFILES } = getParamsEnv();
 
 const ClientInfo = () => {
@@ -30,6 +31,7 @@ const ClientInfo = () => {
     const [loading, setLoading] = useState(true);
     const [showHistory, setShowHistory] = useState(false)
     const [showCalendar, setShowCalendar] = useState(false)
+    const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
     const token = useSelector(state => state?.token)
     const clientInfo = useSelector(state => state?.clientID)
      
@@ -58,6 +60,23 @@ const ClientInfo = () => {
       }
     }
 
+    const confirmDelete = () => {
+        setShowDeleteConfirmation(true);
+      }
+
+    const deleteConfirmed = async (confirmed) => {
+      setShowDeleteConfirmation(true);
+      if (confirmed) {
+        const deletedClient = await axios.post(`http://localhost:3001/laura-vargas/deleteclient/${detailId}`, {token: token})
+        toast.success("Cliente eliminado correctamente");
+        setTimeout(() => {
+          navigate(CLIENTSPROFILES);
+        }, 3000);
+      } else {
+        setShowDeleteConfirmation(false);
+      }
+    }
+
   return (
     <>
     {loading ? <Loader /> : ( 
@@ -68,7 +87,7 @@ const ClientInfo = () => {
             className="h-8 w-8 hover:text-primaryPink hover:animate-bounce cursor-pointer delay-200 dark:text-darkText dark:hover:text-primaryPink"
           />
           <MdDelete
-            className="h-8 w-8 hover:text-red-600 hover:animate-bounce cursor-pointer delay-200 dark:text-darkText dark:hover:text-red-600"
+            onClick={confirmDelete} className="h-8 w-8 hover:text-red-600 hover:animate-bounce cursor-pointer delay-200 dark:text-darkText dark:hover:text-red-600"
           />
           </div> 
           <IoMdArrowRoundBack onClick={handleGoBack} className="m-1 absolute top-0 left-0 cursor-pointer h-8 w-8 text-primaryPink"/>
@@ -98,7 +117,36 @@ const ClientInfo = () => {
     {showHistory ? <HistoryServices history={clientInfo.HistoryServices}/>: null}
     {showCalendar ? <HistoryCalendar calendars={clientInfo.Calendars}/>: null}
     </section> )}
+    {showDeleteConfirmation && (
+          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+            <div
+              className={`bg-white p-6 rounded-lg shadow-lg text-center sm:flex sm:flex-col ${
+                window.innerWidth < 340 ? "max-w-sm" : "max-w-md"
+              }`}
+            >
+              <p className="mb-4 text-sm sm:text-base">
+                ¿Estás seguro de que deseas eliminar este cliente?
+              </p>
+              <div className="flex justify-center space-x-4">
+                <button
+                  onClick={() => deleteConfirmed(true)}
+                  className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 text-sm sm:text-base"
+                >
+                  Aceptar
+                </button>
+                <button
+                  onClick={() => deleteConfirmed(false)}
+                  className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 text-sm sm:text-base"
+                >
+                  Cancelar
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+    <ToasterConfig />
     </>
+    
   );
 };
 

@@ -33,11 +33,7 @@ const validateClientInput = (data) => {
     validationErrors.phoneNumber2 = "Ingrese teléfono válido, 8-15 dig";
   }
 
-  if (!data.id_pers) {
-    validationErrors.id_pers = "Proporciona un ID";
-  } else if (!data.id_pers || !numberPattern.test(data.id_pers)) {
-    validationErrors.id_pers = "Debe ingresar números";
-  } else if (data.id_pers.length !== 8) {
+ if (data.id_pers.length > 0 && data.id_pers.length !== 8) {
     validationErrors.id_pers = "El documento debe tener 8 dígitos";
   }
 

@@ -13,23 +13,26 @@ import { useDispatch, useSelector } from "react-redux";
 import { getCalendar } from "../redux/actions";
 
 const Calendar = () => {
+	const dispatch = useDispatch()
 
 	const days = ["S", "M", "T", "W", "T", "F", "S"];
 	const currentDate = dayjs();
-	const [today, setToday] = useState(currentDate);
-	const [selectDate, setSelectDate] = useState(currentDate);
-	const workingBranch = useSelector(state => state?.workingBranch)
-	const token = useSelector(state => state?.token)
-	const calendar = useSelector(state => state?.calendar)
-	const workingBranchID = workingBranch.id
-	const dispatch = useDispatch()
-	const [branch, setBranch] = useState(workingBranchID);
-	const [loading, setLoading] = useState(true);
 	const dateNow = new Date();
 	const day = dateNow.getDate() < 10 ? `0${dateNow.getDate()}` : dateNow.getDate();
 	const month = dateNow.getMonth()+1 < 10 ? `0${dateNow.getMonth()+1}` : dateNow.getMonth()+1;
+
+	const workingBranch = useSelector(state => state?.workingBranch)
+	const workingBranchID = workingBranch.id
+	const token = useSelector(state => state?.token)
+	const calendar = useSelector(state => state?.calendar)
+	const [today, setToday] = useState(currentDate);
+	const [selectDate, setSelectDate] = useState(currentDate);
 	const [date, setDate] = useState(`${dateNow.getFullYear()}-${month}-${day}`);
 	const [range, setRange] = useState("");
+	const [hourColors, setHourColors] = useState(0)
+	const [branch, setBranch] = useState(workingBranchID);
+	const [loading, setLoading] = useState(true);
+
 
 	
 	useEffect(() => {
@@ -123,9 +126,18 @@ const Calendar = () => {
 					Agenda del {selectDate.toDate().toDateString()}
 				</h1>
 				<div className="flex flex-row gap-2">
-						<button onClick= {()=>{range === 1 ? setRange("") : setRange(1)}} className="bg-white border border-black px-1 rounded-md hover:scale-105 dark:text-darkText dark:border dark:border-beige dark:bg-darkPrimary">06:00 a 10:00</button>
-						<button onClick= {()=>{range === 2 ? setRange("") : setRange(2)}} className="bg-white border border-black px-1 rounded-md hover:scale-105 dark:text-darkText dark:border dark:border-beige dark:bg-darkPrimary">10:00 a 14:00</button>
-						<button onClick= {()=>{range === 3 ? setRange("") : setRange(3)}} className="bg-white border border-black px-1 rounded-md hover:scale-105 dark:text-darkText dark:border dark:border-beige dark:bg-darkPrimary">14:00 a 19:00</button>
+						<button onClick= {()=>{range === 1 ? setRange("") : setRange(1);  setHourColors(hourColors === 1 ? 0 : 1)}} className={hourColors === 1
+							? "bg-primaryPink border border-black px-1 rounded-md hover:scale-105 dark:text-darkText dark:border dark:border-beige dark:bg-darkPrimary"
+							: "bg-white border border-black px-1 rounded-md hover:scale-105 dark:text-darkText dark:border dark:border-beige dark:bg-darkPrimary"
+							}>06:00 a 10:00</button>
+						<button onClick= {()=>{range === 2 ? setRange("") : setRange(2);  setHourColors(hourColors === 2 ? 0 : 2)}} className={hourColors === 2
+							? "bg-primaryPink border border-black px-1 rounded-md hover:scale-105 dark:text-darkText dark:border dark:border-beige dark:bg-darkPrimary"
+							: "bg-white border border-black px-1 rounded-md hover:scale-105 dark:text-darkText dark:border dark:border-beige dark:bg-darkPrimary"
+							}>10:00 a 14:00</button>
+						<button onClick= {()=>{range === 3 ? setRange("") : setRange(3);  setHourColors(hourColors === 3 ? 0 : 3)}} className={hourColors === 3
+							? "bg-primaryPink border border-black px-1 rounded-md hover:scale-105 dark:text-darkText dark:border dark:border-beige dark:bg-darkPrimary"
+							: "bg-white border border-black px-1 rounded-md hover:scale-105 dark:text-darkText dark:border dark:border-beige dark:bg-darkPrimary"
+							}>14:00 a 19:00</button>
 				</div>
 				{calendar.length === 0 && <h4 className="mt-2 font-medium">Sin turnos hasta el momento</h4> }
 				{calendar.map((cita, index) => {
