@@ -34,6 +34,7 @@ const Agenda = () => {
   const [createDateStart, setCreateDateStart] = useState("");
   const [createDateEnd, setCreateDateEnd] = useState("");
   const [chosenClient, setChosenClient] = useState({name: "Elija", lastName:"cliente"});
+
   const [showClientListModal, setShowClientListModal] = useState(false);
 
   useEffect(() => {
@@ -55,7 +56,7 @@ const Agenda = () => {
       )
     )
       .then(() => setLoading(false))
-  }, [activarNuevoCliente, specialty])
+  }, [specialty])
   return (
     <div>
       <NavBar />
