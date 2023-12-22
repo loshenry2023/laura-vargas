@@ -1,8 +1,10 @@
-//hooks,reducer
+//hooks,reducer, componentes
 import React, { useState } from 'react'
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import axios from "axios"
-import { Toaster, toast } from 'react-hot-toast'
+import { toast } from 'react-hot-toast'
+import { useLocation } from 'react-router-dom';
+import ToasterConfig from '../Toaster';
 
 //icons
 import { IoClose } from 'react-icons/io5';
@@ -13,11 +15,13 @@ import validateClientInput from '../../functions/registerClient';
 
 //Variables de entorno
 import getParamsEnv from '../../functions/getParamsEnv';
+
+
 const { API_URL_BASE } = getParamsEnv()
 
 const CreateClient = ({setShowClientFormModal, setActivarNuevoCliente}) => {
-
     const token = useSelector((state) => state?.token);
+    const location = useLocation()
 
     const [client, setClient] = useState({
         email: "",
@@ -33,26 +37,26 @@ const CreateClient = ({setShowClientFormModal, setActivarNuevoCliente}) => {
       const [errors, setErrors] = useState({
       });
 
-      const closeModal = () => {
+    const closeModal = () => {
         setShowClientFormModal(false)
-      }
+    }
 
-      const handleChange = (e) => {
-        const { name, value } = e.target;
+    const handleChange = (e) => {
+    const { name, value } = e.target;
 
-        setClient((prevInfo) => ({
-            ...prevInfo,
-            [name]: value,
-          }));
-
-        setClient((prevInfo) => {
-        const validationErrors = validateClientInput({ ...prevInfo, [name]: value });
-        setErrors((prevErrors) => ({
-            ...prevErrors,
-            [name]: validationErrors[name],
+    setClient((prevInfo) => ({
+        ...prevInfo,
+        [name]: value,
         }));
-        return prevInfo;
-      })
+
+    setClient((prevInfo) => {
+    const validationErrors = validateClientInput({ ...prevInfo, [name]: value });
+    setErrors((prevErrors) => ({
+        ...prevErrors,
+        [name]: validationErrors[name],
+    }));
+    return prevInfo;
+    })
     }
 
     const handleSubmit = async (e) => {
@@ -78,7 +82,7 @@ const CreateClient = ({setShowClientFormModal, setActivarNuevoCliente}) => {
         
         if (response.data.created === "ok") {
         toast.success("Cliente creado exitosamente")
-        setActivarNuevoCliente(true)
+        setActivarNuevoCliente(true)     
         setTimeout(() => {
         closeModal();
         setClient(
@@ -105,7 +109,7 @@ const CreateClient = ({setShowClientFormModal, setActivarNuevoCliente}) => {
 
     return (
         <>
-            <div className="absolute top-0 left-0 flex items-center justify-center w-full h-full bg-black opacity-95">
+            <div className="fixed top-0 left-0 flex items-center justify-center w-full h-full" style={{ background: "rgba(0, 0, 0, 0.70)"}}>
                 <div className="container">
                     <div className="w-full bg-white opacity-100 shadow rounded-lg p-6 md:mx-auto md:w-1/2 2xl:w-1/3 dark:bg-darkBackground">
                         <div className='flex justify-between'>
@@ -209,49 +213,7 @@ const CreateClient = ({setShowClientFormModal, setActivarNuevoCliente}) => {
                     </div>
                 </div>
             </div>
-            <Toaster
-        position="top-center"
-        reverseOrder={false}
-        gutter={8}
-        containerClassName=""
-        containerStyle={{
-          zIndex: 1000, // Puedes ajustar este valor según tus necesidades
-          // Otros estilos aquí
-        }}
-        toastOptions={{
-          // Define default options
-          className: '',
-          duration: 5000,
-          style: {
-            background: '#ffc8c8',
-            color: '#363636',
-          },
-
-          success: {
-            duration: 3000,
-            theme: {
-              primary: 'green',
-              secondary: 'black',
-            },
-            style: {
-              background: '#00A868',
-              color: '#FFFF',
-            }
-          },
-
-          error: {
-            duration: 2000,
-            theme: {
-              primary: 'pink',
-              secondary: 'black',
-            },
-            style: {
-              background: '#C43433',
-              color: '#fff',
-            }
-          },
-        }}
-      />
+            <ToasterConfig />
         </>
     );
 }

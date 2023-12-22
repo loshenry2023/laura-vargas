@@ -4,7 +4,7 @@ import { IoClose } from 'react-icons/io5';
 import validateRegisterInput from '../../functions/registerFormValidations';
 import axios from 'axios';
 import { UploadWidget } from '../Uploadwidget';
-import { Toaster, toast } from 'react-hot-toast'
+import { toast } from 'react-hot-toast'
 import getParamsEnv from '../../functions/getParamsEnv';
 
 const { USERPROFILES, API_URL_BASE } = getParamsEnv();
