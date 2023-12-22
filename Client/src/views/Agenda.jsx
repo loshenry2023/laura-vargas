@@ -36,7 +36,7 @@ const Agenda = () => {
   const [chosenClient, setChosenClient] = useState({name: "Elija", lastName:"cliente"});
   const [showClientListModal, setShowClientListModal] = useState(false);
 
-useEffect(() => {
+  useEffect(() => {
     dispatch(getToken(token))
     dispatch(getServices({ token: token }))
     dispatch(
@@ -54,16 +54,15 @@ useEffect(() => {
         { token: token }
       )
     )
-    .then(() => setLoading(false))
-}, [specialty])
-
+      .then(() => setLoading(false))
+  }, [activarNuevoCliente, specialty])
   return (
     <div>
-        <NavBar />
-        <div className="flex flex-row dark:bg-darkBackground">
-            <SideBar/>
-            {loading ? <Loader /> : (
-            <div className="w-full flex flex-col my-10 justify-evenly items-center 2xl:h-[calc(100vh-220px)]">
+      <NavBar />
+      <div className="flex flex-row dark:bg-darkBackground">
+        <SideBar />
+        {loading ? <Loader /> : (
+          <div className="w-full flex flex-col my-10 justify-evenly items-center 2xl:h-[calc(100vh-220px)]">
             <h1 className='items-start text-2xl underline underline-offset-4 tracking-wide font-fontTitle dark:text-beige sm:text-left'>Agenda</h1>
             <section className='flex flex-col place-items-center gap-5 mb-10 md:flex-row'>
             <FaPlusCircle className='cursor-pointer' onClick={() => setShowClientListModal(true)}/>
@@ -72,23 +71,24 @@ useEffect(() => {
               <option value=""> {workingBranch.branchName} </option>
               </select>
               <select name="" id="" className="w-40 border border-black rounded-md text-md dark:text-darkText dark:bg-darkPrimary"
-              onChange={(e) => {setSpecialty(e.target.value); console.log(specialty)}}>
-              <option value="noneSpecialty" > -- Procedimientos-- </option>
-              {services.map((service, index)=> {
-                
+                onChange={(e) => { setSpecialty(e.target.value); console.log(specialty) }}>
+                <option value="noneSpecialty" > -- Procedimientos-- </option>
+                {services.map((service, index) => {
+
                   return (
                     <option key={index} value={service.Specialties[0].specialtyName}>{service.serviceName}</option>
-                    
+
                   )
                 })}
               </select>
               <select name="" id="" className="w-40 border border-black rounded-md text-md dark:text-darkText dark:bg-darkPrimary">
                 <option value=""> -- Especialista-- </option>
-                {users.map((user, index)=> {
-                  if(user.role === "especialista"){ 
+                {users.map((user, index) => {
+                  if (user.role === "especialista") {
                     return (
                       <option key={index} value={user.serviceName}>{user.name} {user.lastName}</option>
-                  )} else {
+                    )
+                  } else {
                     null
                   }
                 })}

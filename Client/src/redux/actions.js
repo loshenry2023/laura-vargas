@@ -91,11 +91,14 @@ export const getClients = (
   createDateEnd,
   createDateStart,
   token
-  ) => {
-    const endPoint = API_URL_BASE + "/getclients?";
+) => {
+  const endPoint = API_URL_BASE + "/getclients?";
   return async function (dispatch) {
+
+    //console.log(token);
+
     try {
-      const {data} = await axios.post(
+      const { data } = await axios.post(
         `${endPoint}nameOrLastName=${nameOrLastName}&attribute=${attribute}&order=${order}&page=${page}&size=${size}&createDateEnd=${createDateEnd}&createDateStart=${createDateStart}`, token
       );
       const modifiedData = data.rows.map((user) => {
