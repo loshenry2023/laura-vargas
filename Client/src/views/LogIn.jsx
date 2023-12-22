@@ -10,7 +10,7 @@ import { clearDataInicio } from "../redux/actions.js";
 //icons
 import { GiExitDoor } from "react-icons/gi";
 import { FcGoogle } from "react-icons/fc";
-import { AiFillFacebook } from "react-icons/ai";
+import { AiFillYahoo } from "react-icons/ai";
 
 // Variables de entorno:
 import getParamsEnv from "../functions/getParamsEnv";
@@ -19,14 +19,15 @@ const { ROOT, HOME, API_URL_BASE, BRANCH } = getParamsEnv();
 //Firebase
 import {
   GoogleAuthProvider,
-  FacebookAuthProvider,
   signInWithPopup,
   getAuth,
+  OAuthProvider
 } from "firebase/auth";
 import app from "../firebase/firebaseConfig";
-const auth = getAuth(app);
-const googleProvider = new GoogleAuthProvider();
-const facebookProvider = new FacebookAuthProvider();
+
+//const auth = getAuth(app);
+//const googleProvider = new GoogleAuthProvider();
+//const yahooProvider = new OAuthProvider('yahoo.com');
 
 const LogIn = () => {
   const [role, setRole] = useState("");
@@ -34,7 +35,6 @@ const LogIn = () => {
   const [errorCredentials, setErrorCredentials] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
 
   useEffect(() => {
     if (role === "superAdmin" || role === "admin" || role === "especialista") {
@@ -47,24 +47,30 @@ const LogIn = () => {
     }
   }, [role]);
 
-  const handleFacebook = async () => {
-    dispatch(clearDataInicio())
-
+  const handleYahoo = async () => {
+    dispatch(clearDataInicio());
     try {
-      // Configuro el parámetro "prompt" para permitir seleccionar una nueva cuenta:
-      facebookProvider.setCustomParameters({
-        prompt: "select_account",
-      });
+      const auth = getAuth(app);
+      const yahooProvider = new OAuthProvider('yahoo.com');
 
-      const facebookUser = await signInWithPopup(auth, facebookProvider);
+      yahooProvider.setCustomParameters({
+        prompt: "select_account",
+        language: 'es',
+      });
+      const result = await signInWithPopup(auth, yahooProvider);
+      const userEmail = result.user.email;
+      const credential = OAuthProvider.credentialFromResult(result);
+      const accessToken = credential.accessToken;
+      const idToken = credential.idToken;
+
+      console.log("Usr: ", userEmail);
+      console.log("Tkn: ", idToken);
 
       // Obtengo el token de acceso:
-      const accessToken = await facebookUser.user.getIdToken();
       const dataToValidate = {
-        nameUser: facebookUser.user.email,
-        idUser: accessToken, // mando el gigantesco token real
+        nameUser: userEmail,
+        idUser: idToken, // mando el gigantesco token real
       };
-
       const retrieveUser = await axios.post(
         API_URL_BASE + "/userdata",
         dataToValidate
@@ -85,6 +91,9 @@ const LogIn = () => {
   const handleGoogle = async () => {
     dispatch(clearDataInicio())
     try {
+      const auth = getAuth(app);
+      const googleProvider = new GoogleAuthProvider();
+
       // Configuro el parámetro "prompt" para permitir seleccionar una nueva cuenta:
       googleProvider.setCustomParameters({
         prompt: "select_account",
@@ -94,11 +103,14 @@ const LogIn = () => {
 
       // Obtengo el token de acceso:
       const accessToken = await googleUser.user.getIdToken();
+
+      console.log("Usr: ", googleUser.user.email);
+      console.log("Tkn: ", accessToken);
+
       const dataToValidate = {
         nameUser: googleUser.user.email,
         idUser: accessToken, // mando el gigantesco token real
       };
-
 
       const retrieveUser = await axios.post(
         API_URL_BASE + "/userdata",
@@ -132,11 +144,11 @@ const LogIn = () => {
               </Link>
             </div>
             <button
-              onClick={handleFacebook}
+              onClick={handleYahoo}
               className="w-full px-4 py-2 border flex justify-center  gap-2 rounded-lg border-slate-700 hover:bg-grey hover:text-white transition-color duration-700 ease-in-out"
             >
-              <AiFillFacebook className="h-6 w-6 text-blue-900" />
-              <span>Iniciar sesión con Facebook</span>
+              <AiFillYahoo className="h-6 w-6 text-blue-900" />
+              <span>Iniciar sesión con Yahoo</span>
             </button>
             <button
               onClick={handleGoogle}

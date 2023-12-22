@@ -23,15 +23,19 @@ const Calendar = () => {
 	const calendar = useSelector(state => state?.calendar)
 	const workingBranchID = workingBranch.id
 	const dispatch = useDispatch()
-
 	const [branch, setBranch] = useState(workingBranchID);
 	const [loading, setLoading] = useState(true);
+	const dateNow = new Date();
+	const day = dateNow.getDate() < 10 ? `0${dateNow.getDate()}` : dateNow.getDate();
+	const month = dateNow.getMonth()+1 < 10 ? `0${dateNow.getMonth()+1}` : dateNow.getMonth()+1;
+	const [date, setDate] = useState(`${dateNow.getFullYear()}-${month}-${day}`);
+	const [range, setRange] = useState("");
 
 	
 	useEffect(() => {
-		dispatch(getCalendar(branch, {token: token}))
+		dispatch(getCalendar(branch, date, range, {token: token}))
 		.then(setLoading(false))
-	}, [branch])
+	}, [branch, date, range])
 
 
   return (
@@ -103,7 +107,7 @@ const Calendar = () => {
 										)}
 										onClick={() => {
 											setSelectDate(date);
-											console.log(date.$d)
+											setDate(`${date.$y}-${date.$M+1 < 10 ? `0${date.$M+1}`: date.$M+1}-${date.$D < 10 ? `0${date.$D}` : date.$D}`)
 										}}
 									>
 										{date.date()}
@@ -119,9 +123,9 @@ const Calendar = () => {
 					Agenda del {selectDate.toDate().toDateString()}
 				</h1>
 				<div className="flex flex-row gap-2">
-						<button className="bg-white border border-black px-1 rounded-md hover:scale-105 dark:text-darkText dark:border dark:border-beige dark:bg-darkPrimary">06:00 a 10:00</button>
-						<button className="bg-white border border-black px-1 rounded-md hover:scale-105 dark:text-darkText dark:border dark:border-beige dark:bg-darkPrimary">10:00 a 14:00</button>
-						<button className="bg-white border border-black px-1 rounded-md hover:scale-105 dark:text-darkText dark:border dark:border-beige dark:bg-darkPrimary">14:00 a 19:00</button>
+						<button onClick= {()=>{range === 1 ? setRange("") : setRange(1)}} className="bg-white border border-black px-1 rounded-md hover:scale-105 dark:text-darkText dark:border dark:border-beige dark:bg-darkPrimary">06:00 a 10:00</button>
+						<button onClick= {()=>{range === 2 ? setRange("") : setRange(2)}} className="bg-white border border-black px-1 rounded-md hover:scale-105 dark:text-darkText dark:border dark:border-beige dark:bg-darkPrimary">10:00 a 14:00</button>
+						<button onClick= {()=>{range === 3 ? setRange("") : setRange(3)}} className="bg-white border border-black px-1 rounded-md hover:scale-105 dark:text-darkText dark:border dark:border-beige dark:bg-darkPrimary">14:00 a 19:00</button>
 				</div>
 				{calendar.length === 0 && <h4 className="mt-2 font-medium">Sin turnos hasta el momento</h4> }
 				{calendar.map((cita, index) => {

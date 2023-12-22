@@ -30,14 +30,13 @@ const Agenda = () => {
   const clients = useSelector((state) => state?.clients);
   const users = useSelector((state) => state?.users);
   const dispatch = useDispatch()
-
   const [nameOrLastName, setNameOrLastName] = useState("");
-  const [attribute, setAttribute] = useState("createdAt");
+  const [attribute, setAttribute] = useState("name");
   const [order, setOrder] = useState("asc");
   const [page, setPage] = useState(0);
-  const [size, setSize] = useState(10);
+  const [size, setSize] = useState(999999999999999);
   const [branch, setBranch] = useState("");
-  const [specialty, setSpecialty] = useState("");
+  const [specialty, setSpecialty] = useState("noneSpecialty");
   const [role, setRole] = useState("");
   const [createDateStart, setCreateDateStart] = useState("");
   const [createDateEnd, setCreateDateEnd] = useState("");
@@ -46,7 +45,7 @@ const Agenda = () => {
     setShowClientFormModal(true);
   };
 
-useEffect(() => {
+  useEffect(() => {
     dispatch(getToken(token))
     dispatch(getServices({ token: token }))
     dispatch(getClients({ token: token }))
@@ -65,24 +64,24 @@ useEffect(() => {
         { token: token }
       )
     )
-    .then(() => setLoading(false))
-}, [activarNuevoCliente])
+      .then(() => setLoading(false))
+  }, [activarNuevoCliente, specialty])
 
   return (
     <div>
-        <NavBar />
-        <div className="flex flex-row dark:bg-darkBackground">
-            <SideBar/>
-            {loading ? <Loader /> : (
-            <div className="w-full flex flex-col my-10 justify-evenly items-center 2xl:h-[calc(100vh-220px)]">
+      <NavBar />
+      <div className="flex flex-row dark:bg-darkBackground">
+        <SideBar />
+        {loading ? <Loader /> : (
+          <div className="w-full flex flex-col my-10 justify-evenly items-center 2xl:h-[calc(100vh-220px)]">
             <h1 className='items-start text-2xl underline underline-offset-4 tracking-wide font-fontTitle dark:text-beige sm:text-left'>Agenda</h1>
             <section className='flex flex-col place-items-center gap-5 mb-10 md:flex-row'>
               <div>
-                <IoPersonAddOutline className='h-6 w-6 cursor-pointer dark:text-darkText' onClick={handleClientFormModal}/>
+                <IoPersonAddOutline className='h-6 w-6 cursor-pointer dark:text-darkText' onClick={handleClientFormModal} />
               </div>
               <select name="" id="" className="w-40 border border-black rounded-md text-md dark:text-darkText dark:bg-darkPrimary">
-              <option value=""> -- Clientes-- </option>
-              {clients.map((client, index)=> {
+                <option value=""> -- Clientes-- </option>
+                {clients.map((client, index) => {
                   const nombreApellido = `${client.name} ${client.lastName}`
                   return (
                     <option key={index} value={nombreApellido}>{nombreApellido}</option>
@@ -92,21 +91,25 @@ useEffect(() => {
               <select name="" id="" className="w-40 border border-black rounded-md text-md dark:text-darkText dark:bg-darkPrimary">
                 <option value=""> {workingBranch.branchName} </option>
               </select>
-              <select name="" id="" className="w-40 border border-black rounded-md text-md dark:text-darkText dark:bg-darkPrimary">
-              <option value=""> -- Procedimientos-- </option>
-              {services.map((service, index)=> {
+              <select name="" id="" className="w-40 border border-black rounded-md text-md dark:text-darkText dark:bg-darkPrimary"
+                onChange={(e) => { setSpecialty(e.target.value); console.log(specialty) }}>
+                <option value="noneSpecialty" > -- Procedimientos-- </option>
+                {services.map((service, index) => {
+
                   return (
-                    <option key={index} value={service.serviceName}>{service.serviceName}</option>
+                    <option key={index} value={service.Specialties[0].specialtyName}>{service.serviceName}</option>
+
                   )
                 })}
               </select>
               <select name="" id="" className="w-40 border border-black rounded-md text-md dark:text-darkText dark:bg-darkPrimary">
                 <option value=""> -- Especialista-- </option>
-                {users.map((user, index)=> {
-                  if(user.role === "especialista"){ 
+                {users.map((user, index) => {
+                  if (user.role === "especialista") {
                     return (
                       <option key={index} value={user.serviceName}>{user.name} {user.lastName}</option>
-                  )} else {
+                    )
+                  } else {
                     null
                   }
                 })}
@@ -116,14 +119,14 @@ useEffect(() => {
             <div>
               <button className='rounded mt-10 px-6 py-2 cursor-pointer bg-primaryPink shadow shadow-black text-black hover:bg-blue-600 focus:outline-none transition-colors dark:text-darkText dark:bg-darkPrimary dark:hover:bg-blue-600' disabled>Agregar Cita</button>
             </div>
-            </div>)}
-        </div>
-        {showClientFormModal ? (
-                <CreateClient
-                setShowClientFormModal={setShowClientFormModal}
-                setActivarNuevoCliente={setActivarNuevoCliente}
-                />
-              ) : null}
+          </div>)}
+      </div>
+      {showClientFormModal ? (
+        <CreateClient
+          setShowClientFormModal={setShowClientFormModal}
+          setActivarNuevoCliente={setActivarNuevoCliente}
+        />
+      ) : null}
     </div>
   )
 }
