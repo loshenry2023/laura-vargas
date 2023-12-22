@@ -1,7 +1,8 @@
 // ! Modifica un registro en tabla.
 const { FIRST_SUPERADMIN } = require("../functions/paramsEnv");
+const showLog = require("../functions/showLog");
 
-const putReg = async (tableName, tableNameText, data, id, conn = "") => {
+const putReg = async (tableName, tableNameText, data, id, conn = "", tableName2 = "", tableName3 = "", tableName4 = "", tableName5 = "") => {
     try {
         let resp;
         switch (tableNameText) {
@@ -14,8 +15,20 @@ const putReg = async (tableName, tableNameText, data, id, conn = "") => {
             case "Specialty":
                 resp = await editRegSpecialty(tableName, data, id);
                 break;
+            case "CatGastos":
+                resp = await editRegCatGastos(tableName, data, id);
+                break;
+            case "Service":
+                resp = await editRegService(tableName, data, id, conn);
+                break;
             case "User":
                 resp = await editRegUser(tableName, data, id, conn);
+                break;
+            case "Client":
+                resp = await editRegClient(tableName, data, id, conn);
+                break;
+            case "Calendar":
+                resp = await editRegCalendar(tableName, data, id, conn, tableName2, tableName3, tableName4, tableName5);
                 break;
             default:
                 throw new Error("Tabla no válida");
@@ -23,6 +36,112 @@ const putReg = async (tableName, tableNameText, data, id, conn = "") => {
         return { "created": "ok" };
     } catch (err) {
         return { created: "error", message: err.message };
+    }
+}
+
+async function editRegCalendar(Calendar, data, id, conn, User, Service, Client, Branch) {
+    const { idUser, idService, idClient, idBranch, date_from, date_to, obs, current } = data;
+    let transaction; // manejo transacciones para evitar registros defectuosos por relaciones mal solicitadas
+    try {
+        if (!idUser || !idService || !idClient || !idBranch || !date_from || !date_to || !obs || !current) {
+            throw Error("Faltan datos");
+        }
+        const existingEvent = await Calendar.findByPk(id, {
+            include: [
+                { model: User },
+                { model: Service },
+                { model: Client },
+                { model: Branch },
+            ],
+        });
+        if (!existingEvent) {
+            throw Error("Evento de calendario no encontrado");
+        }
+        // Inicio la transacción:
+        transaction = await conn.transaction();
+        existingEvent.date_from = date_from;
+        existingEvent.date_to = date_to;
+        existingEvent.obs = obs;
+        existingEvent.current = current;
+        await existingEvent.save();
+        // Relación con User:
+        const user = await User.findByPk(idUser);
+        if (user) {
+            await existingEvent.setUser(user, { transaction });
+        }
+        // Relación con Service:
+        const service = await Service.findByPk(idService);
+        if (service) {
+            await existingEvent.setService(service, { transaction });
+        }
+        // Relación con Client:
+        const client = await Client.findByPk(idClient);
+        if (client) {
+            await existingEvent.setClient(client, { transaction });
+        }
+        // Relación con Branch:
+        const branch = await Branch.findByPk(idBranch);
+        if (branch) {
+            await existingEvent.setBranch(branch, { transaction });
+        }
+        await transaction.commit();
+        return;
+    } catch (error) {
+        if (transaction) await transaction.rollback();
+        throw Error(`${error}`);
+    }
+}
+
+async function editRegClient(Client, data, id, conn) {
+    const { email, name, lastName, id_pers, phone1, phone2, image } = data;
+    let transaction; // manejo transacciones para evitar registros defectuosos por relaciones mal solicitadas
+    try {
+        if (!email || !name || !lastName || !phone1 || !image) { throw Error("Faltan datos"); }
+        const existingClient = await Client.findByPk(id);
+        if (!existingClient) {
+            throw Error("Cliente no encontrado");
+        }
+        // Inicio la transacción:
+        transaction = await conn.transaction();
+        existingClient.name = name;
+        existingClient.lastName = lastName;
+        existingClient.email = email;
+        existingClient.id_pers = id_pers || null;
+        existingClient.phoneNumber1 = phone1;
+        existingClient.phoneNumber2 = phone2 || null;
+        existingClient.image = image;
+        await existingClient.save();
+        await transaction.commit();
+        return;
+    } catch (error) {
+        if (transaction) await transaction.rollback();
+        throw Error(`${error}`);
+    }
+}
+
+async function editRegService(Service, data, id, conn) {
+    const { serviceName, duration, price, ImageService, specialty } = data;
+    let transaction; // manejo transacciones para evitar registros defectuosos por relaciones mal solicitadas
+    try {
+        if (!serviceName || !duration || !price || !ImageService || !specialty) { throw Error("Faltan datos"); }
+        const existingService = await Service.findByPk(id);
+        if (!existingService) {
+            throw Error("Procedimiento no encontrado");
+        }
+        // Inicio la transacción:
+        transaction = await conn.transaction();
+        existingService.serviceName = serviceName;
+        existingService.duration = duration;
+        existingService.price = price;
+        existingService.ImageService = ImageService;
+        await existingService.save();
+        // Busco las especialidades para agregar las relaciones:
+        await existingService.setSpecialties(specialty, { transaction });
+        await transaction.commit();
+        return;
+    } catch (error) {
+        if (transaction) await transaction.rollback();
+        throw Error(`${error}`);
     }
 }
 
@@ -108,6 +227,22 @@ async function editRegSpecialty(Specialty, data, id) {
         }
         existingSpec.specialtyName = specialtyName;
         await existingSpec.save();
+        return;
+    } catch (error) {
+        throw Error(`${error}`);
+    }
+}
+
+async function editRegCatGastos(CatGastos, data, id) {
+    const { catName } = data;
+    try {
+        if (!catName) { throw Error("Faltan datos"); }
+        const existingCat = await CatGastos.findByPk(id);
+        if (!existingCat) {
+            throw Error("Categoría no encontrada");
+        }
+        existingCat.catName = catName;
+        await existingCat.save();
         return;
     } catch (error) {
         throw Error(`${error}`);

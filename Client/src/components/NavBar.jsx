@@ -17,6 +17,7 @@ const { ROOT, HOME } = getParamsEnv();
 const NavBar = () => {
   const [theme, setTheme] = useState("light");
   const user = useSelector((state) => state.user);
+  const workingBranch = useSelector((state) => state.workingBranch);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -64,6 +65,9 @@ const NavBar = () => {
               alt="logo"
             />
           </Link>
+        </div>
+        <div>
+        {!workingBranch ? <h2 className="font-fontTitle text-3xl tracking-wider">{user.branches[0].branchName}</h2> : <h2 className="font-fontTitle text-3xl tracking-wider">{workingBranch.branchName}</h2>}
         </div>
         <div className="flex gap-4 items-center pointer-events:auto ">
           <img

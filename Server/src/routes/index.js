@@ -27,6 +27,31 @@ const deleteBranchHandler = require("../Handlers/branch/deleteBranchHandler");
 const getBranchHandler = require("../Handlers/branch/getBranchHandler");
 // Otros:
 const sendMail = require("../Handlers/mail/sendMailHandler");
+// Procedimientos:
+const putServiceHandler = require("../Handlers/service/putServiceHandler");
+const deleteServiceHandler = require("../Handlers/service/deleteServiceHandler");
+const getServicesHandler = require("../Handlers/service/getServicesHandler");
+const postServiceHandler = require("../Handlers/service/postServiceHandler");
+// Clientes:
+const postClientHandler = require("../Handlers/client/postClientHandler");
+const deleteClientHandler = require("../Handlers/client/deleteClientHandler");
+const putClientHandler = require("../Handlers/client/putClientHandler");
+const getClientHandler = require("../Handlers/client/getClientHandler");
+const getAllClientHandler = require("../Handlers/client/getAllClientHandler");
+// Histórico de procedimientos:
+const postHistoricProcHandler = require("../Handlers/historicServices/postHistoricProcHandler");
+const getHistoricByClientHandler = require("../Handlers/historicServices/getHistoricByClientHandler");
+const getHistoricByUsertHandler = require("../Handlers/historicServices/getHistoricByUsertHandler");
+// Calendario:
+const postCalendarHandler = require("../Handlers/calendar/postCalendarHandler");
+const deleteCalendarHandler = require("../Handlers/calendar/deleteCalendarHandler");
+const putCalendarHandler = require("../Handlers/calendar/putCalendarHandler");
+const getCalendarHandler = require("../Handlers/calendar/getCalendarHandler");
+// Categorías de gastos:
+const postCatHandler = require("../Handlers/catGastos/postCatHandler");
+const putCatHandler = require("../Handlers/catGastos/putCatHandler");
+const deleteCatHandler = require("../Handlers/catGastos/deleteCatHandler");
+const getCatHandler = require("../Handlers/catGastos/getCatHandler");
 
 //! Rutas
 // Usuarios:
@@ -55,5 +80,31 @@ router.post("/branches", getBranchHandler); // obtiene y devuelve todas las sede
 // Otras:
 router.get("/", getMain); // únicamente para el deploy
 router.post("/sendmail", sendMail); // envía un mail
+// Procedimientos:
+router.post("/service", postServiceHandler); //  crea un procedimiento
+router.put("/service/:id", putServiceHandler); //  edita un procedimiento
+router.post("/deleteservice/:id", deleteServiceHandler); //  elimina un procedimiento
+router.post("/getservices", getServicesHandler); // obtiene y devuelve todos los procedimientos
+// Clientes:
+router.post("/newclient", postClientHandler); //  crea un cliente
+router.put("/client/:id", putClientHandler); //  edita un cliente
+router.post("/deleteclient/:id", deleteClientHandler); //  elimina un cliente
+router.post("/getclient/:id", getClientHandler); // obtiene y devuelve los detalles de un cliente
+router.post("/getclients", getAllClientHandler); // obtiene y devuelve los datos principales de todos los clientes
+// Histórico de procedimientos:
+router.post("/newhistoricproc", postHistoricProcHandler); //  crea un registro en el histórico de procedimientos
+// registrar el id de cliente y llamar por params
+router.post("/gethistoricbyclient/:id", getHistoricByClientHandler); // obtiene y devuelve el histórico de los procedimientos. Filtra por client id
+router.post("/gethistoricbyuser/:id", getHistoricByUsertHandler); // obtiene y devuelve el histórico de los procedimientos. Filtra por usuario
+// Calendario:
+router.post("/newcalendar", postCalendarHandler); //  crea un evento en calendario
+router.put("/calendar/:id", putCalendarHandler); //  edita un evento en calendario
+router.post("/deletecalendar/:id", deleteCalendarHandler); //  elimina un evento en calendario
+router.post("/getcalendar", getCalendarHandler); // obtiene y devuelve todos los eventos en calendario. Filtra por fecha y por especialista por query
+// Categorías de gastos:
+router.post("/catgasto", postCatHandler); // crea una categoría
+router.put("/catgastos/:id", putCatHandler); // edita una categoría
+router.post("/deletecatgastos/:id", deleteCatHandler); //  elimina una categoría
+router.post("/catgastos", getCatHandler); // obtiene y devuelve todas las categorías
 
 module.exports = router;

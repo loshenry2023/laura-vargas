@@ -7,7 +7,14 @@ import {
   DELETE_USER,
   SET_ICON,
   USER_LOGOUT,
-  CLEAR_USERID
+  CLEAR_USERID,
+  GET_SERVICES,
+  TOKEN,
+  GET_CLIENTS,
+  GET_CLIENT_ID,
+  CLEAR_CLIENT_ID,
+  GET_CALENDAR,
+  SET_WORKING_BRANCH,
 } from "./actionsTypes";
 import axios from "axios";
 import getParamsEnv from "../functions/getParamsEnv";
@@ -17,6 +24,13 @@ export const getUser = (userData) => {
   return {
     type: GET_USER,
     payload: userData,
+  };
+};
+
+export const setBranch = (branch) => {
+  return {
+    type: SET_WORKING_BRANCH,
+    payload: branch,
   };
 };
 
@@ -52,6 +66,61 @@ export const getSpecialties = (token) => {
   };
 };
 
+export const getServices = (token) => {
+  return async function (dispatch) {
+    try {
+      const response = await axios.post(
+        API_URL_BASE + "/getservices", token
+      );
+      return dispatch({
+        type: GET_SERVICES,
+        payload: response.data,
+      });
+    } catch (error) {
+      throw Error(error.message);
+    }
+  };
+};
+
+export const getClients = (token) => {
+  return async function (dispatch) {
+    try {
+      const response = await axios.post(
+        API_URL_BASE + "/getclients", token
+      );
+      return dispatch({
+        type: GET_CLIENTS,
+        payload: response.data,
+      });
+    } catch (error) {
+      throw Error(error.message);
+    }
+  };
+};
+
+export const getClientId = (id, token) => {
+  return async function (dispatch) {
+    try {
+      const response = await axios.post(
+        `${API_URL_BASE}/getclient/${id}`, token
+      );
+      return dispatch({
+        type: GET_CLIENT_ID,
+        payload: response.data,
+      });
+    } catch (error) {
+      throw Error(error.message);
+    }
+  };
+}
+
+export const clearClientId = () => (
+  {
+    type: CLEAR_CLIENT_ID,
+    payload: {}
+  }
+)
+
 export const getUsers = (
   nameOrLastName,
   attribute,
@@ -86,6 +155,28 @@ export const getUsers = (
       return dispatch({
         type: GET_USERS,
         payload: modifiedData,
+        count: data.count,
+      });
+    } catch (error) {
+      throw Error(error.message);
+    }
+  };
+};
+
+export const getCalendar = (
+  branch,
+  token
+) => {
+  const endPoint = API_URL_BASE + "/getcalendar?";
+  return async function (dispatch) {
+    try {
+      const { data } = await axios.post(
+        `${endPoint}branch=${branch}`, token
+      );
+
+      return dispatch({
+        type: GET_CALENDAR,
+        payload: data,
         count: data.count,
       });
     } catch (error) {
@@ -151,6 +242,13 @@ export const clearUserId = () => (
   {
     type: CLEAR_USERID,
     payload: {}
+  }
+)
+
+export const getToken = (token) => (
+  {
+    type: TOKEN,
+    payload: token,
   }
 )
 

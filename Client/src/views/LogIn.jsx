@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { getUser } from "../redux/actions";
+import { getToken, getUser, setBranch } from "../redux/actions";
 import axios from "axios";
 import { Toaster, toast } from 'react-hot-toast'
 import { clearDataInicio } from "../redux/actions.js";
@@ -14,7 +14,7 @@ import { AiFillFacebook } from "react-icons/ai";
 
 // Variables de entorno:
 import getParamsEnv from "../functions/getParamsEnv";
-const { ROOT, HOME, API_URL_BASE } = getParamsEnv();
+const { ROOT, HOME, API_URL_BASE, BRANCH } = getParamsEnv();
 
 //Firebase
 import {
@@ -30,6 +30,7 @@ const facebookProvider = new FacebookAuthProvider();
 
 const LogIn = () => {
   const [role, setRole] = useState("");
+  const [branches, setBranches] = useState([]);
   const [errorCredentials, setErrorCredentials] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -37,7 +38,12 @@ const LogIn = () => {
 
   useEffect(() => {
     if (role === "superAdmin" || role === "admin" || role === "especialista") {
-      navigate(HOME);
+      if (branches.length == 1) {
+        dispatch(setBranch({ ...branches[0] }));
+        navigate(HOME)
+      } else {
+        navigate(BRANCH)
+      }
     }
   }, [role]);
 
@@ -45,33 +51,39 @@ const LogIn = () => {
     dispatch(clearDataInicio())
 
     try {
-      const facebookUser = await signInWithPopup(auth, facebookProvider);
-      const accessToken = facebookUser.user.accessToken
+      // Configuro el parámetro "prompt" para permitir seleccionar una nueva cuenta:
+      facebookProvider.setCustomParameters({
+        prompt: "select_account",
+      });
 
+      const facebookUser = await signInWithPopup(auth, facebookProvider);
+
+      // Obtengo el token de acceso:
+      const accessToken = await facebookUser.user.getIdToken();
       const dataToValidate = {
         nameUser: facebookUser.user.email,
-        idUser: accessToken,
+        idUser: accessToken, // mando el gigantesco token real
       };
 
-      const retrieveFacebookUser = await axios.post(
+      const retrieveUser = await axios.post(
         API_URL_BASE + "/userdata",
         dataToValidate
       );
 
-      const userData = retrieveFacebookUser.data;
+      const userData = retrieveUser.data;
       dispatch(getUser(userData));
-      const { role } = userData;
+      const { role, branches } = userData;
+      setBranches(branches);
       setRole(role);
+      dispatch(getToken(accessToken));
     } catch (error) {
-      if (error.code === "auth/account-exists-with-different-credential") {
-        setErrorCredentials("Usted ya tiene una cuenta registrada con Google");
-      }
+      if (error.message.includes("404")) { { toast.error(`${error.response.data}`.charAt(0).toUpperCase() + `${error.response.data}`.slice(1)) } }
+      else { toast.error(error.message) }
     }
   };
 
   const handleGoogle = async () => {
     dispatch(clearDataInicio())
-
     try {
       // Configuro el parámetro "prompt" para permitir seleccionar una nueva cuenta:
       googleProvider.setCustomParameters({
@@ -82,7 +94,6 @@ const LogIn = () => {
 
       // Obtengo el token de acceso:
       const accessToken = await googleUser.user.getIdToken();
-      console.log(accessToken)
       const dataToValidate = {
         nameUser: googleUser.user.email,
         idUser: accessToken, // mando el gigantesco token real
@@ -96,11 +107,13 @@ const LogIn = () => {
 
       const userData = retrieveUser.data;
       dispatch(getUser(userData));
-      const { role } = userData;
+      const { role, branches } = userData;
+      setBranches(branches);
       setRole(role);
+      dispatch(getToken(accessToken));
     } catch (error) {
-      if(error.message.includes("404")){{toast.error(`${error.response.data}`.charAt(0).toUpperCase() + `${error.response.data}`.slice(1))}}
-      else{toast.error(error.message)}
+      if (error.message.includes("404")) { { toast.error(`${error.response.data}`.charAt(0).toUpperCase() + `${error.response.data}`.slice(1)) } }
+      else { toast.error(error.message) }
     }
   };
 

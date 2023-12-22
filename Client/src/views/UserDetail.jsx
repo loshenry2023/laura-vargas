@@ -12,7 +12,7 @@ const UserDetail = () => {
     //! falta componente para renderizar details
     <div>
       <NavBar />
-      <div className="flex">
+      <div className="flex flex-row dark:bg-darkBackground">
         <SideBar/>
         <UserInfo/>
       </div>

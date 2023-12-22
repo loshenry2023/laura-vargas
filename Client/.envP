@@ -4,6 +4,10 @@ VITE_HOME=/home
 VITE_VITE_PROFILES=/userProfiles
 VITE_DETAIL=/detail/:id
 VITE_DETAIL_BASE=/detail
+VITE_AGENDA=/agenda
+VITE_CLIENT_DETAIL=/client-detail/:id
+VITE_CLIENT_DETAIL_BASE=/client-detail
+VITE_CLIENTS_PROFILES=/clientsProfiles
 VITE_TERMS_AND_PRIVACY=/terms-and-privacy
 VITE_API_URL_BASE=https://laura-vargas.vercel.app/laura-vargas
 

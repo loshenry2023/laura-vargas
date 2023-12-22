@@ -19,7 +19,7 @@ const TablaDatos = ({ users, count }) => {
             <table className="border border-black w-full text-sm text-left rtl:text-right text-black dark:text-beige dark:border-beige">
               <thead className="bg-secondaryPink text-black text-left dark:bg-darkPrimary dark:text-darkText dark:border-gre">
                 <tr>
-                  <th scope="col" className="px-6 py-3">
+                  <th scope="col" className="px-2 py-3">
                     Fecha de creación
                   </th>
                   <th scope="col" className="px-6 py-3">
@@ -54,7 +54,7 @@ const TablaDatos = ({ users, count }) => {
                  className="text-xs hover:bg-gray-200 cursor-pointer dark:hover:bg-gray-200 dark:hover:text-black"
                >
       
-                  <td className="px-6 py-4">{fila.createdAt}</td>
+                  <td className="px-2 py-4">{fila.createdAt}</td>
                   <td className="px-6 py-4">{fila.name}</td>
                   <td className="px-6 py-4">{fila.lastName}</td>
                   <td className="px-6 py-4">{fila.userName}</td>
@@ -71,7 +71,7 @@ const TablaDatos = ({ users, count }) => {
             </table>
           </div>
         ) : (
-          <h2 className="font-medium dark:text-darkText">
+          <h2 className="text-center font-medium dark:text-darkText">
             {" "}
             No hay coincidencias
           </h2>
