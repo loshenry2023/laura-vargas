@@ -31,12 +31,13 @@ const initialState = {
   specialties: [],
   services: [],
   clients: [],
+  countClient: 0,
   clientID: {},
   error: null,
   selectedIcon: null,
 };
 
-const rootReducer = (state = initialState, { type, payload, count, error, idDelete }) => {
+const rootReducer = (state = initialState, { type, payload, count, error, idDelete, countClient }) => {
   switch (type) {
 
     //! Trae token
@@ -135,7 +136,8 @@ const rootReducer = (state = initialState, { type, payload, count, error, idDele
     case GET_CLIENTS:
       const getClients = {
         ...state,
-        clients: [...payload],
+        clients: payload,
+        countClient: countClient,
       };
       localStorage.setItem('myAppReduxState', JSON.stringify(getClients));
       return getClients;

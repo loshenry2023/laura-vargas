@@ -82,15 +82,36 @@ export const getServices = (token) => {
   };
 };
 
-export const getClients = (token) => {
+export const getClients = (
+  nameOrLastName,
+  attribute,
+  order,
+  page,
+  size,
+  createDateEnd,
+  createDateStart,
+  token
+  ) => {
+    const endPoint = API_URL_BASE + "/getclients?";
   return async function (dispatch) {
     try {
-      const response = await axios.post(
-        API_URL_BASE + "/getclients", token
+      const {data} = await axios.post(
+        `${endPoint}nameOrLastName=${nameOrLastName}&attribute=${attribute}&order=${order}&page=${page}&size=${size}&createDateEnd=${createDateEnd}&createDateStart=${createDateStart}`, token
       );
+      const modifiedData = data.rows.map((user) => {
+        const { createdAt, ...rest } = user;
+        const createdAtInBogotaTimezone = new Date(createdAt).toLocaleString(
+          "en-US",
+          {
+            timeZone: "America/Bogota",
+          }
+        );
+        return { ...rest, createdAt: createdAtInBogotaTimezone };
+      });
       return dispatch({
         type: GET_CLIENTS,
-        payload: response.data,
+        payload: modifiedData,
+        countClient: data.count,
       });
     } catch (error) {
       throw Error(error.message);
@@ -165,13 +186,15 @@ export const getUsers = (
 
 export const getCalendar = (
   branch,
+  date,
+  range,
   token
 ) => {
   const endPoint = API_URL_BASE + "/getcalendar?";
   return async function (dispatch) {
     try {
       const { data } = await axios.post(
-        `${endPoint}branch=${branch}`, token
+        `${endPoint}branch=${branch}&date=${date}&range=${range}`, token
       );
 
       return dispatch({

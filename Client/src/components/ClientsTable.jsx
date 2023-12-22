@@ -34,6 +34,9 @@ const ClientsTable = ({clients}) => {
                     <th scope="col" className="px-4 py-3">
                       Teléfono 2
                     </th>
+                    <th scope="col" className="px-4 py-3">
+                      Fecha de creación
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
@@ -50,6 +53,7 @@ const ClientsTable = ({clients}) => {
                     <td className="px-4 py-4">{fila.id_pers}</td>
                     <td className="px-4 py-4">{fila.phoneNumber1}</td>
                     <td className="px-4 py-4">{fila.phoneNumber2}</td>
+                    <td className="px-4 py-4">{fila.createdAt}</td>
                   </tr>))}
                 </tbody>
               </table>
