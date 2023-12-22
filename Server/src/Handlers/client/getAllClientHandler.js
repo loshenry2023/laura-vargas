@@ -14,10 +14,11 @@ const getAllClientHandler = async (req, res) => {
       showLog(`Wrong token.`);
       return res.status(401).send(`Sin permiso.`);
     }
-    const resp = await getReg(Client, "Clients");
-    if (resp) {
+    const resp = await getReg(Client, "Clients", "", "", "", "", "", req.query);
+    const {count, rows} =resp
+    if (count >=0) {
       showLog(`getAllClientHandler OK`);
-      return res.status(200).json(resp);
+      return res.status(200).json({count, rows});
     } else {
       showLog(`getAllClientHandler ERROR-> Not found`);
       return res.status(404).json({ message: "Not found" });

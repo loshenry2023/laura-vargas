@@ -30,14 +30,13 @@ const Agenda = () => {
   const clients = useSelector((state) => state?.clients);
   const users = useSelector((state) => state?.users);
   const dispatch = useDispatch()
-
   const [nameOrLastName, setNameOrLastName] = useState("");
-  const [attribute, setAttribute] = useState("createdAt");
+  const [attribute, setAttribute] = useState("name");
   const [order, setOrder] = useState("asc");
   const [page, setPage] = useState(0);
-  const [size, setSize] = useState(10);
+  const [size, setSize] = useState(999999999999999);
   const [branch, setBranch] = useState("");
-  const [specialty, setSpecialty] = useState("");
+  const [specialty, setSpecialty] = useState("noneSpecialty");
   const [role, setRole] = useState("");
   const [createDateStart, setCreateDateStart] = useState("");
   const [createDateEnd, setCreateDateEnd] = useState("");
@@ -66,7 +65,7 @@ useEffect(() => {
       )
     )
     .then(() => setLoading(false))
-}, [activarNuevoCliente])
+}, [activarNuevoCliente, specialty])
 
   return (
     <div>
@@ -92,11 +91,14 @@ useEffect(() => {
               <select name="" id="" className="w-40 border border-black rounded-md text-md dark:text-darkText dark:bg-darkPrimary">
                 <option value=""> {workingBranch.branchName} </option>
               </select>
-              <select name="" id="" className="w-40 border border-black rounded-md text-md dark:text-darkText dark:bg-darkPrimary">
-              <option value=""> -- Procedimientos-- </option>
+              <select name="" id="" className="w-40 border border-black rounded-md text-md dark:text-darkText dark:bg-darkPrimary"
+              onChange={(e) => {setSpecialty(e.target.value); console.log(specialty)}}>
+              <option value="noneSpecialty" > -- Procedimientos-- </option>
               {services.map((service, index)=> {
+                
                   return (
-                    <option key={index} value={service.serviceName}>{service.serviceName}</option>
+                    <option key={index} value={service.Specialties[0].specialtyName}>{service.serviceName}</option>
+                    
                   )
                 })}
               </select>
