@@ -38,8 +38,8 @@ const LogIn = () => {
 
   useEffect(() => {
     if (role === "superAdmin" || role === "admin" || role === "especialista") {
-      if(branches.length == 1){
-        dispatch(setBranch({...branches[0]}));
+      if (branches.length == 1) {
+        dispatch(setBranch({ ...branches[0] }));
         navigate(HOME)
       } else {
         navigate(BRANCH)
@@ -51,27 +51,34 @@ const LogIn = () => {
     dispatch(clearDataInicio())
 
     try {
-      const facebookUser = await signInWithPopup(auth, facebookProvider);
-      const accessToken = facebookUser.user.accessToken
+      // Configuro el parámetro "prompt" para permitir seleccionar una nueva cuenta:
+      facebookProvider.setCustomParameters({
+        prompt: "select_account",
+      });
 
+      const facebookUser = await signInWithPopup(auth, facebookProvider);
+
+      // Obtengo el token de acceso:
+      const accessToken = await facebookUser.user.getIdToken();
       const dataToValidate = {
         nameUser: facebookUser.user.email,
-        idUser: accessToken,
+        idUser: accessToken, // mando el gigantesco token real
       };
 
-      const retrieveFacebookUser = await axios.post(
+      const retrieveUser = await axios.post(
         API_URL_BASE + "/userdata",
         dataToValidate
       );
 
-      const userData = retrieveFacebookUser.data;
+      const userData = retrieveUser.data;
       dispatch(getUser(userData));
-      const { role } = userData;
+      const { role, branches } = userData;
+      setBranches(branches);
       setRole(role);
+      dispatch(getToken(accessToken));
     } catch (error) {
-      if (error.code === "auth/account-exists-with-different-credential") {
-        setErrorCredentials("Usted ya tiene una cuenta registrada con Google");
-      }
+      if (error.message.includes("404")) { { toast.error(`${error.response.data}`.charAt(0).toUpperCase() + `${error.response.data}`.slice(1)) } }
+      else { toast.error(error.message) }
     }
   };
 
@@ -105,8 +112,8 @@ const LogIn = () => {
       setRole(role);
       dispatch(getToken(accessToken));
     } catch (error) {
-      if(error.message.includes("404")){{toast.error(`${error.response.data}`.charAt(0).toUpperCase() + `${error.response.data}`.slice(1))}}
-      else{toast.error(error.message)}
+      if (error.message.includes("404")) { { toast.error(`${error.response.data}`.charAt(0).toUpperCase() + `${error.response.data}`.slice(1)) } }
+      else { toast.error(error.message) }
     }
   };
 
