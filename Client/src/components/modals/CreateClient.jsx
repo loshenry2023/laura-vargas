@@ -21,7 +21,6 @@ const { API_URL_BASE } = getParamsEnv()
 
 const CreateClient = ({setShowClientFormModal, setActivarNuevoCliente}) => {
     const token = useSelector((state) => state?.token);
-    const location = useLocation()
 
     const [client, setClient] = useState({
         email: "",
