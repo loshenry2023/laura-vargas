@@ -83,9 +83,20 @@ const LogIn = () => {
       setRole(role);
       dispatch(getToken(accessToken));
     } catch (error) {
-      if (error.message.includes("404")) { { toast.error(`${error.response.data}`.charAt(0).toUpperCase() + `${error.response.data}`.slice(1)) } }
-      else { toast.error(error.message) }
-    }
+      if (error.code === "auth/popup-closed-by-user") {
+        // La primera vez que se carga un usuario, la ventana se cierra sin devolver el resultado,
+        // así que atrapo el error y le aviso que vuelva a intentar:
+        toast.error("Vuelve a intentar, por favor")
+        setTimeout(() => {
+        }, 4000);
+      } else {
+        if (error.message.includes("404")) {
+          { toast.error(`${error.response.data}`.charAt(0).toUpperCase() + `${error.response.data}`.slice(1)) }
+        } else {
+          toast.error(error.message);
+        }
+      };
+    };
   };
 
   const handleGoogle = async () => {
