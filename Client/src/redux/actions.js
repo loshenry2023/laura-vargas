@@ -18,6 +18,7 @@ import {
 } from "./actionsTypes";
 import axios from "axios";
 import getParamsEnv from "../functions/getParamsEnv";
+import converterGMT from "../functions/converteGMT";
 const { API_URL_BASE } = getParamsEnv()
 
 export const getUser = (userData) => {
@@ -94,21 +95,13 @@ export const getClients = (
 ) => {
   const endPoint = API_URL_BASE + "/getclients?";
   return async function (dispatch) {
-
-    //console.log(token);
-
     try {
       const { data } = await axios.post(
         `${endPoint}nameOrLastName=${nameOrLastName}&attribute=${attribute}&order=${order}&page=${page}&size=${size}&createDateEnd=${createDateEnd}&createDateStart=${createDateStart}`, token
       );
       const modifiedData = data.rows.map((user) => {
         const { createdAt, ...rest } = user;
-        const createdAtInBogotaTimezone = new Date(createdAt).toLocaleString(
-          "en-US",
-          {
-            timeZone: "America/Bogota",
-          }
-        );
+        const createdAtInBogotaTimezone = converterGMT(createdAt);
         return { ...rest, createdAt: createdAtInBogotaTimezone };
       });
       return dispatch({
@@ -167,12 +160,7 @@ export const getUsers = (
 
       const modifiedData = data.rows.map((user) => {
         const { createdAt, ...rest } = user;
-        const createdAtInBogotaTimezone = new Date(createdAt).toLocaleString(
-          "en-US",
-          {
-            timeZone: "America/Bogota",
-          }
-        );
+        const createdAtInBogotaTimezone =converterGMT(createdAt);
         return { ...rest, createdAt: createdAtInBogotaTimezone };
       });
 
@@ -189,21 +177,25 @@ export const getUsers = (
 
 export const getCalendar = (
   branch,
-  date,
-  range,
+  dateFrom,
+  dateTo,
   token
 ) => {
   const endPoint = API_URL_BASE + "/getcalendar?";
   return async function (dispatch) {
     try {
       const { data } = await axios.post(
-        `${endPoint}branch=${branch}&date=${date}&range=${range}`, token
+        `${endPoint}branch=${branch}&dateFrom=${dateFrom}&dateTo=${dateTo}`, token
       );
-
+      const modifiedData = data.map((calendar) => {
+        const { date_from, date_to, ...rest } = calendar;
+        const date_fromInBogotaTimezone = converterGMT(date_from);
+        const date_toInBogotaTimezone = converterGMT(date_to);
+        return { ...rest, date_from: date_fromInBogotaTimezone, date_to: date_toInBogotaTimezone };
+      });
       return dispatch({
         type: GET_CALENDAR,
-        payload: data,
-        count: data.count,
+        payload: modifiedData,
       });
     } catch (error) {
       throw Error(error.message);

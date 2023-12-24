@@ -189,31 +189,7 @@ const getReg = async (
         break;
       case "Calendar":
         // Preparo los filtros previos a la consulta:
-        const { date, userid, branch, range } = dataQuery;
-        let hourFrom = "";
-        let hourTo = "";
-        let dateFrom = "";
-        let dateTo = "";
-        if (range == 1) {
-          hourFrom = "T06:00:00.000Z";
-          hourTo = "T09:59:59.000Z";
-        } else if (range == 2) {
-          hourFrom = "T10:00:00.000Z";
-          hourTo = "T13:59:59.000Z";
-        } else if (range == 3) {
-          hourFrom = "T14:00:00.000Z";
-          hourTo = "T19:00:00.000Z";
-        } else {
-          hourFrom = "T00:00:00.000Z";
-          hourTo = "T23:59:59.000Z";
-        }
-        if (date) {
-          dateFrom = date + hourFrom;
-          dateTo = date + hourTo;
-        } else {
-          dateFrom = "2020-01-01T00:00:00.000Z";
-          dateTo = "2050-01-01T23:59:59.000Z";
-        }
+        const { dateFrom, dateTo, userid, branch} = dataQuery;      
         reg = await tableName.findAll({
           attributes: ["id", "date_from", "date_to", "obs", "current"],
           where: {

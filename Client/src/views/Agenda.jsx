@@ -72,7 +72,7 @@ const Agenda = () => {
               <option value=""> {workingBranch.branchName} </option>
               </select>
               <select name="" id="" className="w-40 border border-black rounded-md text-md dark:text-darkText dark:bg-darkPrimary"
-                onChange={(e) => { setSpecialty(e.target.value); console.log(specialty) }}>
+                onChange={(e) => { setSpecialty(e.target.value) }}>
                 <option value="noneSpecialty" > -- Procedimientos-- </option>
                 {services.map((service, index) => {
 

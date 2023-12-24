@@ -50,7 +50,6 @@ const ClientFilters = ({setSize, setOrder, nameOrLastName, setAttribute, setName
           <input
             value={nameOrLastName}
             onChange={(e) => {
-                console.log(e.target.name)
               setNameOrLastName(e.target.value);
               setPage(0);
             }}
