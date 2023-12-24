@@ -1,9 +1,8 @@
 //hooks,reducer, componentes
 import React, { useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import axios from "axios"
 import { toast } from 'react-hot-toast'
-import { useLocation } from 'react-router-dom';
 import ToasterConfig from '../Toaster';
 
 //icons
@@ -12,36 +11,30 @@ import { UploadWidget } from '../Uploadwidget';
 
 //funciones
 import validateClientInput from '../../functions/registerClient';
-
-//Variables de entorno
 import getParamsEnv from '../../functions/getParamsEnv';
-
-
 const { API_URL_BASE } = getParamsEnv()
 
-const CreateClient = ({setShowClientCreateModal, setActivarNuevoCliente,activarNuevoCliente, setChosenClient, setShowClientListModal}) => {
-    const location = useLocation()
+const EditClient = ({setShowEditModal, clientInfo,setClientRender,clientRender, detailId}) => {
     const token = useSelector((state) => state?.token);
+
     const [client, setClient] = useState({
-        email: "",
-        name: "",
-        lastName: "",
-        id_pers: "",
-        phoneNumber1: "",
-        phoneNumber2: "",
-        image: "https://res.cloudinary.com/doqyrz0sg/image/upload/v1702302836/varpjl2p5dwvpwbmdiui.png",
+        email: clientInfo.email,
+        name: clientInfo.name,
+        lastName: clientInfo.lastName,
+        id_pers: clientInfo.id_pers,
+        phoneNumber1: clientInfo.phoneNumber1,
+        phoneNumber2: clientInfo.phoneNumber2,
+        image: clientInfo.image,
         token: token,
       });
       
       const [errors, setErrors] = useState({
       });
 
+
     const closeModal = () => {
-        if (location.pathname === "/clientsProfiles") {
-            setShowClientCreateModal(false);
-        } else {
-            setShowClientListModal(false);
-        }
+        setShowEditModal(false)
+        setClientRender(!clientRender)
     }
 
     const handleChange = (e) => {
@@ -66,8 +59,8 @@ const CreateClient = ({setShowClientCreateModal, setActivarNuevoCliente,activarN
     e.preventDefault();
     const validationErrors = validateClientInput(client);
     setErrors(validationErrors);
-    const hasErrors = Object.values(validationErrors).some((error) => error !== undefined);
 
+    const hasErrors = Object.values(validationErrors).some((error) => error !== undefined);
     if (hasErrors) {
     } else {
       try {
@@ -81,15 +74,11 @@ const CreateClient = ({setShowClientCreateModal, setActivarNuevoCliente,activarN
           image: client.image,
           token: client.token,
         }
+
+        const response = await axios.put(`${API_URL_BASE}/client/${detailId}`, data)
         
-        const response = await axios.post(`${API_URL_BASE}/newclient`, data)
-        
-        if (response.data.created === "ok") {
-        toast.success("Cliente creado exitosamente")
-        setActivarNuevoCliente(!activarNuevoCliente)     
-        if (location.pathname !== "/clientsProfiles") {
-            setChosenClient({name: data.name, lastName: data.lastName})
-        }
+        if (response.data.updated === "ok") {
+        toast.success("Cliente modificado exitosamente")
         setTimeout(() => {
         closeModal();
         setClient(
@@ -105,14 +94,13 @@ const CreateClient = ({setShowClientCreateModal, setActivarNuevoCliente,activarN
             }
         )}, 3000);
         } else {
-            toast.error("Hubo un problema con la creación")
+            toast.error("Hubo un problema con la modificación")
           }
     } catch (error) {
-        toast.error(`Hubo un problema con la creacion. ${error.response.data}`)
+        toast.error(`Hubo un problema con la modificación. ${error.response.data}`)
       }
     }
 }
-
 
     return (
         <>
@@ -133,7 +121,8 @@ const CreateClient = ({setShowClientCreateModal, setActivarNuevoCliente,activarN
                                     name="name"
                                     value={client.name}
                                     placeholder="Nombre"
-                                    className={`border border-black p-2 rounded w-full ${errors.name !== undefined && "border-red-500"}`}
+                                    className="cursor-not-allowed border bg-gray-200 text-gray-500 border-black p-2 rounded w-full"
+                                    disabled
                                 />  
                                 {errors.name !== "" && <p className="text-xs text-red-500">{errors.name}</p>}
                             </div>
@@ -145,7 +134,8 @@ const CreateClient = ({setShowClientCreateModal, setActivarNuevoCliente,activarN
                                     name="lastName"
                                     value={client.lastName}
                                     placeholder="Apellido"
-                                    className={`border border-black p-2 rounded w-full ${errors.lastName !== undefined && "border-red-500"}`}
+                                    className="cursor-not-allowed border bg-gray-200 text-gray-500 border-black p-2 rounded w-full"
+                                    disabled
                                 />
                                 {errors.lastName !== "" && <p className="text-xs text-red-500">{errors.lastName}</p>}
                             </div>
@@ -159,7 +149,8 @@ const CreateClient = ({setShowClientCreateModal, setActivarNuevoCliente,activarN
                                     name="email"
                                     value={client.email}
                                     placeholder="Email cliente"
-                                    className={`border text-gray-500 border-black p-2 rounded w-full ${errors.email !== undefined && "border-red-500"}`}
+                                    className="cursor-not-allowed border bg-gray-200 text-gray-500 border-black p-2 rounded w-full"
+                                    disabled
                                 />
                                 {errors.email !== "" && <p className="text-xs text-red-500">{errors.email}</p>}
                             </div>
@@ -225,4 +216,4 @@ const CreateClient = ({setShowClientCreateModal, setActivarNuevoCliente,activarN
     );
 }
 
-export default CreateClient
+export default EditClient

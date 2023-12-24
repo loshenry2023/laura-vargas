@@ -26,11 +26,12 @@ const ClientsProfiles = () => {
   const [createDateStart, setCreateDateStart] = useState("");
   const [createDateEnd, setCreateDateEnd] = useState("");
   
-  const [showClientFormModal, setShowClientFormModal] = useState(false);
+  const [showClientFormModal, setShowClientCreateModal] = useState(false);
   const [activarNuevoCliente, setActivarNuevoCliente] = useState(false);
 
+
   const handleClientFormModal = () => {
-    setShowClientFormModal(true);
+    setShowClientCreateModal(true);
   };
 
   useEffect(() => {
@@ -81,7 +82,8 @@ const ClientsProfiles = () => {
         </div>
         {showClientFormModal ? (
           <CreateClient
-          setShowClientFormModal={setShowClientFormModal}
+          activarNuevoCliente={activarNuevoCliente}
+          setShowClientCreateModal={setShowClientCreateModal}
           setActivarNuevoCliente={setActivarNuevoCliente}
           />
         ) : null}

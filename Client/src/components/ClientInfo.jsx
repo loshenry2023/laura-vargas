@@ -20,6 +20,7 @@ import HistoryCalendar from "./HistoryCalendar.jsx";
 import axios from "axios";
 import ToasterConfig from "./Toaster.jsx";
 import { toast } from "react-hot-toast";
+import EditClient from "./modals/EditClient.jsx";
 const { CLIENTSPROFILES } = getParamsEnv();
 
 const ClientInfo = () => {
@@ -32,14 +33,16 @@ const ClientInfo = () => {
     const [showHistory, setShowHistory] = useState(false)
     const [showCalendar, setShowCalendar] = useState(false)
     const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
+    const [showEditModal, setShowEditModal] = useState(false);
     const token = useSelector(state => state?.token)
     const clientInfo = useSelector(state => state?.clientID)
+    const [clientRender, setClientRender] = useState(false)
      
 
     useEffect(() => {
       dispatch(getClientId(detailId, {token: token}))
       .then(() => {setLoading(false)})
-    }, [detailId]);
+    }, [detailId, clientRender]);
 
     const handleGoBack = () => {
       dispatch(clearClientId());
@@ -58,6 +61,10 @@ const ClientInfo = () => {
       if (showHistory === true){
         setShowHistory(!showHistory)
       }
+    }
+
+    const handleShowEditModal = () => {
+      setShowEditModal(true)
     }
 
     const confirmDelete = () => {
@@ -84,6 +91,7 @@ const ClientInfo = () => {
         <div className="relative border max-w-screen-sm h-fit mt-10 rounded overflow-hidden shadow-lg mx-auto">
           <div className="absolute top-0 right-0 mt-1 flex flex-col-reverse sm:flex sm:flex-row">
           <MdEdit
+            onClick={handleShowEditModal} 
             className="h-8 w-8 hover:text-primaryPink hover:animate-bounce cursor-pointer delay-200 dark:text-darkText dark:hover:text-primaryPink"
           />
           <MdDelete
@@ -114,6 +122,7 @@ const ClientInfo = () => {
             </div>
         </div>
     </div>
+    {showEditModal ? <EditClient setClientRender={setClientRender} clientRender={clientRender} clientInfo={clientInfo} setShowEditModal={setShowEditModal} detailId={detailId}/> : null}
     {showHistory ? <HistoryServices history={clientInfo.HistoryServices}/>: null}
     {showCalendar ? <HistoryCalendar calendars={clientInfo.Calendars}/>: null}
     </section> )}

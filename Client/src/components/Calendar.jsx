@@ -62,8 +62,8 @@ const Calendar = () => {
       {loading ? (
         <Loader />
       ) : (
-        <div className="flex flex-col gap-10 justify-center mx-auto items-center sm:divide-x sm:w-1/2 xl:flex-row">
-          <div className="w-96 h-full ">
+        <div className="flex flex-col gap-10 justify-center mx-auto items-center sm:w-1/2 xl:flex-row">
+          <div className="w-96">
             <div className="flex justify-between items-center">
               <h1 className="select-none font-semibold dark:text-darkText">
                 {months[today.month()]}, {today.year()}
@@ -130,7 +130,7 @@ const Calendar = () => {
                           setDateFrom(`${day} 00:00:00`);
                           setDateTo(`${day} 23:59:59`);
                           setDayRange(day);
-						  setactiveButton({range1: false, range2: false, range3: false});
+						              setactiveButton({range1: false, range2: false, range3: false});
                         }}
                       >
                         {date.date()}
@@ -141,7 +141,7 @@ const Calendar = () => {
               )}
             </div>
           </div>
-          <div className="w-96 h-full sm:px-5 overflow-auto">
+          <div className="w-96 h-96 sm:px-5 overflow-auto"> //! se pued eponer mas con h-full
             <h1 className=" font-semibold dark:text-darkText">
               Agenda del {selectDate.toDate().toDateString()}
             </h1>
@@ -159,8 +159,15 @@ const Calendar = () => {
                         });
                       }
                     : () => {
-                        setDateFrom(`${dayRange} ${range[0].hourFrom}`);
-                        setDateTo(`${dayRange} ${range[0].hourTo}`);
+                      setDateFrom((prevDateFrom) => {
+                        const newDateFrom = `${dayRange} ${range[0].hourFrom}`;
+                        return newDateFrom;
+                      });
+                      
+                      setDateTo((prevDateTo) => {
+                        const newDateTo = `${dayRange} ${range[0].hourTo}`;
+                        return newDateTo;
+                      });
                         setactiveButton({
                           range1: true,
                           range2: false,
@@ -170,8 +177,8 @@ const Calendar = () => {
                 }
                 className={
                   activeButton.range1
-                    ? "bg-primaryPink border border-black px-1 rounded-md hover:scale-105 dark:text-darkText dark:border dark:border-beige dark:bg-darkPrimary"
-                    : "bg-white border border-black px-1 rounded-md hover:scale-105 dark:text-darkText dark:border dark:border-beige dark:bg-darkPrimary"
+                    ? "focus:ring-4 ring-primaryPink focus:border-none border border-black px-1 rounded-md dark:text-darkText dark:border dark:border-beige dark:bg-darkPrimary"
+                    : "border border-black px-1 rounded-md dark:text-darkText dark:border dark:border-beige dark:bg-darkPrimary"
                 }
               >
                 06:00 a 10:00
@@ -183,6 +190,7 @@ const Calendar = () => {
                     ? () => {
                         setDateFrom(`${dayRange} 00:00:00`);
                         setDateTo(`${dayRange} 23:59:59`);
+
                         setactiveButton({
                           range1: false,
                           range2: false,
@@ -190,8 +198,15 @@ const Calendar = () => {
                         });
                       }
                     : () => {
-                        setDateFrom(`${dayRange} ${range[1].hourFrom}`);
-                        setDateTo(`${dayRange} ${range[1].hourTo}`);
+                      setDateFrom((prevDateFrom) => {
+                        const newDateFrom = `${dayRange} ${range[1].hourFrom}`;
+                        return newDateFrom;
+                      });
+                      
+                      setDateTo((prevDateTo) => {
+                        const newDateTo = `${dayRange} ${range[1].hourTo}`;
+                        return newDateTo;
+                      });
                         setactiveButton({
                           range1: false,
                           range2: true,
@@ -201,8 +216,8 @@ const Calendar = () => {
                 }
                 className={
                   activeButton.range2
-                    ? "bg-primaryPink border border-black px-1 rounded-md hover:scale-105 dark:text-darkText dark:border dark:border-beige dark:bg-darkPrimary"
-                    : "bg-white border border-black px-1 rounded-md hover:scale-105 dark:text-darkText dark:border dark:border-beige dark:bg-darkPrimary"
+                    ? "focus:ring-4 ring-primaryPink focus:border-none border border-black px-1 rounded-md dark:text-darkText dark:border dark:border-beige dark:bg-darkPrimary"
+                    : "border border-black px-1 rounded-md dark:text-darkText dark:border dark:border-beige dark:bg-darkPrimary"
                 }
               >
                 10:00 a 14:00
@@ -221,8 +236,15 @@ const Calendar = () => {
                         });
                       }
                     : () => {
-                        setDateFrom(`${dayRange} ${range[2].hourFrom}`);
-                        setDateTo(`${dayRange} ${range[2].hourTo}`);
+                      setDateFrom((prevDateFrom) => {
+                        const newDateFrom = `${dayRange} ${range[2].hourFrom}`;
+                        return newDateFrom;
+                      });
+                      
+                      setDateTo((prevDateTo) => {
+                        const newDateTo = `${dayRange} ${range[2].hourTo}`;
+                        return newDateTo;
+                      });
                         setactiveButton({
                           range1: false,
                           range2: false,
@@ -232,8 +254,8 @@ const Calendar = () => {
                 }
                 className={
                   activeButton.range3
-                    ? "bg-primaryPink border border-black px-1 rounded-md hover:scale-105 dark:text-darkText dark:border dark:border-beige dark:bg-darkPrimary"
-                    : "bg-white border border-black px-1 rounded-md hover:scale-105 dark:text-darkText dark:border dark:border-beige dark:bg-darkPrimary"
+                    ? "focus:ring-4 ring-primaryPink focus:border-none border border-black px-1 rounded-md dark:text-darkText dark:border dark:border-beige dark:bg-darkPrimary"
+                    : "border border-black px-1 rounded-md dark:text-darkText dark:border dark:border-beige dark:bg-darkPrimary"
                 }
               >
                 14:00 a 19:00
@@ -247,9 +269,9 @@ const Calendar = () => {
                 <div
                   key={index}
                   className={
-                    cita.current === false
-                      ? "bg-green-200 border px-2 border-black mt-2 rounded-lg"
-                      : "bg-red-200 border px-2 border-black mt-2 rounded-lg"
+                    cita.current === true
+                      ? "order p-1 shadow shadow-black rounded-lg mt-2 hover:scale-105"
+                      : "bg-red-100 border p-2 border-black mt-2 rounded-lg hover:scale-105" 
                   }
                 >
                   <div className="flex flex-col">

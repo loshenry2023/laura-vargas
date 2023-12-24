@@ -29,14 +29,18 @@ const validateClientInput = (data) => {
     validationErrors.phoneNumber1 = "Ingrese teléfono válido, 8-15 dig";
   } 
 
-  if (data.phoneNumber2 && !phonePattern.test(data.phoneNumber2)) {
+  if (data.phoneNumber2 === "") {
+    null
+   }  if (data.phoneNumber2 && !phonePattern.test(data.phoneNumber2)) {
     validationErrors.phoneNumber2 = "Ingrese teléfono válido, 8-15 dig";
   }
 
- if (data.id_pers.length > 0 && data.id_pers.length !== 8) {
-    validationErrors.id_pers = "El documento debe tener 8 dígitos";
-  }
-
+  if (data.id_pers.length === 0) {
+    null
+   } else if (data.id_pers.length > 0 && data.id_pers.length !== 8) {
+      validationErrors.id_pers = "El documento debe tener 8 dígitos";
+    }  
+  
   return validationErrors;
 
 };
