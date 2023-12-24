@@ -63,11 +63,11 @@ const Agenda = () => {
       <div className="flex flex-row dark:bg-darkBackground">
         <SideBar />
         {loading ? <Loader /> : (
-          <div className="w-full flex flex-col my-10 justify-evenly items-center 2xl:h-[calc(100vh-220px)]">
+          <div className="w-full flex flex-col m-10 justify-evenly items-center 2xl:h-[calc(100vh-220px)]">
             <h1 className='items-start text-2xl underline underline-offset-4 tracking-wide font-fontTitle dark:text-beige sm:text-left'>Agenda</h1>
             <section className='flex flex-col place-items-center gap-5 mb-10 md:flex-row'>
             <FaPlusCircle className='cursor-pointer' onClick={() => setShowClientListModal(true)}/>
-              <input name="" id="" placeholder={`${chosenClient.name} ${chosenClient.lastName}`} disabled className="w-40 border border-black rounded-md text-md dark:text-darkText dark:bg-darkPrimary"/> 
+              <input name="" id="" placeholder={`${chosenClient.name} ${chosenClient.lastName}`} disabled className=" resize-y border border-black rounded-md text-md dark:text-darkText dark:bg-darkPrimary"/> 
               <select name="" id="" className="w-40 border border-black rounded-md text-md dark:text-darkText dark:bg-darkPrimary">
               <option value=""> {workingBranch.branchName} </option>
               </select>

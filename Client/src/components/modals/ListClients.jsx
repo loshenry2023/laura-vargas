@@ -76,6 +76,8 @@ const ListClients = ({setShowClientListModal, setChosenClient}) => {
         </div>
         {showClientFormModal ?
         <CreateClient 
+            setChosenClient={setChosenClient}
+            setShowClientListModal={setShowClientListModal}
             setShowClientFormModal={setShowClientFormModal}
             setActivarNuevoCliente={setActivarNuevoCliente}
         /> : null }

@@ -1,4 +1,6 @@
-export default function converterGMT(date, timeZone= "America/Bogota") {
+export default function converterGMT(date) {
+  const { timeZone } = Intl.DateTimeFormat().resolvedOptions()
+
   const formatDate = new Date(date).toLocaleString(
     "en-US",
     {

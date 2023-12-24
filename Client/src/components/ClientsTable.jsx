@@ -15,7 +15,7 @@ const ClientsTable = ({clients, setChosenClient, setShowClientListModal}) => {
           {clients ? (
             <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
               <table className="border border-black w-full text-sm text-left rtl:text-right text-black dark:text-beige dark:border-beige">
-                <thead className="bg-secondaryPink text-black text-left dark:bg-darkPrimary dark:text-darkText dark:border-gre">
+                <thead className="bg-secondaryPink text-black text-left dark:bg-darkPrimary dark:text-darkText dark:border-grey">
                 {location.pathname !== "/agenda" ?
                   <tr>
                     <th scope="col" className="px-4 py-3">
