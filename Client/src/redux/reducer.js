@@ -26,7 +26,6 @@ const initialState = {
   users: [],
   calendar: [],
   count: 0,
-  countCalendar: 0,
   branches: [],
   specialties: [],
   services: [],
@@ -81,7 +80,6 @@ const rootReducer = (state = initialState, { type, payload, count, error, idDele
       const getCalendar = {
         ...state,
         calendar: payload,
-        countCalendar: count,
       };
       localStorage.setItem('myAppReduxState', JSON.stringify(getCalendar));
       return getCalendar;

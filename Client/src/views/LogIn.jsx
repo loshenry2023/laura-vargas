@@ -63,9 +63,6 @@ const LogIn = () => {
       const accessToken = credential.accessToken;
       const idToken = credential.idToken;
 
-      console.log("Usr: ", userEmail);
-      console.log("Tkn: ", idToken);
-
       // Obtengo el token de acceso:
       const dataToValidate = {
         nameUser: userEmail,
@@ -114,9 +111,6 @@ const LogIn = () => {
 
       // Obtengo el token de acceso:
       const accessToken = await googleUser.user.getIdToken();
-
-      console.log("Usr: ", googleUser.user.email);
-      console.log("Tkn: ", accessToken);
 
       const dataToValidate = {
         nameUser: googleUser.user.email,
