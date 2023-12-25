@@ -65,24 +65,25 @@ const Agenda = () => {
         {loading ? <Loader /> : (
           <div className="w-full flex flex-col m-10 justify-evenly items-center 2xl:h-[calc(100vh-220px)]">
             <h1 className='items-start text-2xl underline underline-offset-4 tracking-wide font-fontTitle dark:text-beige sm:text-left'>Agenda</h1>
-            <section className='flex flex-col place-items-center gap-5 mb-10 md:flex-row'>
-            <FaPlusCircle className='cursor-pointer' onClick={() => setShowClientListModal(true)}/>
-              <input name="" id="" placeholder={`${chosenClient.name} ${chosenClient.lastName}`} disabled className=" resize-y border border-black rounded-md text-md dark:text-darkText dark:bg-darkPrimary"/> 
-              <select name="" id="" className="w-40 border border-black rounded-md text-md dark:text-darkText dark:bg-darkPrimary">
+            <section className='flex flex-col flex-wrap items-center justify-center gap-5 mb-10 md:flex-row'>
+              <div className='mt-5 flex flex-row gap-5 sm:mt-0'>
+                <FaPlusCircle className='mt-1.5 cursor-pointer dark:text-darkText' onClick={() => setShowClientListModal(true)} />
+                <input name="" id="" placeholder={`${chosenClient.name} ${chosenClient.lastName}`} disabled className=" resize-y border border-black rounded-md text-md dark:text-darkText dark:bg-darkPrimary"/> 
+              </div>
+              <select name="" id="" className=" border border-black rounded-md text-md dark:text-darkText dark:bg-darkPrimary">
               <option value=""> {workingBranch.branchName} </option>
               </select>
-              <select name="" id="" className="w-40 border border-black rounded-md text-md dark:text-darkText dark:bg-darkPrimary"
+              <select name="" id="" className="border border-black rounded-md text-md dark:text-darkText dark:bg-darkPrimary"
                 onChange={(e) => { setSpecialty(e.target.value) }}>
-                <option value="noneSpecialty" > -- Procedimientos-- </option>
+                <option value="noneSpecialty" > Procedimientos </option>
                 {services.map((service, index) => {
-
                   return (
                     <option key={index} value={service.Specialties[0].specialtyName}>{service.serviceName}</option>
 
                   )
                 })}
               </select>
-              <select name="" id="" className="w-40 border border-black rounded-md text-md dark:text-darkText dark:bg-darkPrimary">
+              <select name="" id="" className="border border-black rounded-md text-md dark:text-darkText dark:bg-darkPrimary">
                 <option value=""> -- Especialista-- </option>
                 {users.map((user, index) => {
                   if (user.role === "especialista") {

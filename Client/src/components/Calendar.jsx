@@ -15,7 +15,7 @@ import { getCalendar } from "../redux/actions";
 
 const Calendar = () => {
   const dispatch = useDispatch();
-  const days = ["S", "M", "T", "W", "T", "F", "S"];
+  const days = ["D", "L", "M", "M", "J", "V", "S"];
   const currentDate = dayjs();
   const workingBranch = useSelector((state) => state?.workingBranch);
   const workingBranchID = workingBranch.id;
@@ -23,13 +23,10 @@ const Calendar = () => {
   const calendar = useSelector((state) => state?.calendar);
   const [today, setToday] = useState(currentDate);
   const [selectDate, setSelectDate] = useState(currentDate);
-
   const [branch, setBranch] = useState(workingBranchID);
   const [loading, setLoading] = useState(true);
-
   const dateNow = new Date();
-  const day =
-    dateNow.getDate() < 10 ? `0${dateNow.getDate()}` : dateNow.getDate();
+  const day =  dateNow.getDate() < 10 ? `0${dateNow.getDate()}` : dateNow.getDate();
   const month =
     dateNow.getMonth() + 1 < 10
       ? `0${dateNow.getMonth() + 1}`
@@ -44,6 +41,11 @@ const Calendar = () => {
     range2: false,
     range3: false,
   });
+  const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+  const formatedDate = selectDate.toDate().toLocaleDateString('es-ES', options);
+  const capitalizedDate = (str) => {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  };
 
   const range = [
     { hourFrom: "06:00:00", hourTo: "09:59:59" },
@@ -62,8 +64,8 @@ const Calendar = () => {
       {loading ? (
         <Loader />
       ) : (
-        <div className="flex flex-col gap-10 justify-center mx-auto items-center sm:w-1/2 xl:flex-row">
-          <div className="w-96">
+        <div className="flex flex-col gap-10 justify-center items-center w-full sm:w-1/2 xl:flex-row">
+          <div className="w-72 sm:w-96 sm:h-96 md:w-[500px]">
             <div className="flex justify-between items-center">
               <h1 className="select-none font-semibold dark:text-darkText">
                 {months[today.month()]}, {today.year()}
@@ -81,7 +83,7 @@ const Calendar = () => {
                     setToday(currentDate);
                   }}
                 >
-                  Today
+                  Hoy
                 </h1>
                 <GrFormNext
                   className="w-5 h-5 cursor-pointer hover:scale-105 transition-all dark:text-darkText"
@@ -110,12 +112,12 @@ const Calendar = () => {
                   return (
                     <div
                       key={index}
-                      className="p-2 text-center h-14 grid place-content-center text-sm border-t"
+                      className="font-medium p-2 text-center h-14 grid place-content-center text-sm border-t dark:text-darkText"
                     >
                       <h1
                         className={cn(
                           currentMonth ? "" : "text-gray-400",
-                          today ? "bg-red-600 text-white" : "",
+                          today ? "bg-red-600 text-white dark:text-darkText" : "",
                           selectDate.toDate().toDateString() ===
                             date.toDate().toDateString()
                             ? "bg-black text-white dark:bg-darkText dark:text-black"
@@ -141,9 +143,10 @@ const Calendar = () => {
               )}
             </div>
           </div>
-          <div className="w-96 h-96 sm:px-5 overflow-auto"> //! se pued eponer mas con h-full
-            <h1 className=" font-semibold dark:text-darkText">
-              Agenda del {selectDate.toDate().toDateString()}
+          <div className="w-72 h-72 sm:px-5 overflow-auto sm:w-96 sm:h-96 md:w-[500px]"> 
+          {/* // se pued eponer mas con h-full // */}
+            <h1 className="font-semibold mb-2 dark:text-darkText">
+            {capitalizedDate(formatedDate)}
             </h1>
             <div className="flex flex-row gap-2">
               <button
@@ -262,7 +265,7 @@ const Calendar = () => {
               </button>
             </div>
             {calendar.length === 0 && (
-              <h4 className="mt-2 font-medium">Sin turnos hasta el momento</h4>
+              <h4 className="mt-2 font-medium text-xl dark:text-darkText">Sin turnos hasta el momento</h4>
             )}
             {calendar.map((cita, index) => {
               return (
@@ -276,7 +279,7 @@ const Calendar = () => {
                 >
                   <div className="flex flex-col">
                     <div className="flex flex-row justify-between">
-                      <h5 className="font-medium">
+                      <h5 className="text-md font-medium tracking-wide dark:text-darkText underline underline-offset-2">
                         {" "}
                         {cita.date_from.slice(12, 17)} -{" "}
                         {cita.date_to.slice(12, 17)}{" "}
@@ -291,17 +294,17 @@ const Calendar = () => {
                         <MdDelete className="hover:scale-125 hover:text-red-500 cursor-pointer delay-200 dark:text-darkText dark:hover:text-red-500" />
                       </div>
                     </div>
-                    <p className="text-sm">
+                    <p className="text-md tracking-wide font-light dark:text-darkText">
                       {" "}
                       <span className="font-medium">Sede:</span>{" "}
                       {cita.Branch.branchName}
                     </p>
-                    <p className="text-sm">
+                    <p className="text-md tracking-wide font-light dark:text-darkText">
                       {" "}
                       <span className="font-medium">Especialista:</span>{" "}
                       {cita.User.name} {cita.User.lastName}
                     </p>
-                    <p className="text-sm">
+                    <p className="text-md tracking-wide font-light dark:text-darkText">
                       <span className="font-medium">Procedimiento:</span>{" "}
                       {cita.Service.serviceName}
                     </p>
