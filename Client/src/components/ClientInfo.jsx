@@ -88,7 +88,7 @@ const ClientInfo = () => {
     <>
     {loading ? <Loader /> : ( 
       <section className="flex flex-col w-full items-center">
-        <div className="relative border max-w-screen-sm h-fit mt-10 rounded overflow-hidden shadow-lg mx-auto">
+        <div className="relative max-w-screen-sm h-fit mt-10 rounded overflow-hidden shadow-md shadow-black mx-auto">
           <div className="absolute top-0 right-0 mt-1 flex flex-col-reverse sm:flex sm:flex-row">
           <MdEdit
             onClick={handleShowEditModal} 
@@ -98,24 +98,24 @@ const ClientInfo = () => {
             onClick={confirmDelete} className="h-8 w-8 hover:text-red-600 hover:animate-bounce cursor-pointer delay-200 dark:text-darkText dark:hover:text-red-600"
           />
           </div> 
-          <IoMdArrowRoundBack onClick={handleGoBack} className="m-1 absolute top-0 left-0 cursor-pointer h-8 w-8 text-primaryPink"/>
+          <IoMdArrowRoundBack onClick={handleGoBack} className="m-1 absolute top-0 left-0 cursor-pointer h-8 w-8 text-primaryPink  dark:text-darkText"/>
           
         <div className="grid grid-1 place-items-center mt-5 sm:place-items-start sm:grid-cols-3 sm:p-5">
             <img
-                className="w-40 shadow shadow-black rounded-full sm:col-span-1 sm:w-full"
+                className="w-40 shadow shadow-black rounded-full sm:col-span-1 sm:w-full "
                 src={clientInfo.image}
                 alt="client-photo"
             />
             <div className="m-4 sm:col-span-2 sm:ml-10 sm:mt-0 ">
-                <p className=""> <span className="font-medium">Nombre:</span> {clientInfo.name}</p>
-                <p className=""> <span className="font-medium">Apellido:</span> {clientInfo.lastName}</p>
-                <p className=""><span className="font-medium">Email:</span> {clientInfo.email}</p>
-                <p className=""> <span className="font-medium">ID:</span> {clientInfo.id_pers}</p>
-                <p className=""><span className="font-medium">phoneNumber1:</span> {clientInfo.phoneNumber1}</p>
-                <p className=""><span className="font-medium">phoneNumber2</span> {clientInfo.phoneNumber2}</p>
+                <p className="text-md tracking-wide font-light dark:text-darkText"> <span className="font-medium dark:text-darkText">Nombre:</span> {clientInfo.name}</p>
+                <p className="text-md tracking-wide font-light dark:text-darkText"> <span className="font-medium dark:text-darkText">Apellido:</span> {clientInfo.lastName}</p>
+                <p className="text-md tracking-wide font-light dark:text-darkText"><span className="font-medium dark:text-darkText">Email:</span> {clientInfo.email}</p>
+                <p className="text-md tracking-wide font-light dark:text-darkText"> <span className="font-medium dark:text-darkText">ID:</span> {clientInfo.id_pers ? clientInfo.id_pers : "-"}</p>
+                <p className="text-md tracking-wide font-light dark:text-darkText"><span className="font-medium dark:text-darkText">phoneNumber1:</span> {clientInfo.phoneNumber1}</p>
+                <p className="text-md tracking-wide font-light dark:text-darkText"><span className="font-medium dark:text-darkText">phoneNumber2: </span> {clientInfo.phoneNumber2 ? clientInfo.phoneNumber2 : "-"}</p>
                 <div className="flex flex-row gap-5 mt-2">
-                    <button onClick={handleShowHistory} className="cursor-pointer rounded shadow-sm px-1 my-1 shadow-black bg-primaryPink">Procedimientos anteriores</button>
-                    <button onClick={handleShowCalendar} className="cursor-pointer rounded shadow-sm px-1 my-1 shadow-black bg-primaryPink">Turnos anteriores</button>
+                    <button onClick={handleShowHistory} className="cursor-pointer rounded shadow-sm px-1 my-1 shadow-black bg-primaryPink dark:bg-darkPrimary dark:text-darkText">Procedimientos anteriores</button>
+                    <button onClick={handleShowCalendar} className="cursor-pointer rounded shadow-sm px-1 my-1 shadow-black bg-primaryPink dark:bg-darkPrimary dark:text-darkText">Turnos anteriores</button>
                 </div>
                 <div className="flex gap-5 pt-2">
                 </div>
