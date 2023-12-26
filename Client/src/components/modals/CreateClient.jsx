@@ -19,7 +19,7 @@ import getParamsEnv from '../../functions/getParamsEnv';
 
 const { API_URL_BASE } = getParamsEnv()
 
-const CreateClient = ({setShowClientCreateModal, setActivarNuevoCliente,activarNuevoCliente, setChosenClient, setShowClientListModal}) => {
+const CreateClient = ({setShowClientCreateModal, setActivarNuevoCliente,activarNuevoCliente, setChosenClient, setShowClientFormModal}) => {
     const location = useLocation()
     const token = useSelector((state) => state?.token);
     const [client, setClient] = useState({
@@ -40,7 +40,7 @@ const CreateClient = ({setShowClientCreateModal, setActivarNuevoCliente,activarN
         if (location.pathname === "/clientsProfiles") {
             setShowClientCreateModal(false);
         } else {
-            setShowClientListModal(false);
+            setShowClientFormModal(false);
         }
     }
 
@@ -118,7 +118,7 @@ const CreateClient = ({setShowClientCreateModal, setActivarNuevoCliente,activarN
         <>
             <div className="fixed top-0 left-0 flex items-center justify-center w-full h-full" style={{ background: "rgba(0, 0, 0, 0.70)"}}>
                 <div>
-                    <div className="w-4/5 mx-auto bg-white shadow rounded-lg p-6 md:w-3/4 2xl:w-1/3 dark:bg-darkBackground">
+                    <div className="w-4/5 mx-auto bg-white shadow rounded-lg p-6 md:w-full dark:bg-darkBackground">
                         <div className='flex justify-between'>
                             <h1 className="text-xl font-semibold mb-4 text-black dark:text-darkText">Agregar nuevo cliente</h1>
                             <IoClose onClick={closeModal} className='cursor-pointer mt-2 w-5 h-5 hover:scale-125 dark:text-darkText' />
