@@ -136,7 +136,7 @@ const LogIn = () => {
 
   return (
     <section className="mx-auto">
-      <div className="bg-[url('https://res.cloudinary.com/doyafxwje/image/upload/v1702756196/LogIn/gynr0zwbrkjrkkqv5acv.png')] bg-cover bg-center flex flex-col items-center justify-center h-screen lg:py-0">
+      <div className="bg-[url('https://res.cloudinary.com/doyafxwje/image/upload/v1703630993/LogIn/osoq2vut2vy2fivyauxm.jpg')] bg-cover bg-center flex flex-col items-center justify-center h-screen lg:py-0">
         <div className="w-full bg-white rounded-lg shadow-xl shadow-black max-w-sm">
           <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
             <div className="flex justify-between">
