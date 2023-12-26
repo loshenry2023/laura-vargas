@@ -38,7 +38,11 @@ const CreateClient = ({setShowClientCreateModal, setActivarNuevoCliente,activarN
 
 
     const closeWithX = () => {
-        setShowClientFormModal(false);
+        if (location.pathname === "/clientsProfiles") {
+            setShowClientCreateModal(false);
+        } else {
+            setShowClientFormModal(false);
+        }
     }
 
     const closeModal = () => {
