@@ -204,10 +204,11 @@ function UserProfiles() {
                 users={users} />
               {showResgisterFormModal ? (
                 <RegisterForm
-                  setShowResgisterFormModal={setShowResgisterFormModal}
+                setShowResgisterFormModal={setShowResgisterFormModal}
                   specialties={specialties}
                   branches={branches}
                   tokenID={tokenID}
+                  activarNuevoUsuario={activarNuevoUsuario}
                   setActivarNuevoUsuario={setActivarNuevoUsuario}
                 />
               ) : null}

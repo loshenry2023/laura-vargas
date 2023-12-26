@@ -75,7 +75,7 @@ const Agenda = () => {
               </select>
               <select name="" id="" className="border border-black rounded-md text-md dark:text-darkText dark:bg-darkPrimary"
                 onChange={(e) => { setSpecialty(e.target.value) }}>
-                <option value="noneSpecialty" > Procedimientos </option>
+                <option value="noneSpecialty"> -- Procedimientos --</option>
                 {services.map((service, index) => {
                   return (
                     <option key={index} value={service.Specialties[0].specialtyName}>{service.serviceName}</option>
