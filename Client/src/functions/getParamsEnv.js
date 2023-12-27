@@ -13,6 +13,9 @@ export default function getParamsEnv() {
   const CLIENTSPROFILES = import.meta.env.VITE_CLIENTS_PROFILES || "/clientsProfiles";
   const TERMSANDPRIVACY = import.meta.env.VITE_TERMS_AND_PRIVACY || "/terms-and-privacy"
   const API_URL_BASE = import.meta.env.VITE_API_URL_BASE || "http://localhost:3001/laura-vargas";
+  const DATEDETAIL = import.meta.env.VITE_DATE_DETAIL || "/dateDetail/:id"
+  const DATEDETAILBASE = import.meta.env.VITE_DATE_DETAIL_BASE || "/dateDetail"
+
 
   const CLOUD_NAME = import.meta.env.VITE_APP_CLOUD_NAME || "doqyrz0sg";
   const UPLOAD_PRESET = import.meta.env.VITE_APP_UPLOAD_PRESET || "gcx7ffyb";
@@ -54,5 +57,7 @@ export default function getParamsEnv() {
     FIREBASE_MESSAGING_SENDER_ID,
     FIREBASE_APP_ID,
     CLIENTSPROFILES,
+    DATEDETAIL,
+    DATEDETAILBASE
   };
 }

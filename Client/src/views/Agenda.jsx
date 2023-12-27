@@ -1,24 +1,20 @@
-
-
-//componentes
+// Importaciones de componentes y librerías
 import Calendar from '../components/Calendar'
 import NavBar from '../components/NavBar'
 import SideBar from '../components/SideBar'
 import Loader from '../components/Loader';
-
-//hooks, reducer, actions
+import CreateAppointment from '../components/modals/CreateAppointment';
+import ListClients from '../components/modals/ListClients';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getBranches, getClients, getServices, getToken, getUsers } from '../redux/actions';
-import React, { useEffect, useState } from 'react'
-
-//icons
 import { FaPlusCircle } from "react-icons/fa";
-import ListClients from '../components/modals/ListClients';
 
 const Agenda = () => {
-  const [loading, setLoading] = useState(true)
-  const dispatch = useDispatch()
+  const [loading, setLoading] = useState(true);
+  const dispatch = useDispatch();
 
+  const branches = useSelector((state) => state?.branches);
   const token = useSelector((state) => state?.token);
   const workingBranch = useSelector((state) => state?.workingBranch);
   const services = useSelector((state) => state?.services);
@@ -33,9 +29,42 @@ const Agenda = () => {
   const [role, setRole] = useState("");
   const [createDateStart, setCreateDateStart] = useState("");
   const [createDateEnd, setCreateDateEnd] = useState("");
-  const [chosenClient, setChosenClient] = useState({name: "Elija", lastName:"cliente"});
-
+  const [chosenClient, setChosenClient] = useState({ name: "Elija", lastName: "cliente", });
+  const [refrescarCita, setRefrescarCita] = useState(false);
   const [showClientListModal, setShowClientListModal] = useState(false);
+  const [showAppointmentModal, setShowAppointmentModal] = useState(false);
+
+  const [dateInfo, setDateInfo] = useState({
+    client: {
+      id: "",
+      name: "",
+      lastName: "",
+    },
+    branch: {
+      id: workingBranch.id,
+      branchName: workingBranch.branchName
+    },
+    service: {
+      id: "",
+      serviceName: ""
+    },
+    specialist: {
+      id: "81240198-f3ee-4932-a63b-cceb65579420",
+      name: "Ramiro",
+      lastName: "Alet"
+    },
+    dateTime: "",
+  });
+
+  const [isFormCompleted, setIsFormCompleted] = useState(false);
+
+  const handleClientFormModal = () => {
+    setShowClientFormModal(true);
+  };
+
+  const handleAppointmentModal = () => {
+    setShowAppointmentModal(true);
+  };
 
   useEffect(() => {
     dispatch(getToken(token))
@@ -54,9 +83,84 @@ const Agenda = () => {
         createDateStart,
         { token: token }
       )
-    )
-      .then(() => setLoading(false))
-  }, [specialty])
+    ).then(() => setLoading(false));
+  }, [specialty]);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+
+
+    if (name === 'client') {
+      const parsedValue = JSON.parse(value);
+    
+      setDateInfo((prevInfo) => ({
+        ...prevInfo,
+        client: {
+          id: chosenClient.id,
+          name: chosenClient.name,
+          lastName: chosenClient.lastName,
+        }
+      }));
+    } else if (name === 'service') {
+      const parsedValue = JSON.parse(value);
+
+      setSpecialty(parsedValue.Specialties[0].specialtyName);
+
+      setDateInfo((prevInfo) => ({
+        ...prevInfo,
+        service: {
+          id: parsedValue.id,
+          name: parsedValue.serviceName,
+        }
+      }));
+    } else if (name === 'specialist') {
+      const parsedValue = JSON.parse(value);
+
+      setDateInfo((prevInfo) => ({
+        ...prevInfo,
+        specialist: {
+          id: parsedValue.id,
+          name: parsedValue.name,
+          lastName: parsedValue.lastName,
+        }
+      }));
+    } else if (name === 'dateTime') {
+     
+      setDateInfo((prevInfo) => ({
+        ...prevInfo,
+        [name]: value || new Date().toISOString(), 
+      }));
+    } else {
+      setDateInfo((prevInfo) => ({
+        ...prevInfo,
+        [name]: value,
+      }));
+    }
+
+
+    const formCompleted =
+      dateInfo.client.id &&
+      dateInfo.service.id &&
+      dateInfo.specialist.id;
+
+
+    const isDateSelected = dateInfo.dateTime !== '';
+
+   
+    setIsFormCompleted(formCompleted || isDateSelected);
+  };
+  useEffect(() => {
+    setDateInfo((prevInfo) => ({
+      ...prevInfo,
+      client: {
+        id: chosenClient.id,
+        name: chosenClient.name,
+        lastName: chosenClient.lastName
+      }
+    }));
+  }, [chosenClient]);
+
+
   return (
     <div>
       <NavBar />
@@ -68,45 +172,86 @@ const Agenda = () => {
             <section className='flex flex-col flex-wrap items-center justify-center gap-5 mb-10 md:flex-row'>
               <div className='mt-5 flex flex-row gap-5 sm:mt-0'>
                 <FaPlusCircle className='mt-1.5 cursor-pointer dark:text-darkText' onClick={() => setShowClientListModal(true)} />
-                <input name="" id="" placeholder={`${chosenClient.name} ${chosenClient.lastName}`} disabled className=" resize-y border border-black rounded-md text-md dark:text-darkText dark:bg-darkPrimary"/> 
+                <input
+                  name=""
+                  id=""
+                  placeholder={`${chosenClient.name} ${chosenClient.lastName}`}
+                  disabled
+                  className="resize-y border border-black rounded-md text-md dark:text-darkText dark:bg-darkPrimary"
+                />
               </div>
-              <select name="" id="" className=" border border-black rounded-md text-md dark:text-darkText dark:bg-darkPrimary">
-              <option value=""> {workingBranch.branchName} </option>
-              </select>
-              <select name="" id="" className="border border-black rounded-md text-md dark:text-darkText dark:bg-darkPrimary"
-                onChange={(e) => { setSpecialty(e.target.value) }}>
-                <option value="noneSpecialty"> -- Procedimientos --</option>
-                {services.map((service, index) => {
-                  return (
-                    <option key={index} value={service.Specialties[0].specialtyName}>{service.serviceName}</option>
-
-                  )
-                })}
-              </select>
               <select name="" id="" className="border border-black rounded-md text-md dark:text-darkText dark:bg-darkPrimary">
+                <option value=""> {workingBranch.branchName} </option>
+              </select>
+              <select
+                name="service"
+                id=""
+                className="border border-black rounded-md text-md dark:text-darkText dark:bg-darkPrimary"
+                onChange={handleChange}
+              >
+                <option value="noneSpecialty" > Procedimientos </option>
+                {services.map((service, index) => (
+                  <option key={index} value={JSON.stringify(service)}>{service.serviceName}</option>
+                ))}
+              </select>
+              <select
+                onChange={handleChange}
+                name="specialist"
+                id=""
+                className="border border-black rounded-md text-md dark:text-darkText dark:bg-darkPrimary"
+              >
                 <option value=""> -- Especialista-- </option>
-                {users.map((user, index) => {
-                  if (user.role === "especialista") {
-                    return (
-                      <option key={index} value={user.serviceName}>{user.name} {user.lastName}</option>
-                    )
-                  } else {
-                    null
-                  }
-                })}
+                {users.map((user, index) => (
+                  user.role === "especialista" && (
+                    <option key={index} value={JSON.stringify(user)}>
+                      {user.name} {user.lastName}
+                    </option>
+                  )
+                ))}
               </select>
             </section>
-            <Calendar />
+            <Calendar
+              setDateInfo={setDateInfo}
+              branches={branches}
+              services={services}
+              users={users}
+              refrescarCita={refrescarCita}
+              setRefrescarCita={setRefrescarCita}
+              chosenClient={chosenClient}
+            />
             <div>
-              <button className='rounded mt-10 px-6 py-2 cursor-pointer bg-primaryPink shadow shadow-black text-black hover:bg-blue-600 focus:outline-none transition-colors dark:text-darkText dark:bg-darkPrimary dark:hover:bg-blue-600' disabled>Agregar Cita</button>
+            <button
+          onClick={handleAppointmentModal}
+          disabled={!isFormCompleted}
+          className={`rounded mt-10 px-6 py-2 cursor-pointer ${
+            isFormCompleted ? 'bg-primaryPink' : 'bg-gray-300'
+          } shadow shadow-black text-black ${
+            isFormCompleted ? 'hover:bg-blue-600' : 'cursor-not-allowed'
+          } focus:outline-none transition-colors dark:text-darkText dark:bg-darkPrimary ${
+            isFormCompleted ? 'dark:hover:bg-blue-600' : 'dark:cursor-not-allowed'
+          }`}
+        >
+          Agregar Cita
+        </button>
             </div>
-            </div>)}
-          {showClientListModal ? (
-            <ListClients setChosenClient={setChosenClient} setShowClientListModal={setShowClientListModal}/>
-              ) : null}
-        </div>
+          </div>
+        )}
+        {showClientListModal ? (
+          <ListClients setChosenClient={setChosenClient} setShowClientListModal={setShowClientListModal} />
+        ) : null}
+        {showAppointmentModal && (
+          <CreateAppointment
+            setShowAppointmentModal={setShowAppointmentModal}
+            dateInfo={dateInfo}
+            token={token}
+            setRefrescarCita={setRefrescarCita}
+            refrescarCita={refrescarCita}
+            chosenClient={chosenClient}
+          />
+        )}
+      </div>
     </div>
-  )
-}
+  );
+};
 
-export default Agenda
+export default Agenda;

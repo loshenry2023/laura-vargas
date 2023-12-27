@@ -7,6 +7,7 @@ import Error from "./views/Error.jsx";
 import TermsAndPrivacy from "./views/TermsAndPrivacy.jsx";
 import UserDetail from "./views/UserDetail.jsx";
 import Agenda from "./views/Agenda.jsx";
+import SpecialistDate from "./views/SpecialistDate.jsx";
 
 // hooks, routers, reducers:
 import { Route, Routes } from "react-router-dom";
@@ -16,7 +17,7 @@ import getParamsEnv from "./functions/getParamsEnv.js";
 import ClientDetail from "./views/ClientDetail.jsx";
 import ClientsProfiles from "./views/ClientsProfiles.jsx";
 import BranchSelection from "./views/BranchSelection.jsx";
-const { ROOT, LOGIN, USERPROFILES, BRANCH, HOME, USERDETAIL, TERMSANDPRIVACY, AGENDA, CLIENTDETAIL, CLIENTSPROFILES } = getParamsEnv();
+const { ROOT, LOGIN, USERPROFILES, BRANCH, HOME, USERDETAIL, TERMSANDPRIVACY, AGENDA, CLIENTDETAIL, CLIENTSPROFILES, DATEDETAIL } = getParamsEnv();
 
 const App = () => {
   return (
@@ -32,6 +33,7 @@ const App = () => {
         <Route path={CLIENTSPROFILES} element={<ClientsProfiles />} />
         <Route path={CLIENTDETAIL} element={<ClientDetail />} />
         <Route path={TERMSANDPRIVACY} element={<TermsAndPrivacy />} />
+        <Route path={DATEDETAIL} element={<SpecialistDate />} />
         {/* <Route path={DETAIL} element={<Detail />} />
         <Route path={EDIT} element={<Edit />} />
         <Route path={ABOUT} element={<About />} />
