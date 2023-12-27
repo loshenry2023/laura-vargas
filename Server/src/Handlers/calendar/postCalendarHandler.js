@@ -4,6 +4,7 @@ const showLog = require("../../functions/showLog");
 const checkToken = require('../../functions/checkToken');
 
 const postCalendarHandler = async (req, res) => {
+  console.log(req.body)
   try {
     const { token } = req.body;
     showLog(`postCalendarHandler`);

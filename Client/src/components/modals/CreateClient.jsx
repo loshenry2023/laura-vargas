@@ -14,7 +14,7 @@ import { UploadWidget } from '../Uploadwidget';
 import validateClientInput from '../../functions/registerClient';
 
 //Variables de entorno
-import getParamsEnv from '../../functions/getParamsEnv';
+import getParamsEnv from '../../functions/getParamsEnv'
 
 
 const { API_URL_BASE } = getParamsEnv()
@@ -88,7 +88,7 @@ const CreateClient = ({setShowClientCreateModal, setActivarNuevoCliente,activarN
         toast.success("Cliente creado exitosamente")
         setActivarNuevoCliente(!activarNuevoCliente)     
         if (location.pathname !== "/clientsProfiles") {
-            setChosenClient({name: data.name, lastName: data.lastName})
+            setChosenClient({name: data.name, lastName: data.lastName, email: data.email, id: response.data.id})
         }
         setTimeout(() => {
         closeModal();

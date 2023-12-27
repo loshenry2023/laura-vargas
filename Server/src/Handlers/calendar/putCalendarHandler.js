@@ -4,6 +4,7 @@ const showLog = require("../../functions/showLog");
 const checkToken = require('../../functions/checkToken');
 
 const putCalendarHandler = async (req, res) => {
+
   try {
     const { token } = req.body;
     const { id } = req.params;
@@ -15,6 +16,7 @@ const putCalendarHandler = async (req, res) => {
       showLog(`Wrong token.`);
       return res.status(401).send(`Sin permiso.`);
     }
+    
     if (!id) { throw Error("Faltan datos"); }
     const resp = await putReg(Calendar, "Calendar", req.body, id, conn, User, Service, Client, Branch);
     if (resp.created === 'ok') {
