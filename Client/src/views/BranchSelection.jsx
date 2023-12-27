@@ -38,7 +38,7 @@ const handleBranch = () => {
         <div className="flex flex-row gap-5">
         {user.branches.map((branch, index) => {
           return (
-            <div key={index}>
+            <div key={index} className="flex flex-row gap-1">
               <input
                 type="radio"
                 id={branch.branchName}
@@ -51,7 +51,7 @@ const handleBranch = () => {
           )})}
         </div>
         <div>
-          <button className={isButtonDisabled ? "cursor-not-allowed rounded shadow-sm py-2 px-4 my-2 shadow-black bg-primaryPink hover:bg-blue-600" : "cursor-pointer rounded shadow-sm py-2 px-4 my-2 shadow-black bg-primaryPink hover:bg-blue-600"} onClick={handleBranch} disabled={isButtonDisabled}> Ingresar </button>
+          <button className={isButtonDisabled ? "font-medium cursor-not-allowed rounded shadow-sm py-2 px-4 my-2 shadow-black bg-primaryPink hover:bg-blue-600" : "cursor-pointer font-medium  rounded shadow-sm py-2 px-4 my-2 shadow-black bg-primaryPink hover:bg-blue-600"} onClick={handleBranch} disabled={isButtonDisabled}> Ingresar </button>
         </div>
       </div>
     </section>

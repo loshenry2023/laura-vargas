@@ -114,8 +114,8 @@ const ClientInfo = () => {
                 <p className="text-md tracking-wide font-light dark:text-darkText"><span className="font-medium dark:text-darkText">phoneNumber1:</span> {clientInfo.phoneNumber1}</p>
                 <p className="text-md tracking-wide font-light dark:text-darkText"><span className="font-medium dark:text-darkText">phoneNumber2: </span> {clientInfo.phoneNumber2 ? clientInfo.phoneNumber2 : "-"}</p>
                 <div className="flex flex-row gap-5 mt-2">
-                    <button onClick={handleShowHistory} className="cursor-pointer rounded shadow-sm px-1 my-1 shadow-black bg-primaryPink dark:bg-darkPrimary dark:text-darkText">Procedimientos anteriores</button>
-                    <button onClick={handleShowCalendar} className="cursor-pointer rounded shadow-sm px-1 my-1 shadow-black bg-primaryPink dark:bg-darkPrimary dark:text-darkText">Turnos anteriores</button>
+                    <button onClick={handleShowHistory} className="cursor-pointer rounded shadow-sm px-1 my-1 shadow-black bg-primaryPink dark:bg-darkPrimary dark:text-darkText dark:hover:bg-zinc-800">Procedimientos anteriores</button>
+                    <button onClick={handleShowCalendar} className="cursor-pointer rounded shadow-sm px-1 my-1 shadow-black bg-primaryPink dark:bg-darkPrimary dark:text-darkText dark:hover:bg-zinc-800">Turnos anteriores</button>
                 </div>
                 <div className="flex gap-5 pt-2">
                 </div>

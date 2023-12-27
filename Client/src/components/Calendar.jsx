@@ -176,7 +176,7 @@ const Calendar = ({setDateInfo, services, users, branches, refrescarCita, setRef
                       <h1
                         className={cn(
                           currentMonth ? "" : "text-gray-400",
-                          today ? "bg-red-600 text-white dark:text-darkText" : "",
+                          today ? "bg-red-600 text-white " : "",
                           selectDate.toDate().toDateString() ===
                             date.toDate().toDateString()
                             ? "bg-black text-white dark:bg-darkText dark:text-black"
@@ -336,8 +336,8 @@ const Calendar = ({setDateInfo, services, users, branches, refrescarCita, setRef
                   key={index}
                   className={
                     cita.current === true
-                      ? "order p-1 shadow shadow-black rounded-lg mt-2 hover:scale-105"
-                      : "bg-red-100 border p-2 border-black mt-2 rounded-lg hover:scale-105"
+                      ? "border p-1 shadow shadow-black rounded-lg mt-2 hover:scale-105 dark:bg-darkPrimary dark:border-none"
+                      : "bg-red-100 p-1 border-black mt-2 rounded-lg hover:scale-105 dark:bg-red-950" 
                   }
                 >
                   <div className="flex flex-col">

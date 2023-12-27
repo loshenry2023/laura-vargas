@@ -55,14 +55,14 @@ const ClientFilters = ({setSize, setOrder, nameOrLastName, setAttribute, setName
             }}
             type="text"
             placeholder="Buscar por nombre..."
-            className="w-full border border-black focus:outline-none focus:ring-1 focus:ring-grey px-1 text-sm dark:bg-darkPrimary dark:placeholder-darkText dark:text-darkText"
+            className="font-medium w-full border border-black focus:outline-none focus:ring-1 focus:ring-grey px-1 text-sm dark:bg-darkPrimary dark:placeholder-darkText dark:text-darkText"
           />
           <select
             onChange={(e) => {
               setOrder(e.target.value);
               setPage(0);
             }}
-            className="w-full border border-black rounded-md text-xs dark:text-darkText dark:bg-darkPrimary"
+            className="font-medium py-0.5 w-full border border-black rounded-md text-xs dark:text-darkText dark:bg-darkPrimary"
           >
             <option value="asc"> -- Ordenar por -- </option>
             <option value="asc">A-Z</option>
@@ -75,7 +75,7 @@ const ClientFilters = ({setSize, setOrder, nameOrLastName, setAttribute, setName
               setAttribute(e.target.value);
               setPage(0);
             }}
-            className="w-full border border-black rounded-md text-xs dark:text-darkText dark:bg-darkPrimary"
+            className="font-medium py-0.5 w-full border border-black rounded-md text-xs dark:text-darkText dark:bg-darkPrimary"
           >
             <option value="lastName"> -- Ordenar por -- </option>
             <option value="name">Nombre</option>

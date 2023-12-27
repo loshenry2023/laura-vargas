@@ -23,7 +23,7 @@ export default {
         fontTitle: ['Bebas Neue'],
         fontSubTitle: ['Grandiflora One'],
         fontParra: ['x', 'y'] // Hay que importarlas en el postcss.config
-      }
+      },
     },
   },
   plugins: [],
