@@ -8,11 +8,11 @@ import { HiMiniUserGroup } from "react-icons/hi2";
 import { GiFingernail } from "react-icons/gi";
 import { ImProfile } from "react-icons/im";
 import { Link } from "react-router-dom";
+import { TfiMenu } from "react-icons/tfi";
 
-  //Variables de entorno
-  import getParamsEnv from "../functions/getParamsEnv.js";
-  const { AGENDA, USERPROFILES, CLIENTDETAIL, CLIENTSPROFILES } = getParamsEnv();
-  
+//Variables de entorno
+import getParamsEnv from "../functions/getParamsEnv.js";
+const { AGENDA, USERPROFILES, CLIENTDETAIL, CLIENTSPROFILES } = getParamsEnv();
 
 const SideBar = () => {
   const dispatch = useDispatch();
@@ -23,29 +23,75 @@ const SideBar = () => {
     dispatch(setIcon(iconName));
   };
 
-
   return (
-    <div style={{ minHeight: dynamicMinHeight }}
-      className="bg-secondaryPink w-14 flex flex-col items-center gap-8 pointer-events-auto shadow-md shadow-grey dark:shadow-gray-100 dark:bg-darkPrimary dark:text-beige">
+    <div
+      style={{ minHeight: dynamicMinHeight }}
+      className="bg-secondaryPink w-14 flex flex-col items-center gap-8 pointer-events-auto shadow-md shadow-grey dark:shadow-gray-100 dark:bg-darkPrimary dark:text-beige"
+    >
       <hr className="w-14 h-[1px] bg-beige border-0" />
       <Link to={USERPROFILES}>
-        <ImProfile className={`w-6 h-6  dark:text-beige ${selectedIcon === "profile" ? "text-black" : "text-black hover:text-beige"}`} />
+        <ImProfile
+          className={`w-6 h-6  dark:text-beige ${
+            selectedIcon === "profile"
+              ? "text-black"
+              : "text-black hover:text-beige"
+          }`}
+        />
       </Link>
       <Link to={AGENDA}>
-        <FaCalendar className={`w-6 h-6 dark:text-beige ${selectedIcon === "calendar" ? "text-black" : "text-black hover:text-beige"}`} />
+        <FaCalendar
+          className={`w-6 h-6 dark:text-beige ${
+            selectedIcon === "calendar"
+              ? "text-black"
+              : "text-black hover:text-beige"
+          }`}
+        />
       </Link>
       <Link to={CLIENTSPROFILES}>
-        <HiMiniUserGroup className={`w-6 h-6  dark:text-beige ${selectedIcon === "userGroup" ? "text-black" : "text-black hover:text-beige"}`} />
+        <HiMiniUserGroup
+          className={`w-6 h-6  dark:text-beige ${
+            selectedIcon === "userGroup"
+              ? "text-black"
+              : "text-black hover:text-beige"
+          }`}
+        />
       </Link>
       <a href="#" onClick={() => handleIconClick("location")}>
-        <FaLocationPin className={`w-6 h-6  dark:text-beige ${selectedIcon === "location" ? "text-black" : "text-black hover:text-beige"}`} />
+        <FaLocationPin
+          className={`w-6 h-6  dark:text-beige ${
+            selectedIcon === "location"
+              ? "text-black"
+              : "text-black hover:text-beige"
+          }`}
+        />
       </a>
       <a href="#" onClick={() => handleIconClick("fingernail")}>
-        <GiFingernail className={`w-6 h-6  dark:text-beige ${selectedIcon === "fingernail" ? "text-black" : "text-black hover:text-beige"}`} />
+        <GiFingernail
+          className={`w-6 h-6  dark:text-beige ${
+            selectedIcon === "fingernail"
+              ? "text-black"
+              : "text-black hover:text-beige"
+          }`}
+        />
       </a>
       <a href="#" onClick={() => handleIconClick("analytics")}>
-        <IoMdAnalytics className={`w-6 h-6  dark:text-beige ${selectedIcon === "analytics" ? "text-black" : "text-black hover:text-beige"}`} />
+        <IoMdAnalytics
+          className={`w-6 h-6  dark:text-beige ${
+            selectedIcon === "analytics"
+              ? "text-black"
+              : "text-black hover:text-beige"
+          }`}
+        />
       </a>
+      <Link to="/consumables" onClick={() => handleIconClick("Consumables")}>
+        <TfiMenu
+          className={`w-6 h-6  dark:text-beige ${
+            selectedIcon === "profile"
+              ? "text-black"
+              : "text-black hover:text-beige"
+          }`}
+        />
+      </Link>
     </div>
   );
 };
