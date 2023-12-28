@@ -68,6 +68,7 @@ const Agenda = () => {
 
   useEffect(() => {
     dispatch(getToken(tokenID))
+    dispatch(getBranches({ token: tokenID }))
     dispatch(getServices({ token: tokenID }))
     dispatch(
       getUsers(
@@ -238,6 +239,7 @@ const Agenda = () => {
         ) : null}
         {showAppointmentModal && (
           <CreateAppointment
+            branches={branches}
             setShowAppointmentModal={setShowAppointmentModal}
             dateInfo={dateInfo}
             token={tokenID}
