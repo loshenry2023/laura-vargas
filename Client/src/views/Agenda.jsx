@@ -15,7 +15,7 @@ const Agenda = () => {
   const dispatch = useDispatch();
 
   const branches = useSelector((state) => state?.branches);
-  const token = useSelector((state) => state?.token);
+  const tokenID = useSelector((state) => state?.token);
   const workingBranch = useSelector((state) => state?.workingBranch);
   const services = useSelector((state) => state?.services);
   const users = useSelector((state) => state?.users);
@@ -67,8 +67,8 @@ const Agenda = () => {
   };
 
   useEffect(() => {
-    dispatch(getToken(token))
-    dispatch(getServices({ token: token }))
+    dispatch(getToken(tokenID))
+    dispatch(getServices({ token: tokenID }))
     dispatch(
       getUsers(
         nameOrLastName,
@@ -81,7 +81,7 @@ const Agenda = () => {
         role,
         createDateEnd,
         createDateStart,
-        { token: token }
+        { token: tokenID }
       )
     ).then(() => setLoading(false));
   }, [specialty]);
@@ -92,7 +92,7 @@ const Agenda = () => {
 
     if (name === 'client') {
       const parsedValue = JSON.parse(value);
-    
+
       setDateInfo((prevInfo) => ({
         ...prevInfo,
         client: {
@@ -125,10 +125,10 @@ const Agenda = () => {
         }
       }));
     } else if (name === 'dateTime') {
-     
+
       setDateInfo((prevInfo) => ({
         ...prevInfo,
-        [name]: value || new Date().toISOString(), 
+        [name]: value || new Date().toISOString(),
       }));
     } else {
       setDateInfo((prevInfo) => ({
@@ -146,7 +146,7 @@ const Agenda = () => {
 
     const isDateSelected = dateInfo.dateTime !== '';
 
-   
+
     setIsFormCompleted(formCompleted || isDateSelected);
   };
   useEffect(() => {
@@ -220,19 +220,16 @@ const Agenda = () => {
               chosenClient={chosenClient}
             />
             <div>
-            <button
-          onClick={handleAppointmentModal}
-          disabled={!isFormCompleted}
-          className={`rounded mt-10 px-6 py-2 cursor-pointer ${
-            isFormCompleted ? 'bg-primaryPink' : 'bg-gray-300'
-          } shadow shadow-black text-black ${
-            isFormCompleted ? 'hover:bg-blue-600' : 'cursor-not-allowed'
-          } focus:outline-none transition-colors dark:text-darkText dark:bg-darkPrimary ${
-            isFormCompleted ? 'dark:hover:bg-blue-600' : 'dark:cursor-not-allowed'
-          }`}
-        >
-          Agregar Cita
-        </button>
+              <button
+                onClick={handleAppointmentModal}
+                disabled={!isFormCompleted}
+                className={`rounded mt-10 px-6 py-2 cursor-pointer ${isFormCompleted ? 'bg-primaryPink' : 'bg-gray-300'
+                  } shadow shadow-black text-black ${isFormCompleted ? 'hover:bg-blue-600' : 'cursor-not-allowed'
+                  } focus:outline-none transition-colors dark:text-darkText dark:bg-darkPrimary ${isFormCompleted ? 'dark:hover:bg-blue-600' : 'dark:cursor-not-allowed'
+                  }`}
+              >
+                Agregar Cita
+              </button>
             </div>
           </div>
         )}
@@ -243,7 +240,7 @@ const Agenda = () => {
           <CreateAppointment
             setShowAppointmentModal={setShowAppointmentModal}
             dateInfo={dateInfo}
-            token={token}
+            token={tokenID}
             setRefrescarCita={setRefrescarCita}
             refrescarCita={refrescarCita}
             chosenClient={chosenClient}

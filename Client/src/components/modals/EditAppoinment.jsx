@@ -30,7 +30,7 @@ const EditAppointment = ({ setShowEditAppointment, token, date, services, users,
   const allBranches = useSelector((state) => state?.branches);
 
   useEffect(() => {
-   
+
   }, [date])
   const [AppointmentInfo, setAppointmentInfo] = useState({
     clientName: date.Client.name || "",
@@ -140,20 +140,11 @@ const EditAppointment = ({ setShowEditAppointment, token, date, services, users,
       current: true,
       token: token
     };
-    
-   
-  /*       const errors = validateEditAppointment(data);
-        console.log(errors)
-        if (Object.keys(errors).length > 0) {
-          setValidationErrors(errors);
-          return;
-        }
 
-      
- */
+
     try {
       const response = await axios.put(`${API_URL_BASE}/calendar/${date.id}`, data);
-  
+
       const sendEmail = {
         origin: userSpecialist.userName,
         target: date.Client.email,
@@ -228,7 +219,7 @@ const EditAppointment = ({ setShowEditAppointment, token, date, services, users,
                   >
                     <option value="">{AppointmentInfo.branch.name}</option>
                     {allBranches.map((branch, index) => (
-                     
+
                       branch.branchName !== AppointmentInfo.branch.name && (
                         <option key={index} value={JSON.stringify(branch)}>
                           {branch.branchName}

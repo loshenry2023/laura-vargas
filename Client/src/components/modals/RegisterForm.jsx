@@ -1,6 +1,6 @@
 
 // Hooks
-import React, {useState } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 
 //icons
@@ -141,9 +141,9 @@ function RegisterForm({ setShowResgisterFormModal, branches, specialties, tokenI
                 notificationEmail: ""
               }
             )
-          closeModal();
-          console.log(sendEmail)
-          axios.post(`${API_URL_BASE}/sendmail`, sendEmail)
+            closeModal();
+            //console.log(sendEmail)
+            axios.post(`${API_URL_BASE}/sendmail`, sendEmail)
           }, 3000);
         } else {
           toast.error("Hubo un problema con la creación")
@@ -157,7 +157,7 @@ function RegisterForm({ setShowResgisterFormModal, branches, specialties, tokenI
 
   return (
     <>
-      <div className="fixed top-0 left-0 flex items-center justify-center w-full h-full" style={{ background: "rgba(0, 0, 0, 0.70)"}}>
+      <div className="fixed top-0 left-0 flex items-center justify-center w-full h-full" style={{ background: "rgba(0, 0, 0, 0.70)" }}>
         <div className="container">
           <div className="w-4/5 mx-auto bg-white shadow rounded-lg p-6 md:w-3/4 2xl:w-1/3 dark:bg-darkBackground">
             <div className='flex justify-between'>

@@ -3,8 +3,6 @@ const checkToken = require('../../functions/checkToken');
 const sendMail = require("../../functions/sendMail");
 
 const sendMailHandler = async (req, res) => {
-
-  console.log(req.body)
   try {
     const { token } = req.body;
     showLog(`sendMailHandler`);
