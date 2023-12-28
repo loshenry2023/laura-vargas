@@ -40,6 +40,8 @@ const DateDetail = () => {
         method: false
     })
 
+    const [showFinishConfirmation, setShowFinishConfirmation] = useState(false)
+
     const [showPayment2, setShowPayment2] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [photoLoaded, setPhotoLoaded] = useState(false);
@@ -89,8 +91,21 @@ const DateDetail = () => {
         }));
     };
 
+    const finishConfirmed = (confirmed) => {
+        if (confirmed) {
+            hideDeleteModal();
+            handleSubmit()
+        } else {
+            hideDeleteModal();
+        }
+    };
+
+    const hideDeleteModal = () => {
+        setShowFinishConfirmation(false)
+    }
+
     const updateDateState = async () => {
-        //(appointmentId, "ID")
+
 
         const data = {
             date_from: appointment.date_from,
@@ -252,10 +267,30 @@ const DateDetail = () => {
                 {/* Payment Section */}
                 <div className="p-6 bg-primaryPink backdrop-blur-xl bg-opacity-60 rounded-md border-2 border-primaryPink flex flex-col gap-4">
                     <div className="p-4 relative border-4 border-double border-primaryPink max-w-screen-sm mt-10 rounded overflow-hidden shadow-lg mx-auto">
+
+
+
                         <div className='flex flex-col gap-6'>
-                            <div className="max-w-screen-sm rounded overflow-hidden shadow-lg p-6 flex flex-col gap-4">
-                                Precio Final: {appointment.Service.price}
+                            <div className='flex flex-row'>
+
+                                <div className="max-w-screen-sm rounded overflow-hidden shadow-lg p-6 flex flex-row gap-8 justify-center align-center">
+
+                                    <div className="max-w-screen-sm rounded overflow-hidden shadow-lg p-6">
+                                        <p className="block text-sm font-medium text-gray-700">Procedimiento</p>
+                                        <p>{appointment.Service.serviceName}</p>
+                                    </div>
+                                    <div className="max-w-[200px] rounded overflow-auto scrollbar-container shadow-lg p-6">
+                                        <label className="block text-sm font-medium text-gray-700">Observaciones</label>
+                                        <p>{appointment.obs}</p>
+                                    </div>
+                                    <div className="max-w-screen-sm rounded overflow-hidden shadow-lg p-6">
+                                        <p className="block text-sm font-medium text-gray-700">Precio final</p>
+                                        <p className='m-auto'>{appointment.Service.price}</p>
+                                    </div>
+
+                                </div>
                             </div>
+
                             <div className="flex flex-col sm:flex-row gap-10">
                                 <div className="max-w-screen-sm rounded overflow-hidden shadow-lg p-6 flex flex-col gap-4">
                                     <div className="mb-4">
@@ -268,6 +303,8 @@ const DateDetail = () => {
                                             placeholder="Ingrese el precio"
                                         />
                                     </div>
+
+
                                     <div>
                                         <div className="mb-4">
                                             <label className="block text-sm font-medium text-gray-700">Medio de Pago A</label>
@@ -318,12 +355,13 @@ const DateDetail = () => {
                                         </div>
                                     </div>
                                 )}
+
                             </div>
                         </div>
                         <div className="flex justify-center mt-4">
                             <button
                                 disabled={isButtonDisabled}
-                                onClick={handleSubmit}
+                                onClick={() => setShowFinishConfirmation(true)}
                                 className={`btn bg-primaryPink p-2 rounded-full cursor-pointer shadow shadow-black ${isButtonDisabled ? 'disabled-btn' : ''}`}
                                 style={{ backgroundColor: isButtonDisabled ? 'gray' : '#e59494' }} // Set your desired colors
                             >
@@ -334,6 +372,32 @@ const DateDetail = () => {
                 </div>
             </div>
             <ToasterConfig />
+            {showFinishConfirmation && (
+                <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+                    <div
+                        className={`bg-white p-6 rounded-lg shadow-lg text-center sm:flex sm:flex-col ${window.innerWidth < 340 ? "max-w-sm" : "max-w-md"
+                            }`}
+                    >
+                        <p className="mb-4 text-sm sm:text-base">
+                            ¿Estás seguro de que deseas Finalizar esta cita?
+                        </p>
+                        <div className="flex justify-center space-x-4">
+                            <button
+                                onClick={() => finishConfirmed(true)}
+                                className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 text-sm sm:text-base"
+                            >
+                                Aceptar
+                            </button>
+                            <button
+                                onClick={() => finishConfirmed(false)}
+                                className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 text-sm sm:text-base"
+                            >
+                                Cancelar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </>
     );
 };
