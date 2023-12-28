@@ -1,6 +1,7 @@
 const { Product, PriceHistory, Branch } = require("../../DB_connection");
 const { Op } = require("sequelize");
 const showLog = require("../../functions/showLog");
+
 const getAllProductsWithLatestPrice = async (
   productName = "",
   supplier = "",
@@ -15,7 +16,7 @@ const getAllProductsWithLatestPrice = async (
   productCode = ""
 ) => {
   try {
-    showLog(`hola: ${branch}`);
+    showLog(`getAllProductsWithLatestPrice`);
     const { count, rows } = await Product.findAndCountAll({
       include: [
         {
@@ -68,7 +69,7 @@ const getAllProductsWithLatestPrice = async (
       rows,
     };
   } catch (err) {
-    showLog(`productsHandler -> getAllProducts error: ${err.message}`);
+    showLog(`getAllProductsWithLatestPrice -> getAllProducts error: ${err.message}`);
     return { message: err.message };
   }
 };
