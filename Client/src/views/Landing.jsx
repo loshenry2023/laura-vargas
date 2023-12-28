@@ -9,7 +9,7 @@ const { LOGIN } = getParamsEnv();
 
 const Landing = () => {
   return (
-    <section className="bg-primaryPink">
+    <section>
         <div id="home" className="bg-[url('https://res.cloudinary.com/doyafxwje/image/upload/v1703631707/Landing/dccy66yweqbiqi8at8um.jpg')] bg-cover bg-center flex flex-col justify-between h-screen lg:py-0">
           <nav className="flex flex-row items-center justify-between px-10 h-20 bg-transparent">
             <img

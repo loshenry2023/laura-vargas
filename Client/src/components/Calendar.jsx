@@ -84,7 +84,7 @@ const Calendar = ({setDateInfo, services, users, branches, refrescarCita, setRef
     }
     };
   
-
+    
   useEffect(() => {
     dispatch(getCalendar(branch, dateFrom, dateTo, { token: token })).then(
       setLoading(false)
@@ -344,8 +344,8 @@ const Calendar = ({setDateInfo, services, users, branches, refrescarCita, setRef
                     <div className="flex flex-row justify-between">
                       <h5 className="text-md font-medium tracking-wide dark:text-darkText underline underline-offset-2">
                         {" "}
-                        {cita.date_from.slice(12, 17)} -{" "}
-                        {cita.date_to.slice(12, 17)}{" "}
+                        {cita.date_from.split(" ")[1].slice(0,5)} -  {cita.date_to.split(" ")[1].slice(0,5)}
+                        
                         <span>
                           {" "}
                           - {cita.Client.name} {cita.Client.lastName}
