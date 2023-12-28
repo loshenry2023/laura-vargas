@@ -355,13 +355,11 @@ export const createProduct = (newProductData) => {
 
     try {
       const state = getState();
-      // Puedes ajustar cómo accedes a los productos según la estructura real de tu estado
 
       const response = await axios.post(
         API_URL_BASE + "/products",
         newProductData
       );
-
       dispatch(createProductSuccess(response.data));
     } catch (error) {
       dispatch(createProductFailure(error.message));
