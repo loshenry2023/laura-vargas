@@ -12,8 +12,8 @@ VITE_TERMS_AND_PRIVACY=/terms-and-privacy
 VITE_API_URL_BASE=https://laura-vargas.vercel.app/laura-vargas
 VITE_DATE_DETAIL=/dateDetail/:id
 
-VITE_APP_CLOUD_NAME=doqyrz0sg
-VITE_APP_UPLOAD_PRESET=gcx7ffyb
+VITE_APP_CLOUD_NAME=doyafxwje
+VITE_APP_UPLOAD_PRESET=ml_default
 VITE_APP_FIREBASE_API_KEY=AIzaSyAgacLbFO0UUII7SX_COA6tTgDCJh5MyIU
 VITE_APP_FIREBASE_AUTH_DOMAIN=laura-vargas-7f3ad.firebaseapp.com
 VITE_APP_FIREBASE_PROJECT_ID=laura-vargas-7f3ad

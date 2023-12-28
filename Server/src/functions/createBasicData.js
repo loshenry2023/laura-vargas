@@ -3,6 +3,7 @@
 // ! - 6 métodos de pago,
 // ! - 5 especialidades,
 // ! - 5 categorías de gastos,
+// ! - 18 procedimientos,
 // ! - 1 usuario superAdmin.
 // ! - 1 usuario admin (ELIMINAR AL ENTREGAR).
 // ! - 1 usuario especialista (ELIMINAR AL ENTREGAR).
@@ -84,7 +85,7 @@ async function createBasicData() {
       let serviceList;
       let spec;
       // Parte 1:
-      serviceList = ["Micropigmentación", "Diseño y Depilación", "Diseño Depilación y henna", "Henna", "Laminado", "Retoque Micropigmentación", "Depilacion en las cejas"];
+      serviceList = ["Micropigmentación cejas", "Diseño y Depilación", "Diseño Depilación y henna", "Henna", "Laminado", "Retoque Micropigmentación cejas", "Depilacion en las cejas"];
       for (let i = 0; i < serviceList.length; i++) {
         const [serviceCreated1, created] = await Service.findOrCreate({
           where: {
@@ -116,7 +117,7 @@ async function createBasicData() {
         serviceCreated1.addSpecialty(spec)
       }
       // Parte 3:
-      serviceList = ["Micropigmentación", "Retoque Micropigmentación", "Depilación del bozo o bigote"];
+      serviceList = ["Micropigmentación labios", "Retoque Micropigmentación labios", "Depilación del bozo o bigote"];
       for (let i = 0; i < serviceList.length; i++) {
         const [serviceCreated1, created] = await Service.findOrCreate({
           where: {
