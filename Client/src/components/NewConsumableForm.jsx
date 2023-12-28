@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { createProduct, getBranches } from "../redux/actions";
 import { IoClose } from "react-icons/io5";
+import axios from "axios";
 import newConsumableValidation from "../functions/newConsumableValidation";
+import getParamsEnv from "../functions/getParamsEnv";
+const { API_URL_BASE } = getParamsEnv();
+import { toast } from "react-hot-toast";
 
 function NewConsumableForm({ onAddConsumable, onCancel }) {
   const dispatch = useDispatch();
@@ -34,8 +37,8 @@ function NewConsumableForm({ onAddConsumable, onCancel }) {
   useEffect(() => {
     if (user && user.branches && user.branches.length > 0) {
       const defaultBranchId = user.branches[0].id;
-      setSelectedBranch(defaultBranchId); // Actualiza selectedBranch
-      updateNewConsumable("branchId", defaultBranchId); // Actualiza branchId en newConsumable
+      setSelectedBranch(defaultBranchId);
+      updateNewConsumable("branchId", defaultBranchId);
     }
   }, [user]);
 
@@ -56,12 +59,20 @@ function NewConsumableForm({ onAddConsumable, onCancel }) {
       }
 
       try {
-        await dispatch(createProduct(newConsumable)); // Envía los datos del nuevo producto a la acción
-        setSubmissionStatus("success");
-        console.log(newConsumable);
-        navigate("/consumables");
+        const response = await axios.post(
+          API_URL_BASE + "/products",
+          newConsumable
+        );
+        console.log("response", response);
+        if (response.statusText === "Created") {
+          toast.success("Consumable creado con exito");
+          setSubmissionStatus("success");
+          navigate("/consumables");
+        } else {
+          setSubmissionStatus("error");
+        }
       } catch (error) {
-        console.error("Error al crear el producto", error);
+        window.alert(`codigo de producto en uso: ${newConsumable.productCode}`);
         setSubmissionStatus("error");
       }
     }

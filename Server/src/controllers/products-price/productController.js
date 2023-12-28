@@ -16,7 +16,6 @@ const getAllProductsWithLatestPrice = async (
   productCode = ""
 ) => {
   try {
-    showLog(`getAllProductsWithLatestPrice`);
     const { count, rows } = await Product.findAndCountAll({
       include: [
         {
@@ -142,17 +141,18 @@ async function createProduct(req, res) {
     const existingProduct = await Product.findOne({ where: { productCode } });
 
     if (existingProduct) {
-      return res.status(400).json({ error: "Product code already exists" });
+      return res.status(400).json({ error: "productCode already exists" });
     }
 
     const requiredFields = ["productName", "description", "supplier", "amount"];
 
     const missingFields = requiredFields.filter((field) => !productData[field]);
 
-    if (!branchId || !price || missingFields.length > 0) {
+    if (!branchId || !price || !productCode || missingFields.length > 0) {
       const missing = [];
       if (!branchId) missing.push("branchId");
       if (!price) missing.push("price");
+      if (!productCode) missing.push("productCode");
       missing.push(...missingFields);
 
       return res.status(400).json({
