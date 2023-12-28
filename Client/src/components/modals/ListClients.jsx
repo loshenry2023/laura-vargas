@@ -8,12 +8,14 @@ import { IoPersonAddOutline } from "react-icons/io5";
 import { IoClose } from 'react-icons/io5';
 import ClientFilters from "../ClientFilters";
 import ClientsTable from "../ClientsTable";
+import Pagination from "../Pagination";
 
 
 const ListClients = ({setShowClientListModal, setChosenClient}) => {
 
   const token = useSelector((state) => state?.token);
   const clients = useSelector((state) => state?.clients);
+  const count = useSelector((state) => state?.countClient);
   const dispatch = useDispatch();
 
   const [nameOrLastName, setNameOrLastName] = useState("");
@@ -73,6 +75,7 @@ const ListClients = ({setShowClientListModal, setChosenClient}) => {
           <div>
             <ClientsTable setChosenClient={setChosenClient} setShowClientListModal={setShowClientListModal} clients={clients} />
           </div>
+        <Pagination page={page} setPage={setPage} size={size} setSize={setSize} count={count}/>
         </div>
         {showClientFormModal ?
         <CreateClient 

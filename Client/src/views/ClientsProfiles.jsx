@@ -10,13 +10,14 @@ import ClientsTable from "../components/ClientsTable";
 import { IoPersonAddOutline } from "react-icons/io5";
 import CreateClient from '../components/modals/CreateClient';
 import ClientFilters from "../components/ClientFilters";
+import Pagination from "../components/Pagination";
 
 const ClientsProfiles = () => {
 
   const [loading, setLoading] = useState(true);
   const token = useSelector((state) => state?.token);
   const clients = useSelector((state) => state?.clients);
-  const countClient = useSelector((state) => state?.countClient);
+  const count = useSelector((state) => state?.countClient);
   const dispatch = useDispatch();
 
   const [nameOrLastName, setNameOrLastName] = useState("");
@@ -34,8 +35,6 @@ const ClientsProfiles = () => {
   const handleClientFormModal = () => {
     setShowClientCreateModal(true);
   };
-
-  const pagination = Math.ceil(countClient / size);
 
   useEffect(() => {
     dispatch(
@@ -80,58 +79,7 @@ const ClientsProfiles = () => {
           </div>
           <ClientFilters setNameOrLastName={setNameOrLastName} nameOrLastName={nameOrLastName}  setAttribute={setAttribute}  setOrder={setOrder}  setPage={setPage}  setSize={setSize}/>
           <ClientsTable clients={clients} />
-          <section className="flex flex-col items-center gap-5">
-            <select
-                name=""
-                id=""
-                defaultValue={10}
-                onChange={(e) => {
-                  setSize(e.target.value);
-                  setPage(0);
-                }}
-                className="shadow shadow-black rounded-md dark:text-darkText dark:bg-darkPrimary"
-              >
-                {" "}
-                <option value={1}>1</option>
-                <option value={2}>2</option>
-                <option value={3}>3</option>
-                <option value={4}>4</option>
-                <option value={5}>5</option>
-                <option value={6}>6</option>
-                <option value={7}>7</option>
-                <option value={8}>8</option>
-                <option value={9}>9</option>
-                <option value={10}>10</option>
-              </select>
-                <div>
-                <button
-                  onClick={
-                    page
-                      ? () => {
-                        setPage(page - 1);
-                      }
-                      : null
-                  }
-                  className="dark:text-darkText"
-                >
-                  {" "}
-                  {"<"}
-                </button>
-                <span className="dark:text-darkText"> {page + 1} de {pagination} </span>
-                <button
-                  onClick={
-                    page < pagination - 1
-                      ? () => {
-                        setPage(page + 1);
-                      }
-                      : null
-                  }
-                  className="dark:text-darkText"
-                >
-                  {">"}
-                </button>
-                </div>
-            </section>
+          <Pagination page={page} setPage={setPage} size={size} setSize={setSize} count={count}/>
         </div>
           )}
         </div>
