@@ -17,8 +17,8 @@ export default function getParamsEnv() {
   const DATEDETAILBASE = import.meta.env.VITE_DATE_DETAIL_BASE || "/dateDetail"
 
 
-  const CLOUD_NAME = import.meta.env.VITE_APP_CLOUD_NAME || "doqyrz0sg";
-  const UPLOAD_PRESET = import.meta.env.VITE_APP_UPLOAD_PRESET || "gcx7ffyb";
+  const CLOUD_NAME = import.meta.env.VITE_APP_CLOUD_NAME || "doyafxwje"; //estaba antes: doqyrz0sg
+  const UPLOAD_PRESET = import.meta.env.VITE_APP_UPLOAD_PRESET || "ml_default" // estaba antes: "gcx7ffyb";
 
   const FIREBASE_API_KEY = import.meta.env.VITE_APP_FIREBASE_API_KEY || "AIzaSyAgacLbFO0UUII7SX_COA6tTgDCJh5MyIU";
   const FIREBASE_AUTH_DOMAIN =
