@@ -58,9 +58,6 @@ const Agenda = () => {
 
   const [isFormCompleted, setIsFormCompleted] = useState(false);
 
-  const handleClientFormModal = () => {
-    setShowClientFormModal(true);
-  };
 
   const handleAppointmentModal = () => {
     setShowAppointmentModal(true);
@@ -106,6 +103,7 @@ const Agenda = () => {
       const parsedValue = JSON.parse(value);
 
       setSpecialty(parsedValue.Specialties[0].specialtyName);
+     
 
       setDateInfo((prevInfo) => ({
         ...prevInfo,
