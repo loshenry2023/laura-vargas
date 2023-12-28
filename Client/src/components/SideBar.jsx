@@ -8,8 +8,9 @@ import { HiMiniUserGroup } from "react-icons/hi2";
 import { GiFingernail } from "react-icons/gi";
 import { ImProfile } from "react-icons/im";
 import { Link } from "react-router-dom";
+import { TfiMenu } from "react-icons/tfi";
 
-// Variables de entorno
+//Variables de entorno
 import getParamsEnv from "../functions/getParamsEnv.js";
 const { AGENDA, USERPROFILES, CLIENTDETAIL, CLIENTSPROFILES } = getParamsEnv();
 
@@ -112,6 +113,15 @@ const SideBar = () => {
           Estadísticas
         </span>
       </a>
+      <Link to="/consumables" onClick={() => handleIconClick("Consumables")}>
+        <TfiMenu
+          className={`w-6 h-6  dark:text-beige ${
+            selectedIcon === "profile"
+              ? "text-black"
+              : "text-black hover:text-beige"
+          }`}
+        />
+      </Link>
     </div>
   );
 };
