@@ -10,6 +10,7 @@
 // ! - 1 cliente (ELIMINAR AL ENTREGAR).
 // ! - 1 evento de calendario (ELIMINAR AL ENTREGAR).
 // ! - 1 historial de atención (ELIMINAR AL ENTREGAR).
+// ! - 10 productos en stock .
 const {
   User,
   Branch,
@@ -22,7 +23,6 @@ const {
   Client,
   Incoming,
   Product,
-  PriceHistory,
 } = require("../DB_connection");
 const showLog = require("../functions/showLog");
 const { FIRST_SUPERADMIN } = require("../functions/paramsEnv");
@@ -335,132 +335,131 @@ async function createBasicData() {
       });
       // Relación: asocio el historial de servicio con el cliente:
       await client.addHistoryService(historCreated);
-      showLog(`... received log created. Basic data created`);
+      showLog(`... received log created.`);
       //showLog(`Basic data created`);
-    }
-    const productList = [
-      {
-        productCode: "1",
-        productName: "Aplicadores",
-        description: "Aplicadores",
-        supplier: "FUCSIA INSUMOS",
-        amount: 8,
-      },
-      {
-        productCode: "2",
-        productName: "Volumen Egipcio",
-        description: "Pestañas Nagaraku W 8mm 0.07D",
-        supplier: "FUCSIA INSUMOS",
-        amount: 1,
-      },
-      {
-        productCode: "3",
-        productName: "Volumen Egipcio",
-        description: "Pestañas Beauty Plus W 10mm 0.07D",
-        supplier: "FUCSIA INSUMOS",
-        amount: 1,
-      },
-      {
-        productCode: "4",
-        productName: "Volumen Egipcio",
-        description: "Pestañas Beauty Plus W 11mm 0.07D",
-        supplier: "FUCSIA INSUMOS",
-        amount: 1,
-      },
-      {
-        productCode: "5",
-        productName: "Volumen Egipcio",
-        description: "Pestañas Beauty Plus W 12mm 0.07D",
-        supplier: "FUCSIA INSUMOS",
-        amount: 1,
-      },
-      {
-        productCode: "6",
-        productName: "Volumen Egipcio",
-        description: "Pestañas Beauty Plus W 13mm 0.07D",
-        supplier: "FUCSIA INSUMOS",
-        amount: 1,
-      },
-      {
-        productCode: "7",
-        productName: "Volumen Egipcio",
-        description: "Pestañas Nagaraku W 9mm 0.07D",
-        supplier: "FUCSIA INSUMOS",
-        amount: 1,
-      },
-      {
-        productCode: "8",
-        productName: "Volumen Egipcio",
-        description: "Pestañas Nagaraku W 13MM 0.07D",
-        supplier: "FUCSIA INSUMOS",
-        amount: 2,
-      },
-      {
-        productCode: "9",
-        productName: "Volumen Egipcio",
-        description: "Pestañas Beauty PLUS W 14mm 0.07D",
-        supplier: "FUCSIA INSUMOS",
-        amount: 1,
-      },
-      {
-        productCode: "10",
-        productName: "Volumen Egipcio",
-        description: "Pestañas Nagaraku W 14mm 0.07d",
-        supplier: "FUCSIA INSUMOS",
-        amount: 2,
-      },
-    ];
 
-    let productosCreados = 0;
-
-    for (const productData of productList) {
-      const randomPrice = Math.floor(Math.random() * 100) + 1;
-      const [productCreated, created] = await Product.findOrCreate({
-        where: {
-          productCode: productData.productCode,
+      // TODO Creo un registro de atención en el histórico. SE DEBE ELIMINAR AL FINALIZAR EL DESARROLLO!!!!!:
+      const productList = [
+        {
+          productCode: "1",
+          productName: "Aplicadores",
+          description: "Aplicadores",
+          supplier: "FUCSIA INSUMOS",
+          amount: 8,
         },
-        defaults: {
-          productCode: productData.productCode,
-          productName: productData.productName,
-          description: productData.description,
-          supplier: productData.supplier,
-          amount: productData.amount,
+        {
+          productCode: "2",
+          productName: "Volumen Egipcio",
+          description: "Pestañas Nagaraku W 8mm 0.07D",
+          supplier: "FUCSIA INSUMOS",
+          amount: 1,
         },
-      });
+        {
+          productCode: "3",
+          productName: "Volumen Egipcio",
+          description: "Pestañas Beauty Plus W 10mm 0.07D",
+          supplier: "FUCSIA INSUMOS",
+          amount: 1,
+        },
+        {
+          productCode: "4",
+          productName: "Volumen Egipcio",
+          description: "Pestañas Beauty Plus W 11mm 0.07D",
+          supplier: "FUCSIA INSUMOS",
+          amount: 1,
+        },
+        {
+          productCode: "5",
+          productName: "Volumen Egipcio",
+          description: "Pestañas Beauty Plus W 12mm 0.07D",
+          supplier: "FUCSIA INSUMOS",
+          amount: 1,
+        },
+        {
+          productCode: "6",
+          productName: "Volumen Egipcio",
+          description: "Pestañas Beauty Plus W 13mm 0.07D",
+          supplier: "FUCSIA INSUMOS",
+          amount: 1,
+        },
+        {
+          productCode: "7",
+          productName: "Volumen Egipcio",
+          description: "Pestañas Nagaraku W 9mm 0.07D",
+          supplier: "FUCSIA INSUMOS",
+          amount: 1,
+        },
+        {
+          productCode: "8",
+          productName: "Volumen Egipcio",
+          description: "Pestañas Nagaraku W 13MM 0.07D",
+          supplier: "FUCSIA INSUMOS",
+          amount: 2,
+        },
+        {
+          productCode: "9",
+          productName: "Volumen Egipcio",
+          description: "Pestañas Beauty PLUS W 14mm 0.07D",
+          supplier: "FUCSIA INSUMOS",
+          amount: 1,
+        },
+        {
+          productCode: "10",
+          productName: "Volumen Egipcio",
+          description: "Pestañas Nagaraku W 14mm 0.07d",
+          supplier: "FUCSIA INSUMOS",
+          amount: 2,
+        },
+      ];
 
-      if (created) {
-        productosCreados++;
-        await productCreated.createPriceHistory({
-          price: randomPrice,
+      let productosCreados = 0;
+
+      for (const productData of productList) {
+        const randomPrice = Math.floor(Math.random() * 100) + 1;
+        const [productCreated, created] = await Product.findOrCreate({
+          where: {
+            productCode: productData.productCode,
+          },
+          defaults: {
+            productCode: productData.productCode,
+            productName: productData.productName,
+            description: productData.description,
+            supplier: productData.supplier,
+            amount: productData.amount,
+          },
         });
 
-        //villavicencio y restrepo van aleatorios porque no sabemos cual es
-        const randomNumber = Math.random();
-        let branchName;
+        if (created) {
+          productosCreados++;
+          await productCreated.createPriceHistory({
+            price: randomPrice,
+          });
 
-        if (randomNumber < 0.5) {
-          branchName = "Villavicencio";
+          //villavicencio y restrepo van aleatorios porque no sabemos cual es
+          const randomNumber = Math.random();
+          let branchName;
+
+          if (randomNumber < 0.5) {
+            branchName = "Villavicencio";
+          } else {
+            branchName = "Restrepo";
+          }
+
+          const branch = await Branch.findOne({
+            where: { branchName },
+          });
+
+          if (branch) {
+            await productCreated.setBranch(branch);
+          } else {
+            //showLog(`No se encontró la sucursal`);
+          }
         } else {
-          branchName = "Restrepo";
+          //showLog(`Producto con código ${productData.code} ya existe`);
         }
-
-        const branch = await Branch.findOne({
-          where: { branchName },
-        });
-
-        if (branch) {
-          await productCreated.setBranch(branch);
-        } else {
-          showLog(`No se encontró la sucursal`);
-        }
-      } else {
-        showLog(`Producto con código ${productData.code} ya existe`);
       }
+      showLog(`... ${productosCreados} products created. Basic data created.`);
     }
-
-    showLog(
-      `Total de productos creados: ${productosCreados}, de villavicencio y restrepo`
-    );
   } catch (error) {
     showLog(`Error creating basic data: ${error}`);
     throw Error("Error creando datos básicos: " + error);

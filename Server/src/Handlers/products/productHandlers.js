@@ -32,7 +32,7 @@ const getAllProductsHandler = async (req, res) => {
 
     return res.status(200).json(products);
   } catch (err) {
-    showLog(`Error al obtener datos de productos -> ${err.message}`);
+    showLog(`getAllProductsHandler - Error al obtener datos de productos -> ${err.message}`);
     return res.status(500).json({ message: err.message });
   }
 };
