@@ -10,12 +10,14 @@ import ClientsTable from "../components/ClientsTable";
 import { IoPersonAddOutline } from "react-icons/io5";
 import CreateClient from '../components/modals/CreateClient';
 import ClientFilters from "../components/ClientFilters";
+import Pagination from "../components/Pagination";
 
 const ClientsProfiles = () => {
 
   const [loading, setLoading] = useState(true);
   const token = useSelector((state) => state?.token);
   const clients = useSelector((state) => state?.clients);
+  const count = useSelector((state) => state?.countClient);
   const dispatch = useDispatch();
 
   const [nameOrLastName, setNameOrLastName] = useState("");
@@ -77,6 +79,7 @@ const ClientsProfiles = () => {
           </div>
           <ClientFilters setNameOrLastName={setNameOrLastName} nameOrLastName={nameOrLastName}  setAttribute={setAttribute}  setOrder={setOrder}  setPage={setPage}  setSize={setSize}/>
           <ClientsTable clients={clients} />
+          <Pagination page={page} setPage={setPage} size={size} setSize={setSize} count={count}/>
         </div>
           )}
         </div>
@@ -88,6 +91,7 @@ const ClientsProfiles = () => {
           />
         ) : null}
     </div>
+    
   );
 };
 
