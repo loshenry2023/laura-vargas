@@ -51,7 +51,7 @@ const rootReducer = (state = initialState, { type, payload, count, error, idDele
     case SET_WORKING_BRANCH:
       const setWorkingBranch = {
         ...state,
-        workingBranch: {...payload},
+        workingBranch: { ...payload },
       };
       localStorage.setItem('myAppReduxState', JSON.stringify(setWorkingBranch));
       return setWorkingBranch;
@@ -75,7 +75,7 @@ const rootReducer = (state = initialState, { type, payload, count, error, idDele
       localStorage.setItem('myAppReduxState', JSON.stringify(getUsersState));
       return getUsersState;
 
-     //! Trae el calendar 
+    //! Trae el calendar 
     case GET_CALENDAR:
       const getCalendar = {
         ...state,
@@ -176,7 +176,7 @@ const rootReducer = (state = initialState, { type, payload, count, error, idDele
       };
       localStorage.setItem('myAppReduxState', JSON.stringify(errorState));
       return errorState;
-      
+
     case SET_ICON:
       const setIconState = {
         ...state,

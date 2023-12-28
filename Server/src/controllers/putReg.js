@@ -41,7 +41,6 @@ const putReg = async (tableName, tableNameText, data, id, conn = "", tableName2 
 
 async function editRegCalendar(Calendar, data, id, conn, User, Service, Client, Branch) {
     const { idUser, idService, idClient, idBranch, date_from, date_to, obs, current } = data;
-    console.log(data, "dataaa")
     let transaction; // manejo transacciones para evitar registros defectuosos por relaciones mal solicitadas
     try {
         if (!idUser || !idService || !idClient || !idBranch || !date_from || !date_to || !obs || current === null) {

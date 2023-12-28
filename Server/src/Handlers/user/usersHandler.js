@@ -17,7 +17,9 @@ const usersHandler = async (req, res) => {
       createDateStart,
     } = req.query;
     const { token } = req.body;
+
     showLog(`usersHandler - Handler`);
+
     // Verifico token:
     if (!token) { throw Error("Se requiere token"); }
     const checked = await checkToken(token);

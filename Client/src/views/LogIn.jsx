@@ -78,7 +78,8 @@ const LogIn = () => {
       const { role, branches } = userData;
       setBranches(branches);
       setRole(role);
-      dispatch(getToken(accessToken));
+      dispatch(getToken(idToken));
+
     } catch (error) {
       if (error.code === "auth/popup-closed-by-user") {
         // La primera vez que se carga un usuario, la ventana se cierra sin devolver el resultado,

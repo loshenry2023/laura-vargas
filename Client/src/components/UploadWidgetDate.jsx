@@ -12,15 +12,17 @@ export const UploadWidgetDate = ({ setPhoto, setPhotoLoaded }) => {
       {
         cloudName: CLOUD_NAME,
         uploadPreset: UPLOAD_PRESET,
+        sources: ["local"], // sources: [ "local", "url"], // restrict the upload sources to URL and local files
+        multiple: false,  //restrict upload to a single file
       },
       function (error, result) {
         if (!error && result && result.event === "success") {
           const imageUrl = result.info.secure_url;
-          console.log(imageUrl)
+          //console.log(imageUrl)
           setPhoto(imageUrl);
           setPhotoLoaded(true)
         } else {
-          console.error("Error al cargar la imagen:", error);
+          //console.error("Error al cargar la imagen:", error);
         }
       }
     );

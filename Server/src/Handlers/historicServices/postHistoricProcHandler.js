@@ -4,7 +4,6 @@ const showLog = require("../../functions/showLog");
 const checkToken = require('../../functions/checkToken');
 
 const postHistoricProcHandler = async (req, res) => {
-  console.log(req.body)
   try {
     const { token } = req.body;
     showLog(`postHistoricProcHandler`);

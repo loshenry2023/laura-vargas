@@ -3,12 +3,11 @@ const { MUST_LOG } = require('../functions/paramsEnv');
 const fs = require('fs');
 
 const showLog = (text) => {
+    console.log(text);
     if (parseInt(MUST_LOG) === 1) {
         fs.appendFile("log.txt", new Date().toLocaleString() + ": " + text + '\n', (err) => {
             if (err) {
-                console.log("(no se guardó log) ", text);
-            } else {
-                console.log(text);
+                console.log("(no se guardó log)");
             }
         });
     }

@@ -36,7 +36,6 @@ export const setBranch = (branch) => {
 };
 
 export const getBranches = (token) => {
-  console.log(token)
   return async function (dispatch) {
     try {
       const response = await axios.post(
@@ -153,18 +152,20 @@ export const getUsers = (
   token
 ) => {
 
-  
+
   const endPoint = API_URL_BASE + "/users?";
   return async function (dispatch) {
     try {
+
       const { data } = await axios.post(
+
+
         `${endPoint}nameOrLastName=${nameOrLastName}&attribute=${attribute}&order=${order}&page=${page}&size=${size}&branch=${branch}&specialty=${specialty}&role=${role}&createDateEnd=${createDateEnd}&createDateStart=${createDateStart}`, token
       );
 
-      console.log
       const modifiedData = data.rows.map((user) => {
         const { createdAt, ...rest } = user;
-        const createdAtInBogotaTimezone =converterGMT(createdAt);
+        const createdAtInBogotaTimezone = converterGMT(createdAt);
         return { ...rest, createdAt: createdAtInBogotaTimezone };
       });
 

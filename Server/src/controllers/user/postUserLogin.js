@@ -28,6 +28,7 @@ const postUserLogin = async (req, res) => {
         }
         // Actualizo el token:
         existingUser.token = idUser;
+
         await existingUser.save();
         // Obtengo las sedes relacionadas:
         const userBranches = existingUser.Branches.map(branch => ({ id: branch.id, branchName: branch.branchName }));

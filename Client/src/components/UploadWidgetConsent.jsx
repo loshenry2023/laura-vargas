@@ -12,16 +12,19 @@ export const UploadWidgetConsent = ({ setConsent, setConsentLoaded, setConsentUr
       {
         cloudName: CLOUD_NAME,
         uploadPreset: UPLOAD_PRESET,
+        sources: ["local"], // sources: [ "local", "url"], // restrict the upload sources to URL and local files
+        multiple: false,  //restrict upload to a single file
+        clientAllowedFormats: ["pdf"], //restrict uploading to image files only
       },
       function (error, result) {
         if (!error && result && result.event === "success") {
           const imageUrl = result.info.secure_url;
-          console.log(imageUrl)
+          //console.log(imageUrl)
           setConsent("https://cdn4.iconfinder.com/data/icons/file-extensions-1/64/pdfs-512.png");
           setConsentLoaded(true)
           setConsentUrl(imageUrl)
         } else {
-          console.error("Error al cargar la imagen:", error);
+          //console.error("Error al cargar la imagen:", error);
         }
       }
     );
