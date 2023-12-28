@@ -135,7 +135,14 @@ async function getProductPricesHistory(req, res) {
 }
 async function createProduct(req, res) {
   try {
-    const { price, branchId, ...productData } = req.body;
+    const { price, branchId, productCode, ...productData } = req.body;
+
+    // Verificar si el código de producto ya existe en la base de datos
+    const existingProduct = await Product.findOne({ where: { productCode } });
+
+    if (existingProduct) {
+      return res.status(400).json({ error: "Product code already exists" });
+    }
 
     const requiredFields = ["productName", "description", "supplier", "amount"];
 
@@ -157,7 +164,7 @@ async function createProduct(req, res) {
       return res.status(404).json({ error: "Branch not found" });
     }
 
-    const newProduct = await Product.create(productData);
+    const newProduct = await Product.create({ productCode, ...productData });
     const productPrice = await newProduct.createPriceHistory({ price });
     await newProduct.setBranch(productBranch);
 
