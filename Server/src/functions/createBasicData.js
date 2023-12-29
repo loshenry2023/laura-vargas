@@ -308,7 +308,7 @@ async function createBasicData() {
       const historCreated = await HistoryService.create({
         imageServiceDone:
           "https://res.cloudinary.com/ddlwjsfml/image/upload/w_1000,ar_1:1,c_fill,g_auto,e_art:hokusai/v1702984759/cejas_nype4m.jpg",
-        date: "2024-01-25 11:37:00",
+        date: "2023-12-25 11:37:00",
         conformity:
           "https://res.cloudinary.com/doyafxwje/image/upload/v1702994690/xf8a45ywxyl7tk8t0gj9.pdf",
         branchName: "Restrepo",
@@ -324,20 +324,18 @@ async function createBasicData() {
       await Incoming.create({
         amount: "50000",
         paymentMethodName: "DaviPlata",
-        DateIncoming: "2024-01-25 11:37:00",
+        DateIncoming: "2023-12-25 11:37:00",
         HistoryServiceId: historCreated.id,
       });
       await Incoming.create({
         amount: "25000",
         paymentMethodName: "efectivo",
-        DateIncoming: "2024-01-25 11:37:00",
+        DateIncoming: "2023-12-25 11:37:00",
         HistoryServiceId: historCreated.id,
       });
       // Relación: asocio el historial de servicio con el cliente:
       await client.addHistoryService(historCreated);
       showLog(`... received log created.`);
-      //showLog(`Basic data created`);
-
       // TODO Creo un registro de atención en el histórico. SE DEBE ELIMINAR AL FINALIZAR EL DESARROLLO!!!!!:
       const productList = [
         {

@@ -13,10 +13,10 @@ const putCalendarHandler = async (req, res) => {
     if (!token) { throw Error("Se requiere token"); }
     const checked = await checkToken(token);
     if (!checked.exist || checked.role !== "superAdmin") {
-      showLog(`Wrong token.`);
+      showLog(checked.role !== "superAdmin" ? `Wrong role.` : `Wrong token.`);
       return res.status(401).send(`Sin permiso.`);
     }
-    
+
     if (!id) { throw Error("Faltan datos"); }
     const resp = await putReg(Calendar, "Calendar", req.body, id, conn, User, Service, Client, Branch);
     if (resp.created === 'ok') {

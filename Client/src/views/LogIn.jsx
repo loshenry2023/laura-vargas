@@ -79,6 +79,9 @@ const LogIn = () => {
       const { role, branches } = userData;
       setBranches(branches);
       setRole(role);
+
+
+      console.log("TKEn ", idToken);
       dispatch(getToken(idToken));
     } catch (error) {
       console.log("Error ", error);
