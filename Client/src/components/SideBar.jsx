@@ -12,7 +12,7 @@ import { TfiMenu } from "react-icons/tfi";
 
 //Variables de entorno
 import getParamsEnv from "../functions/getParamsEnv.js";
-const { AGENDA, USERPROFILES, CLIENTDETAIL, CLIENTSPROFILES } = getParamsEnv();
+const { CONSUMABLES, AGENDA, USERPROFILES, CLIENTDETAIL, CLIENTSPROFILES } = getParamsEnv();
 
 const SideBar = () => {
   const dispatch = useDispatch();
@@ -31,11 +31,10 @@ const SideBar = () => {
       <hr className="w-14 h-[1px] bg-beige border-0" />
       <Link to={USERPROFILES} className="group">
         <ImProfile
-          className={`w-6 h-6 dark:text-beige ${
-            selectedIcon === "profile"
-              ? "text-black"
-              : "text-black group-hover:text-beige"
-          }`}
+          className={`w-6 h-6 dark:text-beige ${selectedIcon === "profile"
+            ? "text-black"
+            : "text-black group-hover:text-beige"
+            }`}
         />
         <span className="tooltip absolute bg-secondaryPink text-black rounded p-2 opacity-0 group-hover:opacity-100 transition-opacity ml-[50px] mt-[-30px]">
           Plantilla
@@ -43,11 +42,10 @@ const SideBar = () => {
       </Link>
       <Link to={AGENDA} className="group">
         <FaCalendar
-          className={`w-6 h-6 dark:text-beige ${
-            selectedIcon === "calendar"
-              ? "text-black"
-              : "text-black group-hover:text-beige"
-          }`}
+          className={`w-6 h-6 dark:text-beige ${selectedIcon === "calendar"
+            ? "text-black"
+            : "text-black group-hover:text-beige"
+            }`}
         />
         <span className="tooltip absolute bg-secondaryPink text-black rounded p-2 opacity-0 group-hover:opacity-100 transition-opacity ml-[50px] mt-[-30px]">
           Agenda
@@ -55,11 +53,10 @@ const SideBar = () => {
       </Link>
       <Link to={CLIENTSPROFILES} className="group">
         <HiMiniUserGroup
-          className={`w-6 h-6 dark:text-beige ${
-            selectedIcon === "userGroup"
-              ? "text-black"
-              : "text-black group-hover:text-beige"
-          }`}
+          className={`w-6 h-6 dark:text-beige ${selectedIcon === "userGroup"
+            ? "text-black"
+            : "text-black group-hover:text-beige"
+            }`}
         />
         <span className="tooltip absolute bg-secondaryPink text-black rounded p-2 opacity-0 group-hover:opacity-100 transition-opacity ml-[50px] mt-[-30px]">
           Clientes
@@ -71,11 +68,10 @@ const SideBar = () => {
         className="group"
       >
         <FaLocationPin
-          className={`w-6 h-6 dark:text-beige ${
-            selectedIcon === "location"
-              ? "text-black"
-              : "text-black group-hover:text-beige"
-          }`}
+          className={`w-6 h-6 dark:text-beige ${selectedIcon === "location"
+            ? "text-black"
+            : "text-black group-hover:text-beige"
+            }`}
         />
         <span className="tooltip absolute bg-secondaryPink text-black rounded p-2 opacity-0 group-hover:opacity-100 transition-opacity ml-[50px] mt-[-30px]">
           Ubicacion
@@ -87,11 +83,10 @@ const SideBar = () => {
         className="group"
       >
         <GiFingernail
-          className={`w-6 h-6 dark:text-beige ${
-            selectedIcon === "fingernail"
-              ? "text-black"
-              : "text-black group-hover:text-beige"
-          }`}
+          className={`w-6 h-6 dark:text-beige ${selectedIcon === "fingernail"
+            ? "text-black"
+            : "text-black group-hover:text-beige"
+            }`}
         />
         <span className="tooltip absolute bg-secondaryPink text-black rounded p-2 opacity-0 group-hover:opacity-100 transition-opacity ml-[50px] mt-[-30px]">
           Servicios
@@ -103,26 +98,27 @@ const SideBar = () => {
         className="group"
       >
         <IoMdAnalytics
-          className={`w-6 h-6 dark:text-beige ${
-            selectedIcon === "analytics"
-              ? "text-black"
-              : "text-black group-hover:text-beige"
-          }`}
+          className={`w-6 h-6 dark:text-beige ${selectedIcon === "analytics"
+            ? "text-black"
+            : "text-black group-hover:text-beige"
+            }`}
         />
         <span className="tooltip absolute bg-secondaryPink text-black rounded p-2 opacity-0 group-hover:opacity-100 transition-opacity ml-[50px] mt-[-30px]">
           Estadísticas
         </span>
       </a>
-      <Link to="/consumables" onClick={() => handleIconClick("Consumables")}>
+      <Link to={CONSUMABLES} className="group">
         <TfiMenu
-          className={`w-6 h-6  dark:text-beige ${
-            selectedIcon === "profile"
-              ? "text-black"
-              : "text-black hover:text-beige"
-          }`}
+          className={`w-6 h-6  dark:text-beige ${selectedIcon === "profile"
+            ? "text-black"
+            : "text-black hover:text-beige"
+            }`}
         />
+        <span className="tooltip absolute bg-secondaryPink text-black rounded p-2 opacity-0 group-hover:opacity-100 transition-opacity ml-[50px] mt-[-30px]">
+          Insumos
+        </span>
       </Link>
-    </div>
+    </div >
   );
 };
 
