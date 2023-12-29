@@ -50,9 +50,9 @@ const Agenda = () => {
       serviceName: ""
     },
     specialist: {
-      id: "81240198-f3ee-4932-a63b-cceb65579420",
-      name: "Ramiro",
-      lastName: "Alet"
+      id: "",
+      name: "",
+      lastName: ""
     },
     dateTime: "",
   });
