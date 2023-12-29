@@ -19,6 +19,7 @@ const Agenda = () => {
   const workingBranch = useSelector((state) => state?.workingBranch);
   const services = useSelector((state) => state?.services);
   const users = useSelector((state) => state?.users);
+  const user = useSelector((state) => state?.user);
   const [nameOrLastName, setNameOrLastName] = useState("");
   const [attribute, setAttribute] = useState("name");
   const [order, setOrder] = useState("asc");
@@ -166,8 +167,9 @@ const Agenda = () => {
       <div className="flex flex-row dark:bg-darkBackground">
         <SideBar />
         {loading ? <Loader /> : (
-          <div className="w-full flex flex-col m-10 justify-evenly items-center 2xl:h-[calc(100vh-220px)]">
-            <h1 className='items-start text-2xl underline underline-offset-4 tracking-wide font-fontTitle dark:text-beige sm:text-left'>Agenda</h1>
+          <div className={user.role !== "especialista" ? "w-full flex flex-col m-10 justify-evenly items-center 2xl:h-[calc(100vh-220px)]" : "w-full flex flex-col m-10 items-center 2xl:h-[calc(100vh-220px)]"}>
+            <h1 className={user.role !== "especialista" ? 'items-start text-2xl underline underline-offset-4 tracking-wide font-fontTitle dark:text-beige sm:text-left' : "items-start text-2xl underline underline-offset-4 mb-10 tracking-wide font-fontTitle dark:text-beige sm:text-left"} >Agenda</h1>
+            {user.role === "especialista" ? null : 
             <section className='flex flex-col flex-wrap items-center justify-center gap-5 mb-10 md:flex-row'>
               <div className='mt-5 flex flex-row gap-5 sm:mt-0'>
                 <FaPlusCircle className='mt-1.5 cursor-pointer dark:text-darkText' onClick={() => setShowClientListModal(true)} />
@@ -208,17 +210,19 @@ const Agenda = () => {
                   )
                 ))}
               </select>
-            </section>
+            </section>}
             <Calendar
               setDateInfo={setDateInfo}
               branches={branches}
               services={services}
               users={users}
+              user={user}
               refrescarCita={refrescarCita}
               setRefrescarCita={setRefrescarCita}
               chosenClient={chosenClient}
             />
             <div>
+            {user.role === "especialista" ? null :
               <button
                 onClick={handleAppointmentModal}
                 disabled={!isFormCompleted}
@@ -228,7 +232,7 @@ const Agenda = () => {
                   }`}
               >
                 Agregar Cita
-              </button>
+              </button>}
             </div>
           </div>
         )}

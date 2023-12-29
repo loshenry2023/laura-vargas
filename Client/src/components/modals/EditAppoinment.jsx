@@ -3,30 +3,36 @@ import { IoClose } from 'react-icons/io5';
 import { Toaster, toast } from 'react-hot-toast';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
+
 import getParamsEnv from '../../functions/getParamsEnv';
+
 import validateEditAppointment from '../../functions/editAppointmentValidations';
 
 const { API_URL_BASE } = getParamsEnv();
 
 const EditAppointment = ({ setShowEditAppointment, token, date, services, users, setRefrescarCita, refrescarCita, chosenClient }) => {
   const [validationErrors, setValidationErrors] = useState({});
-  const [formChanged, setFormChanged] = useState(false);
 
-  const userSpecialist = useSelector((state) => state?.user);
-  const allBranches = useSelector((state) => state?.branches);
-  const workingBranch = useSelector((state) => state?.workingBranch);
+  const userSpecialist = useSelector((state) => state?.user)
+  const workingBranch = useSelector((state) => state?.workingBranch)
   const startTime = new Date(date.date_from);
   const startHour = startTime.toLocaleTimeString("es-ES", { hour: "2-digit", minute: "2-digit" });
+
   const endTime = new Date(date.date_to);
   const endHour = endTime.toLocaleTimeString("es-ES", { hour: "2-digit", minute: "2-digit" });
+
   const [showAppointmentModal, setShowAppointmentModal] = useState(false);
+
   const onlyDate = date.date_from;
-  const dateObject = new Date(onlyDate);
-  const formattedDate = `${dateObject.getFullYear()}-${(dateObject.getMonth() + 1).toString().padStart(2, "0")}-${dateObject.getDate().toString().padStart(2, "0")}`;
-  const [dateTime, setDateTime] = useState(formattedDate);
+  const dateTime = onlyDate.slice(0, 10);
   const dispatch = useDispatch();
   const currentDate = new Date();
   const formattedCurrentDate = currentDate.toISOString();
+  const allBranches = useSelector((state) => state?.branches);
+
+  const filteredBranch = allBranches.find(branch => branch.branchName === workingBranch.branchName)
+  const address = filteredBranch.address
+  const phoneNumber = filteredBranch.phoneNumber
 
   const [AppointmentInfo, setAppointmentInfo] = useState({
     clientName: date.Client.name || "",
@@ -57,6 +63,7 @@ const EditAppointment = ({ setShowEditAppointment, token, date, services, users,
     const { name, value } = e.target;
     let error = "";
 
+    // Validate the specific field
     if (name === "date_from" || name === "date_to") {
       const data = {
         date_from: name === "date_from" ? value : AppointmentInfo.date_from,
@@ -70,8 +77,6 @@ const EditAppointment = ({ setShowEditAppointment, token, date, services, users,
       ...prevErrors,
       [name]: error,
     }));
-
-    setFormChanged(true);
 
     if (name === 'branch') {
       const parsedValue = JSON.parse(value);
@@ -103,10 +108,6 @@ const EditAppointment = ({ setShowEditAppointment, token, date, services, users,
           name: parsedValue.serviceName,
         }
       }));
-    } else if (name === 'date') {
-      const dateObject = new Date(value);
-      const formattedDate = `${dateObject.getFullYear()}-${(dateObject.getMonth() + 1).toString().padStart(2, "0")}-${dateObject.getDate().toString().padStart(2, "0")}`;
-      setDateTime(formattedDate);
     } else {
       setAppointmentInfo((prevInfo) => ({
         ...prevInfo,
@@ -115,25 +116,23 @@ const EditAppointment = ({ setShowEditAppointment, token, date, services, users,
     }
   };
 
-  const formatDateTime = (date, time) => {
+  function formatDateTime(date, time) {
     const dateObject = new Date(date);
     const formattedDate = `${dateObject.getFullYear()}-${(dateObject.getMonth() + 1)
       .toString()
       .padStart(2, "0")}-${dateObject.getDate().toString().padStart(2, "0")}`;
     const formattedDateTime = `${formattedDate} ${time}`;
     return formattedDateTime;
-  };
+  }
 
-  const filteredBranch = allBranches.find(branch => branch.branchName === AppointmentInfo.branch.name);
-  const address = filteredBranch.address;
-  const phoneNumber = filteredBranch.phoneNumber;
+  console.log(date)
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     const formattedDateFrom = formatDateTime(AppointmentInfo.date, AppointmentInfo.date_from);
     const formattedDateTo = formatDateTime(AppointmentInfo.date, AppointmentInfo.date_to);
-  
+
     const data = {
       date_from: formattedDateFrom,
       date_to: formattedDateTo,
@@ -146,56 +145,45 @@ const EditAppointment = ({ setShowEditAppointment, token, date, services, users,
       token: token
     };
 
-    const validateData = {
-      date_from: AppointmentInfo.date_from,
-      date_to: AppointmentInfo.date_to,
-      obs: AppointmentInfo.obs,
-      idBranch: AppointmentInfo.branch.id,
-      idUser: AppointmentInfo.specialist.id,
-      idService: AppointmentInfo.service.id,
-      idClient: date.Client.id,
-      current: true,
-      token: token
-    };
-  
-    // Utiliza la función de validación externa
-    const validationErrors = validateEditAppointment(validateData);
-  
-    if (Object.keys(validationErrors).length > 0) {
-      // Si hay errores de validación, actualiza el estado y muestra mensajes de error
-      setValidationErrors(validationErrors);
-      toast.error("Por favor, corrige los errores en el formulario antes de enviarlo.");
-      return;
-    }
-  
+
+  /*       const errors = validateEditAppointment(data);
+        console.log(errors)
+        if (Object.keys(errors).length > 0) {
+          setValidationErrors(errors);
+          return;
+        }
+      
+ */
     try {
       const response = await axios.put(`${API_URL_BASE}/calendar/${date.id}`, data);
-  
+
       const sendEmail = {
         origin: userSpecialist.userName,
         target: date.Client.email,
         subject: "Laura Vargas - Modificación de Cita",
-        html: `<!-- Tu contenido HTML para el correo -->`,
+        html: `<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'> <html dir='ltr' xmlns='http://www.w3.org/1999/xhtml' xmlns:o='urn:schemas-microsoft-com:office:office'> <head> <meta charset='UTF-8'> <meta content='width=device-width, initial-scale=1' name='viewport'> <meta name='x-apple-disable-message-reformatting'> <meta http-equiv='X-UA-Compatible' content='IE=edge'> <meta content='telephone=no' name='format-detection'> <title></title>     <link href='https://fonts.googleapis.com/css?family=Roboto:400,400i,700,700i' rel='stylesheet'>  </head> <body> <div dir='ltr' class='es-wrapper-color' style='color:black'>  <table class='es-wrapper' width='100%' cellspacing='0' cellpadding='0'> <tbody> <tr> <td class='esd-email-paddings' valign='top'> <table cellpadding='0' cellspacing='0' class='es-header esd-footer-popover' align='center'> <tbody> <tr> <td class='esd-stripe' align='center' esd-custom-block-id='35507'> <table bgcolor='#ffffff' class='es-header-body' align='center' cellpadding='0' cellspacing='0' width='550' style='border-right:1px solid transparent;border-bottom:1px solid transparent;'> <tbody> <tr> <td class='esd-structure es-p20r es-p20l' align='left'> <table width='100%' cellspacing='0' cellpadding='0'> <tbody> <tr> <td class='esd-container-frame' width='509' valign='top' align='center'> <table width='100%' cellspacing='0' cellpadding='0'> <tbody> <tr> <td class='esd-block-image' align='center' style='font-size: 0px;'><a target='_blank' href='https://laura-vargas-dkpl.vercel.app/'><img src='https://res.cloudinary.com/doyafxwje/image/upload/v1703605216/Logos/LogoLauraVargas_zhiwgn.jpg' alt style='display: block;' class='adapt-img' width='140' height='110'></a></td> </tr> </tbody> </table> </td> </tr> </tbody> </table> </td> </tr> <tr> <td class='esd-structure es-p20r es-p20l' align='left'> <table cellpadding='0' cellspacing='0' width='100%'> <tbody> <tr> <td width='509' class='esd-container-frame' align='center' valign='top'> <table cellpadding='0' cellspacing='0' width='100%'> <tbody> <tr> <td align='left' class='esd-block-text'> <h1 style='text-align: left; font-size: 22px; line-height: 120%;'></h1> <h1 style='text-align: left; font-size: 22px; line-height: 120%;'>Hola, ${date.Client.name} ${date.Client.lastName}👋</h1> <h1 style='text-align: left; font-size: 16px; line-height: 120%;'></h1> <p style='text-align: left; font-size: 16px; line-height: 120%;'><strong>Tu cita ha sido modificada</strong><br>A continuacion te dejamos los detalles de tu nueva cita: </p> </td> </tr> </tbody> </table> </td> </tr> </tbody> </table> </td> </tr> <tr> <td class='esd-structure es-p20r es-p20l' align='left'> <table cellpadding='0' cellspacing='0' width='100%'> <tbody> <tr> <td width='509' class='esd-container-frame' align='center' valign='top'> <table cellpadding='0' cellspacing='0' width='100%'> <tbody> <tr> <td align='left' class='esd-block-text' style='font-size:18'> <p style='font-weight:bold; font-size:16px'>📅 Dia: <span style='font-weight:normal'> ${AppointmentInfo.date_from.slice(0, 10)} </span></p> <p style='font-weight:bold; font-size:16px'> 🕑 Horario: <span style='font-weight:normal'> ${AppointmentInfo.date_from.slice(15, 20)} </span></p> <p style='font-weight:bold; font-size:16px; color:black'>🏠 Dirección: <span style='font-weight:normal'> ${address} </span></p> <p style='font-weight:bold; font-size:16px'>💄 Servicio: <span style='font-weight:normal; color-black'> ${AppointmentInfo.service.name} </span></p> <p style='font-weight:bold; font-size:16px'>🙎‍♀️ Profesional: <span style='font-weight:normal'> ${date.User.name} ${date.User.lastName}</span></p> </td> </tr> </tbody> </table> </td> </tr> </tbody> </table> </td> </tr> <tr> <td class='esd-structure es-p20r es-p20l' align='left' > <table cellpadding='0' cellspacing='0' width='100%'> <tbody> <tr> <td width='509' class='esd-container-frame' align='center' valign='top'> <table cellpadding='0' cellspacing='0' width='100%'> <tbody> <tr> <td align='left' class='esd-block-text'> <p style='font-size: 16px; margin-bottom: 2px; color:black'>❗<em> Sólo se tolerarán 15 minutos de retraso. Pasado este tiempo el turno se da por cancelado</em></p> <p style='font-size: 16px; margin-bottom: 2px; color:black'> Gracias por confiar en nosotras!</p> <p style='font-size: 16px; margin-bottom: 40px;'> En caso de no poder concurrir, por favor cancelá la reserva llamando al  ${phoneNumber}.</p> </td> </tr> </tbody> </table> </td> </tr> </tbody> </table> </td> </tr> <tr> <td class='esd-structure es-p10b es-p10r es-p5l' align='left'> <table cellpadding='0' cellspacing='0' width='100%'> <tbody> <tr> <td width='534' class='esd-container-frame' align='center' valign='top'> <table cellpadding='0' cellspacing='0' width='100%'> <tbody> <tr> <td class='esd-block-social' align='right' style='font-size: 0px;'> <table class='es-table-not-adapt es-social' cellspacing='0' cellpadding='0' style='margin-top: 10px'> <tbody> <tr> <td class='es-p35r' valign='top' align='center'><a target='_blank' href='https://www.facebook.com/lauravargas.cp/'><img style='margin-right: 10px;' title='Facebook' src='https://ecyarqo.stripocdn.email/content/assets/img/social-icons/circle-colored/facebook-circle-colored.png' alt='Fb' width='32' height='32'></a></td> <td valign='top' align='center'><a target='_blank' href='https://www.instagram.com/lauravargas.cpmu/'><img title='Instagram' src='https://ecyarqo.stripocdn.email/content/assets/img/social-icons/circle-colored/instagram-circle-colored.png' alt='Inst' width='32' height='32'></a></td> </tr> </tbody> </table> </td> </tr> </tbody> </table> </td> </tr> </tbody> </table> </td> </tr> </tbody> </table> </td> </tr> </tbody> </table> </td> </tr> </tbody> </table> </div> </body> </html>`,
         token: token
-      };
-  
+      }
+
+
       if (response.data.updated === "ok") {
         toast.success("Cita actualizada exitosamente");
         setTimeout(() => {
           closeModal();
         }, 3000);
-  
-        await axios.post(`${API_URL_BASE}/sendmail`, sendEmail);
+
+        axios.post(`${API_URL_BASE}/sendmail`, sendEmail)
         setRefrescarCita(!refrescarCita);
       } else {
         toast.error("Hubo un problema al modificar la cita");
       }
     } catch (error) {
       const errorMessage = error.response ? error.response.data : 'An error occurred';
-      console.error(error);
       toast.error(`Hubo un problema al modificar la cita. ${errorMessage}`);
     }
   };
+
+
 
   return (
     <div>
@@ -209,128 +197,151 @@ const EditAppointment = ({ setShowEditAppointment, token, date, services, users,
             <form onSubmit={handleSubmit}>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-2">
                 <div>
-                  <label className='pl-1 text-sm text-gray-600 dark:text-gray-300'>Cliente</label>
+                  <label className='pl-1 text-sm font-bold dark:text-darkText'>Nombre de cliente</label>
                   <input
+                    placeholder="Nombre de cliente"
+                    className="border border-black p-2 rounded w-full bg-gray-200 dark:text-darkText dark:bg-darkPrimary"
+                    onChange={handleChange}
                     type="text"
                     name="clientName"
                     value={AppointmentInfo.clientName}
-                    onChange={handleChange}
-                    placeholder="Nombre"
-                    className="w-full mt-2 border rounded-md py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                    readOnly
+                    disabled
                   />
                 </div>
                 <div>
-                  <label className='pl-1 text-sm text-gray-600 dark:text-gray-300'>&nbsp;</label>
+                  <label className='pl-1 text-sm font-bold dark:text-darkText'>Apellido del cliente</label>
                   <input
+                    placeholder="Nombre de cliente"
+                    className="border border-black p-2 rounded w-full bg-gray-200 dark:text-darkText dark:bg-darkPrimary"
+                    onChange={handleChange}
                     type="text"
                     name="clientLastName"
                     value={AppointmentInfo.clientLastName}
-                    onChange={handleChange}
-                    placeholder="Apellido"
-                    className="w-full mt-2 border rounded-md py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                    readOnly
+                    disabled
                   />
                 </div>
               </div>
-              <div>
-                <label className='pl-1 text-sm text-gray-600 dark:text-gray-300'>Sucursal</label>
-                <select
-                  name="branch"
-                  value={JSON.stringify(AppointmentInfo.branch)}
-                  onChange={handleChange}
-                  className="w-full mt-2 border rounded-md py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                >
-                  {allBranches.map((branch, index) => (
-                    <option key={index} value={JSON.stringify(branch)}>
-                      {branch.branchName}
-                    </option>
-                  ))}
-                </select>
-              </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-2">
                 <div>
-                  <label className='pl-1 text-sm text-gray-600 dark:text-gray-300'>Servicio</label>
+                  <label className='pl-1 text-sm font-bold dark:text-darkText'>Sede</label>
+                  <input
+                    placeholder="Sede"
+                    className="border border-black p-2 rounded w-full bg-gray-200 dark:text-darkText dark:bg-darkPrimary"
+                    onChange={handleChange}
+                    type="text"
+                    name="branchName"
+                    value={workingBranch.branchName}
+                    disabled
+                  />
+                </div>
+                <div className="first-letter:grid grid-cols-1 mb-2">
+                  <label className='pl-1 text-sm font-bold dark:text-darkText'>Procedimiento</label>
                   <select
                     name="service"
-                    value={JSON.stringify(AppointmentInfo.service)}
                     onChange={handleChange}
-                    className="w-full mt-2 border rounded-md py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    className="w-full border border-black rounded-md text-sm dark:text-darkText dark:bg-darkPrimary p-2"
                   >
+                    <option value="">{AppointmentInfo.service.name}</option>
                     {services.map((service, index) => (
                       <option key={index} value={JSON.stringify(service)}>
                         {service.serviceName}
                       </option>
                     ))}
                   </select>
-                </div>
-                <div>
-                  <label className='pl-1 text-sm text-gray-600 dark:text-gray-300'>Fecha</label>
-                  <input
-                    type="date"
-                    name="date"
-                    value={dateTime}
-                    onChange={handleChange}
-                    min={formattedCurrentDate.slice(0, 10)}
-                    className="w-full mt-2 border rounded-md py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                    required
-                  />
+                  {validationErrors.service && (
+                    <div className="text-red-500">{validationErrors.service}</div>
+                  )}
                 </div>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-2">
-                <div>
-                  <label className='pl-1 text-sm text-gray-600 dark:text-gray-300'>Hora de inicio</label>
+                <div className="first-letter:grid grid-cols-1 mb-2">
+                  <label className='pl-1 text-sm font-bold dark:text-darkText'>Fecha</label>
                   <input
+                    placeholder="Fecha"
+                    className="border border-black p-2 rounded w-full dark:text-darkText dark:bg-darkPrimary"
+                    onChange={handleChange}
+                    type="text"
+                    name="date"
+                    value={AppointmentInfo.date}
+                  />
+                  {validationErrors.date && (
+                    <div className="text-red-500">{validationErrors.date}</div>
+                  )}
+                </div>
+                <div className="first-letter:grid grid-cols-1 mb-2">
+                  <label className='pl-1 text-sm font-bold dark:text-darkText'>Especialista</label>
+                  <select
+                    name="specialist"
+                    onChange={handleChange}
+                    className="w-full border border-black rounded-md text-sm dark:text-darkText dark:bg-darkPrimary p-2"
+                  >
+                    {users.map((user, index) => (
+                      <option key={index} value={JSON.stringify(user)}>
+                        {`${user.name} ${user.lastName}`}
+                      </option>
+                    ))}
+                  </select>
+                  {validationErrors.specialist && (
+                    <div className="text-red-500">{validationErrors.specialist}</div>
+                  )}
+                </div>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-2">
+                <div className="first-letter:grid grid-cols-1 mb-2">
+                  <label className='pl-1 text-sm font-bold dark:text-darkText'>Hora de inicio</label>
+                  <input
+                    placeholder="Hora de inicio"
+                    className="border border-black p-2 rounded w-full dark:text-darkText dark:bg-darkPrimary"
+                    onChange={handleChange}
                     type="time"
                     name="date_from"
                     value={AppointmentInfo.date_from}
-                    onChange={handleChange}
-                    className="w-full mt-2 border rounded-md py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                    required
                   />
                   {validationErrors.date_from && (
-                    <span className="text-red-500 text-xs">{validationErrors.date_from}</span>
+                    <div className="text-red-500">{validationErrors.date_from}</div>
                   )}
                 </div>
-                <div>
-                  <label className='pl-1 text-sm text-gray-600 dark:text-gray-300'>Hora de fin</label>
+                <div className="first-letter:grid grid-cols-1 mb-2">
+                  <label className='pl-1 text-sm font-bold dark:text-darkText'>Hora de finalización</label>
                   <input
+                    placeholder="Hora de finalización"
+                    className="border border-black p-2 rounded w-full dark:text-darkText dark:bg-darkPrimary"
+                    onChange={handleChange}
                     type="time"
                     name="date_to"
                     value={AppointmentInfo.date_to}
-                    onChange={handleChange}
-                    className="w-full mt-2 border rounded-md py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                    required
                   />
                   {validationErrors.date_to && (
-                    <span className="text-red-500 text-xs">{validationErrors.date_to}</span>
+                    <div className="text-red-500">{validationErrors.date_to}</div>
                   )}
                 </div>
               </div>
-              <div>
-                <label className='pl-1 text-sm text-gray-600 dark:text-gray-300'>Observaciones</label>
+              <div className="first-letter:grid grid-cols-1 mb-2">
+                <label className='pl-1 text-sm font-bold dark:text-darkText'>Observaciones</label>
                 <textarea
+                  placeholder="Observaciones"
+                  className="border border-black p-2 rounded w-full dark:text-darkText dark:bg-darkPrimary"
+                  onChange={handleChange}
                   name="obs"
                   value={AppointmentInfo.obs}
-                  onChange={handleChange}
-                  placeholder="Añadir observaciones..."
-                  className="w-full mt-2 border rounded-md py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                ></textarea>
+                />
+                {validationErrors.obs && (
+                  <div className="text-red-500">{validationErrors.obs}</div>
+                )}
               </div>
-              <div className="mt-4">
-                <button
-                  type="submit"
-                  id="theme-toggle"
-                  className={`px-4 py-2 w-full rounded bg-primaryPink shadow shadow-black text-black hover:bg-blue-600 focus:outline-none transition-colors dark:text-darkText dark:bg-darkPrimary dark:hover:bg-blue-600 ${!formChanged ? 'opacity-50 cursor-not-allowed' : ''}`}
-                  disabled={!formChanged}
-                >
-                  Editar Cita
-                </button>
-              </div>
+
+              <button
+                type="submit"
+                id="theme-toggle"
+                className="px-4 py-2 w-full rounded bg-primaryPink shadow shadow-black text-black hover:bg-blue-600 focus:outline-none transition-colors dark:text-darkText dark:bg-darkPrimary dark:hover:bg-blue-600"
+              >
+                Editar Cita
+              </button>
             </form>
           </div>
         </div>
       </div>
+
     </div>
   );
 };

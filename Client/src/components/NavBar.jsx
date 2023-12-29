@@ -55,7 +55,7 @@ const NavBar = () => {
         className={`h-20 flex pl-2 pr-10 justify-between items-center shadow-md shadow-grey`}
         style={{ background: roleColor }}
       >
-        <div>
+        <div className="flex flex-row items-center gap-5">
           <Link to={HOME}>
             <img
               className="w-20"
@@ -65,9 +65,7 @@ const NavBar = () => {
               alt="logo"
             />
           </Link>
-        </div>
-        <div>
-          {!workingBranch ? <h2 className="font-fontTitle text-3xl tracking-wider">{user.branches[0].branchName}</h2> : <h2 className="font-fontTitle text-3xl tracking-wider">{workingBranch.branchName}</h2>}
+          {<h2 className="text-xl tracking-wider mt-2">Sede: {workingBranch.branchName}</h2>}
         </div>
         <div className="flex gap-4 items-center pointer-events:auto ">
           <img
