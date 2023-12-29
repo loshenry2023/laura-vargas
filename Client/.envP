@@ -12,6 +12,13 @@ VITE_TERMS_AND_PRIVACY=/terms-and-privacy
 VITE_API_URL_BASE=https://laura-vargas.vercel.app/laura-vargas
 VITE_DATE_DETAIL=/dateDetail/:id
 
+VITE_CONSUMABLES=/consumables
+VITE_HISTORY_PRICE=/historyprice/:productId
+VITE_HISTORY_PRICE_BASE=/historyprice
+VITE_NEW_CONSUMABLE=/newconsumable
+VITE_EDIT_PRODUCT=/editproduct/:code
+VITE_EDIT_PRODUCT_BASE=/editproduct
+
 VITE_APP_CLOUD_NAME=doyafxwje
 VITE_APP_UPLOAD_PRESET=ml_default
 VITE_APP_FIREBASE_API_KEY=AIzaSyAgacLbFO0UUII7SX_COA6tTgDCJh5MyIU
