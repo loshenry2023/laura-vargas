@@ -21,7 +21,7 @@ import { getCalendar } from "../redux/actions";
 
 const { API_URL_BASE, DATEDETAILBASE } = getParamsEnv();
 
-const Calendar = ({setDateInfo, services, users, branches, refrescarCita, setRefrescarCita, chosenClient}) => {
+const Calendar = ({setDateInfo, services, users, branches, refrescarCita, setRefrescarCita, chosenClient, user}) => {
   const dispatch = useDispatch();
 
   const [date, setDate] = useState({})
@@ -352,9 +352,13 @@ const Calendar = ({setDateInfo, services, users, branches, refrescarCita, setRef
                         </span>
                       </h5>
                       <div className="flex pt-[6px] gap-2">
-                      <Link to={`${DATEDETAILBASE}/${cita.id}`} ><FaEye className="hover:scale-125 hover:text-blue-500 cursor-pointer delay-200 dark:text-darkText dark:hover:text-blue-500" /></Link>
+                      <Link to={`${DATEDETAILBASE}/${cita.id}`} ><FaEye className={user.role === "especialista" ? "hover:scale-125 hover:text-blue-500 cursor-pointer delay-200 dark:text-darkText dark:hover:text-blue-500 mr-2" :  "hover:scale-125 hover:text-blue-500 cursor-pointer delay-200 dark:text-darkText dark:hover:text-blue-500"}/></Link>
+                      {user.role === "especialista" ? null : 
+                      <>
                         <MdEdit onClick={() => handleShowEditAppointment(JSON.stringify(cita))} className="hover:scale-125 hover:text-primaryPink cursor-pointer delay-200 dark:text-darkText dark:hover:text-primaryPink" />
                         <MdDelete onClick={() => handleModal(cita.id)} className="hover:scale-125 hover:text-red-500 cursor-pointer delay-200 dark:text-darkText dark:hover:text-red-500" />
+                      </>
+                      }
                       </div>
                     </div>
                     <p className="text-md tracking-wide font-light dark:text-darkText">
