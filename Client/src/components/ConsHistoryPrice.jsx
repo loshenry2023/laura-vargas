@@ -5,9 +5,6 @@ import { getProductPricesHistory } from "../redux/actions";
 import { useNavigate } from "react-router-dom";
 import BarChartComponent from "./BarChartComponent";
 
-import getParamsEnv from "../functions/getParamsEnv";
-const { CONSUMABLES } = getParamsEnv();
-
 import { IoClose } from "react-icons/io5";
 
 import Loader from "./Loader";
@@ -38,7 +35,7 @@ const ConsHistoryPrice = () => {
   }, [dispatch, productId]);
 
   const handleGoBack = () => {
-    navigate(`${CONSUMABLES}`);
+    navigate("/consumables");
   };
 
   return (
@@ -56,7 +53,7 @@ const ConsHistoryPrice = () => {
       {loading ? (
         <Loader />
       ) : (
-        <div className="absolute top-1/4 left-0 w-full h-3/4 flex">
+        <div className="absolute top-1/4 left-0 w-full h-3/4 flex ">
           {/* Contenedor de la tabla (1/3 del ancho) */}
           <div className="w-1/3 bg-white shadow rounded-lg p-6 dark:bg-darkBackground">
             <table className="'border border-black w-full text-sm text-left rtl:text-right text-black dark:text-beige dark:border-beige'">
