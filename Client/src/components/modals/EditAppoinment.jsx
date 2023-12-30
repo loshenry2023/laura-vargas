@@ -10,13 +10,14 @@ import validateEditAppointment from '../../functions/editAppointmentValidations'
 
 const { API_URL_BASE } = getParamsEnv();
 
-const EditAppointment = ({ setShowEditAppointment, token, date, services, users, setRefrescarCita, refrescarCita, chosenClient }) => {
+const EditAppointment = ({ setShowEditAppointment, setSpecialty, token, date, services, users, setRefrescarCita, refrescarCita, chosenClient }) => {
   const [validationErrors, setValidationErrors] = useState({});
 
   const userSpecialist = useSelector((state) => state?.user)
   const workingBranch = useSelector((state) => state?.workingBranch)
   const startTime = new Date(date.date_from);
   const startHour = startTime.toLocaleTimeString("es-ES", { hour: "2-digit", minute: "2-digit" });
+
 
   const endTime = new Date(date.date_to);
   const endHour = endTime.toLocaleTimeString("es-ES", { hour: "2-digit", minute: "2-digit" });
@@ -58,11 +59,15 @@ const EditAppointment = ({ setShowEditAppointment, token, date, services, users,
     setShowEditAppointment(false);
   };
 
+  useEffect(() => {
+    console.log(AppointmentInfo, "INFOCITA")
+  }, [AppointmentInfo])
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     let error = "";
 
-    // Validate the specific field
+
     if (name === "date_from" || name === "date_to") {
       const data = {
         date_from: name === "date_from" ? value : AppointmentInfo.date_from,
@@ -88,6 +93,17 @@ const EditAppointment = ({ setShowEditAppointment, token, date, services, users,
         }
       }));
     } else if (name === 'specialist') {
+      if(value === "null") {
+        setAppointmentInfo((prevInfo) => ({
+          ...prevInfo,
+          specialist: {
+            id: "",
+            name: "",
+          }
+        }));
+      } else {
+
+      
       const parsedValue = JSON.parse(value);
 
       setAppointmentInfo((prevInfo) => ({
@@ -97,7 +113,17 @@ const EditAppointment = ({ setShowEditAppointment, token, date, services, users,
           name: `${parsedValue.name} ${parsedValue.lastName}`,
         }
       }));
+    }
     } else if (name === 'service') {
+      if (value === "null") {
+        setAppointmentInfo((prevInfo) => ({
+          ...prevInfo,
+          service: {
+            id: "",
+            name: "",
+          }
+        }));
+      } else {
       const parsedValue = JSON.parse(value);
 
       setAppointmentInfo((prevInfo) => ({
@@ -107,6 +133,19 @@ const EditAppointment = ({ setShowEditAppointment, token, date, services, users,
           name: parsedValue.serviceName,
         }
       }));
+
+      setAppointmentInfo((prevInfo) => ({
+        ...prevInfo,
+        specialist: {
+          id: "",
+          name: "",
+        }
+      }));
+
+
+
+      setSpecialty(parsedValue.Specialties[0].specialtyName)
+    }
     } else {
       setAppointmentInfo((prevInfo) => ({
         ...prevInfo,
@@ -144,15 +183,15 @@ const EditAppointment = ({ setShowEditAppointment, token, date, services, users,
       token: token
     };
 
-
-  /*       const errors = validateEditAppointment(data);
+    console.log(data, "SUBMIT")
+      const errors = validateEditAppointment(data);
         console.log(errors)
         if (Object.keys(errors).length > 0) {
           setValidationErrors(errors);
           return;
         }
       
- */
+ 
     try {
       const response = await axios.put(`${API_URL_BASE}/calendar/${date.id}`, data);
 
@@ -238,11 +277,11 @@ const EditAppointment = ({ setShowEditAppointment, token, date, services, users,
                   <select
                     name="service"
                     onChange={handleChange}
-                    className="w-full border border-black rounded-md text-sm dark:text-darkText dark:bg-darkPrimary p-2"
+                    className="w-full border border-black rounded-md text-sm dark:text-darkText dark:bg-darkPrimary p-2.5"
                   >
-                    <option value="">{AppointmentInfo.service.name}</option>
+                    <option value="null">Procedimientos</option>
                     {services.map((service, index) => (
-                      <option key={index} value={JSON.stringify(service)}>
+                      <option key={index} value={JSON.stringify(service)} selected={AppointmentInfo.service.name === service.serviceName ? true : false} >
                         {service.serviceName}
                       </option>
                     ))}
@@ -272,10 +311,11 @@ const EditAppointment = ({ setShowEditAppointment, token, date, services, users,
                   <select
                     name="specialist"
                     onChange={handleChange}
-                    className="w-full border border-black rounded-md text-sm dark:text-darkText dark:bg-darkPrimary p-2"
+                    className="w-full border border-black rounded-md text-sm dark:text-darkText dark:bg-darkPrimary p-2.5"
                   >
+                  <option value="null">Especialista</option>
                     {users.map((user, index) => (
-                      <option key={index} value={JSON.stringify(user)}>
+                      <option key={index} value={JSON.stringify(user)} selected={AppointmentInfo.specialist.id === user.id ? true : false}>
                         {`${user.name} ${user.lastName}`}
                       </option>
                     ))}

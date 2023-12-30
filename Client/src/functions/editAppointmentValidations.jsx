@@ -1,5 +1,5 @@
 const validateEditAppointment = (data) => {
-  console.log(data);
+  console.log(data, "errores");
 
   const validationErrors = {};
 
@@ -25,6 +25,14 @@ const validateEditAppointment = (data) => {
     validationErrors.date_to = "Seleccione una hora de finalización válida entre las 6:00 am y las 20:00 pm";
   } else if (data.date_from && data.date_to && data.date_from >= data.date_to) {
     validationErrors.date_to = "La hora de finalización debe ser posterior a la hora de inicio";
+  }
+
+  if(!data.idUser) {
+    validationErrors.specialist = "Seleccione un especialista"
+  }
+
+  if (!data.idService) {
+    validationErrors.service = "Seleccione procedimiento"
   }
 
   return validationErrors;

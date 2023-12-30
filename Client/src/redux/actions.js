@@ -30,7 +30,9 @@ import {
   UPDATE_PRODUCT_PRICE_REQUEST,
   UPDATE_PRODUCT_PRICE_SUCCESS,
   UPDATE_PRODUCT_PRICE_FAILURE,
+  GET_PAY_METHODS
 } from "./actionsTypes";
+
 import axios from "axios";
 import getParamsEnv from "../functions/getParamsEnv";
 import converterGMT from "../functions/converteGMT";
@@ -451,6 +453,21 @@ export const updateProductPrice = (productId, newPrice) => {
       dispatch(updateProductPriceSuccess());
     } catch (error) {
       dispatch(updateProductPriceFailure(error.message));
+    }
+  };
+};
+
+export const getPayMethods = (token) => {
+
+  return async function (dispatch) {
+    try {
+      const response = await axios.post(API_URL_BASE + "/payments", token);
+      return dispatch({
+        type: GET_PAY_METHODS,
+        payload: response.data,
+      });
+    } catch (error) {
+      throw Error(error.message);
     }
   };
 };

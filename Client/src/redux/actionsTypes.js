@@ -16,6 +16,7 @@ export const GET_CLIENT_ID = "GET_CLIENT_ID";
 export const CLEAR_CLIENT_ID = "CLEAR_CLIENT_ID";
 export const GET_CALENDAR = "GET_CALENDAR";
 export const TOKEN = "TOKEN";
+export const GET_PAY_METHODS = "GET_PAY_METHODS"
 
 //ACTIONSTYPES DE INVENTARIO
 
