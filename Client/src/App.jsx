@@ -11,7 +11,7 @@ import SpecialistDate from "./views/SpecialistDate.jsx";
 
 import Consumables from "./views/Consumables.jsx";
 import ConsHistoryPrice from "./components/ConsHistoryPrice.jsx";
-import NewConsumableForm from "./components/NewConsumableForm.jsx";
+// import NewConsumableForm from "./components/NewConsumableForm.jsx";
 import EditConsumableForm from "./components/EditConsumableForm.jsx";
 
 // hooks, routers, reducers:
@@ -61,7 +61,7 @@ const App = () => {
         <Route path={ERROR} element={<Error />} />*/}
         <Route path={CONSUMABLES} element={<Consumables />} />
         <Route path={HISTORYPRICE} element={<ConsHistoryPrice />} />
-        <Route path={NEWCONSUMABLE} element={<NewConsumableForm />} />
+        {/* <Route path={NEWCONSUMABLE} element={<NewConsumableForm />} /> */}
         <Route path={EDITPRODUCT} element={<EditConsumableForm />} />
         <Route path="*" element={<Error />} />
       </Routes>

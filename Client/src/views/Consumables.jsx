@@ -6,6 +6,10 @@ import ToasterConfig from "./../components/Toaster";
 import NavBar from "../components/NavBar";
 import SideBar from "../components/SideBar";
 import ConsumablesTable from "../components/ConsumablesTable";
+import NewConsumableModal from "../components/modals/newConsumableModal";
+
+import getParamsEnv from "../functions/getParamsEnv";
+const { NEWCONSUMABLE } = getParamsEnv();
 
 import { FaPlus } from "react-icons/fa";
 
@@ -15,9 +19,18 @@ import "./loading.css";
 function Consumables() {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
+  const [showNewConsumableModal, setShowNewConsumableModal] = useState(false);
+  const [newProductAdded, setNewProductAdded] = useState(false);
+
+  console.log(
+    "Estado inicial de showNewConsumableModal:",
+    showNewConsumableModal
+  );
 
   const [productName, setProductName] = useState("");
   const [description, setDescription] = useState("");
+
+  const [loadingProducts, setLoadingProducts] = useState(true);
 
   const [page, setPage] = useState(0);
   const [size, setSize] = useState(10);
@@ -42,7 +55,17 @@ function Consumables() {
         setLoading(false);
       });
     }
-  }, [productName, selectedBranch, page, size, description]);
+  }, [productName, selectedBranch, page, size, description, newProductAdded]);
+
+  const handleShowNewConsumableModal = () => {
+    setShowNewConsumableModal(true);
+    console.log("Modal abierto");
+  };
+
+  const handleNewProductAdded = () => {
+    setNewProductAdded(false);
+    dispatch(getProducts(productName, selectedBranch, page, size, description));
+  };
 
   const totalPages = Math.ceil(count.count / size);
 
@@ -67,14 +90,24 @@ function Consumables() {
                   Control de insumos
                 </h1>
                 <div className="ml-auto">
-                  <Link to="/newconsumable">
-                    <button className="bg-primaryPink hover:bg-secondaryPink text-white py-2 px-4 rounded">
-                      <div className="flex items-center">
-                        Nuevo Insumo <FaPlus className="ml-2" />
-                      </div>
-                    </button>
-                  </Link>
+                  <button
+                    onClick={handleShowNewConsumableModal}
+                    className="bg-primaryPink hover:bg-secondaryPink text-white py-2 px-4 rounded"
+                  >
+                    <div className="flex items-center">
+                      Nuevo Insumo <FaPlus className="ml-2" />
+                    </div>
+                  </button>
                 </div>
+                {showNewConsumableModal && (
+                  <NewConsumableModal
+                    onClose={() => {
+                      setShowNewConsumableModal(false);
+                      handleNewProductAdded();
+                    }}
+                    onProductAdd={handleNewProductAdded}
+                  />
+                )}
                 <section className="flex flex-col items-start sm:w-full">
                   <div className="flex flex-col items-center w-full gap-3 lg:flex-row lg:items-center lg:gap-3">
                     <input
