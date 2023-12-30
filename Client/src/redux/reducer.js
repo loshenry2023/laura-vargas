@@ -31,6 +31,7 @@ import {
   UPDATE_PRODUCT_PRICE_REQUEST,
   UPDATE_PRODUCT_PRICE_SUCCESS,
   UPDATE_PRODUCT_PRICE_FAILURE,
+  GET_PAY_METHODS
 } from "./actionsTypes";
 
 const initialState = {
@@ -51,6 +52,7 @@ const initialState = {
   selectedIcon: null,
   editingProduct: null,
   pricesHistory: [],
+  payMethods: []
 };
 
 const rootReducer = (
@@ -305,6 +307,15 @@ const rootReducer = (
         loading: false,
         error: payload,
       };
+
+      case GET_PAY_METHODS:
+       
+        const setPayMethods = {
+          ...state,
+          payMethods: payload,
+        };
+        localStorage.setItem("myAppReduxState", JSON.stringify(setPayMethods));
+        return setIconState;
 
     default:
       return state;

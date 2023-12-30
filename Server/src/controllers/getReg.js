@@ -189,7 +189,7 @@ const getReg = async (
         break;
       case "Calendar":
         // Preparo los filtros previos a la consulta:
-        const { dateFrom, dateTo, userid, branch} = dataQuery;      
+        const { dateFrom, dateTo, userId, branch} = dataQuery;      
         reg = await tableName.findAll({
           attributes: ["id", "date_from", "date_to", "obs", "current"],
           where: {
@@ -204,7 +204,7 @@ const getReg = async (
               // user
               model: tableName2,
               attributes: ["id", "userName", "name", "lastName"],
-              where: userid ? { id: userid } : {},
+              where: userId ? { id: userId } : {},
             },
             {
               // Service

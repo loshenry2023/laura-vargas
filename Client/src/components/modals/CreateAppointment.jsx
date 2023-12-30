@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 
 import { IoClose } from 'react-icons/io5';
-import { Toaster, toast } from 'react-hot-toast'
+import { toast } from 'react-hot-toast'
 import axios from "axios"
 import {  useSelector } from 'react-redux';
 
@@ -14,7 +14,7 @@ import getParamsEnv from '../../functions/getParamsEnv';
 const { API_URL_BASE } = getParamsEnv()
 
 
-const CreateAppointment = ({ setShowAppointmentModal, dateInfo, token, setRefrescarCita, refrescarCita, chosenClient, branches }) => {
+const CreateAppointment = ({ setShowAppointmentModal, setChosenClient, dateInfo, setDateInfo, token, formattedDate, setRefrescarCita, refrescarCita, chosenClient, branches }) => {
 
     const userSpecialist = useSelector((state) => state?.user)
     const workingBranch = useSelector((state) => state?.workingBranch)
@@ -36,8 +36,22 @@ const CreateAppointment = ({ setShowAppointmentModal, dateInfo, token, setRefres
     })
 
     console.log(dateInfo)
+    
     const closeModal = () => {
         setShowAppointmentModal(false)
+        setAppointmentInfo(
+            {
+                clientName: dateInfo.client.name || "",
+                clientLastName: dateInfo.client.lastName || "",
+                branch: dateInfo.branch.branchName || "",
+                service: dateInfo.service.name || "",
+                date: formatDate(dateInfo.dateTime.$d) || formatDate(currentDate),
+                specialist: specialistName || "",
+                date_from: "",
+                date_to: "",
+                obs: ""
+            }
+        )
     }
 
     const filteredBranch = branches.find(branch => branch.branchName === workingBranch.branchName)
@@ -67,21 +81,20 @@ const CreateAppointment = ({ setShowAppointmentModal, dateInfo, token, setRefres
         }));
     };
 
-    function formatDateTime(date, time) {
-        const dateObject = new Date(date);
-        const formattedDate = `${dateObject.getFullYear()}-${(dateObject.getMonth() + 1)
-            .toString()
-            .padStart(2, "0")}-${dateObject.getDate().toString().padStart(2, "0")}`;
-        const formattedDateTime = `${formattedDate} ${time}`;
-        return formattedDateTime;
-    }
-
     const handleSubmit = async (e) => {
         e.preventDefault();
-
-        const formattedDateFrom = `${AppointmentInfo.date} ${AppointmentInfo.date_from}`
-        const formattedDateTo = `${AppointmentInfo.date} ${AppointmentInfo.date_from}`
-
+    
+        const validationErrors = validateCreateAppointment(AppointmentInfo);
+        setValidationErrors(validationErrors);
+    
+        if (Object.keys(validationErrors).length > 0) {
+            toast.error("Por favor, corrige los errores de validación antes de enviar el formulario");
+            return;
+        }
+    
+        const formattedDateFrom = `${AppointmentInfo.date} ${AppointmentInfo.date_from}`;
+        const formattedDateTo = `${AppointmentInfo.date} ${AppointmentInfo.date_to}`;
+    
         try {
             const data = {
                 date_from: formattedDateFrom,
@@ -93,11 +106,9 @@ const CreateAppointment = ({ setShowAppointmentModal, dateInfo, token, setRefres
                 idClient: dateInfo.client.id,
                 token: token
             };
-
-            console.log(data)
-
+    
             const response = await axios.post(`${API_URL_BASE}/newcalendar`, data);
-
+    
             const sendEmail = {
                 origin: userSpecialist.userName,
                 target: chosenClient.email,
@@ -105,23 +116,45 @@ const CreateAppointment = ({ setShowAppointmentModal, dateInfo, token, setRefres
                 html: `<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'> <html dir='ltr' xmlns='http://www.w3.org/1999/xhtml' xmlns:o='urn:schemas-microsoft-com:office:office'> <head> <meta charset='UTF-8'> <meta content='width=device-width, initial-scale=1' name='viewport'> <meta name='x-apple-disable-message-reformatting'> <meta http-equiv='X-UA-Compatible' content='IE=edge'> <meta content='telephone=no' name='format-detection'> <title></title>     <link href='https://fonts.googleapis.com/css?family=Roboto:400,400i,700,700i' rel='stylesheet'>  </head> <body> <div dir='ltr' class='es-wrapper-color' style='color:black'>  <table class='es-wrapper' width='100%' cellspacing='0' cellpadding='0'> <tbody> <tr> <td class='esd-email-paddings' valign='top'> <table cellpadding='0' cellspacing='0' class='es-header esd-footer-popover' align='center'> <tbody> <tr> <td class='esd-stripe' align='center' esd-custom-block-id='35507'> <table bgcolor='#ffffff' class='es-header-body' align='center' cellpadding='0' cellspacing='0' width='550' style='border-right:1px solid transparent;border-bottom:1px solid transparent;'> <tbody> <tr> <td class='esd-structure es-p20r es-p20l' align='left'> <table width='100%' cellspacing='0' cellpadding='0'> <tbody> <tr> <td class='esd-container-frame' width='509' valign='top' align='center'> <table width='100%' cellspacing='0' cellpadding='0'> <tbody> <tr> <td class='esd-block-image' align='center' style='font-size: 0px;'><a target='_blank' href='https://laura-vargas-dkpl.vercel.app/'><img src='https://res.cloudinary.com/doyafxwje/image/upload/v1703605216/Logos/LogoLauraVargas_zhiwgn.jpg' alt style='display: block;' class='adapt-img' width='140' height='110'></a></td> </tr> </tbody> </table> </td> </tr> </tbody> </table> </td> </tr> <tr> <td class='esd-structure es-p20r es-p20l' align='left'> <table cellpadding='0' cellspacing='0' width='100%'> <tbody> <tr> <td width='509' class='esd-container-frame' align='center' valign='top'> <table cellpadding='0' cellspacing='0' width='100%'> <tbody> <tr> <td align='left' class='esd-block-text'> <h1 style='text-align: left; font-size: 22px; line-height: 120%;'></h1> <h1 style='text-align: left; font-size: 22px; line-height: 120%;'>Hola, ${chosenClient.name} ${chosenClient.lastName}👋</h1> <h1 style='text-align: left; font-size: 16px; line-height: 120%;'></h1> <p style='text-align: left; font-size: 16px; line-height: 120%;'><strong> Confirmamos tu cita </strong><br>Tu cita en ${dateInfo.branch.branchName} fue confirmada, no te pierdas los detalles de la misma a continuación.</p> </td> </tr> </tbody> </table> </td> </tr> </tbody> </table> </td> </tr> <tr> <td class='esd-structure es-p20r es-p20l' align='left'> <table cellpadding='0' cellspacing='0' width='100%'> <tbody> <tr> <td width='509' class='esd-container-frame' align='center' valign='top'> <table cellpadding='0' cellspacing='0' width='100%'> <tbody> <tr> <td align='left' class='esd-block-text' style='font-size:18'> <p style='font-weight:bold; font-size:16px'>📅 Dia: <span style='font-weight:normal'> ${formattedDateFrom.slice(0,11)} </span></p> <p style='font-weight:bold; font-size:16px'> 🕑 Horario: <span style='font-weight:normal'> ${formattedDateFrom.slice(11,16)} </span></p> <p style='font-weight:bold; font-size:16px; color:black'>🏠 Dirección: <span style='font-weight:normal'> ${address} </span></p> <p style='font-weight:bold; font-size:16px; color:black'>💄 Servicio: <span style='font-weight:normal; color:black'> ${AppointmentInfo.service} </span></p> <p style='font-weight:bold; font-size:16px; color:black'>🙎‍♀️ Profesional: <span style='font-weight:normal'> ${AppointmentInfo.specialist}</span></p> </td> </tr> </tbody> </table> </td> </tr> </tbody> </table> </td> </tr> <tr> <td class='esd-structure es-p20r es-p20l' align='left' > <table cellpadding='0' cellspacing='0' width='100%'> <tbody> <tr> <td width='509' class='esd-container-frame' align='center' valign='top'> <table cellpadding='0' cellspacing='0' width='100%'> <tbody> <tr> <td align='left' class='esd-block-text'> <p style='font-size: 16px; margin-bottom: 2px; color:black'>❗<em> Sólo se tolerarán 15 minutos de retraso. Pasado este tiempo el turno se da por cancelado</em></p> <p style='font-size: 16px; margin-bottom: 2px; color:black'> Gracias por confiar en nosotras!</p> <p style='font-size: 16px; margin-bottom: 40px;'> En caso de no poder concurrir, por favor cancelá la reserva llamando al  ${phoneNumber}.</p> </td> </tr> </tbody> </table> </td> </tr> </tbody> </table> </td> </tr> <tr> <td class='esd-structure es-p10b es-p10r es-p5l' align='left'> <table cellpadding='0' cellspacing='0' width='100%'> <tbody> <tr> <td width='534' class='esd-container-frame' align='center' valign='top'> <table cellpadding='0' cellspacing='0' width='100%'> <tbody> <tr> <td class='esd-block-social' align='right' style='font-size: 0px;'> <table class='es-table-not-adapt es-social' cellspacing='0' cellpadding='0' style='margin-top: 10px'> <tbody> <tr> <td class='es-p35r' valign='top' align='center'><a target='_blank' href='https://www.facebook.com/lauravargas.cp/'><img style='margin-right: 10px;' title='Facebook' src='https://ecyarqo.stripocdn.email/content/assets/img/social-icons/circle-colored/facebook-circle-colored.png' alt='Fb' width='32' height='32'></a></td> <td valign='top' align='center'><a target='_blank' href='https://www.instagram.com/lauravargas.cpmu/'><img title='Instagram' src='https://ecyarqo.stripocdn.email/content/assets/img/social-icons/circle-colored/instagram-circle-colored.png' alt='Inst' width='32' height='32'></a></td> </tr> </tbody> </table> </td> </tr> </tbody> </table> </td> </tr> </tbody> </table> </td> </tr> </tbody> </table> </td> </tr> </tbody> </table> </td> </tr> </tbody> </table> </div> </body> </html>`,
                 token: token
             }
-
+    
             if (response.data.created === "ok") {
-                toast.success("Cita creada exitosamente")
+                toast.success("Cita creada exitosamente");
                 setTimeout(() => {
                     closeModal();
                 }, 3000);
-                axios.post(`${API_URL_BASE}/sendmail`, sendEmail)
-                setRefrescarCita(!refrescarCita)
+                setDateInfo({
+                        client: {
+                          id: "",
+                          name: "",
+                          lastName: "",
+                        },
+                        branch: {
+                          id: workingBranch.id,
+                          branchName: workingBranch.branchName
+                        },
+                        service: {
+                          id: "",
+                          serviceName: ""
+                        },
+                        specialist: {
+                          id: "",
+                          name: "",
+                          lastName: ""
+                        },
+                        dateTime: formattedDate,
+                      })
+                    setChosenClient({ name: "Elija", lastName: "cliente"})
+                axios.post(`${API_URL_BASE}/sendmail`, sendEmail);
+                setRefrescarCita(!refrescarCita);
             } else {
                 toast.error("Hubo un problema con la creación");
             }
         } catch (error) {
-            //console.error(error);
-            const errorMessage = error.response ? error.response.data : 'An error occurred';
-            toast.error(`Hubo un problema con la creacion. ${errorMessage}`);
+            const errorMessage = error.response ? error.response.data : 'Ocurrió un error';
+            toast.error(`Hubo un problema con la creación. ${errorMessage}`);
         }
     };
+    
 
     return (
 

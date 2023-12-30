@@ -1,8 +1,17 @@
 // components
 import SideBar from "../components/SideBar";
 import NavBar from "../components/NavBar";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import {getPayMethods} from '../redux/actions.js'
 
 const Home = () => {
+  const token = useSelector((state) => state?.token)
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(getPayMethods({token}))
+  })
 
   return (
     <>

@@ -33,7 +33,7 @@ const HistoryServices = ({ history }) => {
             </div>
             <div className='flex flex-col justify-end pb-2 gap-2'>
               <p className="cursor-pointer shadow-md rounded-2xl w-40 px-5 bg-beige hover:bg-blue-600 hover:text-white dark:bg-darkBackground dark:text-darkText dark:hover:bg-blue-600 ">           
-                <a href={service.imageServiceDone} target="_blank">Ver fotos </a>
+                <a href={service.imageServiceDone} target="_blank">Ver foto </a>
               </p>
               <p className="cursor-pointer shadow-md rounded-2xl w-40 px-5 bg-beige hover:bg-blue-600 hover:text-white dark:bg-darkBackground dark:text-darkText dark:hover:bg-blue-600">
                 <a href={service.conformity} target="_blank">Ver conformidad </a>

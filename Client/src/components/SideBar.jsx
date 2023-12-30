@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setIcon } from "../redux/actions";
 import { FaCalendar } from "react-icons/fa";
@@ -10,18 +10,65 @@ import { ImProfile } from "react-icons/im";
 import { Link } from "react-router-dom";
 import { TfiMenu } from "react-icons/tfi";
 
-//Variables de entorno
+// Variables de entorno
 import getParamsEnv from "../functions/getParamsEnv.js";
 const { AGENDA, USERPROFILES, CLIENTDETAIL, CLIENTSPROFILES } = getParamsEnv();
 
-const SideBar = () => {
-  const dispatch = useDispatch();
-  const selectedIcon = useSelector((state) => state.selectedIcon);
-  const dynamicMinHeight = `calc(100vh - 80px)`;
+const IconWithTooltip = ({ to, iconName, tooltipText }) => {
+  const [tooltipVisible, setTooltipVisible] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
 
-  const handleIconClick = (iconName) => {
-    dispatch(setIcon(iconName));
+  const handleMouseEnter = () => {
+    setTooltipVisible(true);
+    setIsHovered(true);
   };
+
+  const handleMouseLeave = () => {
+    setTooltipVisible(false);
+    setIsHovered(false);
+  };
+
+  return (
+    <Link
+      to={to}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
+      <div className={`relative ${isHovered ? "text-white" : ""}`}>
+        {renderIcon(iconName)}
+        {tooltipVisible && (
+          <span className="tooltip absolute bg-secondaryPink text-black rounded p-2 opacity-100 transition-opacity ml-[50px] mt-[-30px]">
+            {tooltipText}
+          </span>
+        )}
+      </div>
+    </Link>
+  );
+};
+
+const renderIcon = (iconName) => {
+  switch (iconName) {
+    case "profile":
+      return <ImProfile className="w-6 h-6 dark:text-beige" />;
+    case "calendar":
+      return <FaCalendar className="w-6 h-6 dark:text-beige" />;
+    case "userGroup":
+      return <HiMiniUserGroup className="w-6 h-6 dark:text-beige" />;
+    case "location":
+      return <FaLocationPin className="w-6 h-6 dark:text-beige" />;
+    case "fingernail":
+      return <GiFingernail className="w-6 h-6 dark:text-beige" />;
+    case "analytics":
+      return <IoMdAnalytics className="w-6 h-6 dark:text-beige" />;
+    case "Consumables":
+      return <TfiMenu className="w-6 h-6 dark:text-beige" />;
+    default:
+      return null;
+  }
+};
+
+const SideBar = () => {
+  const dynamicMinHeight = `calc(100vh - 80px)`;
 
   return (
     <div
@@ -29,99 +76,14 @@ const SideBar = () => {
       className="bg-secondaryPink w-14 flex flex-col items-center gap-8 pointer-events-auto shadow-md shadow-grey dark:shadow-gray-100 dark:bg-darkPrimary dark:text-beige relative"
     >
       <hr className="w-14 h-[1px] bg-beige border-0" />
-      <Link to={USERPROFILES} className="group">
-        <ImProfile
-          className={`w-6 h-6 dark:text-beige ${
-            selectedIcon === "profile"
-              ? "text-black"
-              : "text-black group-hover:text-beige"
-          }`}
-        />
-        <span className="tooltip absolute bg-secondaryPink text-black rounded p-2 opacity-0 group-hover:opacity-100 transition-opacity ml-[50px] mt-[-30px]">
-          Plantilla
-        </span>
-      </Link>
-      <Link to={AGENDA} className="group">
-        <FaCalendar
-          className={`w-6 h-6 dark:text-beige ${
-            selectedIcon === "calendar"
-              ? "text-black"
-              : "text-black group-hover:text-beige"
-          }`}
-        />
-        <span className="tooltip absolute bg-secondaryPink text-black rounded p-2 opacity-0 group-hover:opacity-100 transition-opacity ml-[50px] mt-[-30px]">
-          Agenda
-        </span>
-      </Link>
-      <Link to={CLIENTSPROFILES} className="group">
-        <HiMiniUserGroup
-          className={`w-6 h-6 dark:text-beige ${
-            selectedIcon === "userGroup"
-              ? "text-black"
-              : "text-black group-hover:text-beige"
-          }`}
-        />
-        <span className="tooltip absolute bg-secondaryPink text-black rounded p-2 opacity-0 group-hover:opacity-100 transition-opacity ml-[50px] mt-[-30px]">
-          Clientes
-        </span>
-      </Link>
-      <a
-        href="#"
-        onClick={() => handleIconClick("location")}
-        className="group"
-      >
-        <FaLocationPin
-          className={`w-6 h-6 dark:text-beige ${
-            selectedIcon === "location"
-              ? "text-black"
-              : "text-black group-hover:text-beige"
-          }`}
-        />
-        <span className="tooltip absolute bg-secondaryPink text-black rounded p-2 opacity-0 group-hover:opacity-100 transition-opacity ml-[50px] mt-[-30px]">
-          Ubicacion
-        </span>
-      </a>
-      <a
-        href="#"
-        onClick={() => handleIconClick("fingernail")}
-        className="group"
-      >
-        <GiFingernail
-          className={`w-6 h-6 dark:text-beige ${
-            selectedIcon === "fingernail"
-              ? "text-black"
-              : "text-black group-hover:text-beige"
-          }`}
-        />
-        <span className="tooltip absolute bg-secondaryPink text-black rounded p-2 opacity-0 group-hover:opacity-100 transition-opacity ml-[50px] mt-[-30px]">
-          Servicios
-        </span>
-      </a>
-      <a
-        href="#"
-        onClick={() => handleIconClick("analytics")}
-        className="group"
-      >
-        <IoMdAnalytics
-          className={`w-6 h-6 dark:text-beige ${
-            selectedIcon === "analytics"
-              ? "text-black"
-              : "text-black group-hover:text-beige"
-          }`}
-        />
-        <span className="tooltip absolute bg-secondaryPink text-black rounded p-2 opacity-0 group-hover:opacity-100 transition-opacity ml-[50px] mt-[-30px]">
-          Estadísticas
-        </span>
-      </a>
-      <Link to="/consumables" onClick={() => handleIconClick("Consumables")}>
-        <TfiMenu
-          className={`w-6 h-6  dark:text-beige ${
-            selectedIcon === "profile"
-              ? "text-black"
-              : "text-black hover:text-beige"
-          }`}
-        />
-      </Link>
+
+      <IconWithTooltip to={USERPROFILES} iconName="profile" tooltipText="Plantilla" />
+      <IconWithTooltip to={AGENDA} iconName="calendar" tooltipText="Agenda" />
+      <IconWithTooltip to={CLIENTSPROFILES} iconName="userGroup" tooltipText="Clientes" />
+      <IconWithTooltip to="#" onClick={() => handleIconClick("location")} iconName="location" tooltipText="Ubicacion" />
+      <IconWithTooltip to="#" onClick={() => handleIconClick("fingernail")} iconName="fingernail" tooltipText="Servicios" />
+      <IconWithTooltip to="#" onClick={() => handleIconClick("analytics")} iconName="analytics" tooltipText="Estadísticas" />
+      <IconWithTooltip to="/consumables" onClick={() => handleIconClick("Consumables")} iconName="Consumables" tooltipText="Insumos" />
     </div>
   );
 };

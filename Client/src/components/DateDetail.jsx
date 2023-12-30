@@ -16,6 +16,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import './dateDetail.css'
 import getParamsEnv from '../functions/getParamsEnv';
+import { FaRegArrowAltCircleLeft } from "react-icons/fa";
 
 
 
@@ -29,6 +30,7 @@ const DateDetail = () => {
     const token = useSelector((state) => state?.token);
     const calendar = useSelector((state) => state?.calendar);
     const clientInfo = useSelector((state) => state?.clientID);
+    const payMethods = useSelector((state) => state?.payMethods)
     const [clientId, setClientId] = useState(null);
     const [appointment, setAppointment] = useState(null);
     const [paymentMethods, setPaymentMethods] = useState({
@@ -53,6 +55,7 @@ const DateDetail = () => {
         amount1: "",
         amount2: ""
     })
+
     useEffect(() => {
         dispatch(getCalendar({ token: token }));
         if (calendar) {
@@ -68,8 +71,6 @@ const DateDetail = () => {
         }
 
     }, [dispatch, token, calendar, appointmentId, clientId]);
-
-
 
     const handlePriceChange = (e, priceType) => {
         const updatedPrice = { ...price, [priceType]: e.target.value };
@@ -190,6 +191,10 @@ const DateDetail = () => {
 
     }
 
+    const handleGoBack = () => {
+        navigate(-1)
+    }
+
 
 
     if (!isLoading) {
@@ -200,7 +205,9 @@ const DateDetail = () => {
         <>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 m-auto p-8">
                 {/* Client Details */}
+
                 <div className="p-6 bg-primaryPink backdrop-blur-xl bg-opacity-60 rounded-md">
+                    <FaRegArrowAltCircleLeft onClick={handleGoBack} size={30} className='mb-[-30px] text-[#d66a6a] hover:text-black' />
                     <div className="relative border-4 border-double border-primaryPink max-w-screen-sm mt-10 rounded overflow-hidden shadow-lg mx-auto">
 
 
@@ -306,20 +313,23 @@ const DateDetail = () => {
 
 
                                     <div>
-                                        <div className="mb-4">
-                                            <label className="block text-sm font-medium text-gray-700">Medio de Pago A</label>
-                                            <select
-                                                value={paymentMethods.paymentMethod1}
-                                                onChange={(e) => handlePaymentMethodChange(e, 1)}
-                                                className="input"
-                                            >
-                                                <option value="" disabled>
-                                                    Elija medio de pago
-                                                </option>
-                                                <option value="visa">Visa</option>
-                                                <option value="mastercard">Mastercard</option>
-                                            </select>
-                                        </div>
+                                    <div className="mb-4">
+                                                <label className="block text-sm font-medium text-gray-700">Medio de Pago A</label>
+                                                <select
+                                                    value={paymentMethods.paymentMethod1}
+                                                    onChange={(e) => handlePaymentMethodChange(e, 1)}
+                                                    className="input"
+                                                >
+                                                    <option value="" disabled>
+                                                        Elija medio de pago
+                                                    </option>
+                                                    {payMethods.map((method) => (
+                                                        <option key={method.id} value={method.paymentMethodName}>
+                                                            {method.paymentMethodName}
+                                                        </option>
+                                                    ))}
+                                                </select>
+                                            </div>
                                     </div>
                                 </div>
                                 <button onClick={() => setShowPayment2(!showPayment2)}>
@@ -348,8 +358,11 @@ const DateDetail = () => {
                                                     <option value="" disabled>
                                                         Elija medio de pago
                                                     </option>
-                                                    <option value="visa">visa</option>
-                                                    <option value="mastercard">mastercard</option>
+                                                    {payMethods.map((method) => (
+                                                        <option key={method.id} value={method.paymentMethodName}>
+                                                            {method.paymentMethodName}
+                                                        </option>
+                                                    ))}
                                                 </select>
                                             </div>
                                         </div>
