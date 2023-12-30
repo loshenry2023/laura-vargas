@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getProducts } from "../redux/actions";
 import { Link } from "react-router-dom";
-import ToasterConfig from "./../components/Toaster";
 import NavBar from "../components/NavBar";
 import SideBar from "../components/SideBar";
 import ConsumablesTable from "../components/ConsumablesTable";
@@ -15,17 +14,16 @@ import { FaPlus } from "react-icons/fa";
 
 import Loader from "../components/Loader";
 import "./loading.css";
+import EditConsumableForm from "../components/EditConsumableForm";
+import ToasterConfig from "../components/Toaster";
+import { toast } from "react-hot-toast";
 
 function Consumables() {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
   const [showNewConsumableModal, setShowNewConsumableModal] = useState(false);
   const [newProductAdded, setNewProductAdded] = useState(false);
-
-  console.log(
-    "Estado inicial de showNewConsumableModal:",
-    showNewConsumableModal
-  );
+  const [editedProduct, setEditedProduct] = useState(false)
 
   const [productName, setProductName] = useState("");
   const [description, setDescription] = useState("");
@@ -40,12 +38,14 @@ function Consumables() {
   const [selectedBranch, setSelectedBranch] = useState("");
   const products = useSelector((state) => state?.products);
   const count = useSelector((state) => state?.count);
+ 
 
   useEffect(() => {
     if (user && user.branches && user.branches.length > 0) {
       setSelectedBranch(user.branches[0].branchName);
     }
   }, [user]);
+
 
   useEffect(() => {
     if (selectedBranch) {
@@ -55,7 +55,7 @@ function Consumables() {
         setLoading(false);
       });
     }
-  }, [productName, selectedBranch, page, size, description, newProductAdded]);
+  }, [productName, selectedBranch, page, size, description, newProductAdded, editedProduct]);
 
   const handleShowNewConsumableModal = () => {
     setShowNewConsumableModal(true);
@@ -63,9 +63,14 @@ function Consumables() {
   };
 
   const handleNewProductAdded = () => {
-    setNewProductAdded(false);
-    dispatch(getProducts(productName, selectedBranch, page, size, description));
+    setNewProductAdded(!newProductAdded);
+    
   };
+
+  const handleProductEdited = () => {
+    setEditedProduct(!editedProduct)
+    
+  }
 
   const totalPages = Math.ceil(count.count / size);
 
@@ -133,7 +138,9 @@ function Consumables() {
                   </div>
                 </section>
                 <section>
-                  <ConsumablesTable products={products} user={user} />
+                  <ConsumablesTable products={products} user={user} onClose={() => {
+                      handleProductEdited();
+                    }} />
                 </section>
                 <div className="flex items-center justify-between mt-4">
                   <button

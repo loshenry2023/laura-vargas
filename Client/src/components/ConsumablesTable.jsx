@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 
 //componentes, hooks, reducer
@@ -7,14 +7,25 @@ import { useNavigate } from "react-router-dom";
 //react icons
 import { SlChart } from "react-icons/sl";
 import { FiEdit } from "react-icons/fi";
+import { useState } from "react";
 
 //variables de entorno
 import getParamsEnv from "../functions/getParamsEnv";
+import EditConsumableForm from "./EditConsumableForm";
 const { HISTORYPRICEBASE, EDITPRODUCTBASE } = getParamsEnv();
 
-const ConsumablesTable = ({ products, user }) => {
+const ConsumablesTable = ({ products, user, onClose}) => {
   const navigate = useNavigate();
   console.log("Datos de products:", products);
+
+  const [showEditConsumableModal, setEditConsumableModal] = useState(false)
+  const [code, setCode] = useState("")
+
+  const handleShowEditModal = (fila) => {
+    setEditConsumableModal(true)
+    setCode(fila)
+  }
+
 
   if (products && products.rows && Array.isArray(products.rows)) {
     console.log("Datos de products.rows:", products.rows);
@@ -90,12 +101,9 @@ const ConsumablesTable = ({ products, user }) => {
                       </div>
                     </td>
                     <td>
-                      <Link
-                        to={`${EDITPRODUCTBASE}/${fila.code}`}
-                        style={{ display: "flex", alignItems: "center" }}
-                      >
-                        <FiEdit />
-                      </Link>
+                     
+                        <FiEdit onClick={() => handleShowEditModal(fila.code)} />
+                      
                     </td>
                   </tr>
                 ))}
@@ -103,6 +111,14 @@ const ConsumablesTable = ({ products, user }) => {
             </table>
           </div>
         }
+        {showEditConsumableModal && (
+          <EditConsumableForm 
+           onClose={onClose}
+            setEditConsumableModal={setEditConsumableModal}
+            code={code}
+           
+          />
+        )}
       </>
     );
   } else {

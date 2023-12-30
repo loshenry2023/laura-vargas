@@ -4,17 +4,19 @@ import { useDispatch, useSelector } from "react-redux";
 import { editProduct, updateProductPrice } from "../redux/actions";
 import { IoClose } from "react-icons/io5";
 import editConsumableValidation from "../functions/editConsumableValidation";
-import { toast, Toaster } from "react-hot-toast";
+import { toast } from "react-hot-toast";
+import ToasterConfig from "./../components/Toaster";
 
 import getParamsEnv from "../functions/getParamsEnv";
 const { CONSUMABLES } = getParamsEnv();
 
-function EditConsumableForm() {
-  const { code } = useParams();
+function EditConsumableForm({ setEditConsumableModal, code, onClose}) {
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const productsState = useSelector((state) => state.products);
   const products = Array.isArray(productsState.rows) ? productsState.rows : [];
+  const [operationSelected, setOperationSelected] = useState(false)
 
   const product = products.find((p) => p.code === parseInt(code, 10));
 
@@ -57,8 +59,13 @@ function EditConsumableForm() {
 
       dispatch(editProduct(product.code, updatedProductWithoutAmountChange));
       toast.success(
-        "Insumo modificado sin cambiar cantidad, no usaste ninguna operación."
+        "Insumo modificado sin cambiar cantidad."
       );
+      onClose()
+      setTimeout(() => {
+
+        setEditConsumableModal(false)
+      }, 3000)
 
       if (newPrice !== product.price) {
         try {
@@ -110,7 +117,13 @@ function EditConsumableForm() {
     }
 
     dispatch(editProduct(product.code, updatedProduct));
-    toast.success("Insumo modificado correctamente");
+    toast.success(
+      "Insumo modificado correctamente."
+    );
+    onClose()
+    setTimeout(() => {
+      setEditConsumableModal(false)
+    }, 3000)
 
     if (newPrice !== product.price) {
       try {
@@ -121,13 +134,19 @@ function EditConsumableForm() {
     }
   };
 
-  const handleGoBack = () => {
-    navigate(`${CONSUMABLES}`);
-  };
+  const handleOperationSelected = (value) => {
+    if(value === "") {
+      setOperationSelected(false)
+      setAmount(product.amount)
+    } else {
+      setOperationSelected(true)
+    }
+    
+  }
+
 
   return (
     <>
-      <Toaster />
       <div className="absolute top-0 left-0 flex items-center justify-center w-full h-full bg-black opacity-95">
         <div className="container">
           <div className="w-full bg-white shadow rounded-lg p-6 md:mx-auto md:w-1/2 2xl:w-1/3 dark:bg-darkBackground">
@@ -136,7 +155,7 @@ function EditConsumableForm() {
                 Editar insumo
               </h1>
               <IoClose
-                onClick={handleGoBack}
+                onClick={() => setEditConsumableModal(false)}
                 className="cursor-pointer mt-2 w-5 h-5 dark:text-darkText"
               />
             </div>
@@ -169,25 +188,29 @@ function EditConsumableForm() {
                 />
               </div>
               <div className="mb-2">
-                <label className="pl-1 text-sm font-bold">Cantidad:</label>
-                <input
-                  className="border border-black p-2 rounded w-full"
-                  type="number"
-                  value={amount}
-                  onChange={(e) => setAmount(e.target.value)}
-                />
-              </div>
-              <div className="mb-2">
                 <label className="pl-1 text-sm font-bold">Operación:</label>
                 <select
                   className="border border-black p-2 rounded w-full"
                   value={operation}
-                  onChange={(e) => setOperation(e.target.value)}
+                  onChange={(e) => {
+                    setOperation(e.target.value);
+                    handleOperationSelected(e.target.value);
+                  }}
                 >
                   <option value="">Accion de Stock</option>
                   <option value="add">Agregar Stock</option>
                   <option value="subtract">Quitar Stock</option>
                 </select>
+              </div>
+              <div className="mb-2">
+                <label className="pl-1 text-sm font-bold">Cantidad:</label>
+                <input
+                  disabled={!operationSelected}
+                  className={operationSelected ? "border border-black p-2 rounded w-full" : "border border-black p-2 rounded w-full cursor-not-allowed bg-gray-200"}
+                  type="number"
+                  value={amount}
+                  onChange={(e) => setAmount(e.target.value)}
+                />
               </div>
               <div className="mb-2">
                 <label className="pl-1 text-sm font-bold">Precio:</label>
@@ -226,6 +249,7 @@ function EditConsumableForm() {
           </div>
         </div>
       </div>
+      <ToasterConfig />
     </>
   );
 }
