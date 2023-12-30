@@ -106,7 +106,7 @@ function Consumables() {
                   <button
                     onClick={() => handlePageChange(page - 1)}
                     disabled={page === 0}
-                    className="bg-secondaryPink hover:bg-primaryPink text-white py-2 px-4 rounded"
+                    className="bg-primaryPink hover:bg-primaryPink text-white py-2 px-4 rounded"
                   >
                     Anterior
                   </button>
@@ -116,7 +116,7 @@ function Consumables() {
                   <button
                     onClick={() => handlePageChange(page + 1)}
                     disabled={page === totalPages - 1}
-                    className="bg-secondaryPink hover:bg-primaryPink text-white py-2 px-4 rounded"
+                    className="bg-primaryPink hover:bg-primaryPink text-white py-2 px-4 rounded"
                   >
                     Siguiente
                   </button>

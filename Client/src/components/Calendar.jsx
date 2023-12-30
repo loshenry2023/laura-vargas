@@ -28,6 +28,7 @@ const Calendar = ({setDateInfo, services, users, setSpecialty, branches, refresc
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
   const [citaId, setCitaId] = useState(null)
   const [showEditAppointment, setShowEditAppointment] = useState(false)
+  const [userId, setUserId] = useState(user.role === "especialista" ? user.id : "")
   const days = ["D", "L", "M", "M", "J", "V", "S"];
   const currentDate = dayjs();
   const workingBranch = useSelector((state) => state?.workingBranch);
@@ -86,7 +87,7 @@ const Calendar = ({setDateInfo, services, users, setSpecialty, branches, refresc
   
     
   useEffect(() => {
-    dispatch(getCalendar(branch, dateFrom, dateTo, { token: token })).then(
+    dispatch(getCalendar(branch, dateFrom, dateTo, userId, { token: token })).then(
       setLoading(false)
     );
   }, [branch, dateFrom, dateTo, citaId, refrescarCita]);

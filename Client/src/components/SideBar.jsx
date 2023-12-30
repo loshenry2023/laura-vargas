@@ -77,8 +77,8 @@ const SideBar = () => {
     >
       <hr className="w-14 h-[1px] bg-beige border-0" />
       <IconWithTooltip to={USERPROFILES} iconName="profile" tooltipText="Plantilla" />
-      <IconWithTooltip to={AGENDA} iconName="calendar" tooltipText="Agenda" />
       <IconWithTooltip to={CLIENTSPROFILES} iconName="userGroup" tooltipText="Clientes" />
+      <IconWithTooltip to={AGENDA} iconName="calendar" tooltipText="Agenda" />
       <IconWithTooltip to="#" onClick={() => handleIconClick("location")} iconName="location" tooltipText="Ubicacion" />
       <IconWithTooltip to="#" onClick={() => handleIconClick("fingernail")} iconName="fingernail" tooltipText="Servicios" />
       <IconWithTooltip to="#" onClick={() => handleIconClick("analytics")} iconName="analytics" tooltipText="Estadísticas" />
