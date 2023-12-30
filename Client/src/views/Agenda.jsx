@@ -87,9 +87,7 @@ const Agenda = () => {
     setShowAppointmentModal(true);
   };
 
-  useEffect(() =>{
-    console.log(dateInfo, "DATEINFO")
-  },[dateInfo])
+
 
   useEffect(() => {
     dispatch(getToken(tokenID))
@@ -239,7 +237,7 @@ const Agenda = () => {
                   className="border border-black rounded-md text-md dark:text-darkText dark:bg-darkPrimary"
                   onChange={handleChange}
                 >
-                  <option selected={dateInfo.service.id ? false : true} value="noneSpecialty" > Procedimientos </option>
+                  <option defaultValue={dateInfo.service.id ? false : true} value="noneSpecialty" > Procedimientos </option>
                   {services.map((service, index) => (
                     <option key={index} value={JSON.stringify(service)}>{service.serviceName}</option>
                   ))}
@@ -250,7 +248,7 @@ const Agenda = () => {
                   id=""
                   className="border border-black rounded-md text-md dark:text-darkText dark:bg-darkPrimary"
                 >
-                  <option selected={dateInfo.specialist.id ? false : true} value="null"> -- Especialista-- </option>
+                  <option defaultValue={dateInfo.specialist.id ? false : true} value="null"> -- Especialista-- </option>
                   {users.map((user, index) => (
                     user.role === "especialista" && (
                       <option key={index} value={JSON.stringify(user)}>

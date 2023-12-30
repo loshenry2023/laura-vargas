@@ -9,11 +9,11 @@ const putCalendarHandler = async (req, res) => {
     const { token } = req.body;
     const { id } = req.params;
     showLog(`putCalendarHandler`);
-    // Verifico token. Sólo un superAdmin puede modificar:
+    // Verifico token:
     if (!token) { throw Error("Se requiere token"); }
     const checked = await checkToken(token);
-    if (!checked.exist || checked.role !== "superAdmin") {
-      showLog(checked.role !== "superAdmin" ? `Wrong role.` : `Wrong token.`);
+    if (!checked.exist) {
+      showLog(`Wrong token.`);
       return res.status(401).send(`Sin permiso.`);
     }
 

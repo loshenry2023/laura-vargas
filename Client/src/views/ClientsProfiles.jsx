@@ -16,7 +16,6 @@ const ClientsProfiles = () => {
 
   const [loading, setLoading] = useState(true);
   const token = useSelector((state) => state?.token);
-  const user = useSelector((state) => state?.user);
   const clients = useSelector((state) => state?.clients);
   const count = useSelector((state) => state?.countClient);
   const dispatch = useDispatch();
@@ -76,9 +75,7 @@ const ClientsProfiles = () => {
               {" "}
               Clientes{" "}
             </h1>
-            {user.role === "especialista" ? null : 
             <IoPersonAddOutline className='h-6 w-6 mt-0.5 cursor-pointer dark:text-darkText' onClick={handleClientFormModal}/>
-            }
           </div>
           <ClientFilters setNameOrLastName={setNameOrLastName} nameOrLastName={nameOrLastName}  setAttribute={setAttribute}  setOrder={setOrder}  setPage={setPage}  setSize={setSize}/>
           <ClientsTable clients={clients} />

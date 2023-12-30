@@ -6,7 +6,6 @@ import {
   GET_SPECIALTIES,
   ERROR,
   DELETE_USER,
-  SET_ICON,
   USER_LOGOUT,
   CLEAR_USERID,
   GET_SERVICES,
@@ -49,7 +48,6 @@ const initialState = {
   countClient: 0,
   clientID: {},
   error: null,
-  selectedIcon: null,
   editingProduct: null,
   pricesHistory: [],
   payMethods: []
@@ -201,13 +199,6 @@ const rootReducer = (
       localStorage.setItem("myAppReduxState", JSON.stringify(errorState));
       return errorState;
 
-    case SET_ICON:
-      const setIconState = {
-        ...state,
-        selectedIcon: payload,
-      };
-      localStorage.setItem("myAppReduxState", JSON.stringify(setIconState));
-      return setIconState;
 
     case USER_LOGOUT:
       localStorage.removeItem("myAppReduxState");
@@ -315,7 +306,7 @@ const rootReducer = (
           payMethods: payload,
         };
         localStorage.setItem("myAppReduxState", JSON.stringify(setPayMethods));
-        return setIconState;
+        return setPayMethods;
 
     default:
       return state;

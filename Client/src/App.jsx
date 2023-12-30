@@ -11,7 +11,7 @@ import SpecialistDate from "./views/SpecialistDate.jsx";
 
 import Consumables from "./views/Consumables.jsx";
 import ConsHistoryPrice from "./components/ConsHistoryPrice.jsx";
-// import NewConsumableForm from "./components/NewConsumableForm.jsx";
+import NewConsumableForm from "./components/NewConsumableForm.jsx";
 import EditConsumableForm from "./components/EditConsumableForm.jsx";
 
 // hooks, routers, reducers:
@@ -34,10 +34,6 @@ const {
   CLIENTDETAIL,
   CLIENTSPROFILES,
   DATEDETAIL,
-  CONSUMABLES,
-  HISTORYPRICE,
-  NEWCONSUMABLE,
-  EDITPRODUCT,
 } = getParamsEnv();
 
 const App = () => {
@@ -59,10 +55,10 @@ const App = () => {
         <Route path={EDIT} element={<Edit />} />
         <Route path={ABOUT} element={<About />} />
         <Route path={ERROR} element={<Error />} />*/}
-        <Route path={CONSUMABLES} element={<Consumables />} />
-        <Route path={HISTORYPRICE} element={<ConsHistoryPrice />} />
-        {/* <Route path={NEWCONSUMABLE} element={<NewConsumableForm />} /> */}
-        <Route path={EDITPRODUCT} element={<EditConsumableForm />} />
+        <Route path="consumables" element={<Consumables />} />
+        <Route path="historyprice/:productId" element={<ConsHistoryPrice />} />
+        <Route path="newconsumable" element={<NewConsumableForm />} />
+        <Route path="editproduct/:code" element={<EditConsumableForm />} />
         <Route path="*" element={<Error />} />
       </Routes>
     </div>

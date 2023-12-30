@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { useParams } from 'react-router-dom';
-import { getCalendar, getClientId } from '../redux/actions/';
+import { getClientId } from '../redux/actions/';
 import HistoryServices from './HistoryServices';
 import { toast } from 'react-hot-toast'
 import ToasterConfig from '../components/Toaster'
@@ -27,6 +27,7 @@ const DateDetail = () => {
     const navigate = useNavigate()
     const dispatch = useDispatch();
     const { id: appointmentId } = useParams();
+    const branch = useSelector((state) => state?.workingBranch)
     const token = useSelector((state) => state?.token);
     const calendar = useSelector((state) => state?.calendar);
     const clientInfo = useSelector((state) => state?.clientID);
@@ -55,22 +56,20 @@ const DateDetail = () => {
         amount1: "",
         amount2: ""
     })
+    const [aux, setAux] = useState(false)
 
     useEffect(() => {
-        dispatch(getCalendar({ token: token }));
+      
         if (calendar) {
             const findAppointment = calendar.find((date) => date.id === appointmentId);
             if (findAppointment) {
                 setAppointment(findAppointment);
-                setClientId(findAppointment.Client.id);
                 setIsLoading(true);
-            }
-            if (clientId) {
-                dispatch(getClientId(clientId, { token }));
+                dispatch(getClientId(findAppointment.Client.id, { token }))
             }
         }
 
-    }, [dispatch, token, calendar, appointmentId, clientId]);
+    }, [dispatch, token, appointmentId, clientId]);
 
     const handlePriceChange = (e, priceType) => {
         const updatedPrice = { ...price, [priceType]: e.target.value };

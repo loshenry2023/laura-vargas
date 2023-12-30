@@ -106,7 +106,7 @@ async function getProductPricesHistory(req, res) {
   try {
     const { productId } = req.params; // Obtener el ID del producto de la solicitud
 
-    showLog(`getProductPricesHistory: ${productId}`);
+    showLog(`front -> getProductPricesHistory: ${productId}`);
     const productPricesHistory = await Product.findByPk(productId, {
       include: [
         {
