@@ -28,7 +28,6 @@ const Calendar = ({setDateInfo, services, users, setSpecialty, branches, refresc
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
   const [citaId, setCitaId] = useState(null)
   const [showEditAppointment, setShowEditAppointment] = useState(false)
-  const [userId, setUserId] = useState(user.role === "especialista" ? user.id : "")
   const days = ["D", "L", "M", "M", "J", "V", "S"];
   const currentDate = dayjs();
   const workingBranch = useSelector((state) => state?.workingBranch);
@@ -60,6 +59,7 @@ const Calendar = ({setDateInfo, services, users, setSpecialty, branches, refresc
   const capitalizedDate = (str) => {
     return str.charAt(0).toUpperCase() + str.slice(1);
   };
+  const [effectControl, setEffectControl] = useState(false)
 
   const range = [
     { hourFrom: "06:00:00", hourTo: "09:59:59" },
@@ -87,10 +87,20 @@ const Calendar = ({setDateInfo, services, users, setSpecialty, branches, refresc
   
     
   useEffect(() => {
-    dispatch(getCalendar(branch, dateFrom, dateTo, userId, { token: token })).then(
-      setLoading(false)
-    );
-  }, [branch, dateFrom, dateTo, citaId, refrescarCita]);
+
+    if(!effectControl){
+     
+      setEffectControl(true)
+      console.log("calendar desde calendar")
+      dispatch(getCalendar(branch, dateFrom, dateTo, { token: token })).then(
+        setLoading(false)
+      );
+      setEffectControl(false)
+      
+    }
+
+    
+  }, [workingBranch.id, dateFrom, dateTo, citaId, refrescarCita]);
 
   const handleShowEditAppointment = (date) => {
     const parsedDate = JSON.parse(date)

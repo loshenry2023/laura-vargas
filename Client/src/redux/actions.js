@@ -5,7 +5,6 @@ import {
   GET_BRANCHES,
   GET_SPECIALTIES,
   DELETE_USER,
-  SET_ICON,
   USER_LOGOUT,
   CLEAR_USERID,
   GET_SERVICES,
@@ -30,7 +29,7 @@ import {
   UPDATE_PRODUCT_PRICE_REQUEST,
   UPDATE_PRODUCT_PRICE_SUCCESS,
   UPDATE_PRODUCT_PRICE_FAILURE,
-  GET_PAY_METHODS
+  GET_PAY_METHODS,
 } from "./actionsTypes";
 
 import axios from "axios";
@@ -187,14 +186,18 @@ export const getUsers = (
   };
 };
 
-export const getCalendar = (branch, dateFrom, dateTo, userId, token) => {
+
+export const getCalendar = (branch, dateFrom, dateTo, token) => {
   const endPoint = API_URL_BASE + "/getcalendar?";
   return async function (dispatch) {
     try {
+      console.log(branch, dateFrom, dateTo, token, "PARAMETROS FILTROS")
       const { data } = await axios.post(
-        `${endPoint}branch=${branch}&dateFrom=${dateFrom}&dateTo=${dateTo}&userId=${userId}`,
+        `${endPoint}branch=${branch}&dateFrom=${dateFrom}&dateTo=${dateTo}`,
         token
       );
+
+      console.log(data, "AXIOS FILTROS")
       const modifiedData = data.map((calendar) => {
         const { date_from, date_to, ...rest } = calendar;
         const date_fromInBogotaTimezone = converterGMT(date_from);
@@ -250,10 +253,6 @@ export const deleteUser = (id, token) => {
   };
 };
 
-export const setIcon = (iconName) => ({
-  type: SET_ICON,
-  payload: iconName,
-});
 
 export const setLogout = (token) => {
   return async function (dispatch) {
