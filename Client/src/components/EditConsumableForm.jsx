@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { editProduct, updateProductPrice } from "../redux/actions";
 import { IoClose } from "react-icons/io5";
 import editConsumableValidation from "../functions/editConsumableValidation";
+import { toast, Toaster } from "react-hot-toast";
 
 import getParamsEnv from "../functions/getParamsEnv";
 const { CONSUMABLES } = getParamsEnv();
@@ -46,7 +47,6 @@ function EditConsumableForm() {
     const amountToAddOrSubtract = parseInt(amount, 10);
 
     if (operation === "" || operation === "Accion de Stock") {
-      // Retornar el producto con la cantidad original
       const updatedProductWithoutAmountChange = {
         ...(product || {}),
         productName,
@@ -56,7 +56,7 @@ function EditConsumableForm() {
       };
 
       dispatch(editProduct(product.code, updatedProductWithoutAmountChange));
-      setSuccessMessage(
+      toast.success(
         "Insumo modificado sin cambiar cantidad, no usaste ninguna operación."
       );
 
@@ -68,10 +68,6 @@ function EditConsumableForm() {
         }
       }
 
-      setTimeout(() => {
-        navigate(`${CONSUMABLES}`);
-      }, 2000);
-
       return;
     }
 
@@ -79,6 +75,7 @@ function EditConsumableForm() {
       setErrors({
         amount: "La cantidad solicitada no está disponible.",
       });
+      toast.error("La cantidad solicitada no está disponible.");
       return;
     }
 
@@ -90,6 +87,7 @@ function EditConsumableForm() {
       setErrors({
         amount: "La cantidad solicitada no está disponible.",
       });
+      toast.error("La cantidad solicitada no está disponible.");
       return;
     }
 
@@ -104,9 +102,6 @@ function EditConsumableForm() {
           : Math.max(0, product.amount - amountToAddOrSubtract),
     };
 
-    console.log("updatedProduct:", updatedProduct);
-    console.log("product:", product);
-
     const validationErrors = editConsumableValidation(product, updatedProduct);
 
     if (Object.keys(validationErrors).length > 0) {
@@ -115,7 +110,7 @@ function EditConsumableForm() {
     }
 
     dispatch(editProduct(product.code, updatedProduct));
-    setSuccessMessage("Insumo modificado correctamente");
+    toast.success("Insumo modificado correctamente");
 
     if (newPrice !== product.price) {
       try {
@@ -124,10 +119,6 @@ function EditConsumableForm() {
         console.error("Error updating product price:", error.message);
       }
     }
-
-    setTimeout(() => {
-      navigate(`${CONSUMABLES}`);
-    }, 2000);
   };
 
   const handleGoBack = () => {
@@ -136,6 +127,7 @@ function EditConsumableForm() {
 
   return (
     <>
+      <Toaster />
       <div className="absolute top-0 left-0 flex items-center justify-center w-full h-full bg-black opacity-95">
         <div className="container">
           <div className="w-full bg-white shadow rounded-lg p-6 md:mx-auto md:w-1/2 2xl:w-1/3 dark:bg-darkBackground">
