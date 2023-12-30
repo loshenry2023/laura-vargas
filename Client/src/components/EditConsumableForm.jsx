@@ -5,6 +5,9 @@ import { editProduct, updateProductPrice } from "../redux/actions";
 import { IoClose } from "react-icons/io5";
 import editConsumableValidation from "../functions/editConsumableValidation";
 
+import getParamsEnv from "../functions/getParamsEnv";
+const { CONSUMABLES } = getParamsEnv();
+
 function EditConsumableForm() {
   const { code } = useParams();
   const dispatch = useDispatch();
@@ -66,7 +69,7 @@ function EditConsumableForm() {
       }
 
       setTimeout(() => {
-        navigate("/consumables");
+        navigate(`${CONSUMABLES}`);
       }, 2000);
 
       return;
@@ -123,12 +126,12 @@ function EditConsumableForm() {
     }
 
     setTimeout(() => {
-      navigate("/consumables");
+      navigate(`${CONSUMABLES}`);
     }, 2000);
   };
 
   const handleGoBack = () => {
-    navigate("/consumables");
+    navigate(`${CONSUMABLES}`);
   };
 
   return (

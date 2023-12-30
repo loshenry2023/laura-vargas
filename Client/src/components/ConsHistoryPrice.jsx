@@ -5,6 +5,9 @@ import { getProductPricesHistory } from "../redux/actions";
 import { useNavigate } from "react-router-dom";
 import BarChartComponent from "./BarChartComponent";
 
+import getParamsEnv from "../functions/getParamsEnv";
+const { CONSUMABLES } = getParamsEnv();
+
 import { IoClose } from "react-icons/io5";
 
 import Loader from "./Loader";
@@ -35,7 +38,7 @@ const ConsHistoryPrice = () => {
   }, [dispatch, productId]);
 
   const handleGoBack = () => {
-    navigate("/consumables");
+    navigate(`${CONSUMABLES}`);
   };
 
   return (

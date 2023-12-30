@@ -9,6 +9,8 @@ import { SlChart } from "react-icons/sl";
 import { FiEdit } from "react-icons/fi";
 
 //variables de entorno
+import getParamsEnv from "../functions/getParamsEnv";
+const { HISTORYPRICEBASE, EDITPRODUCTBASE } = getParamsEnv();
 
 const ConsumablesTable = ({ products, user }) => {
   const navigate = useNavigate();
@@ -78,7 +80,7 @@ const ConsumablesTable = ({ products, user }) => {
                         {/* Agrega el botón/link */}
                         {user?.role === "superAdmin" && fila.code && (
                           <Link
-                            to={`/historyprice/${fila.code}`}
+                            to={`${HISTORYPRICEBASE}/${fila.code}`}
                             className="text-blue-500 "
                             style={{ display: "flex", alignItems: "center" }}
                           >
@@ -89,7 +91,7 @@ const ConsumablesTable = ({ products, user }) => {
                     </td>
                     <td>
                       <Link
-                        to={`/editproduct/${fila.code}`}
+                        to={`${EDITPRODUCTBASE}/${fila.code}`}
                         style={{ display: "flex", alignItems: "center" }}
                       >
                         <FiEdit />

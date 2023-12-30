@@ -12,7 +12,7 @@ import { TfiMenu } from "react-icons/tfi";
 
 // Variables de entorno
 import getParamsEnv from "../functions/getParamsEnv.js";
-const { AGENDA, USERPROFILES, CLIENTDETAIL, CLIENTSPROFILES } = getParamsEnv();
+const { CONSUMABLES, AGENDA, USERPROFILES, CLIENTDETAIL, CLIENTSPROFILES } = getParamsEnv();
 
 const IconWithTooltip = ({ to, iconName, tooltipText }) => {
   const [tooltipVisible, setTooltipVisible] = useState(false);
@@ -76,7 +76,6 @@ const SideBar = () => {
       className="bg-secondaryPink w-14 flex flex-col items-center gap-8 pointer-events-auto shadow-md shadow-grey dark:shadow-gray-100 dark:bg-darkPrimary dark:text-beige relative"
     >
       <hr className="w-14 h-[1px] bg-beige border-0" />
-
       <IconWithTooltip to={USERPROFILES} iconName="profile" tooltipText="Plantilla" />
       <IconWithTooltip to={AGENDA} iconName="calendar" tooltipText="Agenda" />
       <IconWithTooltip to={CLIENTSPROFILES} iconName="userGroup" tooltipText="Clientes" />
@@ -85,6 +84,7 @@ const SideBar = () => {
       <IconWithTooltip to="#" onClick={() => handleIconClick("analytics")} iconName="analytics" tooltipText="Estadísticas" />
       <IconWithTooltip to="/consumables" onClick={() => handleIconClick("Consumables")} iconName="Consumables" tooltipText="Insumos" />
     </div>
+
   );
 };
 

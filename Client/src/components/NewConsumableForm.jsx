@@ -5,7 +5,7 @@ import { IoClose } from "react-icons/io5";
 import axios from "axios";
 import newConsumableValidation from "../functions/newConsumableValidation";
 import getParamsEnv from "../functions/getParamsEnv";
-const { API_URL_BASE } = getParamsEnv();
+const { API_URL_BASE, CONSUMABLES } = getParamsEnv();
 import { toast } from "react-hot-toast";
 
 function NewConsumableForm({ onAddConsumable, onCancel }) {
@@ -67,7 +67,7 @@ function NewConsumableForm({ onAddConsumable, onCancel }) {
         if (response.statusText === "Created") {
           toast.success("Consumable creado con exito");
           setSubmissionStatus("success");
-          navigate("/consumables");
+          navigate(`${CONSUMABLES}`);
         } else {
           setSubmissionStatus("error");
         }
@@ -79,7 +79,7 @@ function NewConsumableForm({ onAddConsumable, onCancel }) {
   };
 
   const handleGoBack = () => {
-    navigate("/consumables");
+    navigate(`${CONSUMABLES}`);
   };
 
   return (
