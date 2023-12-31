@@ -21,7 +21,7 @@ import { getCalendar } from "../redux/actions";
 
 const { API_URL_BASE, DATEDETAILBASE } = getParamsEnv();
 
-const Calendar = ({setDateInfo, services, users, setSpecialty, branches, refrescarCita, setRefrescarCita, chosenClient, user}) => {
+const Calendar = ({setDateInfo, services, users, setSpecialty, branches, refrescarCita, setRefrescarCita, chosenClient, user, setSelectServices}) => {
   const dispatch = useDispatch();
 
   const [date, setDate] = useState({})
@@ -98,16 +98,24 @@ const Calendar = ({setDateInfo, services, users, setSpecialty, branches, refresc
       setEffectControl(false)
       
     }
+    if (showEditAppointment){
+      setSpecialty(date.User.Specialties[0].specialtyName)
+      setSelectServices(false)
+    } else {
+      setSpecialty("noneSpecialty")
+      setSelectServices(true)
+    }
 
     
-  }, [workingBranch.id, dateFrom, dateTo, citaId, refrescarCita]);
+  }, [workingBranch.id, dateFrom, dateTo, citaId, refrescarCita, showEditAppointment]);
 
   const handleShowEditAppointment = (date) => {
+    
     const parsedDate = JSON.parse(date)
-  
+    
     setDate(parsedDate)
-  
     setShowEditAppointment(true)
+    
     }
 
     const hideDeleteModal = () => {

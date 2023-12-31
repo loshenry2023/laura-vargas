@@ -59,12 +59,6 @@ const EditAppointment = ({ setShowEditAppointment, setSpecialty, token, date, se
     setShowEditAppointment(false);
   };
 
-  useEffect(() => {
-    console.log(AppointmentInfo)
-    console.log(date)
-
-  }, [AppointmentInfo])
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     let error = "";
@@ -258,9 +252,6 @@ const EditAppointment = ({ setShowEditAppointment, setSpecialty, token, date, se
     }
   };
 
-  console.log(date.User.id)
-  console.log(AppointmentInfo.specialist.id)
-
 
   return (
     <div>
@@ -354,7 +345,7 @@ const EditAppointment = ({ setShowEditAppointment, setSpecialty, token, date, se
                   >
                   <option value="null">Especialista</option>
                     {users.map((user, index) => (
-                      <option key={index} value={JSON.stringify(user)} selected={AppointmentInfo.specialist.id === date.User.id ? true : false}>
+                      <option key={index} value={JSON.stringify(user)} selected={AppointmentInfo.specialist.id === user.id ? true : false}>
                         {`${user.name} ${user.lastName}`}
                       </option>
                     ))}
