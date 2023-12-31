@@ -63,7 +63,7 @@ function NewConsumableForm({ onAddConsumable, onCancel }) {
           API_URL_BASE + "/products",
           newConsumable
         );
-        console.log("response", response);
+
         if (response.statusText === "Created") {
           toast.success("Consumable creado con exito");
           setSubmissionStatus("success");

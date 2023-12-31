@@ -78,16 +78,13 @@ const Agenda = () => {
       isDateSelected
 
     setIsFormCompleted(formCompleted);
-    console.log(formCompleted)
-    console.log(dateInfo)
+
   }, [dateInfo])
 
 
   const handleAppointmentModal = () => {
     setShowAppointmentModal(true);
   };
-
-
 
   useEffect(() => {
     dispatch(getToken(tokenID))

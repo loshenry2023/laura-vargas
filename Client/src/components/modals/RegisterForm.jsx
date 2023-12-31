@@ -142,7 +142,7 @@ function RegisterForm({ setShowResgisterFormModal, branches, specialties, tokenI
               }
             )
             closeModal();
-            //console.log(sendEmail)
+
             axios.post(`${API_URL_BASE}/sendmail`, sendEmail)
           }, 3000);
         } else {

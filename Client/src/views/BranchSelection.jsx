@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 // Variables de entorno:
 import getParamsEnv from "../functions/getParamsEnv";
 import { setBranch } from "../redux/actions";
-const { HOME} = getParamsEnv();
+const { HOME, AGENDA} = getParamsEnv();
 
 const BranchSelection = () => {
 const [workingBranch, setWorkingBranch] = useState({})
@@ -25,7 +25,11 @@ const handleChange = (e) => {
 
 const handleBranch = () => {
     dispatch(setBranch(workingBranch))
-    navigate(HOME)
+    if(user.role !== "especialista"){
+      navigate(HOME)
+    } else {
+      navigate(AGENDA)
+    }
 }
 
   return (

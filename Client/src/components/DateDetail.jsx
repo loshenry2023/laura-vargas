@@ -124,7 +124,6 @@ const DateDetail = () => {
             const response = await axios.put(`${API_URL_BASE}/calendar/${appointmentId}`, data)
 
         } catch (error) {
-            console.log(error)
         }
     }
 
@@ -182,7 +181,7 @@ const DateDetail = () => {
             }
 
         } catch (error) {
-            console.log(error)
+
         }
 
 

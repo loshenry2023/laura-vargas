@@ -35,7 +35,7 @@ const CreateAppointment = ({ setShowAppointmentModal, setChosenClient, dateInfo,
         obs: ""
     })
 
-    console.log(dateInfo)
+
     
     const closeModal = () => {
         setShowAppointmentModal(false)

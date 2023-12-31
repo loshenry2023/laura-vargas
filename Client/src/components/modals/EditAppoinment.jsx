@@ -60,7 +60,9 @@ const EditAppointment = ({ setShowEditAppointment, setSpecialty, token, date, se
   };
 
   useEffect(() => {
-    console.log(AppointmentInfo.date_from, "INFOCITA")
+    console.log(AppointmentInfo)
+    console.log(date)
+
   }, [AppointmentInfo])
 
   const handleChange = (e) => {
@@ -160,8 +162,6 @@ const EditAppointment = ({ setShowEditAppointment, setSpecialty, token, date, se
         }
       }));
 
-
-
       setSpecialty(parsedValue.Specialties[0].specialtyName)
     }
     } else {
@@ -220,9 +220,9 @@ const EditAppointment = ({ setShowEditAppointment, setSpecialty, token, date, se
       token: token
     };
 
-    console.log(dataErrors, "SUBMIT")
+
       const errors = validateEditAppointment(dataErrors);
-        console.log(errors)
+
         if (Object.keys(errors).length > 0) {
           setValidationErrors(errors);
           return;
@@ -258,6 +258,8 @@ const EditAppointment = ({ setShowEditAppointment, setSpecialty, token, date, se
     }
   };
 
+  console.log(date.User.id)
+  console.log(AppointmentInfo.specialist.id)
 
 
   return (
@@ -352,7 +354,7 @@ const EditAppointment = ({ setShowEditAppointment, setSpecialty, token, date, se
                   >
                   <option value="null">Especialista</option>
                     {users.map((user, index) => (
-                      <option key={index} value={JSON.stringify(user)} selected={AppointmentInfo.specialist.id === user.id ? true : false}>
+                      <option key={index} value={JSON.stringify(user)} selected={AppointmentInfo.specialist.id === date.User.id ? true : false}>
                         {`${user.name} ${user.lastName}`}
                       </option>
                     ))}
