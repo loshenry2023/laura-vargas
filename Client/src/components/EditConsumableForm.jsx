@@ -27,6 +27,7 @@ function EditConsumableForm({ setEditConsumableModal, code, onClose }) {
   const [operation, setOperation] = useState("");
   const [errors, setErrors] = useState({});
   const [initialAmount, setInitialAmount] = useState("");
+  const [priceHistory, setPriceHistory] = useState([]);
 
   useEffect(() => {
     if (product) {
@@ -39,6 +40,7 @@ function EditConsumableForm({ setEditConsumableModal, code, onClose }) {
         product.PriceHistories.length > 0
           ? product.PriceHistories[0].price
           : "Precio no disponible";
+      setPriceHistory(currentPrice);
       setNewPrice(currentPrice);
     }
   }, [product, products]);
@@ -51,10 +53,64 @@ function EditConsumableForm({ setEditConsumableModal, code, onClose }) {
       setAmount("");
       setNewPrice("");
       setOperation("");
+      setPriceHistory("");
       setErrors({});
     };
+
     const amountToAddOrSubtract = parseInt(amount, 10);
 
+    if (
+      operation === "subtract" &&
+      product.amount - amountToAddOrSubtract < 0 &&
+      initialAmount - amountToAddOrSubtract < 0
+    ) {
+      setErrors({
+        amount: "La cantidad solicitada no está disponible.",
+      });
+      toast.error("La cantidad solicitada no está disponible.");
+      return;
+    }
+
+    if (operation === "add" || operation === "subtract") {
+      const lastAmount =
+        operation === "add"
+          ? product.amount + amountToAddOrSubtract
+          : Math.max(0, product.amount - amountToAddOrSubtract);
+
+      const updatedProduct = {
+        ...(product || {}),
+        productName,
+        description,
+        supplier,
+        amount: lastAmount,
+      };
+
+      const validationErrors = editConsumableValidation(
+        product,
+        updatedProduct
+      );
+
+      if (Object.keys(validationErrors).length > 0) {
+        setErrors(validationErrors);
+        return;
+      }
+
+      dispatch(editProduct(product.code, updatedProduct));
+      if (parseFloat(newPrice) !== parseFloat(priceHistory)) {
+        try {
+          console.log("newPrice", newPrice, "precio anterior", priceHistory);
+          dispatch(updateProductPrice(product.code, newPrice));
+        } catch (error) {
+          console.error("Error updating product price:", error.message);
+        }
+      }
+      toast.success("Insumo modificado correctamente.");
+      onClose();
+      setTimeout(() => {
+        resetFields();
+        setEditConsumableModal(false);
+      }, 3000);
+    }
     if (operation === "" || operation === "Accion de Stock") {
       const updatedProductWithoutAmountChange = {
         ...(product || {}),
@@ -65,76 +121,20 @@ function EditConsumableForm({ setEditConsumableModal, code, onClose }) {
       };
 
       dispatch(editProduct(product.code, updatedProductWithoutAmountChange));
+      if (parseFloat(newPrice) !== parseFloat(priceHistory)) {
+        try {
+          console.log("newPrice", newPrice, "precio anterior", priceHistory);
+          dispatch(updateProductPrice(product.code, newPrice));
+        } catch (error) {
+          console.error("Error updating product price:", error.message);
+        }
+      }
       toast.success("Insumo modificado sin cambiar cantidad.");
       onClose();
       setTimeout(() => {
         resetFields();
         setEditConsumableModal(false);
       }, 3000);
-
-      if (newPrice !== product.price) {
-        try {
-          dispatch(updateProductPrice(product.code, newPrice));
-        } catch (error) {
-          console.error("Error updating product price:", error.message);
-        }
-      }
-
-      return;
-    }
-
-    if (operation === "subtract" && initialAmount - amountToAddOrSubtract < 0) {
-      setErrors({
-        amount: "La cantidad solicitada no está disponible.",
-      });
-      toast.error("La cantidad solicitada no está disponible.");
-      return;
-    }
-
-    // Validación adicional para la cantidad no sea menor a cero
-    if (
-      operation === "subtract" &&
-      product.amount - amountToAddOrSubtract < 0
-    ) {
-      setErrors({
-        amount: "La cantidad solicitada no está disponible.",
-      });
-      toast.error("La cantidad solicitada no está disponible.");
-      return;
-    }
-
-    const updatedProduct = {
-      ...(product || {}),
-      productName,
-      description,
-      supplier,
-      amount:
-        operation === "add"
-          ? product.amount + amountToAddOrSubtract
-          : Math.max(0, product.amount - amountToAddOrSubtract),
-    };
-
-    const validationErrors = editConsumableValidation(product, updatedProduct);
-
-    if (Object.keys(validationErrors).length > 0) {
-      setErrors(validationErrors);
-      return;
-    }
-
-    dispatch(editProduct(product.code, updatedProduct));
-    toast.success("Insumo modificado correctamente.");
-    onClose();
-    setTimeout(() => {
-      resetFields();
-      setEditConsumableModal(false);
-    }, 3000);
-
-    if (newPrice !== product.price) {
-      try {
-        dispatch(updateProductPrice(product.code, newPrice));
-      } catch (error) {
-        console.error("Error updating product price:", error.message);
-      }
     }
   };
 
