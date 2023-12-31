@@ -25,7 +25,6 @@ function EditConsumableForm({ setEditConsumableModal, code, onClose }) {
   const [amount, setAmount] = useState("");
   const [newPrice, setNewPrice] = useState("");
   const [operation, setOperation] = useState("");
-
   const [errors, setErrors] = useState({});
   const [initialAmount, setInitialAmount] = useState("");
 
@@ -56,22 +55,64 @@ function EditConsumableForm({ setEditConsumableModal, code, onClose }) {
     };
     const amountToAddOrSubtract = parseInt(amount, 10);
 
-    let updatedProduct = {
+    if (operation === "" || operation === "Accion de Stock") {
+      const updatedProductWithoutAmountChange = {
+        ...(product || {}),
+        productName,
+        description,
+        supplier,
+        amount: initialAmount,
+      };
+
+      dispatch(editProduct(product.code, updatedProductWithoutAmountChange));
+      toast.success("Insumo modificado sin cambiar cantidad.");
+      onClose();
+      setTimeout(() => {
+        resetFields();
+        setEditConsumableModal(false);
+      }, 3000);
+
+      if (newPrice !== product.price) {
+        try {
+          dispatch(updateProductPrice(product.code, newPrice));
+        } catch (error) {
+          console.error("Error updating product price:", error.message);
+        }
+      }
+
+      return;
+    }
+
+    if (operation === "subtract" && initialAmount - amountToAddOrSubtract < 0) {
+      setErrors({
+        amount: "La cantidad solicitada no está disponible.",
+      });
+      toast.error("La cantidad solicitada no está disponible.");
+      return;
+    }
+
+    // Validación adicional para la cantidad no sea menor a cero
+    if (
+      operation === "subtract" &&
+      product.amount - amountToAddOrSubtract < 0
+    ) {
+      setErrors({
+        amount: "La cantidad solicitada no está disponible.",
+      });
+      toast.error("La cantidad solicitada no está disponible.");
+      return;
+    }
+
+    const updatedProduct = {
       ...(product || {}),
       productName,
       description,
       supplier,
-      amount: initialAmount,
+      amount:
+        operation === "add"
+          ? product.amount + amountToAddOrSubtract
+          : Math.max(0, product.amount - amountToAddOrSubtract),
     };
-
-    if (operation === "add") {
-      updatedProduct.amount += amountToAddOrSubtract;
-    } else if (operation === "subtract") {
-      updatedProduct.amount = Math.max(
-        0,
-        updatedProduct.amount - amountToAddOrSubtract
-      );
-    }
 
     const validationErrors = editConsumableValidation(product, updatedProduct);
 
@@ -80,26 +121,20 @@ function EditConsumableForm({ setEditConsumableModal, code, onClose }) {
       return;
     }
 
-    // Actualizar el precio del producto
+    dispatch(editProduct(product.code, updatedProduct));
+    toast.success("Insumo modificado correctamente.");
+    onClose();
+    setTimeout(() => {
+      resetFields();
+      setEditConsumableModal(false);
+    }, 3000);
+
     if (newPrice !== product.price) {
       try {
         dispatch(updateProductPrice(product.code, newPrice));
       } catch (error) {
         console.error("Error updating product price:", error.message);
       }
-    }
-
-    try {
-      console.log("updatedProduct", updatedProduct);
-      dispatch(editProduct(product.code, updatedProduct));
-      toast.success("Insumo modificado correctamente.");
-      onClose();
-      setTimeout(() => {
-        resetFields();
-        setEditConsumableModal(false);
-      }, 3000);
-    } catch (error) {
-      console.error("Error updating product:", error.message);
     }
   };
 
