@@ -14,20 +14,16 @@ import { AiFillYahoo } from "react-icons/ai";
 
 // Variables de entorno:
 import getParamsEnv from "../functions/getParamsEnv";
-const { ROOT, HOME, API_URL_BASE, BRANCH } = getParamsEnv();
+const { ROOT, HOME, AGENDA, API_URL_BASE, BRANCH } = getParamsEnv();
 
 //Firebase
 import {
   GoogleAuthProvider,
   signInWithPopup,
   getAuth,
-  OAuthProvider
+  OAuthProvider,
 } from "firebase/auth";
 import app from "../firebase/firebaseConfig";
-
-//const auth = getAuth(app);
-//const googleProvider = new GoogleAuthProvider();
-//const yahooProvider = new OAuthProvider('yahoo.com');
 
 const LogIn = () => {
   const [role, setRole] = useState("");
@@ -40,32 +36,39 @@ const LogIn = () => {
     if (role === "superAdmin" || role === "admin" || role === "especialista") {
       if (branches.length == 1) {
         dispatch(setBranch({ ...branches[0] }));
-        navigate(HOME)
+        if(role === "superAdmin" || role === "admin"){
+          navigate(HOME)
+        } else [
+          navigate(AGENDA)
+        ]
       } else {
         navigate(BRANCH)
       }
     }
   }, [role]);
 
-  const handleYahoo = async () => {
+  const handleYahoo = async (directIn = false, ultIntento = false) => {
     dispatch(clearDataInicio());
     try {
       const auth = getAuth(app);
       const yahooProvider = new OAuthProvider('yahoo.com');
+      // ISSUE: Al primer intento de login con Yahoo, es posible que ocurra un error capturable. En ese caso hago un segundo intento, donde ya logra ingresar sin problemas. Manejo recursividad y un flag que me permita darme cuenta si estoy entrando por primera vez, así customizo el popup de manera diferente:
+      if (directIn === true) { // segundo intento
+        yahooProvider.setCustomParameters({
+          language: 'es',
+        })
 
-      yahooProvider.setCustomParameters({
-        prompt: "select_account",
-        language: 'es',
-      });
+      } else { // primera vez
+        yahooProvider.setCustomParameters({
+          prompt: "select_account",
+          language: 'es',
+        })
+      };
+      // Guarda la referencia a la nueva ventana emergente
       const result = await signInWithPopup(auth, yahooProvider);
       const userEmail = result.user.email;
       const credential = OAuthProvider.credentialFromResult(result);
-      const accessToken = credential.accessToken;
       const idToken = credential.idToken;
-
-      console.log("Usr: ", userEmail);
-      console.log("Tkn: ", idToken);
-
       // Obtengo el token de acceso:
       const dataToValidate = {
         nameUser: userEmail,
@@ -75,27 +78,34 @@ const LogIn = () => {
         API_URL_BASE + "/userdata",
         dataToValidate
       );
-
       const userData = retrieveUser.data;
       dispatch(getUser(userData));
       const { role, branches } = userData;
       setBranches(branches);
       setRole(role);
-      dispatch(getToken(accessToken));
+
+
+      console.log("TKEn ", idToken);
+      dispatch(getToken(idToken));
     } catch (error) {
-      if (error.code === "auth/popup-closed-by-user") {
-        // La primera vez que se carga un usuario, la ventana se cierra sin devolver el resultado,
-        // así que atrapo el error y le aviso que vuelva a intentar:
-        toast.error("Vuelve a intentar, por favor")
-        setTimeout(() => {
-        }, 4000);
-      } else {
-        if (error.message.includes("404")) {
-          { toast.error(`${error.response.data}`.charAt(0).toUpperCase() + `${error.response.data}`.slice(1)) }
+      console.log("Error ", error);
+      console.log("ultIntento ", ultIntento);
+      if (!ultIntento) {
+        if (error.code === "auth/popup-closed-by-user") {
+          // atrapo el error y reintento:
+          console.log("Reintentando...");
+          setTimeout(() => {
+          }, 1000);
+          ultIntento = true;
+          handleYahoo(true, ultIntento);
         } else {
-          toast.error(error.message);
-        }
-      };
+          if (error.message.includes("404")) {
+            { toast.error(`${error.response.data}`.charAt(0).toUpperCase() + `${error.response.data}`.slice(1)) }
+          } else {
+            toast.error(error.message);
+          }
+        };
+      }
     };
   };
 
@@ -114,9 +124,6 @@ const LogIn = () => {
 
       // Obtengo el token de acceso:
       const accessToken = await googleUser.user.getIdToken();
-
-      console.log("Usr: ", googleUser.user.email);
-      console.log("Tkn: ", accessToken);
 
       const dataToValidate = {
         nameUser: googleUser.user.email,
@@ -142,7 +149,7 @@ const LogIn = () => {
 
   return (
     <section className="mx-auto">
-      <div className="bg-[url('https://res.cloudinary.com/doyafxwje/image/upload/v1702756196/LogIn/gynr0zwbrkjrkkqv5acv.png')] bg-cover bg-center flex flex-col items-center justify-center h-screen lg:py-0">
+      <div className="bg-[url('https://res.cloudinary.com/doyafxwje/image/upload/v1703630993/LogIn/osoq2vut2vy2fivyauxm.jpg')] bg-cover bg-center flex flex-col items-center justify-center h-screen lg:py-0">
         <div className="w-full bg-white rounded-lg shadow-xl shadow-black max-w-sm">
           <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
             <div className="flex justify-between">
@@ -155,7 +162,7 @@ const LogIn = () => {
               </Link>
             </div>
             <button
-              onClick={handleYahoo}
+              onClick={() => handleYahoo(false)}
               className="w-full px-4 py-2 border flex justify-center  gap-2 rounded-lg border-slate-700 hover:bg-grey hover:text-white transition-color duration-700 ease-in-out"
             >
               <AiFillYahoo className="h-6 w-6 text-blue-900" />

@@ -11,6 +11,7 @@ import "./loading.css"
 
 //icons
 import { IoPersonAddOutline } from "react-icons/io5";
+import Pagination from "../components/Pagination";
 
 function UserProfiles() {
   const dispatch = useDispatch();
@@ -84,7 +85,8 @@ function UserProfiles() {
       <NavBar />
       <div className="flex flex-row dark:bg-darkBackground">
         <SideBar /> 
-        {loading ? <Loader /> : (
+        {user?.role === "superAdmin" || user?.role === "Admin" ? (
+        loading ? (<Loader />) : (
           <div className="flex flex-col mt-10 gap-5 w-2/3 mx-auto"> 
             <h1 className="text-2xl underline underline-offset-4 tracking-wide text-center font-fontTitle dark:text-beige sm:text-left" >Plantilla de empleados</h1>
             <section className="flex flex-col gap-2 mx-auto sm:flex sm:flex-row sm:gap-5 sm:w-full">
@@ -204,67 +206,20 @@ function UserProfiles() {
                 users={users} />
               {showResgisterFormModal ? (
                 <RegisterForm
-                  setShowResgisterFormModal={setShowResgisterFormModal}
+                setShowResgisterFormModal={setShowResgisterFormModal}
                   specialties={specialties}
                   branches={branches}
                   tokenID={tokenID}
+                  activarNuevoUsuario={activarNuevoUsuario}
                   setActivarNuevoUsuario={setActivarNuevoUsuario}
                 />
               ) : null}
             </section>
-            <section className="flex flex-col items-center gap-5">
-            <select
-                name=""
-                id=""
-                defaultValue={10}
-                onChange={(e) => {
-                  setSize(e.target.value);
-                  setPage(0);
-                }}
-                className="shadow shadow-black rounded-md dark:text-darkText dark:bg-darkPrimary"
-              >
-                {" "}
-                <option value={1}>1</option>
-                <option value={2}>2</option>
-                <option value={3}>3</option>
-                <option value={4}>4</option>
-                <option value={5}>5</option>
-                <option value={6}>6</option>
-                <option value={7}>7</option>
-                <option value={8}>8</option>
-                <option value={9}>9</option>
-                <option value={10}>10</option>
-              </select>
-                <div>
-                <button
-                  onClick={
-                    page
-                      ? () => {
-                        setPage(page - 1);
-                      }
-                      : null
-                  }
-                  className="dark:text-darkText"
-                >
-                  {" "}
-                  {"<"}
-                </button>
-                <span className="dark:text-darkText"> {page + 1} de {pagination} </span>
-                <button
-                  onClick={
-                    page < pagination - 1
-                      ? () => {
-                        setPage(page + 1);
-                      }
-                      : null
-                  }
-                  className="dark:text-darkText"
-                >
-                  {">"}
-                </button>
-                </div>
-            </section>
-          </div>)}
+            <Pagination page={page} setPage={setPage} size={size} setSize={setSize} count={count}/>
+          </div>)) : (
+            <div className="flex w-full justify-center items-center">
+              <img src="https://res.cloudinary.com/doyafxwje/image/upload/v1703981517/Access/denied_eylikh.png" alt="denied-access" className="h-96"/>
+            </div>)}
        </div> 
       </div>
   )

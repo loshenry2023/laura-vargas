@@ -6,7 +6,6 @@ import {
   GET_SPECIALTIES,
   ERROR,
   DELETE_USER,
-  SET_ICON,
   USER_LOGOUT,
   CLEAR_USERID,
   GET_SERVICES,
@@ -16,6 +15,22 @@ import {
   CLEAR_CLIENT_ID,
   SET_WORKING_BRANCH,
   GET_CALENDAR,
+  GET_PRODUCTS_FAILURE,
+  GET_PRODUCTS_REQUEST,
+  GET_PRODUCTS_SUCCESS,
+  CREATE_PRODUCT_FAILURE,
+  CREATE_PRODUCT_REQUEST,
+  CREATE_PRODUCT_SUCCESS,
+  EDIT_PRODUCT_FAILURE,
+  EDIT_PRODUCT_REQUEST,
+  EDIT_PRODUCT_SUCCESS,
+  GET_PRODUCT_PRICES_HISTORY_REQUEST,
+  GET_PRODUCT_PRICES_HISTORY_SUCCESS,
+  GET_PRODUCT_PRICES_HISTORY_FAILURE,
+  UPDATE_PRODUCT_PRICE_REQUEST,
+  UPDATE_PRODUCT_PRICE_SUCCESS,
+  UPDATE_PRODUCT_PRICE_FAILURE,
+  GET_PAY_METHODS
 } from "./actionsTypes";
 
 const initialState = {
@@ -26,7 +41,6 @@ const initialState = {
   users: [],
   calendar: [],
   count: 0,
-  countCalendar: 0,
   branches: [],
   specialties: [],
   services: [],
@@ -34,27 +48,31 @@ const initialState = {
   countClient: 0,
   clientID: {},
   error: null,
-  selectedIcon: null,
+  editingProduct: null,
+  pricesHistory: [],
+  payMethods: []
 };
 
-const rootReducer = (state = initialState, { type, payload, count, error, idDelete, countClient }) => {
+const rootReducer = (
+  state = initialState,
+  { type, payload, count, error, idDelete, countClient }
+) => {
   switch (type) {
-
     //! Trae token
     case TOKEN:
       const getToken = {
         ...state,
         token: payload,
       };
-      localStorage.setItem('myAppReduxState', JSON.stringify(getToken));
+      localStorage.setItem("myAppReduxState", JSON.stringify(getToken));
       return getToken;
 
     case SET_WORKING_BRANCH:
       const setWorkingBranch = {
         ...state,
-        workingBranch: {...payload},
+        workingBranch: { ...payload },
       };
-      localStorage.setItem('myAppReduxState', JSON.stringify(setWorkingBranch));
+      localStorage.setItem("myAppReduxState", JSON.stringify(setWorkingBranch));
       return setWorkingBranch;
 
     //! Trae usuario de logIn
@@ -63,7 +81,7 @@ const rootReducer = (state = initialState, { type, payload, count, error, idDele
         ...state,
         user: payload,
       };
-      localStorage.setItem('myAppReduxState', JSON.stringify(getUserState));
+      localStorage.setItem("myAppReduxState", JSON.stringify(getUserState));
       return getUserState;
 
     //! Trae todos los usuarios
@@ -73,17 +91,16 @@ const rootReducer = (state = initialState, { type, payload, count, error, idDele
         users: payload,
         count: count,
       };
-      localStorage.setItem('myAppReduxState', JSON.stringify(getUsersState));
+      localStorage.setItem("myAppReduxState", JSON.stringify(getUsersState));
       return getUsersState;
 
-     //! Trae el calendar 
+    //! Trae el calendar
     case GET_CALENDAR:
       const getCalendar = {
         ...state,
         calendar: payload,
-        countCalendar: count,
       };
-      localStorage.setItem('myAppReduxState', JSON.stringify(getCalendar));
+      localStorage.setItem("myAppReduxState", JSON.stringify(getCalendar));
       return getCalendar;
 
     //! Trae usuario por ID
@@ -92,26 +109,26 @@ const rootReducer = (state = initialState, { type, payload, count, error, idDele
         ...state,
         userID: { ...payload },
       };
-      localStorage.setItem('myAppReduxState', JSON.stringify(getUserIDState));
+      localStorage.setItem("myAppReduxState", JSON.stringify(getUserIDState));
       return getUserIDState;
 
     //! Borra detail de estado global
     case CLEAR_USERID:
       const clearUserId = {
         ...state,
-        userID: payload
-      }
-      localStorage.setItem('myAppReduxState', JSON.stringify(clearUserId));
+        userID: payload,
+      };
+      localStorage.setItem("myAppReduxState", JSON.stringify(clearUserId));
       return clearUserId;
 
     //! Borra usuario
     case DELETE_USER:
-      const copy = state.users.filter(user => user.uid !== idDelete);
+      const copy = state.users.filter((user) => user.uid !== idDelete);
       const deleteUserState = {
         ...state,
         users: [...copy],
       };
-      localStorage.setItem('myAppReduxState', JSON.stringify(deleteUserState));
+      localStorage.setItem("myAppReduxState", JSON.stringify(deleteUserState));
       return deleteUserState;
 
     //! Trae las sedes
@@ -120,7 +137,7 @@ const rootReducer = (state = initialState, { type, payload, count, error, idDele
         ...state,
         branches: [...payload],
       };
-      localStorage.setItem('myAppReduxState', JSON.stringify(getBranchesState));
+      localStorage.setItem("myAppReduxState", JSON.stringify(getBranchesState));
       return getBranchesState;
 
     //! Trae las especialidades
@@ -129,7 +146,10 @@ const rootReducer = (state = initialState, { type, payload, count, error, idDele
         ...state,
         specialties: [...payload],
       };
-      localStorage.setItem('myAppReduxState', JSON.stringify(getSpecialtiesState));
+      localStorage.setItem(
+        "myAppReduxState",
+        JSON.stringify(getSpecialtiesState)
+      );
       return getSpecialtiesState;
 
     //! Trae los clientes
@@ -139,7 +159,7 @@ const rootReducer = (state = initialState, { type, payload, count, error, idDele
         clients: payload,
         countClient: countClient,
       };
-      localStorage.setItem('myAppReduxState', JSON.stringify(getClients));
+      localStorage.setItem("myAppReduxState", JSON.stringify(getClients));
       return getClients;
 
     //! Trae cliente por ID
@@ -148,16 +168,16 @@ const rootReducer = (state = initialState, { type, payload, count, error, idDele
         ...state,
         clientID: { ...payload },
       };
-      localStorage.setItem('myAppReduxState', JSON.stringify(getClientId));
+      localStorage.setItem("myAppReduxState", JSON.stringify(getClientId));
       return getClientId;
 
     //! Borra cliente detail de estado global
     case CLEAR_CLIENT_ID:
       const clearClientId = {
         ...state,
-        clientID: payload
-      }
-      localStorage.setItem('myAppReduxState', JSON.stringify(clearClientId));
+        clientID: payload,
+      };
+      localStorage.setItem("myAppReduxState", JSON.stringify(clearClientId));
       return clearClientId;
 
     //! Trae los procedimientos
@@ -166,7 +186,7 @@ const rootReducer = (state = initialState, { type, payload, count, error, idDele
         ...state,
         services: [...payload],
       };
-      localStorage.setItem('myAppReduxState', JSON.stringify(getServices));
+      localStorage.setItem("myAppReduxState", JSON.stringify(getServices));
       return getServices;
 
     case ERROR:
@@ -176,20 +196,118 @@ const rootReducer = (state = initialState, { type, payload, count, error, idDele
         count: count,
         error: error,
       };
-      localStorage.setItem('myAppReduxState', JSON.stringify(errorState));
+      localStorage.setItem("myAppReduxState", JSON.stringify(errorState));
       return errorState;
-      
-    case SET_ICON:
-      const setIconState = {
-        ...state,
-        selectedIcon: payload,
-      };
-      localStorage.setItem('myAppReduxState', JSON.stringify(setIconState));
-      return setIconState;
+
 
     case USER_LOGOUT:
-      localStorage.removeItem('myAppReduxState');
+      localStorage.removeItem("myAppReduxState");
       return initialState;
+
+    case GET_PRODUCTS_REQUEST:
+      return {
+        ...state,
+        loading: true,
+        error: null,
+      };
+
+    case GET_PRODUCTS_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        products: payload,
+        count: payload,
+      };
+
+    case GET_PRODUCTS_FAILURE:
+      return {
+        ...state,
+        loading: false,
+        error: payload,
+      };
+
+    //REDUCER CREACION DE INVENTARIO
+    case CREATE_PRODUCT_REQUEST:
+      return {
+        ...state,
+        loading: true,
+        error: null,
+      };
+
+    case CREATE_PRODUCT_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        products: [...state.products, payload],
+      };
+
+    case CREATE_PRODUCT_FAILURE:
+      return {
+        ...state,
+        loading: false,
+        error: payload,
+      };
+
+    case EDIT_PRODUCT_REQUEST:
+      return state;
+
+    case EDIT_PRODUCT_SUCCESS:
+      return {
+        ...state,
+        editingProduct: payload.updatedProduct,
+      };
+
+    case EDIT_PRODUCT_FAILURE:
+      return state;
+
+    case GET_PRODUCT_PRICES_HISTORY_REQUEST:
+      return {
+        ...state,
+        loading: true,
+        error: null,
+      };
+    case GET_PRODUCT_PRICES_HISTORY_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        pricesHistory: payload,
+      };
+    case GET_PRODUCT_PRICES_HISTORY_FAILURE:
+      return {
+        ...state,
+        loading: false,
+        error: payload,
+      };
+    case UPDATE_PRODUCT_PRICE_REQUEST:
+      return {
+        ...state,
+        loading: true,
+        error: null,
+      };
+
+    case UPDATE_PRODUCT_PRICE_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        error: null,
+      };
+
+    case UPDATE_PRODUCT_PRICE_FAILURE:
+      return {
+        ...state,
+        loading: false,
+        error: payload,
+      };
+
+      case GET_PAY_METHODS:
+       
+        const setPayMethods = {
+          ...state,
+          payMethods: payload,
+        };
+        localStorage.setItem("myAppReduxState", JSON.stringify(setPayMethods));
+        return setPayMethods;
+
     default:
       return state;
   }

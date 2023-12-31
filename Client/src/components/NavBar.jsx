@@ -12,7 +12,7 @@ import { setLogout } from "../redux/actions.js";
 
 //variables de entorno
 import getParamsEnv from "../functions/getParamsEnv.js";
-const { ROOT, HOME } = getParamsEnv();
+const { ROOT, HOME, AGENDA } = getParamsEnv();
 
 const NavBar = () => {
   const [theme, setTheme] = useState("light");
@@ -55,8 +55,9 @@ const NavBar = () => {
         className={`h-20 flex pl-2 pr-10 justify-between items-center shadow-md shadow-grey`}
         style={{ background: roleColor }}
       >
-        <div>
-          <Link to={HOME}>
+        <div className="flex flex-row items-center gap-5">
+        {user.role === "especialista" ? 
+          <Link to={AGENDA}>
             <img
               className="w-20"
               src={
@@ -64,10 +65,18 @@ const NavBar = () => {
               }
               alt="logo"
             />
-          </Link>
-        </div>
-        <div>
-        {!workingBranch ? <h2 className="font-fontTitle text-3xl tracking-wider">{user.branches[0].branchName}</h2> : <h2 className="font-fontTitle text-3xl tracking-wider">{workingBranch.branchName}</h2>}
+          </Link> : 
+
+           <Link to={HOME}>
+          <img
+            className="w-20"
+            src={
+              "https://res.cloudinary.com/doqyrz0sg/image/upload/v1702388420/aznyz3d12hy3wr3kk9j9.png"
+            }
+            alt="logo"
+          />
+        </Link>
+          }
         </div>
         <div className="flex gap-4 items-center pointer-events:auto ">
           <img
@@ -77,7 +86,7 @@ const NavBar = () => {
           />
           <span className="font-medium">
             {" "}
-            {user.role}
+            {user.name} {" "} {user.lastName} {" - "} {user.role === "superAdmin" ? "Admin General" : user.role}  {" - "} {workingBranch.branchName}
           </span>
           <MdDarkMode
             onClick={handleDarkMode}

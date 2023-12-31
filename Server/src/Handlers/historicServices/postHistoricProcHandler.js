@@ -7,10 +7,10 @@ const postHistoricProcHandler = async (req, res) => {
   try {
     const { token } = req.body;
     showLog(`postHistoricProcHandler`);
-    // Verifico token. Sólo un superAdmin puede agregar:
+    // Verifico token:
     if (!token) { throw Error("Se requiere token"); }
     const checked = await checkToken(token);
-    if (!checked.exist || checked.role !== "superAdmin") {
+    if (!checked.exist) {
       showLog(`Wrong token.`);
       return res.status(401).send(`Sin permiso.`);
     }

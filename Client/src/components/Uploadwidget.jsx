@@ -18,7 +18,7 @@ export const UploadWidget = ({ setUserData }) => {
           const imageUrl = result.info.secure_url;
           setUserData((prevUserData) => ({ ...prevUserData, image: imageUrl }));
         } else {
-          console.error("Error al cargar la imagen:", error);
+          // console.error("Error al cargar la imagen:", error);
         }
       }
     );

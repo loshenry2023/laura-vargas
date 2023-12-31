@@ -6,11 +6,15 @@ module.exports = (sequelize) => {
     {
       code: {
         type: DataTypes.INTEGER,
-        autoIncrement: true,
         primaryKey: true,
+        autoIncrement: true,
+        allowNull: true,
+      },
+      productCode: {
+        type: DataTypes.TEXT,
         allowNull: false,
       },
-      prductName: {
+      productName: {
         type: DataTypes.TEXT,
         allowNull: false,
       },
@@ -28,9 +32,7 @@ module.exports = (sequelize) => {
       },
     },
     {
-      timestamps: false, // No necesitamos campos de createdAt y updatedAt
-    },
-    {
+      timestamps: false,
       paranoid: true, // Habilita eliminación suave
     }
   );

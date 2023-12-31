@@ -29,7 +29,7 @@ const handleBranch = () => {
 }
 
   return (
-    <section className="bg-[url('https://res.cloudinary.com/doyafxwje/image/upload/v1702756196/LogIn/gynr0zwbrkjrkkqv5acv.png')] bg-cover bg-center flex flex-col items-center justify-center h-screen lg:py-0">
+    <section className="bg-[url('https://res.cloudinary.com/doyafxwje/image/upload/v1703630993/LogIn/osoq2vut2vy2fivyauxm.jpg')] bg-cover bg-center flex flex-col items-center justify-center h-screen lg:py-0">
       <div className="flex flex-col items-center justify-center gap-5 rounded-xl w-fit p-10 mx-auto lg h-fit bg-white border shadow-xl shadow-black border-black">
       <div className="text-center mb-2">
         <h1 className="text-2xl font-bold mb-2">¡Hola {user.name}! ¿Cómo estás?</h1>
@@ -38,7 +38,7 @@ const handleBranch = () => {
         <div className="flex flex-row gap-5">
         {user.branches.map((branch, index) => {
           return (
-            <div key={index}>
+            <div key={index} className="flex flex-row gap-1">
               <input
                 type="radio"
                 id={branch.branchName}
@@ -51,7 +51,7 @@ const handleBranch = () => {
           )})}
         </div>
         <div>
-          <button className={isButtonDisabled ? "cursor-not-allowed rounded shadow-sm py-2 px-4 my-2 shadow-black bg-primaryPink hover:bg-blue-600" : "cursor-pointer rounded shadow-sm py-2 px-4 my-2 shadow-black bg-primaryPink hover:bg-blue-600"} onClick={handleBranch} disabled={isButtonDisabled}> Ingresar </button>
+          <button className={isButtonDisabled ? "font-medium cursor-not-allowed rounded shadow-sm py-2 px-4 my-2 shadow-black bg-primaryPink hover:bg-blue-600" : "cursor-pointer font-medium  rounded shadow-sm py-2 px-4 my-2 shadow-black bg-primaryPink hover:bg-blue-600"} onClick={handleBranch} disabled={isButtonDisabled}> Ingresar </button>
         </div>
       </div>
     </section>

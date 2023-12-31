@@ -7,6 +7,12 @@ import Error from "./views/Error.jsx";
 import TermsAndPrivacy from "./views/TermsAndPrivacy.jsx";
 import UserDetail from "./views/UserDetail.jsx";
 import Agenda from "./views/Agenda.jsx";
+import SpecialistDate from "./views/SpecialistDate.jsx";
+
+import Consumables from "./views/Consumables.jsx";
+import ConsHistoryPrice from "./components/ConsHistoryPrice.jsx";
+import NewConsumableForm from "./components/NewConsumableForm.jsx";
+import EditConsumableForm from "./components/EditConsumableForm.jsx";
 
 // hooks, routers, reducers:
 import { Route, Routes } from "react-router-dom";
@@ -16,7 +22,19 @@ import getParamsEnv from "./functions/getParamsEnv.js";
 import ClientDetail from "./views/ClientDetail.jsx";
 import ClientsProfiles from "./views/ClientsProfiles.jsx";
 import BranchSelection from "./views/BranchSelection.jsx";
-const { ROOT, LOGIN, USERPROFILES, BRANCH, HOME, USERDETAIL, TERMSANDPRIVACY, AGENDA, CLIENTDETAIL, CLIENTSPROFILES } = getParamsEnv();
+const {
+  ROOT,
+  LOGIN,
+  USERPROFILES,
+  BRANCH,
+  HOME,
+  USERDETAIL,
+  TERMSANDPRIVACY,
+  AGENDA,
+  CLIENTDETAIL,
+  CLIENTSPROFILES,
+  DATEDETAIL,
+} = getParamsEnv();
 
 const App = () => {
   return (
@@ -32,11 +50,16 @@ const App = () => {
         <Route path={CLIENTSPROFILES} element={<ClientsProfiles />} />
         <Route path={CLIENTDETAIL} element={<ClientDetail />} />
         <Route path={TERMSANDPRIVACY} element={<TermsAndPrivacy />} />
+        <Route path={DATEDETAIL} element={<SpecialistDate />} />
         {/* <Route path={DETAIL} element={<Detail />} />
         <Route path={EDIT} element={<Edit />} />
         <Route path={ABOUT} element={<About />} />
         <Route path={ERROR} element={<Error />} />*/}
-        <Route path="*" element={<Error />} />   
+        <Route path="consumables" element={<Consumables />} />
+        <Route path="historyprice/:productId" element={<ConsHistoryPrice />} />
+        <Route path="newconsumable" element={<NewConsumableForm />} />
+        <Route path="editproduct/:code" element={<EditConsumableForm />} />
+        <Route path="*" element={<Error />} />
       </Routes>
     </div>
   );

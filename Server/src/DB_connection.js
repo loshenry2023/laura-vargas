@@ -20,6 +20,8 @@ const UserModel = require("../src/models/User");
 const CalendarModel = require("../src/models/Calendar");
 const IncomingModel = require("../src/models/Incoming");
 const CatGastosModel = require("../src/models/CatGastos");
+const ProductModel = require("../src/models/Product");
+const PriceHistoryModel = require("../src/models/PriceHistory");
 
 // Determino la conexión según el entorno:
 let strConn = "";
@@ -42,6 +44,8 @@ UserModel(database);
 CalendarModel(database);
 IncomingModel(database);
 CatGastosModel(database);
+ProductModel(database);
+PriceHistoryModel(database);
 
 // Relacionar modelos:
 const {
@@ -55,6 +59,8 @@ const {
   Calendar,
   Incoming,
   CatGastos,
+  Product,
+  PriceHistory,
 } = database.models;
 
 // Relaciones:
@@ -79,6 +85,13 @@ Calendar.belongsTo(Branch); // Un Calendar pertenece a una única sede
 Incoming.belongsToMany(Payment, { through: "incoming_payment" }); // muchos ingresos pertenecen a muchos medios de pago
 HistoryService.hasMany(Incoming); //un registro histórico puede tener muchos pagos hechos
 
+//Relacion 1 a muchos esto es para el inventario:
+Product.belongsTo(Branch, { foreignKey: "branchId" });
+Product.hasMany(PriceHistory, {
+  foreignKey: "product_code", // Claveen la tabla PriceHistory
+  sourceKey: "code", // Clave en la tabla Product
+});
+
 module.exports = {
   Branch,
   Client,
@@ -90,5 +103,7 @@ module.exports = {
   Calendar,
   Incoming,
   CatGastos,
+  Product,
+  PriceHistory,
   conn: database,
 };

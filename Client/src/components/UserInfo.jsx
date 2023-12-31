@@ -15,6 +15,7 @@ import { IoMdArrowRoundBack } from "react-icons/io";
 
 //variables de entorno
 import getParamsEnv from "../functions/getParamsEnv.js";
+import ToasterConfig from "./Toaster.jsx";
 const { USERPROFILES } = getParamsEnv();
 
 const UserInfo = () => {
@@ -50,7 +51,6 @@ const UserInfo = () => {
 
   const deleteConfirmed = (confirmed) => {
     setShowDeleteConfirmation(false);
-
     if (confirmed) {
       dispatch(deleteUser(detailId, user.token));
       toast.success("Usuario eliminado correctamente");
@@ -215,49 +215,7 @@ const UserInfo = () => {
             </div>
           </div>
         )}
-        <Toaster
-          position="top-center"
-          reverseOrder={false}
-          gutter={8}
-          containerClassName=""
-          containerStyle={{
-            zIndex: 1000,
-            marginTop: "20px",
-            height: "150px",
-          }}
-          toastOptions={{
-            className: "",
-            duration: 3000,
-            style: {
-              background: "#ffc8c8",
-              color: "#363636",
-            },
-
-            success: {
-              duration: 3000,
-              theme: {
-                primary: "green",
-                secondary: "black",
-              },
-              style: {
-                background: "#00A868",
-                color: "#FFFF",
-              },
-            },
-
-            error: {
-              duration: 3000,
-              theme: {
-                primary: "pink",
-                secondary: "black",
-              },
-              style: {
-                background: "#C43433",
-                color: "#fff",
-              },
-            },
-          }}
-        />
+        <ToasterConfig />
       </>
     );
   } 

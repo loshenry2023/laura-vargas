@@ -43,7 +43,7 @@ async function editRegCalendar(Calendar, data, id, conn, User, Service, Client, 
     const { idUser, idService, idClient, idBranch, date_from, date_to, obs, current } = data;
     let transaction; // manejo transacciones para evitar registros defectuosos por relaciones mal solicitadas
     try {
-        if (!idUser || !idService || !idClient || !idBranch || !date_from || !date_to || !obs || !current) {
+        if (!idUser || !idService || !idClient || !idBranch || !date_from || !date_to || !obs || current === null) {
             throw Error("Faltan datos");
         }
         const existingEvent = await Calendar.findByPk(id, {
