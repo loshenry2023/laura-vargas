@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import getParamsEnv from '../../functions/getParamsEnv';
 
-import validateEditAppointment from '../../functions/editAppointmentValidations';
+import validateEditAppointment from '../../functions/editAppointment';
 
 const { API_URL_BASE } = getParamsEnv();
 
@@ -24,8 +24,7 @@ const EditAppointment = ({ setShowEditAppointment, setSpecialty, token, date, se
 
   const [showAppointmentModal, setShowAppointmentModal] = useState(false);
 
-  const onlyDate = date.date_from.trim();
-  console.log(onlyDate)
+  const onlyDate = date.date_from
   const dateTime = onlyDate.split(",")[0];
   const dispatch = useDispatch();
   const currentDate = new Date();
@@ -61,13 +60,25 @@ const EditAppointment = ({ setShowEditAppointment, setSpecialty, token, date, se
   };
 
   useEffect(() => {
-    console.log(AppointmentInfo, "INFOCITA")
+    console.log(AppointmentInfo.date_from, "INFOCITA")
   }, [AppointmentInfo])
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     let error = "";
 
+    if (name === "date"){
+      setAppointmentInfo((prevInfo) => ({
+        ...prevInfo,
+        date: value
+      }));
+
+      const data = {
+        date: value,
+      };
+
+      error = validateEditAppointment(data)[name];
+    } else 
 
     if (name === "date_from" || name === "date_to") {
       const data = {
@@ -77,11 +88,6 @@ const EditAppointment = ({ setShowEditAppointment, setSpecialty, token, date, se
 
       error = validateEditAppointment(data)[name];
     }
-
-    setValidationErrors((prevErrors) => ({
-      ...prevErrors,
-      [name]: error,
-    }));
 
     if (name === 'branch') {
       const parsedValue = JSON.parse(value);
@@ -102,6 +108,12 @@ const EditAppointment = ({ setShowEditAppointment, setSpecialty, token, date, se
             name: "",
           }
         }));
+        const data = {
+          specialist: value,
+        };
+  
+        error = validateEditAppointment(data)[name];
+      
       } else {
 
       
@@ -124,6 +136,11 @@ const EditAppointment = ({ setShowEditAppointment, setSpecialty, token, date, se
             name: "",
           }
         }));
+        const data = {
+          specialist: value,
+        };
+  
+        error = validateEditAppointment(data)[name];
       } else {
       const parsedValue = JSON.parse(value);
 
@@ -153,18 +170,24 @@ const EditAppointment = ({ setShowEditAppointment, setSpecialty, token, date, se
         [name]: value,
       }));
     }
+
+    setValidationErrors((prevErrors) => ({
+      ...prevErrors,
+      [name]: error,
+    }));
+
   };
 
-  function formatDateTime(date, time) {
-    const dateObject = new Date(date);
-    const formattedDate = `${dateObject.getFullYear()}-${(dateObject.getMonth() + 1)
-      .toString()
-      .padStart(2, "0")}-${dateObject.getDate().toString().padStart(2, "0")}`;
-    const formattedDateTime = `${formattedDate} ${time}`;
-    return formattedDateTime;
-  }
+  
 
-  console.log(date)
+  // function formatDateTime(date, time) {
+  //   const dateObject = new Date(date);
+  //   const formattedDate = `${dateObject.getFullYear()}-${(dateObject.getMonth() + 1)
+  //     .toString()
+  //     .padStart(2, "0")}-${dateObject.getDate().toString().padStart(2, "0")}`;
+  //   const formattedDateTime = `${formattedDate} ${time}`;
+  //   return formattedDateTime;
+  // }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -184,8 +207,21 @@ const EditAppointment = ({ setShowEditAppointment, setSpecialty, token, date, se
       token: token
     };
 
-    console.log(data, "SUBMIT")
-      const errors = validateEditAppointment(data);
+    const dataErrors = {
+      date: AppointmentInfo.date,
+      date_from: formattedDateFrom.split(" ")[1],
+      date_to: formattedDateTo.split(" ")[1],
+      obs: AppointmentInfo.obs,
+      idBranch: AppointmentInfo.branch.id,
+      idUser: AppointmentInfo.specialist.id,
+      idService: AppointmentInfo.service.id,
+      idClient: date.Client.id,
+      current: true,
+      token: token
+    };
+
+    console.log(dataErrors, "SUBMIT")
+      const errors = validateEditAppointment(dataErrors);
         console.log(errors)
         if (Object.keys(errors).length > 0) {
           setValidationErrors(errors);

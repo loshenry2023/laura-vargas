@@ -187,13 +187,13 @@ export const getUsers = (
 };
 
 
-export const getCalendar = (branch, dateFrom, dateTo, token) => {
+export const getCalendar = (branch, dateFrom, dateTo, userId, token) => {
   const endPoint = API_URL_BASE + "/getcalendar?";
   return async function (dispatch) {
     try {
       console.log(branch, dateFrom, dateTo, token, "PARAMETROS FILTROS")
       const { data } = await axios.post(
-        `${endPoint}branch=${branch}&dateFrom=${dateFrom}&dateTo=${dateTo}`,
+        `${endPoint}branch=${branch}&dateFrom=${dateFrom}&dateTo=${dateTo}&userId=${userId}`,
         token
       );
 
