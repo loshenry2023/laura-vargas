@@ -85,7 +85,8 @@ function UserProfiles() {
       <NavBar />
       <div className="flex flex-row dark:bg-darkBackground">
         <SideBar /> 
-        {loading ? <Loader /> : (
+        {user?.role === "superAdmin" || user?.role === "Admin" ? (
+        loading ? (<Loader />) : (
           <div className="flex flex-col mt-10 gap-5 w-2/3 mx-auto"> 
             <h1 className="text-2xl underline underline-offset-4 tracking-wide text-center font-fontTitle dark:text-beige sm:text-left" >Plantilla de empleados</h1>
             <section className="flex flex-col gap-2 mx-auto sm:flex sm:flex-row sm:gap-5 sm:w-full">
@@ -215,7 +216,10 @@ function UserProfiles() {
               ) : null}
             </section>
             <Pagination page={page} setPage={setPage} size={size} setSize={setSize} count={count}/>
-          </div>)}
+          </div>)) : (
+            <div className="flex w-full justify-center items-center">
+              <img src="https://res.cloudinary.com/doyafxwje/image/upload/v1703981517/Access/denied_eylikh.png" alt="denied-access" className="h-96"/>
+            </div>)}
        </div> 
       </div>
   )

@@ -14,7 +14,7 @@ import { AiFillYahoo } from "react-icons/ai";
 
 // Variables de entorno:
 import getParamsEnv from "../functions/getParamsEnv";
-const { ROOT, HOME, API_URL_BASE, BRANCH } = getParamsEnv();
+const { ROOT, HOME, AGENDA, API_URL_BASE, BRANCH } = getParamsEnv();
 
 //Firebase
 import {
@@ -36,7 +36,11 @@ const LogIn = () => {
     if (role === "superAdmin" || role === "admin" || role === "especialista") {
       if (branches.length == 1) {
         dispatch(setBranch({ ...branches[0] }));
-        navigate(HOME)
+        if(role === "superAdmin" || role === "admin"){
+          navigate(HOME)
+        } else [
+          navigate(AGENDA)
+        ]
       } else {
         navigate(BRANCH)
       }
