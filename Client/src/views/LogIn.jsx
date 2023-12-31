@@ -85,15 +85,14 @@ const LogIn = () => {
       setRole(role);
 
 
-      console.log("TKEn ", idToken);
+
       dispatch(getToken(idToken));
     } catch (error) {
-      console.log("Error ", error);
-      console.log("ultIntento ", ultIntento);
+
       if (!ultIntento) {
         if (error.code === "auth/popup-closed-by-user") {
           // atrapo el error y reintento:
-          console.log("Reintentando...");
+
           setTimeout(() => {
           }, 1000);
           ultIntento = true;

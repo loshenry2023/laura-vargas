@@ -92,7 +92,6 @@ const Calendar = ({setDateInfo, services, users, setSpecialty, branches, refresc
     if(!effectControl){
      
       setEffectControl(true)
-      console.log("calendar desde calendar")
       dispatch(getCalendar(branch, dateFrom, dateTo, userId, { token: token })).then(
         setLoading(false)
       );
@@ -383,11 +382,12 @@ const Calendar = ({setDateInfo, services, users, setSpecialty, branches, refresc
                     <p className="text-md tracking-wide font-light dark:text-darkText">
                       {" "}
                       <span className="font-medium">Especialista:</span>{" "}
-                      {cita.User.name} {cita.User.lastName}
+                      {cita.User === null ? "Error en la carga de especialista" : `${cita.User.name} ${cita.User.lastName}`}
+                      
                     </p>
                     <p className="text-md tracking-wide font-light dark:text-darkText">
                       <span className="font-medium">Procedimiento:</span>{" "}
-                      {cita.Service.serviceName}
+                      {cita.Service === null ? "Error en la carga de procedimiento. Llamar cliente" : cita.Service.serviceName}
                     </p>
                   </div>
                 </div>
