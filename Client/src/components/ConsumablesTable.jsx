@@ -16,6 +16,7 @@ const { HISTORYPRICEBASE, EDITPRODUCTBASE } = getParamsEnv();
 
 const ConsumablesTable = ({ products, user, onClose }) => {
   const navigate = useNavigate();
+  const [productsData, setProductsData] = useState(products);
 
   const [showEditConsumableModal, setEditConsumableModal] = useState(false);
   const [code, setCode] = useState("");
@@ -24,7 +25,7 @@ const ConsumablesTable = ({ products, user, onClose }) => {
     setEditConsumableModal(true);
     setCode(fila);
   };
-
+  console.log(products);
   if (products && products.rows && Array.isArray(products.rows)) {
     return (
       <>

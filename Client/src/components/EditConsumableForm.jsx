@@ -25,6 +25,8 @@ function EditConsumableForm({ setEditConsumableModal, code, onClose }) {
   const [newPrice, setNewPrice] = useState("");
   const [errors, setErrors] = useState({});
   const [priceHistory, setPriceHistory] = useState([]);
+  const [adjustmentValue, setAdjustmentValue] = useState(1);
+  const [updatedAmount, setUpdatedAmount] = useState(0);
 
   useEffect(() => {
     if (product) {
@@ -41,6 +43,28 @@ function EditConsumableForm({ setEditConsumableModal, code, onClose }) {
       setNewPrice(currentPrice);
     }
   }, [product, products]);
+  useEffect(() => {
+    console.log("Amount actualizado:", amount);
+  }, [amount]);
+  const handleAdjustAmount = (operation) => {
+    let updatedAmount = parseInt(amount, 10);
+
+    let amountToAddOrSubtract = parseInt(adjustmentValue, 10);
+
+    if (isNaN(amountToAddOrSubtract) || amountToAddOrSubtract <= 0) {
+      console.error("Ingresa un número válido para la cantidad.");
+      return;
+    }
+
+    if (operation === "add") {
+      updatedAmount += amountToAddOrSubtract;
+    } else if (operation === "subtract") {
+      updatedAmount -= amountToAddOrSubtract;
+      updatedAmount = updatedAmount >= 0 ? updatedAmount : 0;
+    }
+
+    setAmount((prevAmount) => updatedAmount);
+  };
 
   const handleUpdate = () => {
     const resetFields = () => {
@@ -94,7 +118,7 @@ function EditConsumableForm({ setEditConsumableModal, code, onClose }) {
       supplier,
       amount,
     };
-
+    console.log("Valor actualizado de amount:", amount);
     if (parseFloat(newPrice) !== parseFloat(priceHistory)) {
       try {
         dispatch(updateProductPrice(product.code, newPrice));
@@ -103,6 +127,7 @@ function EditConsumableForm({ setEditConsumableModal, code, onClose }) {
         toast.error("Hubo un problema al actualizar el precio.");
       }
     }
+    console.log("updatedProduct:", updatedProduct);
     dispatch(editProduct(product.code, updatedProduct));
     toast.success("Insumo modificado correctamente.");
 
@@ -157,14 +182,46 @@ function EditConsumableForm({ setEditConsumableModal, code, onClose }) {
               </div>
 
               <div className="mb-2">
-                <label className="pl-1 text-sm font-bold">Cantidad:</label>
+                <label className="pl-1 text-sm font-bold">
+                  Cantidad Actual:
+                </label>
                 <input
                   className="border border-black p-2 rounded w-full"
                   type="number"
                   value={amount}
                   onChange={(e) => setAmount(e.target.value)}
+                  readOnly
                 />
               </div>
+
+              <div className="mb-2">
+                <label className="pl-1 text-sm font-bold">
+                  Cantidad a Agregar/Quitar:
+                </label>
+                <div className="flex items-center">
+                  <input
+                    className="border border-black p-2 rounded mr-2"
+                    type="number"
+                    value={adjustmentValue}
+                    onChange={(e) => setAdjustmentValue(e.target.value)}
+                  />
+                  <button
+                    type="button"
+                    className="border border-black p-1 rounded"
+                    onClick={() => handleAdjustAmount("subtract")}
+                  >
+                    Quitar
+                  </button>
+                  <button
+                    type="button"
+                    className="border border-black p-1 rounded ml-2"
+                    onClick={() => handleAdjustAmount("add")}
+                  >
+                    Agregar
+                  </button>
+                </div>
+              </div>
+
               <div className="mb-2">
                 <label className="pl-1 text-sm font-bold">Precio:</label>
                 <input
