@@ -12,7 +12,7 @@ import { setLogout } from "../redux/actions.js";
 
 //variables de entorno
 import getParamsEnv from "../functions/getParamsEnv.js";
-const { ROOT, HOME } = getParamsEnv();
+const { ROOT, HOME, AGENDA } = getParamsEnv();
 
 const NavBar = () => {
   const [theme, setTheme] = useState("light");
@@ -56,7 +56,8 @@ const NavBar = () => {
         style={{ background: roleColor }}
       >
         <div className="flex flex-row items-center gap-5">
-          <Link to={HOME}>
+        {user.role === "especialista" ? 
+          <Link to={AGENDA}>
             <img
               className="w-20"
               src={
@@ -64,8 +65,19 @@ const NavBar = () => {
               }
               alt="logo"
             />
-          </Link>
-          {<h2 className="text-xl tracking-wider mt-2">Sede: {workingBranch.branchName}</h2>}
+          </Link> : 
+          <>
+           <Link to={HOME}>
+          <img
+            className="w-20"
+            src={
+              "https://res.cloudinary.com/doqyrz0sg/image/upload/v1702388420/aznyz3d12hy3wr3kk9j9.png"
+            }
+            alt="logo"
+          />
+        </Link>
+          <h2 className="text-xl tracking-wider mt-2">Sede: {workingBranch.branchName}</h2>
+          </>}
         </div>
         <div className="flex gap-4 items-center pointer-events:auto ">
           <img

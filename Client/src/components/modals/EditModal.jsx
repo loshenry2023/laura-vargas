@@ -165,7 +165,7 @@ function EditModal({ setShowEditModal, branches, specialties, userId, tokenID })
     };
     return (
         <>
-            <div className="absolute top-0 left-0 flex items-center justify-center w-full h-full bg-black opacity-95">
+            <div className="absolute top-0 left-0 flex items-center justify-center w-full h-full" style={{ background: "rgba(0, 0, 0, 0.70)"}}>
                 <div className="container">
                     <div className="w-full bg-white shadow rounded-lg p-6 md:mx-auto md:w-1/2 2xl:w-1/3 dark:bg-darkBackground">
                         <div className='flex justify-between'>

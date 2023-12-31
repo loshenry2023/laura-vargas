@@ -36,7 +36,7 @@ const IconWithTooltip = ({ to, iconName, tooltipText }) => {
       <div className={`relative ${isHovered ? "text-white" : ""}`}>
         {renderIcon(iconName)}
         {tooltipVisible && (
-          <span className="tooltip absolute bg-secondaryPink text-black rounded p-2 opacity-100 transition-opacity ml-[50px] mt-[-30px]">
+          <span className="tooltip absolute bg-secondaryPink text-black rounded p-2 opacity-100 transition-opacity ml-[50px] mt-[-30px] dark:bg-darkPrimary dark:text-darkText">
             {tooltipText}
           </span>
         )}
@@ -68,6 +68,7 @@ const renderIcon = (iconName) => {
 
 const SideBar = () => {
   const dynamicMinHeight = `calc(100vh - 80px)`;
+  const user = useSelector(state => state?.user)
 
   return (
     <div
@@ -75,14 +76,23 @@ const SideBar = () => {
       className="bg-secondaryPink w-14 flex flex-col items-center gap-8 pointer-events-auto shadow-md shadow-grey dark:shadow-gray-100 dark:bg-darkPrimary dark:text-beige relative"
     >
       <hr className="w-14 h-[1px] bg-beige border-0" />
-
-      <IconWithTooltip to={USERPROFILES} iconName="profile" tooltipText="Plantilla" />
-      <IconWithTooltip to={AGENDA} iconName="calendar" tooltipText="Agenda" />
-      <IconWithTooltip to={CLIENTSPROFILES} iconName="userGroup" tooltipText="Clientes" />
-      <IconWithTooltip to="#" onClick={() => handleIconClick("location")} iconName="location" tooltipText="Ubicacion" />
-      <IconWithTooltip to="#" onClick={() => handleIconClick("fingernail")} iconName="fingernail" tooltipText="Servicios" />
-      <IconWithTooltip to="#" onClick={() => handleIconClick("analytics")} iconName="analytics" tooltipText="Estadísticas" />
-      <IconWithTooltip to="/consumables" onClick={() => handleIconClick("Consumables")} iconName="Consumables" tooltipText="Insumos" />
+      {user.role === "especialista" ? (
+        <>
+        <IconWithTooltip to={CLIENTSPROFILES} iconName="userGroup" tooltipText="Clientes" />
+                <IconWithTooltip to={AGENDA} iconName="calendar" tooltipText="Agenda" />
+        </>
+      ) : (
+        <>
+        <IconWithTooltip to={USERPROFILES} iconName="profile" tooltipText="Plantilla" />
+        <IconWithTooltip to={CLIENTSPROFILES} iconName="userGroup" tooltipText="Clientes" />
+        <IconWithTooltip to={AGENDA} iconName="calendar" tooltipText="Agenda" />
+        <IconWithTooltip to="#" onClick={() => handleIconClick("location")} iconName="location" tooltipText="Ubicacion" />
+        <IconWithTooltip to="#" onClick={() => handleIconClick("fingernail")} iconName="fingernail" tooltipText="Servicios" />
+        <IconWithTooltip to="#" onClick={() => handleIconClick("analytics")} iconName="analytics" tooltipText="Estadísticas" />
+        <IconWithTooltip to="/consumables" onClick={() => handleIconClick("Consumables")} iconName="Consumables" tooltipText="Insumos" />
+        </>
+      )
+    }
     </div>
   );
 };
