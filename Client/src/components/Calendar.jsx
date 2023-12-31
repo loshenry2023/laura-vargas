@@ -36,6 +36,7 @@ const Calendar = ({setDateInfo, services, users, setSpecialty, branches, refresc
   const calendar = useSelector((state) => state?.calendar);
   const [today, setToday] = useState(currentDate);
   const [selectDate, setSelectDate] = useState(currentDate);
+  const [userId, setUserId] = useState(user.role === "especialista" ? user.id : "")
   const [branch, setBranch] = useState(workingBranchID);
   const [loading, setLoading] = useState(true);
   const dateNow = new Date();
@@ -92,7 +93,7 @@ const Calendar = ({setDateInfo, services, users, setSpecialty, branches, refresc
      
       setEffectControl(true)
       console.log("calendar desde calendar")
-      dispatch(getCalendar(branch, dateFrom, dateTo, { token: token })).then(
+      dispatch(getCalendar(branch, dateFrom, dateTo, userId, { token: token })).then(
         setLoading(false)
       );
       setEffectControl(false)

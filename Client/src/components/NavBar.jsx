@@ -66,7 +66,7 @@ const NavBar = () => {
               alt="logo"
             />
           </Link> : 
-          <>
+
            <Link to={HOME}>
           <img
             className="w-20"
@@ -76,8 +76,7 @@ const NavBar = () => {
             alt="logo"
           />
         </Link>
-          <h2 className="text-xl tracking-wider mt-2">Sede: {workingBranch.branchName}</h2>
-          </>}
+          }
         </div>
         <div className="flex gap-4 items-center pointer-events:auto ">
           <img
@@ -87,7 +86,7 @@ const NavBar = () => {
           />
           <span className="font-medium">
             {" "}
-            {user.name} {" "} {user.lastName} {" - "} {user.role}
+            {user.name} {" "} {user.lastName} {" - "} {user.role === "superAdmin" ? "Admin General" : user.role}  {" - "} {workingBranch.branchName}
           </span>
           <MdDarkMode
             onClick={handleDarkMode}
