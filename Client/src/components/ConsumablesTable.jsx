@@ -14,21 +14,18 @@ import getParamsEnv from "../functions/getParamsEnv";
 import EditConsumableForm from "./EditConsumableForm";
 const { HISTORYPRICEBASE, EDITPRODUCTBASE } = getParamsEnv();
 
-const ConsumablesTable = ({ products, user, onClose}) => {
+const ConsumablesTable = ({ products, user, onClose }) => {
   const navigate = useNavigate();
-  console.log("Datos de products:", products);
 
-  const [showEditConsumableModal, setEditConsumableModal] = useState(false)
-  const [code, setCode] = useState("")
+  const [showEditConsumableModal, setEditConsumableModal] = useState(false);
+  const [code, setCode] = useState("");
 
   const handleShowEditModal = (fila) => {
-    setEditConsumableModal(true)
-    setCode(fila)
-  }
-
+    setEditConsumableModal(true);
+    setCode(fila);
+  };
 
   if (products && products.rows && Array.isArray(products.rows)) {
-    console.log("Datos de products.rows:", products.rows);
     return (
       <>
         {
@@ -101,9 +98,7 @@ const ConsumablesTable = ({ products, user, onClose}) => {
                       </div>
                     </td>
                     <td>
-                     
-                        <FiEdit onClick={() => handleShowEditModal(fila.code)} />
-                      
+                      <FiEdit onClick={() => handleShowEditModal(fila.code)} />
                     </td>
                   </tr>
                 ))}
@@ -112,11 +107,10 @@ const ConsumablesTable = ({ products, user, onClose}) => {
           </div>
         }
         {showEditConsumableModal && (
-          <EditConsumableForm 
-           onClose={onClose}
+          <EditConsumableForm
+            onClose={onClose}
             setEditConsumableModal={setEditConsumableModal}
             code={code}
-           
           />
         )}
       </>

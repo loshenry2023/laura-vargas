@@ -10,13 +10,12 @@ import ToasterConfig from "./../components/Toaster";
 import getParamsEnv from "../functions/getParamsEnv";
 const { CONSUMABLES } = getParamsEnv();
 
-function EditConsumableForm({ setEditConsumableModal, code, onClose}) {
-
+function EditConsumableForm({ setEditConsumableModal, code, onClose }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const productsState = useSelector((state) => state.products);
   const products = Array.isArray(productsState.rows) ? productsState.rows : [];
-  const [operationSelected, setOperationSelected] = useState(false)
+  const [operationSelected, setOperationSelected] = useState(false);
 
   const product = products.find((p) => p.code === parseInt(code, 10));
 
@@ -26,7 +25,7 @@ function EditConsumableForm({ setEditConsumableModal, code, onClose}) {
   const [amount, setAmount] = useState("");
   const [newPrice, setNewPrice] = useState("");
   const [operation, setOperation] = useState("");
-  const [successMessage, setSuccessMessage] = useState("");
+
   const [errors, setErrors] = useState({});
   const [initialAmount, setInitialAmount] = useState("");
 
@@ -46,68 +45,33 @@ function EditConsumableForm({ setEditConsumableModal, code, onClose}) {
   }, [product, products]);
 
   const handleUpdate = () => {
+    const resetFields = () => {
+      setProductName("");
+      setDescription("");
+      setSupplier("");
+      setAmount("");
+      setNewPrice("");
+      setOperation("");
+      setErrors({});
+    };
     const amountToAddOrSubtract = parseInt(amount, 10);
 
-    if (operation === "" || operation === "Accion de Stock") {
-      const updatedProductWithoutAmountChange = {
-        ...(product || {}),
-        productName,
-        description,
-        supplier,
-        amount: initialAmount,
-      };
-
-      dispatch(editProduct(product.code, updatedProductWithoutAmountChange));
-      toast.success(
-        "Insumo modificado sin cambiar cantidad."
-      );
-      onClose()
-      setTimeout(() => {
-
-        setEditConsumableModal(false)
-      }, 3000)
-
-      if (newPrice !== product.price) {
-        try {
-          dispatch(updateProductPrice(product.code, newPrice));
-        } catch (error) {
-          console.error("Error updating product price:", error.message);
-        }
-      }
-
-      return;
-    }
-
-    if (operation === "subtract" && initialAmount - amountToAddOrSubtract < 0) {
-      setErrors({
-        amount: "La cantidad solicitada no está disponible.",
-      });
-      toast.error("La cantidad solicitada no está disponible.");
-      return;
-    }
-
-    // Validación adicional para la cantidad no sea menor a cero
-    if (
-      operation === "subtract" &&
-      product.amount - amountToAddOrSubtract < 0
-    ) {
-      setErrors({
-        amount: "La cantidad solicitada no está disponible.",
-      });
-      toast.error("La cantidad solicitada no está disponible.");
-      return;
-    }
-
-    const updatedProduct = {
+    let updatedProduct = {
       ...(product || {}),
       productName,
       description,
       supplier,
-      amount:
-        operation === "add"
-          ? product.amount + amountToAddOrSubtract
-          : Math.max(0, product.amount - amountToAddOrSubtract),
+      amount: initialAmount,
     };
+
+    if (operation === "add") {
+      updatedProduct.amount += amountToAddOrSubtract;
+    } else if (operation === "subtract") {
+      updatedProduct.amount = Math.max(
+        0,
+        updatedProduct.amount - amountToAddOrSubtract
+      );
+    }
 
     const validationErrors = editConsumableValidation(product, updatedProduct);
 
@@ -116,15 +80,7 @@ function EditConsumableForm({ setEditConsumableModal, code, onClose}) {
       return;
     }
 
-    dispatch(editProduct(product.code, updatedProduct));
-    toast.success(
-      "Insumo modificado correctamente."
-    );
-    onClose()
-    setTimeout(() => {
-      setEditConsumableModal(false)
-    }, 3000)
-
+    // Actualizar el precio del producto
     if (newPrice !== product.price) {
       try {
         dispatch(updateProductPrice(product.code, newPrice));
@@ -132,18 +88,29 @@ function EditConsumableForm({ setEditConsumableModal, code, onClose}) {
         console.error("Error updating product price:", error.message);
       }
     }
+
+    try {
+      console.log("updatedProduct", updatedProduct);
+      dispatch(editProduct(product.code, updatedProduct));
+      toast.success("Insumo modificado correctamente.");
+      onClose();
+      setTimeout(() => {
+        resetFields();
+        setEditConsumableModal(false);
+      }, 3000);
+    } catch (error) {
+      console.error("Error updating product:", error.message);
+    }
   };
 
   const handleOperationSelected = (value) => {
-    if(value === "") {
-      setOperationSelected(false)
-      setAmount(product.amount)
+    if (value === "") {
+      setOperationSelected(false);
+      setAmount(product.amount);
     } else {
-      setOperationSelected(true)
+      setOperationSelected(true);
     }
-    
-  }
-
+  };
 
   return (
     <>
@@ -206,7 +173,11 @@ function EditConsumableForm({ setEditConsumableModal, code, onClose}) {
                 <label className="pl-1 text-sm font-bold">Cantidad:</label>
                 <input
                   disabled={!operationSelected}
-                  className={operationSelected ? "border border-black p-2 rounded w-full" : "border border-black p-2 rounded w-full cursor-not-allowed bg-gray-200"}
+                  className={
+                    operationSelected
+                      ? "border border-black p-2 rounded w-full"
+                      : "border border-black p-2 rounded w-full cursor-not-allowed bg-gray-200"
+                  }
                   type="number"
                   value={amount}
                   onChange={(e) => setAmount(e.target.value)}
@@ -241,11 +212,6 @@ function EditConsumableForm({ setEditConsumableModal, code, onClose}) {
                 </button>
               </div>
             </form>
-            {successMessage && (
-              <div className="bg-blue-500 text-white p-4 rounded mt-4">
-                {successMessage}
-              </div>
-            )}
           </div>
         </div>
       </div>

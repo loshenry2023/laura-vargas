@@ -23,7 +23,7 @@ function Consumables() {
   const [loading, setLoading] = useState(true);
   const [showNewConsumableModal, setShowNewConsumableModal] = useState(false);
   const [newProductAdded, setNewProductAdded] = useState(false);
-  const [editedProduct, setEditedProduct] = useState(false)
+  const [editedProduct, setEditedProduct] = useState(false);
 
   const [productName, setProductName] = useState("");
   const [description, setDescription] = useState("");
@@ -38,14 +38,12 @@ function Consumables() {
   const [selectedBranch, setSelectedBranch] = useState("");
   const products = useSelector((state) => state?.products);
   const count = useSelector((state) => state?.count);
- 
 
   useEffect(() => {
     if (user && user.branches && user.branches.length > 0) {
       setSelectedBranch(user.branches[0].branchName);
     }
   }, [user]);
-
 
   useEffect(() => {
     if (selectedBranch) {
@@ -55,7 +53,15 @@ function Consumables() {
         setLoading(false);
       });
     }
-  }, [productName, selectedBranch, page, size, description, newProductAdded, editedProduct]);
+  }, [
+    productName,
+    selectedBranch,
+    page,
+    size,
+    description,
+    newProductAdded,
+    editedProduct,
+  ]);
 
   const handleShowNewConsumableModal = () => {
     setShowNewConsumableModal(true);
@@ -64,13 +70,11 @@ function Consumables() {
 
   const handleNewProductAdded = () => {
     setNewProductAdded(!newProductAdded);
-    
   };
 
   const handleProductEdited = () => {
-    setEditedProduct(!editedProduct)
-    
-  }
+    setEditedProduct(!editedProduct);
+  };
 
   const totalPages = Math.ceil(count.count / size);
 
@@ -138,9 +142,13 @@ function Consumables() {
                   </div>
                 </section>
                 <section>
-                  <ConsumablesTable products={products} user={user} onClose={() => {
+                  <ConsumablesTable
+                    products={products}
+                    user={user}
+                    onClose={() => {
                       handleProductEdited();
-                    }} />
+                    }}
+                  />
                 </section>
                 <div className="flex items-center justify-between mt-4">
                   <button
