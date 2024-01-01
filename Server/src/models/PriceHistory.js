@@ -27,8 +27,5 @@ module.exports = (sequelize) => {
     {
       timestamps: false,
     },
-    {
-      paranoid: true, // Habilita eliminación suave
-    }
   );
 };
