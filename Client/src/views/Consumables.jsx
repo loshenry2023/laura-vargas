@@ -86,7 +86,7 @@ function Consumables() {
         <NavBar />
         <div className="flex flex-row dark:bg-darkBackground">
           <SideBar />
-          {user?.role === "superAdmin" || user?.role === "Admin" ? (
+          {user?.role === "superAdmin" || user?.role === "admin" ? (
             loading ? (
               <Loader />
             ) : (
