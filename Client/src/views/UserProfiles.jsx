@@ -85,7 +85,7 @@ function UserProfiles() {
       <NavBar />
       <div className="flex flex-row dark:bg-darkBackground">
         <SideBar /> 
-        {user?.role === "superAdmin" || user?.role === "Admin" ? (
+        {user?.role === "superAdmin" || user?.role === "admin" ? (
         loading ? (<Loader />) : (
           <div className="flex flex-col mt-10 gap-5 w-2/3 mx-auto"> 
             <h1 className="text-2xl underline underline-offset-4 tracking-wide text-center font-fontTitle dark:text-beige sm:text-left" >Plantilla de empleados</h1>
