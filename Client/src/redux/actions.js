@@ -191,13 +191,13 @@ export const getCalendar = (branch, dateFrom, dateTo, userId, token) => {
   const endPoint = API_URL_BASE + "/getcalendar?";
   return async function (dispatch) {
     try {
-      console.log(branch, dateFrom, dateTo, token, "PARAMETROS FILTROS")
+
       const { data } = await axios.post(
         `${endPoint}branch=${branch}&dateFrom=${dateFrom}&dateTo=${dateTo}&userId=${userId}`,
         token
       );
 
-      console.log(data, "AXIOS FILTROS")
+
       const modifiedData = data.map((calendar) => {
         const { date_from, date_to, ...rest } = calendar;
         const date_fromInBogotaTimezone = converterGMT(date_from);

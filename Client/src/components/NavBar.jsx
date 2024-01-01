@@ -1,7 +1,7 @@
 // assets and icons
 import { CiBellOn } from "react-icons/ci";
 import { IoExitOutline } from "react-icons/io5";
-import { GoPerson } from "react-icons/go";
+import { TbStatusChange } from "react-icons/tb";
 import { MdDarkMode } from "react-icons/md";
 
 // hooks, routers, reducers:
@@ -10,9 +10,12 @@ import { useSelector, useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { setLogout } from "../redux/actions.js";
 
+//functions
+import capitalizeFirstLetter from "../functions/capitalizeFirstLetter.js"
+
 //variables de entorno
 import getParamsEnv from "../functions/getParamsEnv.js";
-const { ROOT, HOME, AGENDA } = getParamsEnv();
+const { ROOT, HOME, AGENDA, BRANCH } = getParamsEnv();
 
 const NavBar = () => {
   const [theme, setTheme] = useState("light");
@@ -47,8 +50,9 @@ const NavBar = () => {
 
   const handleLogout = () => {
     dispatch(setLogout(user.token));
-    navigate("/login");
+    navigate(ROOT);
   };
+
   return (
     <>
       <nav
@@ -78,19 +82,22 @@ const NavBar = () => {
         </Link>
           }
         </div>
-        <div className="flex gap-4 items-center pointer-events:auto ">
+        <div className="flex gap-4 ml-28 items-center pointer-events:auto ">
           <img
             src={user.image}
             alt="userPhoto"
             className="h-10 w-10 shadow-md shadow-black  rounded-full"
           />
-          <span className="font-medium">
+          <span className="font-medium text-md">
             {" "}
-            {user.name} {" "} {user.lastName} {" - "} {user.role === "superAdmin" ? "Admin General" : user.role}  {" - "} {workingBranch.branchName}
+            {user.name} {" "} {user.lastName} {" - "} {user.role === "superAdmin" ? "Admin General" : capitalizeFirstLetter(user.role)}  {" - "} {workingBranch.branchName}
           </span>
+          </div>
+          <div className="flex gap-4 items-center pointer-events:auto">
+          {user.branches.length > 1 ? <TbStatusChange  onClick={() => navigate(BRANCH)} className="h-6 w-6 cursor-pointer"/> : null}
           <MdDarkMode
             onClick={handleDarkMode}
-            className="h-6 w-6 cursor-pointer "
+            className="h-6 w-6 cursor-pointer"
           />
           <CiBellOn className="h-6 w-6" />
           <Link to={ROOT}>

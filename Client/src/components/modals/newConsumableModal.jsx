@@ -62,7 +62,7 @@ function NewConsumableModal({ onClose }) {
           API_URL_BASE + "/products",
           newConsumable
         );
-        console.log("response", response);
+
         if (response.statusText === "Created") {
           toast.success("Consumable creado con éxito");
           setSubmissionStatus("success");

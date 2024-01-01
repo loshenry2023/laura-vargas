@@ -1,6 +1,7 @@
 // ! Obtiene registros.
 const { Op } = require("sequelize");
 const showLog = require("../functions/showLog");
+const { Specialty } = require('../DB_connection');
 
 const getReg = async (
   tableName,
@@ -205,6 +206,10 @@ const getReg = async (
               model: tableName2,
               attributes: ["id", "userName", "name", "lastName"],
               where: userId ? { id: userId } : {},
+              include: [{
+                model: Specialty,
+                attributes: ["id", "specialtyName"],
+              }]
             },
             {
               // Service

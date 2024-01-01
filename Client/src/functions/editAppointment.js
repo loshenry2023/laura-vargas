@@ -1,5 +1,5 @@
 const validateEditAppointment = (data) => {
-    console.log(data, "errores")
+
     const date_regex =  /^(0?[1-9]|1[012])[- \/.](0?[1-9]|[12][0-9]|3[01])[- \/.](19|20)\d\d$/;
 
     const validationErrors = {};
