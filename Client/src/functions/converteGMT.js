@@ -22,10 +22,10 @@ export default function converterGMT(date) {
   // return cadenaFormateada;
 
 
-  const colombiaTimeZone = 'America/Bogota'; // Zona horaria de Colombia (GMT-5)
+  const gmtPlus3TimeZone = 'Etc/GMT+3'; // Zona Horaria GMT+3
 
   const formatDate = new Date(date).toLocaleString('en-US', {
-    timeZone: colombiaTimeZone,
+    timeZone: gmtPlus3TimeZone,
     hourCycle: 'h23',
   });
 
