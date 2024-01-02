@@ -23,7 +23,7 @@ function Consumables() {
   const [loading, setLoading] = useState(true);
   const [showNewConsumableModal, setShowNewConsumableModal] = useState(false);
   const [newProductAdded, setNewProductAdded] = useState(false);
-  const [editedProduct, setEditedProduct] = useState(false)
+  const [editedProduct, setEditedProduct] = useState(false);
 
   const [productName, setProductName] = useState("");
   const [description, setDescription] = useState("");
@@ -38,14 +38,12 @@ function Consumables() {
   const [selectedBranch, setSelectedBranch] = useState("");
   const products = useSelector((state) => state?.products);
   const count = useSelector((state) => state?.count);
- 
 
   useEffect(() => {
     if (user && user.branches && user.branches.length > 0) {
       setSelectedBranch(user.branches[0].branchName);
     }
   }, [user]);
-
 
   useEffect(() => {
     if (selectedBranch) {
@@ -55,7 +53,15 @@ function Consumables() {
         setLoading(false);
       });
     }
-  }, [productName, selectedBranch, page, size, description, newProductAdded, editedProduct]);
+  }, [
+    productName,
+    selectedBranch,
+    page,
+    size,
+    description,
+    newProductAdded,
+    editedProduct,
+  ]);
 
   const handleShowNewConsumableModal = () => {
     setShowNewConsumableModal(true);
@@ -64,13 +70,11 @@ function Consumables() {
 
   const handleNewProductAdded = () => {
     setNewProductAdded(!newProductAdded);
-    
   };
 
   const handleProductEdited = () => {
-    setEditedProduct(!editedProduct)
-    
-  }
+    setEditedProduct(!editedProduct);
+  };
 
   const totalPages = Math.ceil(count.count / size);
 
@@ -138,28 +142,32 @@ function Consumables() {
                   </div>
                 </section>
                 <section>
-                  <ConsumablesTable products={products} user={user} onClose={() => {
+                  <ConsumablesTable
+                    products={products}
+                    user={user}
+                    onClose={() => {
                       handleProductEdited();
-                    }} />
+                    }}
+                  />
                 </section>
-                <div className="flex items-center justify-between mt-4">
+                <div className="flex items-center justify-center mt-4">
                   <button
                     onClick={() => handlePageChange(page - 1)}
                     disabled={page === 0}
-                    className="border bg-primaryPink hover:bg-primaryPink text-white py-2 px-4 rounded dark:bg-darkPrimary dark:shadow-darkText dark:border-darkText  dark:hover:bg-gray-200 dark:hover:text-black cursor-pointer"
+                    className="dark:text-darkText cursor-pointer"
                   >
-                    Anterior
+                    {"<"}
                   </button>
-                  <p className="dark:text-darkText">
-                    Página {page + 1} de {totalPages}
+                  <p className="dark:text-darkText px-2">
+                  Página {totalPages === 0 ? `${page} de ${totalPages}` : `${page + 1} de ${totalPages}`}
                   </p>
-                  <button
+                  <span
                     onClick={() => handlePageChange(page + 1)}
                     disabled={page === totalPages - 1}
-                    className="border bg-primaryPink hover:bg-primaryPink text-white py-2 px-4 rounded dark:bg-darkPrimary dark:shadow-darkText dark:border-darkText dark:hover:bg-gray-200 dark:hover:text-black cursor-pointer"
+                    className="dark:text-darkText cursor-pointer"
                   >
-                    Siguiente
-                  </button>
+                  {">"}
+                  </span>
                 </div>
               </div>
             )

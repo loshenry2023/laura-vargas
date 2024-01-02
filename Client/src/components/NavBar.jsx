@@ -63,7 +63,7 @@ const NavBar = () => {
         {user.role === "especialista" ? 
           <Link to={AGENDA}>
             <img
-              className="w-20"
+              className="hidden sm:flex w-20"
               src={
                 "https://res.cloudinary.com/doqyrz0sg/image/upload/v1702388420/aznyz3d12hy3wr3kk9j9.png"
               }
@@ -73,7 +73,7 @@ const NavBar = () => {
 
            <Link to={HOME}>
           <img
-            className="w-20"
+            className="hidden sm:flex w-20"
             src={
               "https://res.cloudinary.com/doqyrz0sg/image/upload/v1702388420/aznyz3d12hy3wr3kk9j9.png"
             }
@@ -82,11 +82,11 @@ const NavBar = () => {
         </Link>
           }
         </div>
-        <div className="flex gap-4 ml-28 items-center pointer-events:auto ">
+        <div className="flex gap-4 ml:10 sm:ml-28 items-center pointer-events:auto ">
           <img
             src={user.image}
             alt="userPhoto"
-            className="h-10 w-10 shadow-md shadow-black  rounded-full"
+            className="h-10 w-10 shadow-md shadow-black rounded-full"
           />
           <span className="font-medium text-md">
             {" "}

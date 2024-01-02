@@ -201,7 +201,7 @@ const DateDetail = () => {
 
     return (
         <>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 m-auto p-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 m-auto p-8">
                 {/* Client Details */}
 
                 <div className="p-6 bg-primaryPink backdrop-blur-xl bg-opacity-60 rounded-md dark:bg-darkPrimary">
@@ -236,19 +236,19 @@ const DateDetail = () => {
                 </div>
 
                 {/* Observations Section */}
-                <div className="flex items-center p-6 bg-primaryPink backdrop-blur-xl bg-opacity-60 rounded-md dark:bg-darkPrimary">
-                    <div className= "border-4 border-double border-primaryPink max-w-screen-sm mt-10 rounded overflow-hidden shadow-lg mx-auto dark:border-zinc-800">
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 p-5 dark:bg-darkBackground ">
-                            <div className='flex flex-col flex-wrap gap-4 p-4 rounded-md shadow-sm  shadow-black dark:text-darkText dark:shadow-darkText' style={observationSectionStyle} >
-                                <p className="mb-4 underline">Agrega foto de este procedimiento</p>
-                                <div className='flex flex-row gap-10'>
-                                <UploadWidgetDate setPhoto={setPhoto} setPhotoLoaded={setPhotoLoaded} />
-                                <img className='w-12 h-12' src={photo} alt='foto de procedimiento' />
+                <div className="flex items-center p-6 bg-primaryPink backdrop-blur-xl rounded-md dark:bg-darkPrimary">
+                    <div className= "border-4 border-double border-primaryPink max-w-screen-sm rounded overflow-hidden shadow-lg mx-auto dark:border-zinc-800">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 p-5 mx-auto dark:bg-darkBackground ">
+                            <div className='flex flex-col flex-wrap gap-4 p-4 rounded-md shadow-sm  md:justify-center shadow-black dark:text-darkText dark:shadow-darkText' style={observationSectionStyle} >
+                                <p className="underline">Agrega foto de este procedimiento</p>
+                                <div className='flex flex-row flex-wrap gap-10'>
+                                    <UploadWidgetDate setPhoto={setPhoto} setPhotoLoaded={setPhotoLoaded} />
+                                    <img className='w-12 h-12' src={photo} alt='foto de procedimiento' />
                                 </div>
                             </div>
-                            <div className='flex flex-col gap-4 p-4 rounded-md shadow-sm shadow-black dark:text-darkText dark:shadow-darkText ' style={observationSectionStyleConsent}>
-                                <p className="mb-4 underline">Agrega formulario de conformidad</p>
-                                <div className="flex flex-row gap-10" >
+                            <div className='flex flex-col flex-wrap gap-4 p-4 rounded-md shadow-sm  md:justify-center shadow-black dark:text-darkText dark:shadow-darkText' style={observationSectionStyleConsent}>
+                                <p className="underline">Agrega formulario de conformidad</p>
+                                <div className="flex flex-row flex-wrap  gap-10" >
                                     <UploadWidgetConsent setConsentUrl={setConsentUrl} setConsent={setConsent} setConsentLoaded={setConsentLoaded}/>
                                     <img className='w-12 h-12' src={consent} alt='foto de procedimiento' />
                                 </div>
@@ -272,27 +272,27 @@ const DateDetail = () => {
                 )}
 
                 {/* Payment Section */}
-                <div className="p-6 bg-primaryPink backdrop-blur-xl bg-opacity-60 rounded-md flex flex-col gap-4 dark:bg-darkPrimary ">
-                    <div className="p-4 relative border-4 border-double border-primaryPink max-w-screen-sm mt-10 rounded overflow-hidden shadow-lg mx-auto dark:dark:border-zinc-800">
-                        <div className='flex flex-col gap-6 '>
+                <div className="p-6 bg-primaryPink backdrop-blur-xl bg-opacity-60 rounded-md flex flex-col gap-4 dark:bg-darkPrimary">
+                    <div className="p-4 border-4 border-double border-primaryPink rounded overflow-hidden shadow-lg mx-auto dark:dark:border-zinc-800">
+                        <div className='flex flex-col gap-6 mx-auto'>
                             <div className='flex flex-row rounded-lg dark:bg-darkBackground'>
-                                <div className="max-w-screen-sm rounded overflow-hidden shadow-lg p-6 flex flex-row gap-8 justify-center align-center">
-                                    <div className="text-center max-w-screen-sm rounded overflow-hidden shadow-sm p-6 shadow-black dark:bg-darkPrimary">
-                                        <p className="block text-sm font-medium text-gray-700 dark:text-darkText">Procedimiento</p>
+                                <div className=" rounded overflow-hidden shadow-lg p-6 flex flex-row flex-wrap gap-2 justify-center">
+                                    <div className="rounded overflow-hidden p-6 shadow-sm shadow-black dark:bg-darkPrimary">
+                                        <p className="text-sm font-medium text-gray-700 dark:text-darkText">Procedimiento</p>
                                         <p className='dark:text-darkText'>{appointment.Service.serviceName}</p>
                                     </div>
-                                    <div className="text-center max-w-[200px] rounded overflow-auto scrollbar-container  shadow-sm p-6 shadow-black dark:bg-darkPrimary">
-                                        <label className="block text-sm font-medium text-gray-700 dark:text-darkText">Observaciones</label>
+                                    <div className="rounded overflow-auto shadow-sm p-6 shadow-black dark:bg-darkPrimary">
+                                        <label className="text-sm font-medium text-gray-700 dark:text-darkText">Observaciones</label>
                                         <p className='dark:text-darkText'>{appointment.obs}</p>
                                     </div>
-                                    <div className=" text-center max-w-screen-sm rounded overflow-hidden  shadow-sm p-6 shadow-black dark:bg-darkPrimary">
-                                        <p className="block text-sm font-medium text-gray-700 dark:text-darkText">Precio final</p>
+                                    <div className="rounded overflow-hidden shadow-sm  p-6 shadow-black dark:bg-darkPrimary">
+                                        <p className="text-sm font-medium text-gray-700 dark:text-darkText">Precio final</p>
                                         <p className='m-auto dark:text-darkText'>{appointment.Service.price}</p>
                                     </div>
                                 </div>
                             </div>
-                            <div className="flex flex-col sm:flex-row gap-10 rounded-lg dark:bg-darkBackground">
-                                <div className="max-w-screen-sm rounded overflow-hidden shadow-sm shadow-black p-6 m-2 flex flex-col gap-4">
+                            <div className="flex flex-col justify-center items-center flex-wrap md:flex-row sm:justify-start  gap-10 rounded-lg dark:bg-darkBackground">
+                                <div className="rounded overflow-hidden shadow-sm shadow-black p-2 m-2 flex flex-col gap-4">
                                     <div className="mb-4 dark:bg-darkPrimary rounded-lg p-2 ">
                                         <label className="block text-sm font-medium text-gray-700 dark:text-darkText">Precio $</label>
                                         <input
@@ -325,36 +325,34 @@ const DateDetail = () => {
                                     {showPayment2 ? <CiCircleMinus size={30} /> : <CiCirclePlus size={30} />}
                                 </button>
                                 {showPayment2 && (
-                                    <div className="max-w-screen-sm rounded overflow-hidden shadow-lg p-6 flex flex-col gap-4">
-                                        <div className="mb-4">
-                                            <label className="block text-sm font-medium text-gray-700">Precio $</label>
-                                            <input
-                                                type="number"
-                                                value={price.amount2}
-                                                onChange={(e) => handlePriceChange(e, 'amount2')}
-                                                className="input"
-                                                placeholder="Ingrese el precio"
-                                            />
-                                        </div>
-                                        <div>
-                                            <div className="mb-4">
-                                                <label className="block text-sm font-medium text-gray-700">Medio de Pago B</label>
-                                                <select
-                                                    value={paymentMethods.paymentMethod2}
-                                                    onChange={(e) => handlePaymentMethodChange(e, 2)}
-                                                    className="input"
-                                                >
-                                                    <option value="" disabled>
-                                                        Elija medio de pago
-                                                    </option>
-                                                    {payMethods.map((method) => (
-                                                        <option key={method.id} value={method.paymentMethodName}>
-                                                            {method.paymentMethodName}
-                                                        </option>
-                                                    ))}
-                                                </select>
-                                            </div>
-                                        </div>
+                                     <div className="rounded overflow-hidden shadow-sm shadow-black p-2 m-2 flex flex-col gap-4">
+                                     <div className="mb-4 dark:bg-darkPrimary rounded-lg p-2 ">
+                                         <label className="block text-sm font-medium text-gray-700 dark:text-darkText">Precio $</label>
+                                         <input
+                                             type="number"
+                                             value={price.amount1}
+                                             onChange={(e) => handlePriceChange(e, 'amount1')}
+                                             className="input rounded-lg dark:bg-darkPrimary dark:text-darkText"
+                                             placeholder="Ingrese el precio"
+                                         />
+                                     </div>
+                                     <div className="mb-4 dark:bg-darkPrimary rounded-lg p-2">
+                                         <label className="block text-sm font-medium text-gray-700 dark:bg-darkPrimary dark:text-darkText">Medio de Pago A</label>
+                                         <select
+                                             value={paymentMethods.paymentMethod1}
+                                             onChange={(e) => handlePaymentMethodChange(e, 1)}
+                                             className="input rounded-lg dark:bg-darkPrimary dark:text-darkText"
+                                         >
+                                             <option value="" disabled>
+                                                 Elija medio de pago
+                                             </option>
+                                             {payMethods.map((method) => (
+                                                 <option key={method.id} value={method.paymentMethodName}>
+                                                     {method.paymentMethodName}
+                                                 </option>
+                                             ))}
+                                         </select>
+                                     </div>
                                     </div>
                                 )}
 

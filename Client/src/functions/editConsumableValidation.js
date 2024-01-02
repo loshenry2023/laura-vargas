@@ -1,27 +1,26 @@
-const editConsumableValidation = (originalData, newData) => {
-  const validationErrors = {};
+function editConsumableValidation(productName, supplier, amount, newPrice) {
+  const errors = {};
 
-  // Validación de cambios
-  if (
-    Object.keys(newData).every(
-      (key) => newData[key] === originalData[key] || key === "operation"
-    )
-  ) {
-    validationErrors.noChanges = "No hubo modificaciones";
+  // Validación de caracteres especiales en nombre y proveedor
+  const specialCharsRegex = /[!@#$%^&*(),.?":{}|<>]/;
+  if (specialCharsRegex.test(productName)) {
+    errors.productName = "El nombre no puede contener caracteres especiales";
+  }
+  if (specialCharsRegex.test(supplier)) {
+    errors.supplier = "El proveedor no puede contener caracteres especiales";
   }
 
-  // Validación de cantidad en operación "subtract"
-  if (
-    newData.operation === "subtract" &&
-    "amount" in newData &&
-    "amount" in originalData &&
-    parseInt(newData.amount, 10) < 0 &&
-    originalData.amount - parseInt(newData.amount, 10) < 0
-  ) {
-    validationErrors.amountUnavailable = "Cantidad solicitada no disponible";
+  // Validación de cantidad no menor a 0
+  if (parseInt(amount, 10) < 0) {
+    errors.amount = "La cantidad no puede ser menor a 0";
   }
 
-  return validationErrors;
-};
+  // Validación de precio no menor a 0
+  if (parseFloat(newPrice) < 0) {
+    errors.newPrice = "El precio no puede ser menor a 0";
+  }
+
+  return errors;
+}
 
 export default editConsumableValidation;
