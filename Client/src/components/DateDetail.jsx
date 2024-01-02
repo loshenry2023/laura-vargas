@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { useParams } from 'react-router-dom';
-import { getClientId } from '../redux/actions/';
+import { getClientId, getPayMethods } from '../redux/actions/';
 import HistoryServices from './HistoryServices';
 import { toast } from 'react-hot-toast'
 import ToasterConfig from '../components/Toaster'
@@ -59,7 +59,7 @@ const DateDetail = () => {
     const [aux, setAux] = useState(false)
 
     useEffect(() => {
-      
+
         if (calendar) {
             const findAppointment = calendar.find((date) => date.id === appointmentId);
             if (findAppointment) {
@@ -68,6 +68,7 @@ const DateDetail = () => {
                 dispatch(getClientId(findAppointment.Client.id, { token }))
             }
         }
+        dispatch(getPayMethods({ token }))
 
     }, [dispatch, token, appointmentId, clientId]);
 
@@ -237,7 +238,7 @@ const DateDetail = () => {
 
                 {/* Observations Section */}
                 <div className="flex items-center p-6 bg-primaryPink backdrop-blur-xl rounded-md dark:bg-darkPrimary">
-                    <div className= "border-4 border-double border-primaryPink max-w-screen-sm rounded overflow-hidden shadow-lg mx-auto dark:border-zinc-800">
+                    <div className="border-4 border-double border-primaryPink max-w-screen-sm rounded overflow-hidden shadow-lg mx-auto dark:border-zinc-800">
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 p-5 mx-auto dark:bg-darkBackground ">
                             <div className='flex flex-col flex-wrap gap-4 p-4 rounded-md shadow-sm  md:justify-center shadow-black dark:text-darkText dark:shadow-darkText' style={observationSectionStyle} >
                                 <p className="underline">Agrega foto de este procedimiento</p>
@@ -249,7 +250,7 @@ const DateDetail = () => {
                             <div className='flex flex-col flex-wrap gap-4 p-4 rounded-md shadow-sm  md:justify-center shadow-black dark:text-darkText dark:shadow-darkText' style={observationSectionStyleConsent}>
                                 <p className="underline">Agrega formulario de conformidad</p>
                                 <div className="flex flex-row flex-wrap  gap-10" >
-                                    <UploadWidgetConsent setConsentUrl={setConsentUrl} setConsent={setConsent} setConsentLoaded={setConsentLoaded}/>
+                                    <UploadWidgetConsent setConsentUrl={setConsentUrl} setConsent={setConsent} setConsentLoaded={setConsentLoaded} />
                                     <img className='w-12 h-12' src={consent} alt='foto de procedimiento' />
                                 </div>
                             </div>
@@ -325,34 +326,34 @@ const DateDetail = () => {
                                     {showPayment2 ? <CiCircleMinus size={30} /> : <CiCirclePlus size={30} />}
                                 </button>
                                 {showPayment2 && (
-                                     <div className="rounded overflow-hidden shadow-sm shadow-black p-2 m-2 flex flex-col gap-4">
-                                     <div className="mb-4 dark:bg-darkPrimary rounded-lg p-2 ">
-                                         <label className="block text-sm font-medium text-gray-700 dark:text-darkText">Precio $</label>
-                                         <input
-                                             type="number"
-                                             value={price.amount1}
-                                             onChange={(e) => handlePriceChange(e, 'amount1')}
-                                             className="input rounded-lg dark:bg-darkPrimary dark:text-darkText"
-                                             placeholder="Ingrese el precio"
-                                         />
-                                     </div>
-                                     <div className="mb-4 dark:bg-darkPrimary rounded-lg p-2">
-                                         <label className="block text-sm font-medium text-gray-700 dark:bg-darkPrimary dark:text-darkText">Medio de Pago A</label>
-                                         <select
-                                             value={paymentMethods.paymentMethod1}
-                                             onChange={(e) => handlePaymentMethodChange(e, 1)}
-                                             className="input rounded-lg dark:bg-darkPrimary dark:text-darkText"
-                                         >
-                                             <option value="" disabled>
-                                                 Elija medio de pago
-                                             </option>
-                                             {payMethods.map((method) => (
-                                                 <option key={method.id} value={method.paymentMethodName}>
-                                                     {method.paymentMethodName}
-                                                 </option>
-                                             ))}
-                                         </select>
-                                     </div>
+                                    <div className="rounded overflow-hidden shadow-sm shadow-black p-2 m-2 flex flex-col gap-4">
+                                        <div className="mb-4 dark:bg-darkPrimary rounded-lg p-2 ">
+                                            <label className="block text-sm font-medium text-gray-700 dark:text-darkText">Precio $</label>
+                                            <input
+                                                type="number"
+                                                value={price.amount2}
+                                                onChange={(e) => handlePriceChange(e, 'amount2')}
+                                                className="input rounded-lg dark:bg-darkPrimary dark:text-darkText"
+                                                placeholder="Ingrese el precio"
+                                            />
+                                        </div>
+                                        <div className="mb-4 dark:bg-darkPrimary rounded-lg p-2">
+                                            <label className="block text-sm font-medium text-gray-700 dark:bg-darkPrimary dark:text-darkText">Medio de Pago B</label>
+                                            <select
+                                                value={paymentMethods.paymentMethod2}
+                                                onChange={(e) => handlePaymentMethodChange(e, 2)}
+                                                className="input rounded-lg dark:bg-darkPrimary dark:text-darkText"
+                                            >
+                                                <option value="" disabled>
+                                                    Elija medio de pago
+                                                </option>
+                                                {payMethods.map((method) => (
+                                                    <option key={method.id} value={method.paymentMethodName}>
+                                                        {method.paymentMethodName}
+                                                    </option>
+                                                ))}
+                                            </select>
+                                        </div>
                                     </div>
                                 )}
 
@@ -363,7 +364,7 @@ const DateDetail = () => {
                                 disabled={isButtonDisabled}
                                 onClick={() => setShowFinishConfirmation(true)}
                                 className={`btn bg-primaryPink p-2 rounded-full cursor-pointer shadow shadow-black ${isButtonDisabled ? 'disabled-btn' : ''} `}
-                                style={{ backgroundColor: isButtonDisabled ? 'gray' : '#e59494' }} 
+                                style={{ backgroundColor: isButtonDisabled ? 'gray' : '#e59494' }}
                             >
                                 Finalizar Cita
                             </button>
