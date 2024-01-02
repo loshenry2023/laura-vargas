@@ -25,7 +25,9 @@ const ConsumablesTable = ({ products, user, onClose }) => {
     setEditConsumableModal(true);
     setCode(fila);
   };
-  console.log(products);
+
+  useEffect(() => {}, [productsData]);
+
   if (products && products.rows && Array.isArray(products.rows)) {
     return (
       <>
@@ -112,6 +114,7 @@ const ConsumablesTable = ({ products, user, onClose }) => {
             onClose={onClose}
             setEditConsumableModal={setEditConsumableModal}
             code={code}
+            setProductsData={setProductsData}
           />
         )}
       </>

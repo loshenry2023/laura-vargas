@@ -10,7 +10,12 @@ import editConsumableValidation from "../functions/editConsumableValidation";
 import getParamsEnv from "../functions/getParamsEnv";
 const { CONSUMABLES } = getParamsEnv();
 
-function EditConsumableForm({ setEditConsumableModal, code, onClose }) {
+function EditConsumableForm({
+  setEditConsumableModal,
+  code,
+  onClose,
+  setProductsData,
+}) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const productsState = useSelector((state) => state.products);
@@ -25,7 +30,7 @@ function EditConsumableForm({ setEditConsumableModal, code, onClose }) {
   const [newPrice, setNewPrice] = useState("");
   const [errors, setErrors] = useState({});
   const [priceHistory, setPriceHistory] = useState([]);
-  const [adjustmentValue, setAdjustmentValue] = useState(1);
+  const [adjustmentValue, setAdjustmentValue] = useState(0);
   const [updatedAmount, setUpdatedAmount] = useState(0);
 
   useEffect(() => {
@@ -43,12 +48,9 @@ function EditConsumableForm({ setEditConsumableModal, code, onClose }) {
       setNewPrice(currentPrice);
     }
   }, [product, products]);
-  useEffect(() => {
-    console.log("Amount actualizado:", amount);
-  }, [amount]);
+
   const handleAdjustAmount = (operation) => {
     let updatedAmount = parseInt(amount, 10);
-
     let amountToAddOrSubtract = parseInt(adjustmentValue, 10);
 
     if (isNaN(amountToAddOrSubtract) || amountToAddOrSubtract <= 0) {
@@ -59,14 +61,22 @@ function EditConsumableForm({ setEditConsumableModal, code, onClose }) {
     if (operation === "add") {
       updatedAmount += amountToAddOrSubtract;
     } else if (operation === "subtract") {
-      updatedAmount -= amountToAddOrSubtract;
-      updatedAmount = updatedAmount >= 0 ? updatedAmount : 0;
+      const result = updatedAmount - amountToAddOrSubtract;
+      if (result < 0) {
+        setErrors({
+          amountError: `La cantidad resultante no puede ser ${result}.`,
+        });
+        return;
+      }
+      updatedAmount = result;
+      setErrors({});
     }
 
-    setAmount((prevAmount) => updatedAmount);
+    console.log("amount update", updatedAmount, "estado actual", amount);
+    setAmount(updatedAmount);
   };
 
-  const handleUpdate = () => {
+  const handleUpdate = async () => {
     const resetFields = () => {
       setProductName("");
       setDescription("");
@@ -106,6 +116,9 @@ function EditConsumableForm({ setEditConsumableModal, code, onClose }) {
       parseFloat(newPrice) === parseFloat(priceHistory)
     ) {
       toast.error("No se realizaron modificaciones.");
+      setTimeout(() => {
+        setEditConsumableModal(false);
+      }, 2000);
       return;
     }
 
@@ -118,17 +131,30 @@ function EditConsumableForm({ setEditConsumableModal, code, onClose }) {
       supplier,
       amount,
     };
-    console.log("Valor actualizado de amount:", amount);
+
+    console.log("Product:", updatedProduct);
+    setProductsData(updatedProduct);
     if (parseFloat(newPrice) !== parseFloat(priceHistory)) {
       try {
-        dispatch(updateProductPrice(product.code, newPrice));
+        await dispatch(updateProductPrice(product.code, newPrice));
+        toast.success("Precio actualizado correctamente.");
       } catch (error) {
-        console.error("Error updating product price:", error.message);
+        console.error(
+          "Error al actualizar el precio del producto:",
+          error.message
+        );
         toast.error("Hubo un problema al actualizar el precio.");
       }
     }
-    console.log("updatedProduct:", updatedProduct);
-    dispatch(editProduct(product.code, updatedProduct));
+
+    try {
+      await dispatch(editProduct(product.code, updatedProduct));
+      setProductsData(updatedProduct);
+      toast.success("Producto editado correctamente.");
+    } catch (error) {
+      console.error("Error al editar el producto:", error.message);
+      toast.error("Hubo un problema al editar el producto.");
+    }
     toast.success("Insumo modificado correctamente.");
 
     onClose();
@@ -203,7 +229,13 @@ function EditConsumableForm({ setEditConsumableModal, code, onClose }) {
                     className="border border-black p-2 rounded mr-2"
                     type="number"
                     value={adjustmentValue}
-                    onChange={(e) => setAdjustmentValue(e.target.value)}
+                    onChange={(e) => {
+                      const value = parseInt(e.target.value);
+                      if (!isNaN(value) && value >= 0) {
+                        setAdjustmentValue(value);
+                      }
+                    }}
+                    min="0"
                   />
                   <button
                     type="button"
