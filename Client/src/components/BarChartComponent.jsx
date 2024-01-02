@@ -20,7 +20,7 @@ function BarChartComponent({ data, colors, name }) {
     return `$${tick.toFixed(2)}`; // Formato de ejemplo
   };
   return (
-    <ResponsiveContainer width="80%" height={500}>
+    <ResponsiveContainer width="100%" height={500}>
       <BarChart data={data}>
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis
@@ -28,12 +28,12 @@ function BarChartComponent({ data, colors, name }) {
           tickFormatter={(tick) => new Date(tick).toLocaleString()}
         />
         <YAxis
-          tickFormatter={formatYAxisTick}
-          domain={[0, maxY]}
-          tickCount={Math.ceil(maxY / 10) + 1}
+           tickFormatter={formatYAxisTick}
+           domain={[0, maxY]}
+           tickCount={Math.ceil(maxY / 10) + 1}
         />
         <Tooltip />
-        <Legend />
+        <Legend/>
         <Bar dataKey="price" fill={colors[0]} name={name} barSize={25} />
       </BarChart>
     </ResponsiveContainer>

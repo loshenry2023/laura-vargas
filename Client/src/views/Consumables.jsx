@@ -150,24 +150,24 @@ function Consumables() {
                     }}
                   />
                 </section>
-                <div className="flex items-center justify-between mt-4">
+                <div className="flex items-center justify-center mt-4">
                   <button
                     onClick={() => handlePageChange(page - 1)}
                     disabled={page === 0}
-                    className="border bg-primaryPink hover:bg-primaryPink text-white py-2 px-4 rounded dark:bg-darkPrimary dark:shadow-darkText dark:border-darkText  dark:hover:bg-gray-200 dark:hover:text-black cursor-pointer"
+                    className="dark:text-darkText cursor-pointer"
                   >
-                    Anterior
+                    {"<"}
                   </button>
-                  <p className="dark:text-darkText">
-                    Página {page + 1} de {totalPages}
+                  <p className="dark:text-darkText px-2">
+                  Página {totalPages === 0 ? `${page} de ${totalPages}` : `${page + 1} de ${totalPages}`}
                   </p>
-                  <button
+                  <span
                     onClick={() => handlePageChange(page + 1)}
                     disabled={page === totalPages - 1}
-                    className="border bg-primaryPink hover:bg-primaryPink text-white py-2 px-4 rounded dark:bg-darkPrimary dark:shadow-darkText dark:border-darkText dark:hover:bg-gray-200 dark:hover:text-black cursor-pointer"
+                    className="dark:text-darkText cursor-pointer"
                   >
-                    Siguiente
-                  </button>
+                  {">"}
+                  </span>
                 </div>
               </div>
             )

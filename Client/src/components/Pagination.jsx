@@ -40,7 +40,7 @@ const Pagination = ({page, size, setPage, setSize, count}) => {
           {" "}
           {"<"}
         </button>
-        <span className="dark:text-darkText"> {pagination === 0 ? `${page} de ${pagination}` : `${page + 1} de ${pagination}`} </span>
+        <span className="dark:text-darkText"> Página {pagination === 0 ? `${page} de ${pagination}` : `${page + 1} de ${pagination}`} </span>
         <button
           onClick={
             page < pagination - 1
