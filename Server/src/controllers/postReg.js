@@ -47,6 +47,9 @@ async function AddRegCalendar(Calendar, data, conn, User, Service, Client, Branc
     try {
         if (!idUser || !idService || !idClient || !idBranch || !date_from || !date_to || !obs) { throw Error("Faltan datos"); }
         // Inicio la transacción:
+
+        console.log("GUARDO ", date_from)
+
         transaction = await conn.transaction();
         const regCreated = await Calendar.create({
             date_from, date_to, obs, current: true, BranchId: idBranch,
