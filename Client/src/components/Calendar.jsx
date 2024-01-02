@@ -142,8 +142,8 @@ const Calendar = ({setDateInfo, services, users, setSpecialty, branches, refresc
       {loading ? (
         <Loader />
       ) : (
-        <div className="flex flex-col gap-10 justify-center items-center w-full sm:w-1/2 xl:flex-row">
-          <div className="w-72 sm:w-96 sm:h-96 md:w-[500px]">
+        <div className="flex flex-col gap-10 justify-center items-center w-full sm:w-full xl:flex-row">
+          <div className="w-72 sm:w-96 sm:h-96 md:w-[550px]">
             <div className="flex justify-between items-center">
               <h1 className="select-none font-semibold dark:text-darkText">
                 {months[today.month()]}, {today.year()}
@@ -225,7 +225,7 @@ const Calendar = ({setDateInfo, services, users, setSpecialty, branches, refresc
               )}
             </div>
           </div>
-          <div className="w-72 h-72 sm:px-5 overflow-auto sm:w-96 sm:h-96 md:w-[500px]">
+          <div className="w-72 sm:px-5 overflow-auto sm:w-96 sm:h-96 md:w-[550px]">
             {/* // se pued eponer mas con h-full // */}
             <h1 className="font-semibold mb-2 dark:text-darkText">
               {capitalizedDate(formatedDate)}

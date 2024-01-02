@@ -214,8 +214,8 @@ const Agenda = () => {
           <div
             className={
               user.role !== "especialista"
-                ? "w-full flex flex-col m-10 justify-evenly items-center 2xl:h-[calc(100vh-220px)]"
-                : "w-full flex flex-col m-10 items-center 2xl:h-[calc(100vh-220px)]"
+                ? "w-full flex flex-col m-10 gap-5 justify-between items-center 2xl:h-[calc(100vh-220px)]"
+                : "w-full flex flex-col m-10 gap-5 items-center 2xl:h-[calc(100vh-220px)]"
             }
           >
             <h1
@@ -228,7 +228,7 @@ const Agenda = () => {
               Agenda
             </h1>
             {user.role === "especialista" ? null : (
-              <section className="flex flex-col flex-wrap items-center justify-center gap-5 mb-10 md:flex-row">
+              <section className="w-96 flex flex-col flex-wrap items-center justify-center gap-5 mb-10 md:flex-row sm:w-full">
                 <div className="mt-5 flex flex-row gap-5 sm:mt-0">
                   <FaPlusCircle
                     className="mt-1.5 cursor-pointer dark:text-darkText"
@@ -239,20 +239,20 @@ const Agenda = () => {
                     id=""
                     placeholder={`${chosenClient.name} ${chosenClient.lastName}`}
                     disabled
-                    className="resize-y border border-black rounded-md text-md dark:text-darkText dark:bg-darkPrimary"
+                    className="w-60 resize-y border mr-8 border-black rounded-md text-md dark:text-darkText dark:bg-darkPrimary md:w-fit md:mr-0"
                   />
                 </div>
                 <input
                   disabled
                   value={workingBranch.branchName}
                   placeholder={workingBranch.branchName}
-                  className="border border-black rounded-md text-md dark:text-darkText dark:bg-darkPrimary"
+                  className="w-60 border border-black rounded-md text-md dark:text-darkText dark:bg-darkPrimary md:w-fit"
                 ></input>
                 {selectServices ? (
                   <select
                     name="service"
                     id=""
-                    className="border border-black rounded-md text-md dark:text-darkText dark:bg-darkPrimary"
+                    className="w-60 border border-black rounded-md text-md dark:text-darkText dark:bg-darkPrimary md:w-fit"
                     onChange={handleChange}
                   >
                     <option
@@ -272,7 +272,7 @@ const Agenda = () => {
                   <select
                     name="service"
                     id=""
-                    className="border border-black rounded-md text-md dark:text-darkText dark:bg-darkPrimary"
+                    className="w-60 border border-black rounded-md text-md dark:text-darkText dark:bg-darkPrimary md:w-fit"
                     onChange={handleChange}
                   >
                     <option
@@ -289,7 +289,7 @@ const Agenda = () => {
                   onChange={handleChange}
                   name="specialist"
                   id=""
-                  className="border border-black rounded-md text-md dark:text-darkText dark:bg-darkPrimary"
+                  className="w-60 border border-black rounded-md text-md dark:text-darkText dark:bg-darkPrimary md:w-fit"
                 >
                   <option
                     defaultValue={dateInfo.specialist.id ? false : true}
