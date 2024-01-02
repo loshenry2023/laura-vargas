@@ -21,7 +21,7 @@ import { getCalendar } from "../redux/actions";
 
 const { API_URL_BASE, DATEDETAILBASE } = getParamsEnv();
 
-const Calendar = ({setDateInfo, services, users, setSpecialty, branches, refrescarCita, setRefrescarCita, chosenClient, user}) => {
+const Calendar = ({setDateInfo, services, users, setSpecialty, branches, refrescarCita, setRefrescarCita, chosenClient, user, setSelectServices}) => {
   const dispatch = useDispatch();
 
   const [date, setDate] = useState({})
@@ -36,6 +36,7 @@ const Calendar = ({setDateInfo, services, users, setSpecialty, branches, refresc
   const calendar = useSelector((state) => state?.calendar);
   const [today, setToday] = useState(currentDate);
   const [selectDate, setSelectDate] = useState(currentDate);
+  const [userId, setUserId] = useState(user.role === "especialista" ? user.id : "")
   const [branch, setBranch] = useState(workingBranchID);
   const [loading, setLoading] = useState(true);
   const dateNow = new Date();
@@ -91,23 +92,30 @@ const Calendar = ({setDateInfo, services, users, setSpecialty, branches, refresc
     if(!effectControl){
      
       setEffectControl(true)
-      console.log("calendar desde calendar")
-      dispatch(getCalendar(branch, dateFrom, dateTo, { token: token })).then(
+      dispatch(getCalendar(branch, dateFrom, dateTo, userId, { token: token })).then(
         setLoading(false)
       );
       setEffectControl(false)
       
     }
+    if (showEditAppointment){
+      setSpecialty(date.User.Specialties[0].specialtyName)
+      setSelectServices(false)
+    } else {
+      setSpecialty("noneSpecialty")
+      setSelectServices(true)
+    }
 
     
-  }, [workingBranch.id, dateFrom, dateTo, citaId, refrescarCita]);
+  }, [workingBranch.id, dateFrom, dateTo, citaId, refrescarCita, showEditAppointment]);
 
   const handleShowEditAppointment = (date) => {
+    
     const parsedDate = JSON.parse(date)
-  
+    
     setDate(parsedDate)
-  
     setShowEditAppointment(true)
+    
     }
 
     const hideDeleteModal = () => {
@@ -382,11 +390,12 @@ const Calendar = ({setDateInfo, services, users, setSpecialty, branches, refresc
                     <p className="text-md tracking-wide font-light dark:text-darkText">
                       {" "}
                       <span className="font-medium">Especialista:</span>{" "}
-                      {cita.User.name} {cita.User.lastName}
+                      {cita.User === null ? "Error en la carga de especialista" : `${cita.User.name} ${cita.User.lastName}`}
+                      
                     </p>
                     <p className="text-md tracking-wide font-light dark:text-darkText">
                       <span className="font-medium">Procedimiento:</span>{" "}
-                      {cita.Service.serviceName}
+                      {cita.Service === null ? "Error en la carga de procedimiento. Llamar cliente" : cita.Service.serviceName}
                     </p>
                   </div>
                 </div>

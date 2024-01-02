@@ -65,7 +65,7 @@ function Consumables() {
 
   const handleShowNewConsumableModal = () => {
     setShowNewConsumableModal(true);
-    console.log("Modal abierto");
+
   };
 
   const handleNewProductAdded = () => {
@@ -90,18 +90,18 @@ function Consumables() {
         <NavBar />
         <div className="flex flex-row dark:bg-darkBackground">
           <SideBar />
-          {user?.role === "superAdmin" || user?.role === "Admin" ? (
+          {user?.role === "superAdmin" || user?.role === "admin" ? (
             loading ? (
               <Loader />
             ) : (
               <div className="flex flex-col mt-10 gap-5 w-2/3 mx-auto">
-                <h1 className="text-xl text-center dark:text-beige sm:text-left">
+                <h1 className="text-2xl underline underline-offset-4 tracking-wide text-center font-fontTitle dark:text-beige sm:text-left">
                   Control de insumos
                 </h1>
                 <div className="ml-auto">
                   <button
                     onClick={handleShowNewConsumableModal}
-                    className="bg-primaryPink hover:bg-secondaryPink text-white py-2 px-4 rounded"
+                    className="bg-primaryPink hover:bg-secondaryPink text-white py-2 px-4 rounded border dark:bg-darkPrimary dark:border-darkText dark:hover:bg-gray-200 dark:hover:text-black"
                   >
                     <div className="flex items-center">
                       Nuevo Insumo <FaPlus className="ml-2" />
@@ -154,17 +154,17 @@ function Consumables() {
                   <button
                     onClick={() => handlePageChange(page - 1)}
                     disabled={page === 0}
-                    className="bg-primaryPink hover:bg-primaryPink text-white py-2 px-4 rounded"
+                    className="border bg-primaryPink hover:bg-primaryPink text-white py-2 px-4 rounded dark:bg-darkPrimary dark:shadow-darkText dark:border-darkText  dark:hover:bg-gray-200 dark:hover:text-black cursor-pointer"
                   >
                     Anterior
                   </button>
-                  <p>
+                  <p className="dark:text-darkText">
                     Página {page + 1} de {totalPages}
                   </p>
                   <button
                     onClick={() => handlePageChange(page + 1)}
                     disabled={page === totalPages - 1}
-                    className="bg-primaryPink hover:bg-primaryPink text-white py-2 px-4 rounded"
+                    className="border bg-primaryPink hover:bg-primaryPink text-white py-2 px-4 rounded dark:bg-darkPrimary dark:shadow-darkText dark:border-darkText dark:hover:bg-gray-200 dark:hover:text-black cursor-pointer"
                   >
                     Siguiente
                   </button>
@@ -172,9 +172,13 @@ function Consumables() {
               </div>
             )
           ) : (
-            <div className="text-center mt-10">
-              <p>No tiene los permisos necesarios para ver el inventario.</p>
+            <div className="flex flex-col gap-10 w-full justify-center items-center dark:bg-darkBackground">
+            <div>
+            <h1 className="text-3xl tracking-wide text-center font-fontTitle  dark:text-darkText">Acceso restringido </h1>
+            <h5 className="text-2xl tracking-wide text-center text-gray-700 dark:text-darkText">Lo sentimos pero no tienes acceso a esta página.</h5>
             </div>
+          <img src="https://cdn-icons-png.flaticon.com/512/345/345535.png" alt="denied-access" className="h-96 dark:invert"/>
+        </div>
           )}
         </div>
       </div>

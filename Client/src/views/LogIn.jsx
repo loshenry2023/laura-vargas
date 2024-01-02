@@ -14,7 +14,7 @@ import { AiFillYahoo } from "react-icons/ai";
 
 // Variables de entorno:
 import getParamsEnv from "../functions/getParamsEnv";
-const { ROOT, HOME, API_URL_BASE, BRANCH } = getParamsEnv();
+const { ROOT, HOME, AGENDA, API_URL_BASE, BRANCH } = getParamsEnv();
 
 //Firebase
 import {
@@ -36,7 +36,11 @@ const LogIn = () => {
     if (role === "superAdmin" || role === "admin" || role === "especialista") {
       if (branches.length == 1) {
         dispatch(setBranch({ ...branches[0] }));
-        navigate(HOME)
+        if(role === "superAdmin" || role === "admin"){
+          navigate(HOME)
+        } else [
+          navigate(AGENDA)
+        ]
       } else {
         navigate(BRANCH)
       }
@@ -81,15 +85,14 @@ const LogIn = () => {
       setRole(role);
 
 
-      console.log("TKEn ", idToken);
+
       dispatch(getToken(idToken));
     } catch (error) {
-      console.log("Error ", error);
-      console.log("ultIntento ", ultIntento);
+
       if (!ultIntento) {
         if (error.code === "auth/popup-closed-by-user") {
           // atrapo el error y reintento:
-          console.log("Reintentando...");
+
           setTimeout(() => {
           }, 1000);
           ultIntento = true;

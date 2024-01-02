@@ -18,6 +18,7 @@ module.exports = (sequelize) => {
         allowNull: false,
       },
       date_modification: {
+
         type: DataTypes.DATE,
         defaultValue: DataTypes.NOW,
         allowNull: false,
@@ -26,8 +27,5 @@ module.exports = (sequelize) => {
     {
       timestamps: false,
     },
-    {
-      paranoid: true, // Habilita eliminación suave
-    }
   );
 };

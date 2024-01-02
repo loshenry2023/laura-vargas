@@ -62,7 +62,7 @@ function NewConsumableModal({ onClose }) {
           API_URL_BASE + "/products",
           newConsumable
         );
-        console.log("response", response);
+
         if (response.statusText === "Created") {
           toast.success("Consumable creado con éxito");
           setSubmissionStatus("success");
@@ -82,7 +82,7 @@ function NewConsumableModal({ onClose }) {
   };
   return (
     <div className="modal" style={{ zIndex: 1000 }}>
-      <div className="absolute top-0 left-0 flex items-center justify-center w-full h-full bg-black opacity-95">
+      <div className="absolute top-0 left-0 flex items-center justify-center w-full h-full" style={{ background: "rgba(0, 0, 0, 0.70)"}}>
         <div className="container">
           <div className="w-full bg-white shadow rounded-lg p-6 md:mx-auto md:w-1/2 2xl:w-1/3 dark:bg-darkBackground">
             <div className="flex justify-between">
@@ -91,12 +91,12 @@ function NewConsumableModal({ onClose }) {
               </h1>
               <IoClose
                 onClick={handleGoBack}
-                className="cursor-pointer mt-2 w-5 h-5 dark:text-darkText"
+                className="cursor-pointer mt-2 w-5 h-5 dark:text-darkText hover:scale-125"
               />
             </div>
             <form onSubmit={handleSubmit}>
               <div className="first-letter:grid grid-cols-1 mb-2">
-                <label className="pl-1 text-sm font-bold">Nombre:</label>
+                <label className="pl-1 text-sm font-bold dark:text-darkText">Nombre:</label>
                 <input
                   className={`border p-2 rounded w-full ${
                     errors.productName ? "border-red-500" : "border-black"
@@ -111,8 +111,8 @@ function NewConsumableModal({ onClose }) {
                   <p className="text-xs text-red-500">{errors.productName}</p>
                 )}
               </div>
-              <div>
-                <label className="pl-1 text-sm font-bold">
+              <div className="first-letter:grid grid-cols-1 mb-2">
+                <label className="pl-1 text-sm font-bold dark:text-darkText">
                   Código del producto:
                 </label>
                 <input
@@ -129,8 +129,8 @@ function NewConsumableModal({ onClose }) {
                   <p className="text-xs text-red-500">{errors.productCode}</p>
                 )}
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-1 gap-4 mb-2">
-                <label className="pl-1 text-sm font-bold">Descripción:</label>
+              <div className="first-letter:grid grid-cols-1 mb-2">
+                <label className="pl-1 text-sm font-bold dark:text-darkText"> Descripción:</label>
                 <input
                   className={`border p-2 rounded w-full ${
                     errors.description ? "border-red-500" : "border-black"
@@ -145,8 +145,8 @@ function NewConsumableModal({ onClose }) {
                   <p className="text-xs text-red-500">{errors.description}</p>
                 )}
               </div>
-              <div>
-                <label className="pl-1 text-sm font-bold">Proveedor:</label>
+              <div className="first-letter:grid grid-cols-1 mb-2">
+                <label className="pl-1 text-sm font-bold dark:text-darkText">Proveedor:</label>
                 <input
                   className={`border p-2 rounded w-full ${
                     errors.supplier ? "border-red-500" : "border-black"
@@ -161,8 +161,8 @@ function NewConsumableModal({ onClose }) {
                   <p className="text-xs text-red-500">{errors.supplier}</p>
                 )}
               </div>
-              <div>
-                <label className="pl-1 text-sm font-bold">Cantidad:</label>
+              <div className="first-letter:grid grid-cols-1 mb-2">
+                <label className="pl-1 text-sm font-bold dark:text-darkText">Cantidad:</label>
                 <input
                   className={`border p-2 rounded w-full ${
                     errors.amount ? "border-red-500" : "border-black"
@@ -177,8 +177,8 @@ function NewConsumableModal({ onClose }) {
                   <p className="text-xs text-red-500">{errors.amount}</p>
                 )}
               </div>
-              <div>
-                <label className="pl-1 text-sm font-bold">Precio:</label>
+              <div className="first-letter:grid grid-cols-1 mb-2">
+                <label className="pl-1 text-sm font-bold dark:text-darkText">Precio:</label>
                 <input
                   className={`border p-2 rounded w-full ${
                     errors.price ? "border-red-500" : "border-black"
@@ -193,7 +193,7 @@ function NewConsumableModal({ onClose }) {
                   <p className="text-xs text-red-500">{errors.price}</p>
                 )}
               </div>
-              <div>
+              <div className="first-letter:grid grid-cols-1 mb-2">
                 <input
                   type="hidden"
                   value={selectedBranch || " "}

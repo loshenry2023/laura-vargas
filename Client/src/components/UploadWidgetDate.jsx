@@ -18,7 +18,7 @@ export const UploadWidgetDate = ({ setPhoto, setPhotoLoaded }) => {
       function (error, result) {
         if (!error && result && result.event === "success") {
           const imageUrl = result.info.secure_url;
-          //console.log(imageUrl)
+
           setPhoto(imageUrl);
           setPhotoLoaded(true)
         } else {

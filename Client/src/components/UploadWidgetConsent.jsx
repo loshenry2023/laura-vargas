@@ -19,7 +19,7 @@ export const UploadWidgetConsent = ({ setConsent, setConsentLoaded, setConsentUr
       function (error, result) {
         if (!error && result && result.event === "success") {
           const pofUrl = result.info.secure_url;
-          console.log("PDF: ", pofUrl)
+
           setConsent("https://cdn4.iconfinder.com/data/icons/file-extensions-1/64/pdfs-512.png");
           setConsentLoaded(true)
           setConsentUrl(pofUrl)

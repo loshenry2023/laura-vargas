@@ -12,7 +12,6 @@ import {
 
 // Componente del gráfico de barras
 function BarChartComponent({ data, colors, name }) {
-  console.log(data);
   const prices = data.map((item) => parseFloat(item.price));
 
   const maxY = Math.ceil(Math.max(...prices) / 10) * 10;
