@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getProductPricesHistory, clearProductPricesHistory } from "../redux/actions";
 import { useNavigate } from "react-router-dom";
 import BarChartComponent from "./BarChartComponent";
-
+import { IoClose } from "react-icons/io5";
 import { IoMdArrowRoundBack } from "react-icons/io";
 
 import Loader from "./Loader";
@@ -95,7 +95,7 @@ const ConsHistoryPrice = () => {
               </table>
             </div>
 
-            {/* DESHABILITO GRAFICO PORQUE PINCHA CON IMPORTES GRANDES Contenedor del gráfico (2/3 del ancho) */}
+            {/* Contenedor del gráfico (2/3 del ancho) */}
             <div className="px-6 py-4 w-2/3 ml-4">
               <BarChartComponent
                 data={pricesHistory}
