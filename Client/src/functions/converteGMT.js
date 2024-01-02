@@ -22,14 +22,24 @@ export default function converterGMT(date) {
   // return cadenaFormateada;
 
 
-  const { timeZone } = Intl.DateTimeFormat().resolvedOptions()
+  const colombiaTimeZone = 'America/Bogota'; // Zona horaria de Colombia (GMT-5)
 
-  const formatDate = new Date(date).toLocaleString(
-    "en-US",
-    {
-      timeZone: timeZone,
-      hourCycle: 'h23',
-    }
-  );
+  const formatDate = new Date(date).toLocaleString('en-US', {
+    timeZone: colombiaTimeZone,
+    hourCycle: 'h23',
+  });
+
   return formatDate;
+
+
+  // const { timeZone } = Intl.DateTimeFormat().resolvedOptions()
+
+  // const formatDate = new Date(date).toLocaleString(
+  //   "en-US",
+  //   {
+  //     timeZone: timeZone,
+  //     hourCycle: 'h23',
+  //   }
+  // );
+  // return formatDate;
 }
