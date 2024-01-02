@@ -30,6 +30,7 @@ import {
   UPDATE_PRODUCT_PRICE_REQUEST,
   UPDATE_PRODUCT_PRICE_SUCCESS,
   UPDATE_PRODUCT_PRICE_FAILURE,
+  CLEAR_PRODUCT_PRICE,
   GET_PAY_METHODS
 } from "./actionsTypes";
 
@@ -251,6 +252,7 @@ const rootReducer = (
     case EDIT_PRODUCT_REQUEST:
       return state;
 
+
     case EDIT_PRODUCT_SUCCESS:
       return {
         ...state,
@@ -272,6 +274,14 @@ const rootReducer = (
         loading: false,
         pricesHistory: payload,
       };
+
+    case CLEAR_PRODUCT_PRICE:
+      return {
+        ...state,
+        loading: false,
+        pricesHistory: null,
+      };
+
     case GET_PRODUCT_PRICES_HISTORY_FAILURE:
       return {
         ...state,
@@ -283,6 +293,7 @@ const rootReducer = (
         ...state,
         loading: true,
         error: null,
+        pricesHistory: null, // Paulo
       };
 
     case UPDATE_PRODUCT_PRICE_SUCCESS:
@@ -299,14 +310,14 @@ const rootReducer = (
         error: payload,
       };
 
-      case GET_PAY_METHODS:
-       
-        const setPayMethods = {
-          ...state,
-          payMethods: payload,
-        };
-        localStorage.setItem("myAppReduxState", JSON.stringify(setPayMethods));
-        return setPayMethods;
+    case GET_PAY_METHODS:
+
+      const setPayMethods = {
+        ...state,
+        payMethods: payload,
+      };
+      localStorage.setItem("myAppReduxState", JSON.stringify(setPayMethods));
+      return setPayMethods;
 
     default:
       return state;

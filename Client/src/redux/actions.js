@@ -29,6 +29,7 @@ import {
   UPDATE_PRODUCT_PRICE_REQUEST,
   UPDATE_PRODUCT_PRICE_SUCCESS,
   UPDATE_PRODUCT_PRICE_FAILURE,
+  CLEAR_PRODUCT_PRICE,
   GET_PAY_METHODS,
 } from "./actionsTypes";
 
@@ -191,17 +192,10 @@ export const getCalendar = (branch, dateFrom, dateTo, userId, token) => {
   const endPoint = API_URL_BASE + "/getcalendar?";
   return async function (dispatch) {
     try {
-
-      console.log("from ", dateFrom)
-
-
       const { data } = await axios.post(
         `${endPoint}branch=${branch}&dateFrom=${dateFrom}&dateTo=${dateTo}&userId=${userId}`,
         token
       );
-
-      console.log(data)
-
 
       const modifiedData = data.map((calendar) => {
         const { date_from, date_to, ...rest } = calendar;
@@ -427,6 +421,13 @@ export const getProductPricesHistory = (productId) => async (dispatch) => {
     dispatch(getProductPricesHistoryFailure(error.message));
   }
 };
+
+export const clearProductPricesHistory = () => ({
+  type: CLEAR_PRODUCT_PRICE,
+});
+
+
+
 export const updateProductPriceRequest = () => ({
   type: UPDATE_PRODUCT_PRICE_REQUEST,
 });
