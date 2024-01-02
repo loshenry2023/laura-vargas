@@ -192,16 +192,23 @@ export const getCalendar = (branch, dateFrom, dateTo, userId, token) => {
   return async function (dispatch) {
     try {
 
+      console.log("from ", dateFrom)
+
+
       const { data } = await axios.post(
         `${endPoint}branch=${branch}&dateFrom=${dateFrom}&dateTo=${dateTo}&userId=${userId}`,
         token
       );
+
+      console.log(data)
 
 
       const modifiedData = data.map((calendar) => {
         const { date_from, date_to, ...rest } = calendar;
         const date_fromInBogotaTimezone = converterGMT(date_from);
         const date_toInBogotaTimezone = converterGMT(date_to);
+        // const date_fromInBogotaTimezone = converterGMT(date_from);
+        // const date_toInBogotaTimezone = converterGMT(date_to);
         return {
           ...rest,
           date_from: date_fromInBogotaTimezone,
@@ -280,11 +287,11 @@ export const getToken = (token) => ({
 });
 
 export const clearDataInicio = () =>
-  // Sólo limpia el storage al inicio del programa, donde aún no existe el token:
-  ({
-    type: USER_LOGOUT,
-    payload: {},
-  });
+// Sólo limpia el storage al inicio del programa, donde aún no existe el token:
+({
+  type: USER_LOGOUT,
+  payload: {},
+});
 // ACTIONS PARA EL INVENTARIO
 export const getProductsRequest = () => ({
   type: GET_PRODUCTS_REQUEST,
