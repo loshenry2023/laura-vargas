@@ -5,9 +5,11 @@ import { getProductPricesHistory } from "../redux/actions";
 import { useNavigate } from "react-router-dom";
 import BarChartComponent from "./BarChartComponent";
 
-import { IoClose } from "react-icons/io5";
+import { IoMdArrowRoundBack } from "react-icons/io";
 
 import Loader from "./Loader";
+import NavBar from "./NavBar";
+import SideBar from "./SideBar";
 
 const ConsHistoryPrice = () => {
   const { productId } = useParams();
@@ -40,56 +42,58 @@ const ConsHistoryPrice = () => {
 
   return (
     <>
-      <div className=" w-full h-20 bg-primaryPink opacity-95 p-4 flex items-center justify-between">
-        <h1 className="text-xl font-semibold mb-4 text-white dark:text-darkText">
-          Historial de Precios - {productName}
-        </h1>
-        <IoClose
-          onClick={handleGoBack}
-          className="cursor-pointer mt-2 w-5 h-5 dark:text-darkText mr-10"
-        />
-      </div>
-
+      <NavBar className=" w-full h-20 bg-primaryPink opacity-95 p-4 flex items-center justify-between"></NavBar>
       {loading ? (
         <Loader />
       ) : (
-        <div className="absolute top-1/4 left-0 w-full h-3/4 flex">
-          {/* Contenedor de la tabla (1/3 del ancho) */}
-          <div className="w-1/3 bg-white shadow rounded-lg p-6 dark:bg-darkBackground">
-            <table className="'border border-black w-full text-sm text-left rtl:text-right text-black dark:text-beige dark:border-beige'">
-              <thead className="bg-secondaryPink text-black text-left dark:bg-darkPrimary dark:text-darkText dark:border-gre">
-                <tr>
-                  <th scope="col" className="px-6 py-3 w-1/2">
-                    Precio
-                  </th>
-                  <th scope="col" className="px-6 py-3 w-1/2">
-                    Fecha de Modificación
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {pricesHistory.map((history, index) => (
-                  <tr
-                    key={index}
-                    className="text-xs hover:bg-gray-200 cursor-pointer dark:hover:bg-gray-200 dark:hover:text-black"
-                  >
-                    <td className="px-6 py-4 w-1/2">{history.price}</td>
-                    <td className="px-6 py-4 w-1/2">
-                      {new Date(history.dateModification).toLocaleString()}
-                    </td>
+        <div className="flex flex-row">
+          <SideBar />
+          <div className="w-full flex flex-col dark:bg-darkBackground">
+            <div>
+              <h1 className="flex justify-center mt-10 text-xl font-semibold mb-10 text-black dark:text-darkText ">
+                <span>
+                  <IoMdArrowRoundBack
+                    onClick={handleGoBack}
+                    className="cursor-pointer mt-1.5 w-5 h-5 dark:text-darkText mr-2"
+                  />
+                </span>
+                Historial de Precios
+              </h1>
+            </div>
+            <div className="flex flex-row gap-20 p-6 dark:bg-darkBackground">
+              <table className="w-1/3 h-fit border border-black text-sm text-left rtl:text-right text-black dark:text-beige dark:border-beige'">
+                <thead className="bg-secondaryPink text-black text-left dark:bg-darkPrimary dark:text-darkText dark:border-grey">
+                  <tr>
+                    <th scope="col" className="px-6 py-3">
+                      Precio
+                    </th>
+                    <th scope="col" className="px-6 py-3">
+                      Fecha de Modificación
+                    </th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-
-          {/* Contenedor del gráfico (2/3 del ancho) */}
-          <div className="w-2/3 ml-4">
-            <BarChartComponent
-              data={pricesHistory}
-              colors={["#FFC8C8"]}
-              name="Precio"
-            />
+                </thead>
+                <tbody>
+                  {pricesHistory.map((history, index) => (
+                    <tr
+                      key={index}
+                      className="text-xs justify-start items-start hover:bg-gray-200 cursor-pointer dark:hover:bg-gray-200 dark:hover:text-black"
+                    >
+                      <td className="px-6 py-4 w-1/2 items-start">{history.price}</td>
+                      <td className="px-6 py-4 w-1/2">
+                        {new Date(history.dateModification).toLocaleString().split(",")[0]}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+              <div className="w-2/3">
+                <BarChartComponent
+                  data={pricesHistory}
+                  colors={["#FFC8C8"]}
+                  name="Precio"
+                />
+              </div>
+            </div>
           </div>
         </div>
       )}
