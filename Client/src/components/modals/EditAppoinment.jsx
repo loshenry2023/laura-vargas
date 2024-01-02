@@ -21,6 +21,7 @@ const EditAppointment = ({ setShowEditAppointment, setSpecialty, token, date, se
   // const endHour = endTime.toLocaleTimeString("es-ES", { hour: "2-digit", minute: "2-digit" });
 
   const [showAppointmentModal, setShowAppointmentModal] = useState(false);
+  const [initialAppointmentInfo, setInitialAppointmentInfo] = useState({});
 
   const onlyDate = date.date_from
   const dateTime = onlyDate.split(",")[0];
@@ -52,6 +53,56 @@ const EditAppointment = ({ setShowEditAppointment, setSpecialty, token, date, se
     date_to: date.date_to.split(" ")[1] || "", //endHour
     obs: date.obs || ""
   });
+
+  useEffect(() => {
+    setInitialAppointmentInfo({ ...AppointmentInfo });
+  }, [date]);
+
+  const deepEqual = (obj1, obj2) => {
+    const keys1 = Object.keys(obj1);
+    const keys2 = Object.keys(obj2);
+  
+    if (keys1.length !== keys2.length) {
+      return false;
+    }
+  
+    for (const key of keys1) {
+      const val1 = obj1[key];
+      const val2 = obj2[key];
+  
+      if (typeof val1 === 'object' && val1 !== null && typeof val2 === 'object' && val2 !== null) {
+        if (!deepEqual(val1, val2)) {
+          return false;
+        }
+      } else if (Array.isArray(val1) && Array.isArray(val2)) {
+        if (!arraysEqual(val1, val2)) {
+          return false;
+        }
+      } else if (val1 !== val2) {
+        return false;
+      }
+    }
+  
+    return true;
+  };
+  
+  const arraysEqual = (arr1, arr2) => {
+    if (arr1.length !== arr2.length) {
+      return false;
+    }
+  
+    for (let i = 0; i < arr1.length; i++) {
+      if (arr1[i] !== arr2[i]) {
+        return false;
+      }
+    }
+  
+    return true;
+  };
+
+  const isAppointmentInfoChanged = () => {
+    return !deepEqual(initialAppointmentInfo, AppointmentInfo);
+  };
 
   const closeModal = () => {
     setShowEditAppointment(false);
@@ -168,10 +219,24 @@ const EditAppointment = ({ setShowEditAppointment, setSpecialty, token, date, se
       [name]: error,
     }));
 
+
+
   };
+
+  useEffect(() => {
+    console.log(AppointmentInfo)
+    console.log(initialAppointmentInfo)
+  },[AppointmentInfo, initialAppointmentInfo])
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+  
+
+    if (!isAppointmentInfoChanged()) {
+      toast.error("No se ha modificado ningún campo. Debe modificar al menos un campo para editar la cita.");
+      return;
+    }
 
     const formattedDateFrom = `${AppointmentInfo.date} ${AppointmentInfo.date_from}`;
     const formattedDateTo = `${AppointmentInfo.date} ${AppointmentInfo.date_to}`;
