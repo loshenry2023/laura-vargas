@@ -22,9 +22,9 @@ const HistoryServices = ({ history }) => {
 }
 
   return (
-    <section className={location.pathname="/dateDetail" ? "w-full mx-auto my-10 flex flex-col flex-wrap justify-evenly gap-10 md:flex-row dark:bg-darkBackground" : 'w-full mx-auto my-10 flex flex-col flex-wrap justify-evenly gap-10 md:flex-row'}>
-        <div className='border-4 border-double border-primaryPink flex flex-col gap-1 flex-wrap  p-4 h-fit rounded overflow-hidden shadow-lg dark:border-zinc-800'>
-      {history.length >= 1 ? <h2 className='font-medium text-center text-xl dark:text-darkText'> Procedimientos anteriores </h2> : <h2 className='font-medium text-center dark:text-darkText'> Sin procedimientos registrados </h2>}
+    <section className={location.pathname="/dateDetail" ? "w-full mx-auto my-10 flex flex-col flex-wrap justify-evenly gap-10 md:flex-row " : 'w-full mx-auto my-10 flex flex-col flex-wrap justify-evenly gap-10 md:flex-row'}>
+        <div className='border-4 border-double border-primaryPink flex flex-col gap-1 flex-wrap  p-4 h-fit rounded overflow-hidden shadow-lg dark:border-zinc-800 dark:bg-darkBackground'>
+      {history.length >= 1 ? <h2 className='font-medium text-center text-xl dark:text-darkText '> Procedimientos anteriores </h2> : <h2 className='font-medium text-center dark:text-darkText '> Sin procedimientos registrados </h2>}
       {history.map((service, index) => {
         return (
           <div key={index} className='flex flex-row flex-wrap justify-between shadow-sm shadow-black p-2 hover:bg-blue-300 dark:bg-darkPrimary dark:hover:bg-zinc-800'>

@@ -5,9 +5,11 @@ import { getProductPricesHistory, clearProductPricesHistory } from "../redux/act
 import { useNavigate } from "react-router-dom";
 import BarChartComponent from "./BarChartComponent";
 
-import { IoClose } from "react-icons/io5";
+import { IoMdArrowRoundBack } from "react-icons/io";
 
 import Loader from "./Loader";
+import NavBar from "./NavBar";
+import SideBar from "./SideBar";
 
 const ConsHistoryPrice = () => {
   const { productId } = useParams();

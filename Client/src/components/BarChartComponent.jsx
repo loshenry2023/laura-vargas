@@ -45,10 +45,9 @@ function BarChartComponent({ data, colors, name }) {
           tickFormatter={formatYAxisTick}
           domain={[0, maxY]}
         // tickCount={Math.ceil(maxY / 10) + 1} // deshabilitado porque da errores en valores altos
-
         />
         <Tooltip />
-        <Legend />
+        <Legend/>
         <Bar dataKey="price" fill={colors[0]} name={name} barSize={25} />
       </BarChart>
     </ResponsiveContainer>
