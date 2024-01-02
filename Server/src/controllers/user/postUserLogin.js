@@ -24,7 +24,7 @@ const postUserLogin = async (req, res) => {
         });
         if (!existingUser) {
             showLog(`postUserLogin: user ${nameUser} not found`);
-            return res.status(404).send(`user ${nameUser} no encontrado.`);
+            return res.status(404).send(`Usuario ${nameUser} no encontrado.`);
         }
         // Actualizo el token:
         existingUser.token = idUser;
