@@ -12,6 +12,8 @@ export const UploadWidget = ({ setUserData }) => {
       {
         cloudName: CLOUD_NAME,
         uploadPreset: UPLOAD_PRESET,
+        sources: ["local"], // sources: [ "local", "url"], // restrict the upload sources to URL and local files
+        multiple: false,  //restrict upload to a single file
       },
       function (error, result) {
         if (!error && result && result.event === "success") {

@@ -37,16 +37,24 @@ function Consumables() {
   const branches = user.branches;
   const [selectedBranch, setSelectedBranch] = useState("");
   const products = useSelector((state) => state?.products);
+
+  const workingBranch = useSelector((state) => state?.workingBranch);
+
   const count = useSelector((state) => state?.count);
 
   useEffect(() => {
     if (user && user.branches && user.branches.length > 0) {
-      setSelectedBranch(user.branches[0].branchName);
+      //setSelectedBranch(user.branches[0].branchName);
+      setSelectedBranch(workingBranch.branchName);
     }
   }, [user]);
 
   useEffect(() => {
     if (selectedBranch) {
+
+      console.log("ELIGE BRANCH ", selectedBranch)
+
+
       dispatch(
         getProducts(productName, selectedBranch, page, size, description)
       ).then(() => {
@@ -159,26 +167,26 @@ function Consumables() {
                     {"<"}
                   </button>
                   <p className="dark:text-darkText px-2">
-                  Página {totalPages === 0 ? `${page} de ${totalPages}` : `${page + 1} de ${totalPages}`}
+                    Página {totalPages === 0 ? `${page} de ${totalPages}` : `${page + 1} de ${totalPages}`}
                   </p>
                   <span
                     onClick={() => handlePageChange(page + 1)}
                     disabled={page === totalPages - 1}
                     className="dark:text-darkText cursor-pointer"
                   >
-                  {">"}
+                    {">"}
                   </span>
                 </div>
               </div>
             )
           ) : (
             <div className="flex flex-col gap-10 w-full justify-center items-center dark:bg-darkBackground">
-            <div>
-            <h1 className="text-3xl tracking-wide text-center font-fontTitle  dark:text-darkText">Acceso restringido </h1>
-            <h5 className="text-2xl tracking-wide text-center text-gray-700 dark:text-darkText">Lo sentimos pero no tienes acceso a esta página.</h5>
+              <div>
+                <h1 className="text-3xl tracking-wide text-center font-fontTitle  dark:text-darkText">Acceso restringido </h1>
+                <h5 className="text-2xl tracking-wide text-center text-gray-700 dark:text-darkText">Lo sentimos pero no tienes acceso a esta página.</h5>
+              </div>
+              <img src="https://cdn-icons-png.flaticon.com/512/345/345535.png" alt="denied-access" className="h-96 dark:invert" />
             </div>
-          <img src="https://cdn-icons-png.flaticon.com/512/345/345535.png" alt="denied-access" className="h-96 dark:invert"/>
-        </div>
           )}
         </div>
       </div>

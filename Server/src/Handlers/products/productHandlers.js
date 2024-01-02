@@ -16,6 +16,9 @@ const getAllProductsHandler = async (req, res) => {
       branch,
       productCode,
     } = req.query;
+
+    //console.log("BRANCH ", branch)
+
     const products = await productController.getAllProductsWithLatestPrice(
       productName,
       supplier,
