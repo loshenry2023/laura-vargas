@@ -3,20 +3,23 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { editProduct, updateProductPrice } from "../redux/actions";
 import { IoClose } from "react-icons/io5";
-import editConsumableValidation from "../functions/editConsumableValidation";
 import { toast } from "react-hot-toast";
 import ToasterConfig from "./../components/Toaster";
+import editConsumableValidation from "../functions/editConsumableValidation";
 
 import getParamsEnv from "../functions/getParamsEnv";
 const { CONSUMABLES } = getParamsEnv();
 
-function EditConsumableForm({ setEditConsumableModal, code, onClose}) {
-
+function EditConsumableForm({
+  setEditConsumableModal,
+  code,
+  onClose,
+  setProductsData,
+}) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const productsState = useSelector((state) => state.products);
   const products = Array.isArray(productsState.rows) ? productsState.rows : [];
-  const [operationSelected, setOperationSelected] = useState(false)
 
   const product = products.find((p) => p.code === parseInt(code, 10));
 
@@ -25,10 +28,10 @@ function EditConsumableForm({ setEditConsumableModal, code, onClose}) {
   const [supplier, setSupplier] = useState("");
   const [amount, setAmount] = useState("");
   const [newPrice, setNewPrice] = useState("");
-  const [operation, setOperation] = useState("");
-  const [successMessage, setSuccessMessage] = useState("");
   const [errors, setErrors] = useState({});
-  const [initialAmount, setInitialAmount] = useState("");
+  const [priceHistory, setPriceHistory] = useState([]);
+  const [adjustmentValue, setAdjustmentValue] = useState(0);
+  const [updatedAmount, setUpdatedAmount] = useState(0);
 
   useEffect(() => {
     if (product) {
@@ -36,114 +39,130 @@ function EditConsumableForm({ setEditConsumableModal, code, onClose}) {
       setDescription(product.description);
       setSupplier(product.supplier);
       setAmount(product.amount);
-      setInitialAmount(product.amount);
+
       const currentPrice =
         product.PriceHistories.length > 0
           ? product.PriceHistories[0].price
           : "Precio no disponible";
+      setPriceHistory(currentPrice);
       setNewPrice(currentPrice);
     }
   }, [product, products]);
 
-  const handleUpdate = () => {
-    const amountToAddOrSubtract = parseInt(amount, 10);
+  const handleAdjustAmount = (operation) => {
+    let updatedAmount = parseInt(amount, 10);
+    let amountToAddOrSubtract = parseInt(adjustmentValue, 10);
 
-    if (operation === "" || operation === "Accion de Stock") {
-      const updatedProductWithoutAmountChange = {
-        ...(product || {}),
-        productName,
-        description,
-        supplier,
-        amount: initialAmount,
-      };
+    if (isNaN(amountToAddOrSubtract) || amountToAddOrSubtract <= 0) {
+      console.error("Ingresa un número válido para la cantidad.");
+      return;
+    }
 
-      dispatch(editProduct(product.code, updatedProductWithoutAmountChange));
-      toast.success(
-        "Insumo modificado sin cambiar cantidad."
-      );
-      onClose()
-      setTimeout(() => {
-
-        setEditConsumableModal(false)
-      }, 3000)
-
-      if (newPrice !== product.price) {
-        try {
-          dispatch(updateProductPrice(product.code, newPrice));
-        } catch (error) {
-          console.error("Error updating product price:", error.message);
-        }
+    if (operation === "add") {
+      updatedAmount += amountToAddOrSubtract;
+    } else if (operation === "subtract") {
+      const result = updatedAmount - amountToAddOrSubtract;
+      if (result < 0) {
+        setErrors({
+          amountError: `La cantidad resultante no puede ser ${result}.`,
+        });
+        return;
       }
-
-      return;
+      updatedAmount = result;
+      setErrors({});
     }
 
-    if (operation === "subtract" && initialAmount - amountToAddOrSubtract < 0) {
-      setErrors({
-        amount: "La cantidad solicitada no está disponible.",
-      });
-      toast.error("La cantidad solicitada no está disponible.");
+    console.log("amount update", updatedAmount, "estado actual", amount);
+    setAmount(updatedAmount);
+  };
+
+  const handleUpdate = async () => {
+    const resetFields = () => {
+      setProductName("");
+      setDescription("");
+      setSupplier("");
+      setAmount("");
+      setNewPrice("");
+      setErrors({});
+    };
+    const fieldErrors = editConsumableValidation(
+      productName,
+      supplier,
+      amount,
+      newPrice
+    );
+
+    if (Object.keys(fieldErrors).length > 0) {
+      setErrors(fieldErrors);
+
+      toast.error("Hubo un error al actualizar el insumo");
+
+      setTimeout(() => {
+        onClose();
+        resetFields();
+        toast.dismiss();
+      }, 3000);
+
       return;
+    } else {
+      setErrors({});
     }
 
-    // Validación adicional para la cantidad no sea menor a cero
     if (
-      operation === "subtract" &&
-      product.amount - amountToAddOrSubtract < 0
+      productName === product.productName &&
+      description === product.description &&
+      supplier === product.supplier &&
+      amount === product.amount &&
+      parseFloat(newPrice) === parseFloat(priceHistory)
     ) {
-      setErrors({
-        amount: "La cantidad solicitada no está disponible.",
-      });
-      toast.error("La cantidad solicitada no está disponible.");
+      toast.error("No se realizaron modificaciones.");
+      setTimeout(() => {
+        setEditConsumableModal(false);
+      }, 2000);
       return;
     }
 
-    const updatedProduct = {
+    let updatedProduct = { ...(product || {}) };
+
+    updatedProduct = {
       ...(product || {}),
       productName,
       description,
       supplier,
-      amount:
-        operation === "add"
-          ? product.amount + amountToAddOrSubtract
-          : Math.max(0, product.amount - amountToAddOrSubtract),
+      amount,
     };
 
-    const validationErrors = editConsumableValidation(product, updatedProduct);
-
-    if (Object.keys(validationErrors).length > 0) {
-      setErrors(validationErrors);
-      return;
-    }
-
-    dispatch(editProduct(product.code, updatedProduct));
-    toast.success(
-      "Insumo modificado correctamente."
-    );
-    onClose()
-    setTimeout(() => {
-      setEditConsumableModal(false)
-    }, 3000)
-
-    if (newPrice !== product.price) {
+    console.log("Product:", updatedProduct);
+    setProductsData(updatedProduct);
+    if (parseFloat(newPrice) !== parseFloat(priceHistory)) {
       try {
-        dispatch(updateProductPrice(product.code, newPrice));
+        await dispatch(updateProductPrice(product.code, newPrice));
+        toast.success("Precio actualizado correctamente.");
       } catch (error) {
-        console.error("Error updating product price:", error.message);
+        console.error(
+          "Error al actualizar el precio del producto:",
+          error.message
+        );
+        toast.error("Hubo un problema al actualizar el precio.");
       }
     }
-  };
 
-  const handleOperationSelected = (value) => {
-    if(value === "") {
-      setOperationSelected(false)
-      setAmount(product.amount)
-    } else {
-      setOperationSelected(true)
+    try {
+      await dispatch(editProduct(product.code, updatedProduct));
+      setProductsData(updatedProduct);
+      toast.success("Producto editado correctamente.");
+    } catch (error) {
+      console.error("Error al editar el producto:", error.message);
+      toast.error("Hubo un problema al editar el producto.");
     }
-    
-  }
+    toast.success("Insumo modificado correctamente.");
 
+    onClose();
+    resetFields();
+    setTimeout(() => {
+      setEditConsumableModal(false);
+    }, 3000);
+  };
 
   return (
     <>
@@ -187,31 +206,54 @@ function EditConsumableForm({ setEditConsumableModal, code, onClose}) {
                   onChange={(e) => setSupplier(e.target.value)}
                 />
               </div>
+
               <div className="mb-2">
-                <label className="pl-1 text-sm font-bold">Operación:</label>
-                <select
-                  className="border border-black p-2 rounded w-full"
-                  value={operation}
-                  onChange={(e) => {
-                    setOperation(e.target.value);
-                    handleOperationSelected(e.target.value);
-                  }}
-                >
-                  <option value="">Accion de Stock</option>
-                  <option value="add">Agregar Stock</option>
-                  <option value="subtract">Quitar Stock</option>
-                </select>
-              </div>
-              <div className="mb-2">
-                <label className="pl-1 text-sm font-bold">Cantidad:</label>
+                <label className="pl-1 text-sm font-bold">
+                  Cantidad Actual:
+                </label>
                 <input
-                  disabled={!operationSelected}
-                  className={operationSelected ? "border border-black p-2 rounded w-full" : "border border-black p-2 rounded w-full cursor-not-allowed bg-gray-200"}
+                  className="border border-black p-2 rounded w-full"
                   type="number"
                   value={amount}
                   onChange={(e) => setAmount(e.target.value)}
+                  readOnly
                 />
               </div>
+
+              <div className="mb-2">
+                <label className="pl-1 text-sm font-bold">
+                  Cantidad a Agregar/Quitar:
+                </label>
+                <div className="flex items-center">
+                  <input
+                    className="border border-black p-2 rounded mr-2"
+                    type="number"
+                    value={adjustmentValue}
+                    onChange={(e) => {
+                      const value = parseInt(e.target.value);
+                      if (!isNaN(value) && value >= 0) {
+                        setAdjustmentValue(value);
+                      }
+                    }}
+                    min="0"
+                  />
+                  <button
+                    type="button"
+                    className="border border-black p-1 rounded"
+                    onClick={() => handleAdjustAmount("subtract")}
+                  >
+                    Quitar
+                  </button>
+                  <button
+                    type="button"
+                    className="border border-black p-1 rounded ml-2"
+                    onClick={() => handleAdjustAmount("add")}
+                  >
+                    Agregar
+                  </button>
+                </div>
+              </div>
+
               <div className="mb-2">
                 <label className="pl-1 text-sm font-bold">Precio:</label>
                 <input
@@ -230,7 +272,6 @@ function EditConsumableForm({ setEditConsumableModal, code, onClose}) {
                   ))}
                 </div>
               )}
-
               <div className="flex justify-center mb-4 space-x-20 mt-6">
                 <button
                   type="button"
@@ -241,11 +282,6 @@ function EditConsumableForm({ setEditConsumableModal, code, onClose}) {
                 </button>
               </div>
             </form>
-            {successMessage && (
-              <div className="bg-blue-500 text-white p-4 rounded mt-4">
-                {successMessage}
-              </div>
-            )}
           </div>
         </div>
       </div>

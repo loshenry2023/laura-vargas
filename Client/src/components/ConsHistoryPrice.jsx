@@ -40,7 +40,7 @@ const ConsHistoryPrice = () => {
 
   return (
     <>
-      <div className="absolute top-0 left-0 w-full h-20 bg-primaryPink opacity-95 p-4 flex items-center justify-between">
+      <div className=" w-full h-20 bg-primaryPink opacity-95 p-4 flex items-center justify-between">
         <h1 className="text-xl font-semibold mb-4 text-white dark:text-darkText">
           Historial de Precios - {productName}
         </h1>
