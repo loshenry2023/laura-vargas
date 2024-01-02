@@ -3,22 +3,22 @@ import converterGMT from "../functions/converteGMT";
 
 const HistoryCalendar = ({ calendars }) => {
 
-    const transform = (fecha) => {
-        const inputDate = new Date(fecha);
+    // const transform = (fecha) => {
+    //     const inputDate = new Date(fecha);
 
-        const options = {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric',
-            hour: 'numeric',
-            minute: 'numeric',
-            second: 'numeric',
-            timeZoneName: 'short'
-        };
-        //const formattedDate = new Intl.DateTimeFormat('en-US', options).format(inputDate);
-        const formattedDate = inputDate;
-        return formattedDate
-    }
+    //     const options = {
+    //         year: 'numeric',
+    //         month: 'long',
+    //         day: 'numeric',
+    //         hour: 'numeric',
+    //         minute: 'numeric',
+    //         second: 'numeric',
+    //         timeZoneName: 'short'
+    //     };
+    //     //const formattedDate = new Intl.DateTimeFormat('en-US', options).format(inputDate);
+    //     const formattedDate = inputDate;
+    //     return formattedDate
+    // }
 
     return (
         <section className='w-full mx-auto my-10 flex flex-col flex-wrap justify-evenly gap-10 md:flex-row'>
