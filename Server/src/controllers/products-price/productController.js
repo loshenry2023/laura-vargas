@@ -106,13 +106,13 @@ async function getProductPricesHistory(req, res) {
   try {
     const { productId } = req.params; // Obtener el ID del producto de la solicitud
 
-    showLog(`front -> getProductPricesHistory: ${productId}`);
+    showLog(`getProductPricesHistory: ${productId}`);
     const productPricesHistory = await Product.findByPk(productId, {
       include: [
         {
           model: PriceHistory,
           attributes: ["price", "date_modification"],
-          order: [["date_modification", "ASC"]],
+          order: [["date_modification", "DESC"]], //ASC
         },
       ],
     });
@@ -127,6 +127,15 @@ async function getProductPricesHistory(req, res) {
         dateModification: history.date_modification,
       })
     );
+
+    // Fuerzo ordenamiento por fecha descendente:
+    pricesHistory.sort((a, b) => {
+      const dateA = new Date(a.dateModification);
+      const dateB = new Date(b.dateModification);
+      return dateB - dateA;
+    });
+    //    console.log("OK ", pricesHistory);
+
 
     res.json(pricesHistory);
   } catch (error) {
