@@ -147,11 +147,23 @@ async function createProduct(req, res) {
   try {
     const { price, branchId, productCode, ...productData } = req.body;
 
-    // Verificar si el código de producto ya existe en la base de datos
-    const existingProduct = await Product.findOne({ where: { productCode } });
+    // Verificar si el código de producto ya existe en la base de datos para esa sucursal
+    const existingProduct = await Product.findOne({
+      where: { productCode },
+      include: [
+        {
+          model: Branch,
+          where: { id: branchId },
+        },
+      ],
+    });
 
     if (existingProduct) {
-      return res.status(400).json({ error: "productCode already exists" });
+      return res
+        .status(400)
+        .json({
+          error: "Product with same code already exists in this branch",
+        });
     }
 
     const requiredFields = ["productName", "description", "supplier", "amount"];
@@ -169,6 +181,7 @@ async function createProduct(req, res) {
         error: `Missing fields: ${missing.join(", ")}`,
       });
     }
+
     const productBranch = await Branch.findByPk(branchId);
     if (!productBranch) {
       return res.status(404).json({ error: "Branch not found" });

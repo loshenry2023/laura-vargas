@@ -72,7 +72,6 @@ function EditConsumableForm({
       setErrors({});
     }
 
-    console.log("amount update", updatedAmount, "estado actual", amount);
     setAmount(updatedAmount);
   };
 
@@ -132,7 +131,6 @@ function EditConsumableForm({
       amount,
     };
 
-    console.log("Product:", updatedProduct);
     setProductsData(updatedProduct);
     if (parseFloat(newPrice) !== parseFloat(priceHistory)) {
       try {
