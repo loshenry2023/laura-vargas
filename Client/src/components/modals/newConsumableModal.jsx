@@ -68,7 +68,10 @@ function NewConsumableModal({ onClose }) {
           API_URL_BASE + "/products",
           newConsumable
         );
-
+        console.log(
+          "chequear la respuesta tiene que ser igual a created",
+          response
+        );
         if (response.statusText === "Created") {
           setIsCodeInUse(false);
           toast.success("Producto creado con éxito");

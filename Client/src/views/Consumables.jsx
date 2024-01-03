@@ -51,8 +51,6 @@ function Consumables() {
 
   useEffect(() => {
     if (selectedBranch) {
-      console.log("ELIGE BRANCH ", selectedBranch);
-
       dispatch(
         getProducts(productName, selectedBranch, page, size, description)
       ).then(() => {
