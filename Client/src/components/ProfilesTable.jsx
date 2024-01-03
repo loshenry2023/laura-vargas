@@ -54,14 +54,14 @@ const TablaDatos = ({ users, count }) => {
                  className="text-xs hover:bg-gray-200 cursor-pointer dark:hover:bg-gray-200 dark:hover:text-black"
                >
       
-                  <td className="px-2 py-4">{fila.createdAt}</td>
+                  <td className="px-2 py-4">{fila.createdAt.split(" ")[0]}</td>
                   <td className="px-6 py-4">{fila.name}</td>
                   <td className="px-6 py-4">{fila.lastName}</td>
                   <td className="px-6 py-4">{fila.userName}</td>
                   <td className="px-6 py-4"> {fila.Specialties.map(
                         (specialty) => specialty.specialtyName
                       ).join(", ")}</td>
-                  <td className="px-6 py-4">{fila.role}</td>
+                  <td className="px-6 py-4">{fila.role === "superAdmin" ? "Admin General" : `${fila.role.charAt(0).toUpperCase()}${fila.role.slice(1)}`}</td>
                   <td className="px-6 py-4"> {fila.Branches.map((branch) => branch.branchName).join(
                         ", "
                       )}</td>

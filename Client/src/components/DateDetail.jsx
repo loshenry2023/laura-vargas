@@ -16,7 +16,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import './dateDetail.css'
 import getParamsEnv from '../functions/getParamsEnv';
-import { FaRegArrowAltCircleLeft } from "react-icons/fa";
+import { IoMdArrowRoundBack } from "react-icons/io";
 
 
 
@@ -201,35 +201,40 @@ const DateDetail = () => {
     }
 
     return (
-        <>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 m-auto p-8">
+        <div className="flex flex-col mx-auto mt-10">
+            <div className='flex flex-row'>
+                <IoMdArrowRoundBack onClick={handleGoBack} className='w-6 h-6 mt-1 mr-2 hover:scale-110 cursor-pointer dark:text-darkText' />
+                <h1 className='mb-4 text-2xl underline underline-offset-4 tracking-wide text-center font-fontTitle dark:text-beige sm:text-left'> Información de cita</h1>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 m-auto ">
                 {/* Client Details */}
-
-                <div className="p-6 bg-primaryPink backdrop-blur-xl bg-opacity-60 rounded-md dark:bg-darkPrimary">
-                    <FaRegArrowAltCircleLeft onClick={handleGoBack} size={30} className='mb-[-30px] hover:scale-110 cursor-pointer dark:text-darkText' />
-                    <div className="relative border-4 border-double border-primaryPink max-w-screen-sm mt-10 rounded overflow-hidden shadow-lg mx-auto dark:border-zinc-800">
-                        <div className="grid grid-cols-1 sm:grid-cols-3 sm:p-5 dark:bg-darkBackground">
+                
+                <div className="p-6 bg-secondaryPink rounded-md dark:bg-darkPrimary">
+                    <div className="border-4 border-double border-primaryPink max-w-screen-sm rounded overflow-hidden shadow-lg mx-auto dark:border-zinc-800">
+                        <div className="grid grid-cols-1 place-items-center xl:place-items-start xl:grid-cols-3 sm:p-5 dark:bg-darkBackground">
                             <img
                                 src={clientInfo.image}
-                                className="w-40 shadow shadow-black rounded-full col-span-1 sm:w-full dark:shadow-darkText"
+                                className="w-40 ml-8 shadow shadow-black rounded-full col-span-1 sm:w-40 sm:place-self-center dark:shadow-darkText"
                                 alt="client-photo"
                             />
                             <div className="m-4 col-span-2 ml-10 mt-0 space-y-2 dark:text-darkText">
-                                <p className="font-medium">
+                                <p className="font-medium mt-5 text-center xl:text-left xl:mt-0">
                                     Nombre: <span className='font-light'>{clientInfo.name}</span>
                                 </p>
-                                <p className="font-medium">
+                                <p className="font-medium text-center xl:text-left">
                                     Apellido: <span className='font-light'>{clientInfo.lastName}</span>
                                 </p>
-                                <p className="font-medium">
+                                <p className="font-medium text-center xl:text-left">
                                     Email: <span className='font-light'>{clientInfo.email}</span>
                                 </p>
-                                <p className=""> <span className="font-medium">ID:</span> {clientInfo.id_pers}</p>
-                                <p className="font-medium">
-                                    phoneNumber1: <span className='font-light'>{clientInfo.phoneNumber1}</span>{' '}
+                                <p className="font-medium text-center xl:text-left"> 
+                                    ID: {clientInfo.id_pers ? <span className='font-light'>{clientInfo.id_pers} </span> : <span className='font-light'> - </span>}
                                 </p>
-                                <p className="font-medium">
-                                    phoneNumber2: <span className='font-light'>{clientInfo.phoneNumber2}</span>
+                                <p className="font-medium text-center xl:text-left">
+                                    Teléfono: <span className='font-light'>{clientInfo.phoneNumber1}</span>{' '}
+                                </p>
+                                <p className="font-medium text-center xl:text-left">
+                                    Teléfono secundario: {clientInfo.phoneNumber2 ? <span className='font-light'>{clientInfo.phoneNumber2} </span> : <span className='font-light'> - </span>}
                                 </p>
                             </div>
                         </div>
@@ -237,21 +242,21 @@ const DateDetail = () => {
                 </div>
 
                 {/* Observations Section */}
-                <div className="flex items-center p-6 bg-primaryPink backdrop-blur-xl rounded-md dark:bg-darkPrimary">
+                <div className="flex items-center p-6 bg-secondaryPink rounded-md dark:bg-darkPrimary">
                     <div className="border-4 border-double border-primaryPink max-w-screen-sm rounded overflow-hidden shadow-lg mx-auto dark:border-zinc-800">
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 p-5 mx-auto dark:bg-darkBackground ">
-                            <div className='flex flex-col flex-wrap gap-4 p-4 rounded-md shadow-sm  md:justify-center shadow-black dark:text-darkText dark:shadow-darkText' style={observationSectionStyle} >
-                                <p className="underline">Agrega foto de este procedimiento</p>
+                        <div className="grid grid-cols-1 gap-20 p-5 mx-auto xl:h-60 xl:grid-cols-2 dark:bg-darkBackground ">
+                            <div className='flex flex-col flex-wrap gap-4 p-4 rounded-md shadow-sm md:justify-center shadow-black dark:text-darkText dark:bg-darkPrimary dark:shadow-darkText' style={observationSectionStyle} >
+                                <p className="text-md underline">Agrega foto de este procedimiento</p>
                                 <div className='flex flex-row flex-wrap gap-10'>
                                     <UploadWidgetDate setPhoto={setPhoto} setPhotoLoaded={setPhotoLoaded} />
-                                    <img className='w-12 h-12' src={photo} alt='foto de procedimiento' />
+                                    <img className='w-12 h-12 dark:invert' src={photo} alt='foto de procedimiento' />
                                 </div>
                             </div>
-                            <div className='flex flex-col flex-wrap gap-4 p-4 rounded-md shadow-sm  md:justify-center shadow-black dark:text-darkText dark:shadow-darkText' style={observationSectionStyleConsent}>
+                            <div className='flex flex-col flex-wrap gap-4 p-4 rounded-md shadow-sm md:justify-center shadow-black dark:text-darkText dark:bg-darkPrimary dark:shadow-darkText' style={observationSectionStyleConsent}>
                                 <p className="underline">Agrega formulario de conformidad</p>
-                                <div className="flex flex-row flex-wrap  gap-10" >
-                                    <UploadWidgetConsent setConsentUrl={setConsentUrl} setConsent={setConsent} setConsentLoaded={setConsentLoaded} />
-                                    <img className='w-12 h-12' src={consent} alt='foto de procedimiento' />
+                                <div className="flex flex-row flex-wrap gap-10" >
+                                    <UploadWidgetConsent setConsentUrl={setConsentUrl} setConsent={setConsent} setConsentLoaded={setConsentLoaded}/>
+                                    <img className='w-12 h-12 dark:invert' src={consent} alt='foto de procedimiento' />
                                 </div>
                             </div>
                         </div>
@@ -261,9 +266,9 @@ const DateDetail = () => {
 
                 {/* History Services Section */}
                 {isLoading && (
-                    <div className="p-6 bg-secondaryPink backdrop-blur-xl rounded-md dark:bg-darkPrimary">
+                    <div className="p-6 bg-secondaryPink rounded-md dark:bg-darkPrimary">
                         {clientInfo.HistoryServices ? (
-                            <div className='overflow-auto max-h-[400px] scrollbar-container'>
+                            <div className='overflow-auto max-h-[450px] scrollbar-container'>
                                 <HistoryServices history={clientInfo.HistoryServices} />
                             </div>
                         ) : (
@@ -273,29 +278,29 @@ const DateDetail = () => {
                 )}
 
                 {/* Payment Section */}
-                <div className="p-6 bg-primaryPink backdrop-blur-xl bg-opacity-60 rounded-md flex flex-col gap-4 dark:bg-darkPrimary">
+                <div className="p-6 bg-secondaryPink rounded-md flex flex-col gap-4 dark:bg-darkPrimary">
                     <div className="p-4 border-4 border-double border-primaryPink rounded overflow-hidden shadow-lg mx-auto dark:dark:border-zinc-800">
                         <div className='flex flex-col gap-6 mx-auto'>
                             <div className='flex flex-row rounded-lg dark:bg-darkBackground'>
                                 <div className=" rounded overflow-hidden shadow-lg p-6 flex flex-row flex-wrap gap-2 justify-center">
-                                    <div className="rounded overflow-hidden p-6 shadow-sm shadow-black dark:bg-darkPrimary">
-                                        <p className="text-sm font-medium text-gray-700 dark:text-darkText">Procedimiento</p>
-                                        <p className='dark:text-darkText'>{appointment.Service.serviceName}</p>
+                                    <div className="rounded overflow-hidden flex-grow p-6 shadow-sm shadow-black dark:bg-darkPrimary dark:shadow-darkText">
+                                        <p className="text-xl font-medium text-gray-700 dark:text-darkText">Procedimiento</p>
+                                        <p className='text-sm text-center dark:text-darkText'>{appointment.Service.serviceName}</p>
                                     </div>
-                                    <div className="rounded overflow-auto shadow-sm p-6 shadow-black dark:bg-darkPrimary">
-                                        <label className="text-sm font-medium text-gray-700 dark:text-darkText">Observaciones</label>
-                                        <p className='dark:text-darkText'>{appointment.obs}</p>
+                                    <div className="rounded overflow-auto shadow-sm flex-grow p-6 shadow-black dark:bg-darkPrimary dark:shadow-darkText">
+                                        <label className="text-xl font-medium text-gray-700 dark:text-darkText">Observaciones</label>
+                                        <p className='text-sm text-center dark:text-darkText'>{appointment.obs !== " " ? appointment.obs : " - "} </p>
                                     </div>
-                                    <div className="rounded overflow-hidden shadow-sm  p-6 shadow-black dark:bg-darkPrimary">
-                                        <p className="text-sm font-medium text-gray-700 dark:text-darkText">Precio final</p>
-                                        <p className='m-auto dark:text-darkText'>{appointment.Service.price}</p>
+                                    <div className="rounded overflow-hidden shadow-sm flex-grow p-6 shadow-black dark:bg-darkPrimary dark:shadow-darkText">
+                                        <p className="text-xl font-medium text-gray-700 dark:text-darkText">Precio final</p>
+                                        <p className='text-sm m-auto text-center dark:text-darkText'>{appointment.Service.price}</p>
                                     </div>
                                 </div>
                             </div>
                             <div className="flex flex-col justify-center items-center flex-wrap md:flex-row sm:justify-start  gap-10 rounded-lg dark:bg-darkBackground">
                                 <div className="rounded overflow-hidden shadow-sm shadow-black p-2 m-2 flex flex-col gap-4">
                                     <div className="mb-4 dark:bg-darkPrimary rounded-lg p-2 ">
-                                        <label className="block text-sm font-medium text-gray-700 dark:text-darkText">Precio $</label>
+                                        <label className="block text-md font-medium text-black dark:text-darkText">Precio $</label>
                                         <input
                                             type="number"
                                             value={price.amount1}
@@ -305,7 +310,7 @@ const DateDetail = () => {
                                         />
                                     </div>
                                     <div className="mb-4 dark:bg-darkPrimary rounded-lg p-2">
-                                        <label className="block text-sm font-medium text-gray-700 dark:bg-darkPrimary dark:text-darkText">Medio de Pago A</label>
+                                        <label className="block text-md font-medium text-black dark:bg-darkPrimary dark:text-darkText">Medio de Pago A</label>
                                         <select
                                             value={paymentMethods.paymentMethod1}
                                             onChange={(e) => handlePaymentMethodChange(e, 1)}
@@ -363,8 +368,8 @@ const DateDetail = () => {
                             <button
                                 disabled={isButtonDisabled}
                                 onClick={() => setShowFinishConfirmation(true)}
-                                className={`btn bg-primaryPink p-2 rounded-full cursor-pointer shadow shadow-black ${isButtonDisabled ? 'disabled-btn' : ''} `}
-                                style={{ backgroundColor: isButtonDisabled ? 'gray' : '#e59494' }}
+                                className={`btn bg-primaryPink px-4 py-2 rounded-full cursor-pointer shadow shadow-black ${isButtonDisabled ? 'disabled-btn' : ''} `}
+                                style={{ backgroundColor: isButtonDisabled ? 'grey' : '#e59494' }}
                             >
                                 Finalizar Cita
                             </button>
@@ -399,7 +404,7 @@ const DateDetail = () => {
                     </div>
                 </div>
             )}
-        </>
+        </div>
     );
 };
 

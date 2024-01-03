@@ -382,11 +382,11 @@ const Calendar = ({setDateInfo, services, users, setSpecialty, branches, refresc
                       </div>
                       }
                     </div>
-                    <p className="text-md tracking-wide font-light dark:text-darkText">
+                    {/* <p className="text-md tracking-wide font-light dark:text-darkText">
                       {" "}
                       <span className="font-medium">Sede:</span>{" "}
                       {cita.Branch.branchName}
-                    </p>
+                    </p> */}
                     <p className="text-md tracking-wide font-light dark:text-darkText">
                       {" "}
                       <span className="font-medium">Especialista:</span>{" "}
