@@ -65,14 +65,14 @@ function NewConsumableForm({ onAddConsumable, onCancel }) {
         );
 
         if (response.statusText === "Created") {
-          toast.success("Consumable creado con exito");
+          toast.success("Producto creado con exito");
           setSubmissionStatus("success");
           navigate("/consumables");
         } else {
           setSubmissionStatus("error");
         }
       } catch (error) {
-        window.alert(`codigo de producto en uso: ${newConsumable.productCode}`);
+        toast.error(`Código de producto en uso: ${newConsumable.productCode}`);
         setSubmissionStatus("error");
       }
     }

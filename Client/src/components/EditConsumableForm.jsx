@@ -137,7 +137,6 @@ function EditConsumableForm({
     if (parseFloat(newPrice) !== parseFloat(priceHistory)) {
       try {
         await dispatch(updateProductPrice(product.code, newPrice));
-        toast.success("Precio actualizado correctamente.");
       } catch (error) {
         console.error(
           "Error al actualizar el precio del producto:",
@@ -150,7 +149,6 @@ function EditConsumableForm({
     try {
       await dispatch(editProduct(product.code, updatedProduct));
       setProductsData(updatedProduct);
-      toast.success("Producto editado correctamente.");
     } catch (error) {
       console.error("Error al editar el producto:", error.message);
       toast.error("Hubo un problema al editar el producto.");
