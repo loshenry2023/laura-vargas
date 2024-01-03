@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getProducts } from "../redux/actions";
-import { Link } from "react-router-dom";
+
 import NavBar from "../components/NavBar";
 import SideBar from "../components/SideBar";
 import ConsumablesTable from "../components/ConsumablesTable";
@@ -14,7 +14,7 @@ import { FaPlus } from "react-icons/fa";
 
 import Loader from "../components/Loader";
 import "./loading.css";
-import EditConsumableForm from "../components/EditConsumableForm";
+
 import ToasterConfig from "../components/Toaster";
 import { toast } from "react-hot-toast";
 
@@ -32,7 +32,7 @@ function Consumables() {
 
   const [page, setPage] = useState(0);
   const [size, setSize] = useState(10);
-  const [branch, setBranch] = useState("");
+
   const user = useSelector((state) => state?.user);
   const branches = user.branches;
   const [selectedBranch, setSelectedBranch] = useState("");
@@ -51,10 +51,6 @@ function Consumables() {
 
   useEffect(() => {
     if (selectedBranch) {
-
-      console.log("ELIGE BRANCH ", selectedBranch)
-
-
       dispatch(
         getProducts(productName, selectedBranch, page, size, description)
       ).then(() => {
@@ -73,7 +69,6 @@ function Consumables() {
 
   const handleShowNewConsumableModal = () => {
     setShowNewConsumableModal(true);
-
   };
 
   const handleNewProductAdded = () => {
@@ -167,7 +162,10 @@ function Consumables() {
                     {"<"}
                   </button>
                   <p className="dark:text-darkText px-2">
-                    Página {totalPages === 0 ? `${page} de ${totalPages}` : `${page + 1} de ${totalPages}`}
+                    Página{" "}
+                    {totalPages === 0
+                      ? `${page} de ${totalPages}`
+                      : `${page + 1} de ${totalPages}`}
                   </p>
                   <span
                     onClick={() => handlePageChange(page + 1)}
@@ -182,10 +180,18 @@ function Consumables() {
           ) : (
             <div className="flex flex-col gap-10 w-full justify-center items-center dark:bg-darkBackground">
               <div>
-                <h1 className="text-3xl tracking-wide text-center font-fontTitle  dark:text-darkText">Acceso restringido </h1>
-                <h5 className="text-2xl tracking-wide text-center text-gray-700 dark:text-darkText">Lo sentimos pero no tienes acceso a esta página.</h5>
+                <h1 className="text-3xl tracking-wide text-center font-fontTitle  dark:text-darkText">
+                  Acceso restringido{" "}
+                </h1>
+                <h5 className="text-2xl tracking-wide text-center text-gray-700 dark:text-darkText">
+                  Lo sentimos pero no tienes acceso a esta página.
+                </h5>
               </div>
-              <img src="https://cdn-icons-png.flaticon.com/512/345/345535.png" alt="denied-access" className="h-96 dark:invert" />
+              <img
+                src="https://cdn-icons-png.flaticon.com/512/345/345535.png"
+                alt="denied-access"
+                className="h-96 dark:invert"
+              />
             </div>
           )}
         </div>

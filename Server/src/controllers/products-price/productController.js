@@ -68,7 +68,9 @@ const getAllProductsWithLatestPrice = async (
       rows,
     };
   } catch (err) {
-    showLog(`getAllProductsWithLatestPrice -> getAllProducts error: ${err.message}`);
+    showLog(
+      `getAllProductsWithLatestPrice -> getAllProducts error: ${err.message}`
+    );
     return { message: err.message };
   }
 };
@@ -136,7 +138,6 @@ async function getProductPricesHistory(req, res) {
     });
     //    console.log("OK ", pricesHistory);
 
-
     res.json(pricesHistory);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -168,7 +169,6 @@ async function createProduct(req, res) {
         error: `Missing fields: ${missing.join(", ")}`,
       });
     }
-
     const productBranch = await Branch.findByPk(branchId);
     if (!productBranch) {
       return res.status(404).json({ error: "Branch not found" });
