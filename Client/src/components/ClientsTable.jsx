@@ -18,6 +18,9 @@ const ClientsTable = ({clients, setChosenClient, setShowClientListModal}) => {
                 <thead className="bg-secondaryPink text-black text-left dark:bg-darkPrimary dark:text-darkText dark:border-grey">
                 {location.pathname !== "/agenda" ?
                   <tr>
+                                        <th scope="col" className="px-4 py-3">
+                      Fecha de creación
+                    </th>
                     <th scope="col" className="px-4 py-3">
                       Nombre
                     </th>
@@ -35,9 +38,6 @@ const ClientsTable = ({clients, setChosenClient, setShowClientListModal}) => {
                     </th>
                     <th scope="col" className="px-4 py-3">
                       Teléfono 2
-                    </th>
-                    <th scope="col" className="px-4 py-3">
-                      Fecha de creación
                     </th>
                   </tr> : 
                    <tr>
@@ -73,6 +73,11 @@ const ClientsTable = ({clients, setChosenClient, setShowClientListModal}) => {
                       }}
                       className="text-xs hover:bg-gray-200 cursor-pointer dark:hover:bg-gray-200 dark:hover:text-black"
                     >
+                       {location.pathname !== "/agenda" ? (
+                        <>
+                          <td className="px-4 py-4">{fila.createdAt.split(" ")[0]}</td>
+                        </>
+                      ) : null}
                       <td className="px-4 py-4">{fila.name}</td>
                       <td className="px-4 py-4">{fila.lastName}</td>
                       <td className="px-4 py-4">{fila.email}</td>
@@ -81,7 +86,6 @@ const ClientsTable = ({clients, setChosenClient, setShowClientListModal}) => {
                       {location.pathname !== "/agenda" ? (
                         <>
                           <td className="px-4 py-4">{fila.phoneNumber2 ? fila.phoneNumber2 : "-"}</td>
-                          <td className="px-4 py-4">{fila.createdAt}</td>
                         </>
                       ) : null}
                     </tr>

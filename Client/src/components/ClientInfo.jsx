@@ -100,7 +100,7 @@ const ClientInfo = () => {
           </div> 
           <IoMdArrowRoundBack onClick={handleGoBack} className="m-1 absolute top-0 left-0 cursor-pointer h-8 w-8 text-primaryPink  dark:text-darkText"/>
           
-        <div className="grid grid-1 place-items-center mt-5 sm:place-items-start sm:grid-cols-3 sm:p-5">
+        <div className="mx-auto grid grid-1 place-items-center mt-5 sm:place-items-start sm:grid-cols-3 sm:p-5">
             <img
                 className="w-40 shadow shadow-black rounded-full sm:col-span-1 sm:w-full "
                 src={clientInfo.image}
@@ -110,9 +110,9 @@ const ClientInfo = () => {
                 <p className="text-md tracking-wide font-light dark:text-darkText"> <span className="font-medium dark:text-darkText">Nombre:</span> {clientInfo.name}</p>
                 <p className="text-md tracking-wide font-light dark:text-darkText"> <span className="font-medium dark:text-darkText">Apellido:</span> {clientInfo.lastName}</p>
                 <p className="text-md tracking-wide font-light dark:text-darkText"><span className="font-medium dark:text-darkText">Email:</span> {clientInfo.email}</p>
-                <p className="text-md tracking-wide font-light dark:text-darkText"> <span className="font-medium dark:text-darkText">ID:</span> {clientInfo.id_pers ? clientInfo.id_pers : "-"}</p>
-                <p className="text-md tracking-wide font-light dark:text-darkText"><span className="font-medium dark:text-darkText">phoneNumber1:</span> {clientInfo.phoneNumber1}</p>
-                <p className="text-md tracking-wide font-light dark:text-darkText"><span className="font-medium dark:text-darkText">phoneNumber2: </span> {clientInfo.phoneNumber2 ? clientInfo.phoneNumber2 : "-"}</p>
+                <p className="text-md tracking-wide font-light dark:text-darkText"> <span className="font-medium dark:text-darkText">ID:</span> {clientInfo.id_pers ? <span className='font-light'>{clientInfo.id_pers} </span> : <span className='font-light'> - </span>}</p>
+                <p className="text-md tracking-wide font-light dark:text-darkText"><span className="font-medium dark:text-darkText">Teléfono:</span> {clientInfo.phoneNumber1}</p>
+                <p className="text-md tracking-wide font-light dark:text-darkText"><span className="font-medium dark:text-darkText">Teléfono secundario: </span> {clientInfo.phoneNumber2 ? clientInfo.phoneNumber2 : "-"}</p>
                 <div className="flex flex-row gap-5 mt-2">
                     <button onClick={handleShowHistory} className="cursor-pointer rounded shadow-sm px-1 my-1 shadow-black bg-primaryPink dark:bg-darkPrimary dark:text-darkText dark:hover:bg-zinc-800">Procedimientos anteriores</button>
                     <button onClick={handleShowCalendar} className="cursor-pointer rounded shadow-sm px-1 my-1 shadow-black bg-primaryPink dark:bg-darkPrimary dark:text-darkText dark:hover:bg-zinc-800">Turnos anteriores</button>

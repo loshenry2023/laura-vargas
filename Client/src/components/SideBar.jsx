@@ -78,8 +78,8 @@ const SideBar = () => {
       <hr className="w-14 h-[1px] bg-beige border-0" />
       {user.role === "especialista" ? (
         <>
+        <IconWithTooltip to={AGENDA} iconName="calendar" tooltipText="Agenda" />
         <IconWithTooltip to={CLIENTSPROFILES} iconName="userGroup" tooltipText="Clientes" />
-                <IconWithTooltip to={AGENDA} iconName="calendar" tooltipText="Agenda" />
         </>
       ) : (
         <>
