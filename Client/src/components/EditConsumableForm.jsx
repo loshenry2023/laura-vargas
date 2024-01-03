@@ -115,9 +115,9 @@ function EditConsumableForm({
       parseFloat(newPrice) === parseFloat(priceHistory)
     ) {
       toast.error("No se realizaron modificaciones.");
-      setTimeout(() => {
-        setEditConsumableModal(false);
-      }, 2000);
+      // setTimeout(() => {
+      //   setEditConsumableModal(false);
+      // }, 2000);
       return;
     }
 
