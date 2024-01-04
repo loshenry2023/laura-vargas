@@ -208,7 +208,7 @@ const DateDetail = () => {
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 m-auto ">
                 {/* Client Details */}
-                
+
                 <div className="p-6 bg-secondaryPink rounded-md dark:bg-darkPrimary">
                     <div className="border-4 border-double border-primaryPink max-w-screen-sm rounded overflow-hidden shadow-lg mx-auto dark:border-zinc-800">
                         <div className="grid grid-cols-1 place-items-center xl:place-items-start xl:grid-cols-3 sm:p-5 dark:bg-darkBackground">
@@ -227,7 +227,7 @@ const DateDetail = () => {
                                 <p className="font-medium text-center xl:text-left">
                                     Email: <span className='font-light'>{clientInfo.email}</span>
                                 </p>
-                                <p className="font-medium text-center xl:text-left"> 
+                                <p className="font-medium text-center xl:text-left">
                                     ID: {clientInfo.id_pers ? <span className='font-light'>{clientInfo.id_pers} </span> : <span className='font-light'> - </span>}
                                 </p>
                                 <p className="font-medium text-center xl:text-left">
@@ -255,7 +255,7 @@ const DateDetail = () => {
                             <div className='flex flex-col flex-wrap gap-4 p-4 rounded-md shadow-sm md:justify-center shadow-black dark:text-darkText dark:bg-darkPrimary dark:shadow-darkText' style={observationSectionStyleConsent}>
                                 <p className="underline">Agrega formulario de conformidad</p>
                                 <div className="flex flex-row flex-wrap gap-10" >
-                                    <UploadWidgetConsent setConsentUrl={setConsentUrl} setConsent={setConsent} setConsentLoaded={setConsentLoaded}/>
+                                    <UploadWidgetConsent setConsentUrl={setConsentUrl} setConsent={setConsent} setConsentLoaded={setConsentLoaded} />
                                     <img className='w-12 h-12 dark:invert' src={consent} alt='foto de procedimiento' />
                                 </div>
                             </div>
@@ -317,7 +317,7 @@ const DateDetail = () => {
                                             className="input rounded-lg dark:bg-darkPrimary dark:text-darkText"
                                         >
                                             <option value="" disabled>
-                                                Elija medio de pago
+                                                Elige medio de pago
                                             </option>
                                             {payMethods.map((method) => (
                                                 <option key={method.id} value={method.paymentMethodName}>
@@ -350,7 +350,7 @@ const DateDetail = () => {
                                                 className="input rounded-lg dark:bg-darkPrimary dark:text-darkText"
                                             >
                                                 <option value="" disabled>
-                                                    Elija medio de pago
+                                                    Elige medio de pago
                                                 </option>
                                                 {payMethods.map((method) => (
                                                     <option key={method.id} value={method.paymentMethodName}>
