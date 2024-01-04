@@ -75,6 +75,7 @@ const getReg = async (
             "phoneNumber1",
             "phoneNumber2",
             "image",
+            "birthday",
           ],
           where: { id: id },
           include: [
@@ -99,7 +100,7 @@ const getReg = async (
         break;
       case "Clients":
         const {
-          nameOrLastName= "",
+          nameOrLastName = "",
           attribute = "createdAt",
           order = "desc",
           page = 0,
@@ -117,7 +118,8 @@ const getReg = async (
             "phoneNumber1",
             "phoneNumber2",
             "image",
-            "createdAt"
+            "createdAt",
+            "birthday"
           ],
           where: {
             [Op.or]: [
@@ -190,7 +192,7 @@ const getReg = async (
         break;
       case "Calendar":
         // Preparo los filtros previos a la consulta:
-        const { dateFrom, dateTo, userId, branch} = dataQuery;      
+        const { dateFrom, dateTo, userId, branch } = dataQuery;
         reg = await tableName.findAll({
           attributes: ["id", "date_from", "date_to", "obs", "current"],
           where: {
