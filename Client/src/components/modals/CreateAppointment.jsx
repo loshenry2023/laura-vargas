@@ -149,7 +149,7 @@ const CreateAppointment = ({ setShowAppointmentModal, setChosenClient, dateInfo,
                     },
                     dateTime: formattedDate,
                 })
-                setChosenClient({ name: "Elija", lastName: "cliente" })
+                setChosenClient({ name: "Elige", lastName: "cliente" })
                 axios.post(`${API_URL_BASE}/sendmail`, sendEmail);
                 setRefrescarCita(!refrescarCita);
             } else {
