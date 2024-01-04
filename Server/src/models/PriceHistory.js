@@ -18,7 +18,6 @@ module.exports = (sequelize) => {
         allowNull: false,
       },
       date_modification: {
-
         type: DataTypes.DATE,
         defaultValue: DataTypes.NOW,
         allowNull: false,

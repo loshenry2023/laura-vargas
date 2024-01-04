@@ -108,7 +108,7 @@ async function AddRegHistoricProc(HistoryService, data, conn, Client, Incoming) 
 }
 
 async function AddRegClient(User, data, conn) {
-    const { email, name, lastName, id_pers, phone1, phone2, image } = data;
+    const { email, name, lastName, id_pers, phone1, phone2, image, birthday } = data;
     let transaction; // manejo transacciones para evitar registros defectuosos por relaciones mal solicitadas
     try {
         if (!email || !name || !lastName || !phone1 || !image) { throw Error("Faltan datos"); }
@@ -121,10 +121,11 @@ async function AddRegClient(User, data, conn) {
         if (existingClient) {
             throw Error("El cliente ya existe");
         }
+        const formattedBirthday = birthday !== "" ? new Date(birthday) : null;
         // Inicio la transacción:
         transaction = await conn.transaction();
         const [ClientCreated, created] = await User.findOrCreate({
-            where: { email, name, lastName, id_pers, phoneNumber1: phone1, phoneNumber2: phone2, image },
+            where: { email, name, lastName, id_pers, phoneNumber1: phone1, phoneNumber2: phone2, image, birthday: formattedBirthday, },
             transaction,
         });
         await transaction.commit();
