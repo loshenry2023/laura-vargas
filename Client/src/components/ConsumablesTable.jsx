@@ -54,9 +54,11 @@ const ConsumablesTable = ({ products, user, onClose }) => {
                   <th scope="col" className="px-6 py-3">
                     Sede
                   </th>
-                  <th scope="col" className="px-6 py-3">
-                    Precio
-                  </th>
+                  {user?.role !== "admin" && (
+                    <th scope="col" className="px-6 py-3">
+                      Precio
+                    </th>
+                  )}
                   <th scope="col" className="px-6 py-3"></th>
                 </tr>
               </thead>
@@ -81,13 +83,18 @@ const ConsumablesTable = ({ products, user, onClose }) => {
                     </td>
                     <td className="px-6 py-4">
                       <div style={{ display: "flex", alignItems: "center" }}>
-                        {fila.PriceHistories.length > 0 &&
-                          fila.PriceHistories.map((priceHistory, index) => (
-                            <span key={index}>
-                              {priceHistory.price}
-                              {index < fila.PriceHistories.length - 1 && ", "}
-                            </span>
-                          ))}{" "}
+                        {
+                          user?.role !== "admin" &&
+                          fila.PriceHistories.length > 0
+                            ? fila.PriceHistories.map((priceHistory, index) => (
+                                <span key={index}>
+                                  {priceHistory.price}
+                                  {index < fila.PriceHistories.length - 1 &&
+                                    ", "}
+                                </span>
+                              ))
+                            : user?.role !== "admin" && "No history" // Mostrar un mensaje si no hay historial o si el usuario es admin
+                        }
                         {/* Agrega el botón/link */}
                         {user?.role === "superAdmin" && fila.code && (
                           <Link
@@ -115,6 +122,7 @@ const ConsumablesTable = ({ products, user, onClose }) => {
             setEditConsumableModal={setEditConsumableModal}
             code={code}
             setProductsData={setProductsData}
+            user={user}
           />
         )}
       </>
