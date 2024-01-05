@@ -17,6 +17,7 @@ import { useNavigate } from 'react-router-dom';
 import './dateDetail.css'
 import getParamsEnv from '../functions/getParamsEnv';
 import { IoMdArrowRoundBack } from "react-icons/io";
+import { IoIosClose } from "react-icons/io";
 
 
 
@@ -46,6 +47,7 @@ const DateDetail = () => {
     const [showFinishConfirmation, setShowFinishConfirmation] = useState(false)
 
     const [showPayment2, setShowPayment2] = useState(false);
+    const [isConsentVisible, setIsConsentVisible] = useState(true);
     const [isLoading, setIsLoading] = useState(false);
     const [photoLoaded, setPhotoLoaded] = useState(false);
     const [consentLoaded, setConsentLoaded] = useState(false);
@@ -90,6 +92,11 @@ const DateDetail = () => {
             ...prevInfo,
             method: true
         }));
+    };
+
+
+    const handleToggleConsentVisibility = () => {
+        setIsConsentVisible(!isConsentVisible);
     };
 
     const finishConfirmed = (confirmed) => {
@@ -144,7 +151,13 @@ const DateDetail = () => {
         backgroundColor: consentLoaded && '#A8D0B9',
     };
 
-    const isButtonDisabled = !(photoLoaded && consentLoaded && price && paymentLoaded.price && paymentLoaded.method);
+    const isButtonDisabled = !(
+        photoLoaded &&
+        (!isConsentVisible || consentLoaded) &&
+        price &&
+        paymentLoaded.price &&
+        paymentLoaded.method
+    );
 
     const handleSubmit = async () => {
 
@@ -156,7 +169,7 @@ const DateDetail = () => {
                 idclient: appointment.Client.id,
                 imageServiceDone: photo,
                 date: appointment.date_from,
-                conformity: consentURL,
+                conformity: consentURL || "",
                 branchName: appointment.Branch.branchName,
                 paymentMethodName1: paymentMethods.paymentMethod1,
                 amount1: price.amount1,
@@ -170,6 +183,8 @@ const DateDetail = () => {
                 id_pers: appointment.Client.id_pers,
                 token: token
             }
+
+            console.log(dateData, "mandando al back")
 
             const response = await axios.post(`${API_URL_BASE}/newhistoricproc`, dateData)
             if (response.data.created === "ok") {
@@ -189,6 +204,18 @@ const DateDetail = () => {
 
 
     }
+
+    const Checkbox = () => (
+        <div className="flex items-center text-sm mt-[-20px]">
+            <input
+    type="checkbox"
+    checked={isConsentVisible}
+    onChange={handleToggleConsentVisibility}
+    className="form-checkbox h-4 w-4 text-primaryPink"
+/>
+            <span className="ml-2">Activar conformidad</span>
+        </div>
+    );
 
     const handleGoBack = () => {
         navigate(-1)
@@ -244,25 +271,37 @@ const DateDetail = () => {
                 {/* Observations Section */}
                 <div className="flex items-center p-6 bg-secondaryPink rounded-md dark:bg-darkPrimary">
                     <div className="border-4 border-double border-primaryPink max-w-screen-sm rounded overflow-hidden shadow-lg mx-auto dark:border-zinc-800">
-                        <div className="grid grid-cols-1 gap-20 p-5 mx-auto xl:h-60 xl:grid-cols-2 dark:bg-darkBackground ">
-                            <div className='flex flex-col flex-wrap gap-4 p-4 rounded-md shadow-sm md:justify-center shadow-black dark:text-darkText dark:bg-darkPrimary dark:shadow-darkText' style={observationSectionStyle} >
+                        <div className="grid grid-cols-1 gap-20 p-5 mx-auto xl:h-60 xl:grid-cols-2 dark:bg-darkBackground">
+                            <div
+                                className={`flex flex-col flex-wrap gap-4 p-4 rounded-md shadow-sm md:justify-center shadow-black dark:text-darkText dark:bg-darkPrimary dark:shadow-darkText`}
+                                style={observationSectionStyle}
+                            >
                                 <p className="text-md underline">Agrega foto de este procedimiento</p>
-                                <div className='flex flex-row flex-wrap gap-10'>
-                                    <UploadWidgetDate setPhoto={setPhoto} setPhotoLoaded={setPhotoLoaded} />
-                                    <img className='w-12 h-12 dark:invert' src={photo} alt='foto de procedimiento' />
+                                <div className="flex flex-row flex-wrap gap-10">
+                                    <div className='flex flex-row flex-wrap gap-10'>
+                                        <UploadWidgetDate setPhoto={setPhoto} setPhotoLoaded={setPhotoLoaded} />
+                                        <img className='w-12 h-12 dark:invert' src={photo} alt='foto de procedimiento' />
+                                    </div>
                                 </div>
                             </div>
-                            <div className='flex flex-col flex-wrap gap-4 p-4 rounded-md shadow-sm md:justify-center shadow-black dark:text-darkText dark:bg-darkPrimary dark:shadow-darkText' style={observationSectionStyleConsent}>
-                                <p className="underline">Agrega formulario de conformidad</p>
-                                <div className="flex flex-row flex-wrap gap-10" >
-                                    <UploadWidgetConsent setConsentUrl={setConsentUrl} setConsent={setConsent} setConsentLoaded={setConsentLoaded} />
-                                    <img className='w-12 h-12 dark:invert' src={consent} alt='foto de procedimiento' />
+                            <div
+                                className={`flex flex-col flex-wrap gap-4 p-4 rounded-md shadow-sm md:justify-center shadow-black dark:text-darkText dark:bg-darkPrimary dark:shadow-darkText ${isConsentVisible ? 'visible' : 'bg-gray-500'}`}
+                                style={observationSectionStyleConsent}
+                            >
+                                <Checkbox />
+                                <div>
+                                    <p className="underline mt-[-10px]">Agrega formulario de conformidad</p>
+                                    <div className="flex flex-row flex-wrap gap-10 mt-5">
+                                        <div className="flex flex-row flex-wrap gap-10">
+                                            <UploadWidgetConsent isConsentVisible={isConsentVisible} setConsentUrl={setConsentUrl} setConsent={setConsent} setConsentLoaded={setConsentLoaded} />
+                                            <img className='w-12 h-12 dark:invert' src={consent} alt='foto de procedimiento' />
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-
 
                 {/* History Services Section */}
                 {isLoading && (
