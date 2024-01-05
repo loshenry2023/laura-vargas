@@ -12,9 +12,10 @@ import { UploadWidget } from '../Uploadwidget';
 //funciones
 import validateClientInput from '../../functions/registerClient';
 import getParamsEnv from '../../functions/getParamsEnv';
+import converterGMT from '../../functions/converteGMT';
 const { API_URL_BASE } = getParamsEnv()
 
-const EditClient = ({setShowEditModal, clientInfo,setClientRender,clientRender, detailId}) => {
+const EditClient = ({setShowEditModal, clientInfo, setClientRender,clientRender, detailId}) => {
     const token = useSelector((state) => state?.token);
 
     const [client, setClient] = useState({
@@ -24,6 +25,7 @@ const EditClient = ({setShowEditModal, clientInfo,setClientRender,clientRender, 
         id_pers: clientInfo.id_pers,
         phoneNumber1: clientInfo.phoneNumber1,
         phoneNumber2: clientInfo.phoneNumber2,
+        birthday: clientInfo.birthday === null ? null : converterGMT(clientInfo.birthday).split(" ")[0],
         image: clientInfo.image,
         token: token,
       });
@@ -71,6 +73,7 @@ const EditClient = ({setShowEditModal, clientInfo,setClientRender,clientRender, 
           lastName: client.lastName,
           phone1: client.phoneNumber1,
           phone2: client.phoneNumber2,
+          birthday: client.birthday,
           image: client.image,
           token: client.token,
         }
@@ -158,7 +161,7 @@ const EditClient = ({setShowEditModal, clientInfo,setClientRender,clientRender, 
                                 <label className='mb-2 text-sm font-bold text-gray-900 dark:text-darkText'>ID de persona</label>
                                 <input
                                     placeholder="ID"
-                                    className={`border border-black p-2 rounded w-full ${errors.id_pers !== undefined && "border-red-500"}`}
+                                    className={`border border-black p-2 rounded w-full ${errors.id_pers !== undefined && "border-2  border-red-500"}`}
                                     onChange={handleChange}
                                     type="text"
                                     name="id_pers"
@@ -172,7 +175,7 @@ const EditClient = ({setShowEditModal, clientInfo,setClientRender,clientRender, 
                                 <label className='pl-1 text-sm font-bold dark:text-darkText'>Telefono</label>
                                 <input
                                     placeholder="Telefono 1"
-                                    className={`border border-black p-2 rounded w-full ${errors.phoneNumber1 !== undefined && "border-red-500"}`}
+                                    className={`border border-black p-2 rounded w-full ${errors.phoneNumber1 !== undefined && "border-2  border-red-500"}`}
                                     onChange={handleChange}
                                     type="text"
                                     name="phoneNumber1"
@@ -188,10 +191,22 @@ const EditClient = ({setShowEditModal, clientInfo,setClientRender,clientRender, 
                                     name="phoneNumber2"
                                     value={client.phoneNumber2}
                                     placeholder="Telefono 2"
-                                    className={`border border-black p-2 rounded w-full ${errors.phoneNumber2 !== undefined && "border-red-500"}`}
+                                    className={`border border-black p-2 rounded w-full ${errors.phoneNumber2 !== undefined && "border-2 border-red-500"}`}
                                 />
                                 {errors.phoneNumber2 !== "" && <p className="text-xs text-red-500">{errors.phoneNumber2}</p>}
                             </div>
+                        </div>
+                        <div className="first-letter:grid grid-cols-1 mb-2">
+                            <label className='pl-1 text-sm font-bold dark:text-darkText'>Fecha de nacimiento</label>
+                            <input
+                                placeholder="Fecha de nacimiento"
+                                className={`border border-black p-2 rounded w-full ${errors.birthday !== undefined && "border-2 border-red-500"}`}
+                                onChange={handleChange}
+                                type="date"
+                                name="birthday"
+                                value={client.birthday}
+                            />
+                            {errors.birthday && <p className="text-xs text-red-500">{errors.birthday}</p>}
                         </div>
                         <div>
                         <div className="mt-2 grid grid-cols-1 place-items-center">

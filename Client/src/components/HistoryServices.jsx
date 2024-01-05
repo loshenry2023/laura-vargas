@@ -1,10 +1,9 @@
-import React from 'react'
+import React from "react";
 import converterGMT from "../functions/converteGMT";
-import { useLocation } from 'react-router-dom';
+import { useLocation } from "react-router-dom";
 
 const HistoryServices = ({ history }) => {
-
-  const location = useLocation()
+  const location = useLocation();
 
   // const transform = (fecha) => {
   //   const inputDate = new Date(fecha);
@@ -20,31 +19,90 @@ const HistoryServices = ({ history }) => {
   //   };
   //   const formattedDate = inputDate; //new Intl.DateTimeFormat('en-US', options).format(inputDate);
   //   return formattedDate
-  // }
+  // }  
+
+  console.log(history)
+
+  const historySorted = history.sort(
+    (a, b) => new Date(b.date) - new Date(a.date)
+  );
 
   return (
-    <section className={location.pathname = "/dateDetail" ? "w-full mx-auto my-10 flex flex-col flex-wrap justify-evenly gap-10 md:flex-row " : 'w-full mx-auto my-10 flex flex-col flex-wrap justify-evenly gap-10 md:flex-row'}>
-      <div className='border-4 border-double border-primaryPink flex flex-col gap-1 flex-wrap  p-4 h-fit rounded overflow-hidden shadow-lg dark:border-zinc-800 dark:bg-darkBackground'>
-        {history.length >= 1 ? <h2 className='font-medium text-center text-xl dark:text-darkText '> Procedimientos anteriores </h2> : <h2 className='font-medium text-center dark:text-darkText '> Sin procedimientos registrados </h2>}
-        {history.map((service, index) => {
+    <section
+      className={
+        (location.pathname = "/dateDetail"
+          ? "w-full flex flex-col flex-wrap justify-evenly gap-10 md:flex-row"
+          : "w-full mx-auto my-10 flex flex-col flex-wrap justify-evenly gap-10 md:flex-row")
+      }
+    >
+      <div className="mx-auto mt-2 border-4 border-double border-primaryPink flex flex-col gap-1 flex-wrap p-4 h-fit rounded overflow-hidden shadow-lg dark:border-zinc-800 dark:bg-darkBackground">
+        {historySorted.length >= 1 ? (
+          <h2 className="font-medium text-center text-xl dark:text-darkText ">
+            {" "}
+            Procedimientos anteriores{" "}
+          </h2>
+        ) : (
+          <h2 className="font-medium text-center dark:text-darkText ">
+            {" "}
+            Sin procedimientos registrados{" "}
+          </h2>
+        )}
+        {historySorted.map((service, index) => {
           return (
-            <div key={index} className='flex flex-row flex-wrap justify-between shadow-sm shadow-black p-2 hover:bg-blue-300 dark:bg-darkPrimary dark:hover:bg-zinc-800'>
-              <div className='flex flex-col justify-between'>
-                <p className='text-md tracking-wide font-light dark:text-darkText'> <span className="font-medium dark:text-darkText">  Fecha de procedimiento: </span> {converterGMT(service.date)} </p>
-                <p className='text-md tracking-wide font-light dark:text-darkText'> <span className="font-medium dark:text-darkText">  Sede: </span> {service.branchName}</p>
-                <p className='text-md tracking-wide font-light dark:text-darkText'> <span className="font-medium dark:text-darkText">  Especialista: </span>  {service.attendedBy}</p>
-                <p className='text-md tracking-wide font-light dark:text-darkText'> <span className="font-medium dark:text-darkText">  Servicio: </span> {service.serviceName}</p>
-              </div>
-              <div className='flex flex-col justify-end pb-2 gap-2'>
-                <p className="cursor-pointer shadow-md rounded-2xl w-40 px-5 bg-beige hover:bg-blue-600 hover:text-white dark:bg-darkBackground dark:text-darkText dark:hover:bg-blue-600 ">
-                  <a href={service.imageServiceDone} target="_blank">Ver foto </a>
+            <div
+              key={index}
+              className="flex flex-row flex-wrap justify-between shadow-sm shadow-black p-2 hover:bg-blue-300 dark:bg-darkPrimary dark:hover:bg-zinc-800"
+            >
+              <div className="flex flex-col justify-between">
+                <p className="text-md tracking-wide font-light dark:text-darkText">
+                  {" "}
+                  <span className="font-medium dark:text-darkText">
+                    {" "}
+                    Fecha de procedimiento:{" "}
+                  </span>{" "}
+                  {converterGMT(service.date).split(" ")[0]}{" "}
                 </p>
-                <p className="cursor-pointer shadow-md rounded-2xl w-40 px-5 bg-beige hover:bg-blue-600 hover:text-white dark:bg-darkBackground dark:text-darkText dark:hover:bg-blue-600">
-                  <a href={service.conformity} target="_blank">Ver conformidad </a>
+                <p className="text-md tracking-wide font-light dark:text-darkText">
+                  {" "}
+                  <span className="font-medium dark:text-darkText">
+                    {" "}
+                    Sede:{" "}
+                  </span>{" "}
+                  {service.branchName}
+                </p>
+                <p className="text-md tracking-wide font-light dark:text-darkText">
+                  {" "}
+                  <span className="font-medium dark:text-darkText">
+                    {" "}
+                    Especialista:{" "}
+                  </span>{" "}
+                  {service.attendedBy}
+                </p>
+                <p className="text-md tracking-wide font-light dark:text-darkText">
+                  {" "}
+                  <span className="font-medium dark:text-darkText">
+                    {" "}
+                    Servicio:{" "}
+                  </span>{" "}
+                  {service.serviceName}
                 </p>
               </div>
-
-
+              <div className="flex flex-col justify-end pb-2 gap-2">
+                <a
+                  href={service.imageServiceDone}
+                  target="_blank"
+                  className="cursor-pointer shadow-md rounded-2xl w-40 px-5 bg-beige hover:bg-blue-600 hover:text-white dark:bg-darkBackground dark:text-darkText dark:hover:bg-blue-600"
+                >
+                  <p>Ver foto</p>
+                </a>
+                <a
+                  href={service.conformity}
+                  target="_blank"
+                  className={`${service.conformity === "" ? "hidden" : ""} cursor-pointer shadow-md rounded-2xl w-40 px-5 bg-beige hover:bg-blue-600 hover:text-white dark:bg-darkBackground dark:text-darkText dark:hover:bg-blue-600`}
+                >
+                  <p>Ver conformidad</p>
+                </a>
+              </div>
             </div>
           );
         })}
@@ -53,5 +111,4 @@ const HistoryServices = ({ history }) => {
   );
 };
 
-export default HistoryServices
-
+export default HistoryServices;

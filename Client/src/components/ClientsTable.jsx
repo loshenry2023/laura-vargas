@@ -4,6 +4,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 
 //variables de entorno
 import getParamsEnv from "../functions/getParamsEnv";
+import converterGMT from '../functions/converteGMT';
 const { CLIENTDETAILBASE } = getParamsEnv();
 
 const ClientsTable = ({clients, setChosenClient, setShowClientListModal}) => {
@@ -18,6 +19,9 @@ const ClientsTable = ({clients, setChosenClient, setShowClientListModal}) => {
                 <thead className="bg-secondaryPink text-black text-left dark:bg-darkPrimary dark:text-darkText dark:border-grey">
                 {location.pathname !== "/agenda" ?
                   <tr>
+                    <th scope="col" className="px-4 py-3">
+                      Fecha de creación
+                    </th>
                     <th scope="col" className="px-4 py-3">
                       Nombre
                     </th>
@@ -37,7 +41,7 @@ const ClientsTable = ({clients, setChosenClient, setShowClientListModal}) => {
                       Teléfono 2
                     </th>
                     <th scope="col" className="px-4 py-3">
-                      Fecha de creación
+                      Fecha de nacimiento
                     </th>
                   </tr> : 
                    <tr>
@@ -56,6 +60,9 @@ const ClientsTable = ({clients, setChosenClient, setShowClientListModal}) => {
                    <th scope="col" className="px-4 py-3">
                      Teléfono 1
                    </th>
+                   <th scope="col" className="px-4 py-3">
+                     Fecha de nacimiento
+                   </th>
                  </tr>}
                 </thead>
                 <tbody>
@@ -73,6 +80,11 @@ const ClientsTable = ({clients, setChosenClient, setShowClientListModal}) => {
                       }}
                       className="text-xs hover:bg-gray-200 cursor-pointer dark:hover:bg-gray-200 dark:hover:text-black"
                     >
+                       {location.pathname !== "/agenda" ? (
+                        <>
+                          <td className="px-4 py-4">{fila.createdAt.split(" ")[0]}</td>
+                        </>
+                      ) : null}
                       <td className="px-4 py-4">{fila.name}</td>
                       <td className="px-4 py-4">{fila.lastName}</td>
                       <td className="px-4 py-4">{fila.email}</td>
@@ -81,9 +93,9 @@ const ClientsTable = ({clients, setChosenClient, setShowClientListModal}) => {
                       {location.pathname !== "/agenda" ? (
                         <>
                           <td className="px-4 py-4">{fila.phoneNumber2 ? fila.phoneNumber2 : "-"}</td>
-                          <td className="px-4 py-4">{fila.createdAt}</td>
                         </>
                       ) : null}
+                      <td className="px-4 py-4">{fila.birthday ? converterGMT(fila.birthday).split(" ")[0]: "-"}</td>
                     </tr>
                   ))}
                 </tbody>

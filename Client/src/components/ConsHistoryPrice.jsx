@@ -12,6 +12,8 @@ import { IoMdArrowRoundBack } from "react-icons/io";
 import Loader from "./Loader";
 import NavBar from "./NavBar";
 import SideBar from "./SideBar";
+import Error from "../views/Error";
+import Restricted from "../views/Restricted";
 
 const ConsHistoryPrice = () => {
   const { productId } = useParams();
@@ -21,6 +23,7 @@ const ConsHistoryPrice = () => {
   const navigate = useNavigate();
 
   const pricesHistory = useSelector((state) => state?.pricesHistory);
+  const user = useSelector((state) => state?.user);
 
   useEffect(() => {
     // Llamar a la acción para obtener el historial de precios y el nombre del producto
@@ -59,6 +62,7 @@ const ConsHistoryPrice = () => {
         {loading ? (
           <Loader />
         ) : (
+          user.role !== "superAdmin" ? <Restricted /> : 
           <div className="flex flex-col w-full dark:bg-darkBackground">
             <div className="flex flex-row justify-center w-full p-4 mt-10">
               <span>

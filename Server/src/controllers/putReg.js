@@ -93,7 +93,7 @@ async function editRegCalendar(Calendar, data, id, conn, User, Service, Client, 
 }
 
 async function editRegClient(Client, data, id, conn) {
-    const { email, name, lastName, id_pers, phone1, phone2, image } = data;
+    const { email, name, lastName, id_pers, phone1, phone2, image, birthday } = data;
     let transaction; // manejo transacciones para evitar registros defectuosos por relaciones mal solicitadas
     try {
         if (!email || !name || !lastName || !phone1 || !image) { throw Error("Faltan datos"); }
@@ -110,6 +110,7 @@ async function editRegClient(Client, data, id, conn) {
         existingClient.phoneNumber1 = phone1;
         existingClient.phoneNumber2 = phone2 || null;
         existingClient.image = image;
+        existingClient.birthday = birthday || null;
         await existingClient.save();
         await transaction.commit();
         return;

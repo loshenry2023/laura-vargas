@@ -86,7 +86,7 @@ async function AddRegHistoricProc(HistoryService, data, conn, Client, Incoming) 
     const { idUser, idclient, imageServiceDone, date, amount1, amount2, conformity, branchName, paymentMethodName1, paymentMethodName2, serviceName, attendedBy, email, name, lastName, id_pers } = data;
     let transaction; // manejo transacciones para evitar registros defectuosos por relaciones mal solicitadas
     try {
-        if (!idUser || !idclient || !imageServiceDone || !date || !conformity || !branchName || !paymentMethodName1 || !paymentMethodName2 || !serviceName || !attendedBy || !email || !name || !lastName || !amount1 || !amount2) { throw Error("Faltan datos"); }
+        if (!idUser || !idclient || !imageServiceDone || !date || !branchName || !paymentMethodName1 || !paymentMethodName2 || !serviceName || !attendedBy || !email || !name || !lastName || !amount1 || !amount2) { throw Error("Faltan datos"); }
         // Inicio la transacción:
         transaction = await conn.transaction();
         const client = await Client.findByPk(idclient);
@@ -108,7 +108,7 @@ async function AddRegHistoricProc(HistoryService, data, conn, Client, Incoming) 
 }
 
 async function AddRegClient(User, data, conn) {
-    const { email, name, lastName, id_pers, phone1, phone2, image } = data;
+    const { email, name, lastName, id_pers, phone1, phone2, image, birthday } = data;
     let transaction; // manejo transacciones para evitar registros defectuosos por relaciones mal solicitadas
     try {
         if (!email || !name || !lastName || !phone1 || !image) { throw Error("Faltan datos"); }
@@ -121,10 +121,11 @@ async function AddRegClient(User, data, conn) {
         if (existingClient) {
             throw Error("El cliente ya existe");
         }
+        const formattedBirthday = birthday !== "" ? new Date(birthday) : null;
         // Inicio la transacción:
         transaction = await conn.transaction();
         const [ClientCreated, created] = await User.findOrCreate({
-            where: { email, name, lastName, id_pers, phoneNumber1: phone1, phoneNumber2: phone2, image },
+            where: { email, name, lastName, id_pers, phoneNumber1: phone1, phoneNumber2: phone2, image, birthday: formattedBirthday, },
             transaction,
         });
         await transaction.commit();

@@ -29,6 +29,7 @@ const CreateClient = ({setShowClientCreateModal, setActivarNuevoCliente,activarN
         id_pers: "",
         phoneNumber1: "",
         phoneNumber2: "",
+        birthday: "",
         image: "https://res.cloudinary.com/doqyrz0sg/image/upload/v1702302836/varpjl2p5dwvpwbmdiui.png",
         token: token,
       });
@@ -87,6 +88,7 @@ const CreateClient = ({setShowClientCreateModal, setActivarNuevoCliente,activarN
           lastName: client.lastName,
           phone1: client.phoneNumber1,
           phone2: client.phoneNumber2,
+          birthday: client.birthday,
           image: client.image,
           token: client.token,
         }
@@ -108,6 +110,7 @@ const CreateClient = ({setShowClientCreateModal, setActivarNuevoCliente,activarN
                 lastName: "",
                 phone1: "",
                 phone2: "",
+                birthday: "",
                 image: "",
                 id_pers: "",
                 token: "",
@@ -121,7 +124,6 @@ const CreateClient = ({setShowClientCreateModal, setActivarNuevoCliente,activarN
       }
     }
 }
-
 
     return (
         <>
@@ -142,7 +144,7 @@ const CreateClient = ({setShowClientCreateModal, setActivarNuevoCliente,activarN
                                     name="name"
                                     value={client.name}
                                     placeholder="Nombre"
-                                    className={`border border-black p-2 rounded w-full ${errors.name !== undefined && "border-red-500"}`}
+                                    className={`border border-black p-2 rounded w-full ${errors.name !== undefined && "border-2 border-red-500"}`}
                                 />  
                                 {errors.name !== "" && <p className="text-xs text-red-500">{errors.name}</p>}
                             </div>
@@ -154,7 +156,7 @@ const CreateClient = ({setShowClientCreateModal, setActivarNuevoCliente,activarN
                                     name="lastName"
                                     value={client.lastName}
                                     placeholder="Apellido"
-                                    className={`border border-black p-2 rounded w-full ${errors.lastName !== undefined && "border-red-500"}`}
+                                    className={`border border-black p-2 rounded w-full ${errors.lastName !== undefined && "border-2 border-red-500"}`}
                                 />
                                 {errors.lastName !== "" && <p className="text-xs text-red-500">{errors.lastName}</p>}
                             </div>
@@ -168,7 +170,7 @@ const CreateClient = ({setShowClientCreateModal, setActivarNuevoCliente,activarN
                                     name="email"
                                     value={client.email}
                                     placeholder="Email cliente"
-                                    className={`border text-gray-500 border-black p-2 rounded w-full ${errors.email !== undefined && "border-red-500"}`}
+                                    className={`border text-gray-500 border-black p-2 rounded w-full ${errors.email !== undefined && "border-2 border-red-500"}`}
                                 />
                                 {errors.email !== "" && <p className="text-xs text-red-500">{errors.email}</p>}
                             </div>
@@ -176,7 +178,7 @@ const CreateClient = ({setShowClientCreateModal, setActivarNuevoCliente,activarN
                                 <label className='mb-2 text-sm font-bold text-gray-900 dark:text-darkText'>ID de persona</label>
                                 <input
                                     placeholder="ID"
-                                    className={`border border-black p-2 rounded w-full ${errors.id_pers !== undefined && "border-red-500"}`}
+                                    className={`border border-black p-2 rounded w-full ${errors.id_pers !== undefined && "border-2 border-red-500"}`}
                                     onChange={handleChange}
                                     type="text"
                                     name="id_pers"
@@ -190,7 +192,7 @@ const CreateClient = ({setShowClientCreateModal, setActivarNuevoCliente,activarN
                                 <label className='pl-1 text-sm font-bold dark:text-darkText'>Telefono</label>
                                 <input
                                     placeholder="Telefono 1"
-                                    className={`border border-black p-2 rounded w-full ${errors.phoneNumber1 !== undefined && "border-red-500"}`}
+                                    className={`border border-black p-2 rounded w-full ${errors.phoneNumber1 !== undefined && "border-2 border-red-500"}`}
                                     onChange={handleChange}
                                     type="text"
                                     name="phoneNumber1"
@@ -206,10 +208,22 @@ const CreateClient = ({setShowClientCreateModal, setActivarNuevoCliente,activarN
                                     name="phoneNumber2"
                                     value={client.phoneNumber2}
                                     placeholder="Telefono 2"
-                                    className={`border border-black p-2 rounded w-full ${errors.phoneNumber2 !== undefined && "border-red-500"}`}
+                                    className={`border border-black p-2 rounded w-full ${errors.phoneNumber2 !== undefined && "border-2 border-red-500"}`}
                                 />
                                 {errors.phoneNumber2 !== "" && <p className="text-xs text-red-500">{errors.phoneNumber2}</p>}
                             </div>
+                        </div>
+                        <div className="first-letter:grid grid-cols-1 mb-2">
+                            <label className='pl-1 text-sm font-bold dark:text-darkText'>Fecha de nacimiento</label>
+                            <input
+                                placeholder="Fecha de nacimiento"
+                                className={`border border-black p-2 rounded w-full ${errors.birthday !== undefined && "border-2 border-red-500"}`}
+                                onChange={handleChange}
+                                type="date"
+                                name="birthday"
+                                value={client.birthday}
+                            />
+                            {errors.birthday && <p className="text-xs text-red-500">{errors.birthday}</p>}
                         </div>
                         <div>
                         <div className="mt-2 grid grid-cols-1 place-items-center">
@@ -219,12 +233,14 @@ const CreateClient = ({setShowClientCreateModal, setActivarNuevoCliente,activarN
                             </div>
                             </div>
                         </div>
-                        <button
-                            type="submit"
-                            className="mt-2 px-4 py-2 w-full rounded bg-primaryPink shadow shadow-black text-black hover:bg-blue-600 focus:outline-none transition-colors dark:text-darkText dark:bg-darkPrimary dark:hover:bg-blue-600"
-                        >
-                            Crear nuevo cliente
-                        </button>
+                        <div className="flex justify-center items-center">
+                            <button
+                                type="submit"
+                                className="mt-2 px-4 py-2 w-fit rounded bg-primaryPink shadow shadow-black text-black hover:bg-blue-600 focus:outline-none transition-colors dark:text-darkText dark:bg-darkPrimary dark:hover:bg-blue-600"
+                            >
+                                Crear nuevo cliente
+                            </button>
+                        </div>
                         </form>
                     </div>
                 </div>

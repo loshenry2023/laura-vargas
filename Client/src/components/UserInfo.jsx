@@ -106,7 +106,7 @@ const UserInfo = () => {
                 Rol:{" "}
                 <span className="pl-1 text-md tracking-wide font-light ">
                   {" "}
-                  {userID?.role}
+                  {userID?.role === "superAdmin" ? "Admin General" : `${userID.role .charAt(0).toUpperCase()}${userID.role .slice(1)}`}
                 </span>
               </h3>
               <h3 className="text-lg leading-tight font-medium  dark:text-darkText">
@@ -159,7 +159,7 @@ const UserInfo = () => {
               <h3 className="text-lg leading-tight font-medium dark:text-darkText">
                 Fecha de creación:{" "}
                 <span className="text-md tracking-wide font-light ">
-                  {createdAtInBogotaTimezone}
+                  {createdAtInBogotaTimezone.split(",")[0]}
                 </span>
               </h3>
               {user.role == "superAdmin" && (

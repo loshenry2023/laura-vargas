@@ -44,7 +44,7 @@ const Agenda = () => {
   const [createDateStart, setCreateDateStart] = useState("");
   const [createDateEnd, setCreateDateEnd] = useState("");
   const [chosenClient, setChosenClient] = useState({
-    name: "Elija",
+    name: "Elige",
     lastName: "cliente",
   });
   const [refrescarCita, setRefrescarCita] = useState(false);
@@ -242,12 +242,12 @@ const Agenda = () => {
                     className="w-60 resize-y border mr-8 border-black rounded-md text-md dark:text-darkText dark:bg-darkPrimary md:w-fit md:mr-0"
                   />
                 </div>
-                <input
+                {/* <input
                   disabled
                   value={workingBranch.branchName}
                   placeholder={workingBranch.branchName}
                   className="w-60 border border-black rounded-md text-md dark:text-darkText dark:bg-darkPrimary md:w-fit"
-                ></input>
+                ></input> */}
                 {selectServices ? (
                   <select
                     name="service"
@@ -326,15 +326,12 @@ const Agenda = () => {
                 <button
                   onClick={handleAppointmentModal}
                   disabled={!isFormCompleted}
-                  className={`rounded mt-10 px-6 py-2 cursor-pointer ${
-                    isFormCompleted ? "bg-primaryPink" : "bg-gray-300"
-                  } shadow shadow-black text-black ${
-                    isFormCompleted ? "hover:bg-blue-600" : "cursor-not-allowed"
-                  } focus:outline-none transition-colors dark:text-darkText dark:bg-darkPrimary ${
-                    isFormCompleted
+                  className={`rounded mt-10 px-6 py-2 cursor-pointer ${isFormCompleted ? "bg-primaryPink" : "bg-gray-300"
+                    } shadow shadow-black text-black ${isFormCompleted ? "hover:bg-blue-600" : "cursor-not-allowed"
+                    } focus:outline-none transition-colors dark:text-darkText dark:bg-darkPrimary ${isFormCompleted
                       ? "dark:hover:bg-blue-600"
                       : "dark:cursor-not-allowed"
-                  }`}
+                    }`}
                 >
                   Agregar Cita
                 </button>

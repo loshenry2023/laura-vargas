@@ -163,7 +163,7 @@ function EditConsumableForm({
 
   return (
     <>
-      <div className="absolute top-0 left-0 flex items-center justify-center w-full h-full bg-black opacity-95">
+      <div className="fixed top-0 left-0 flex items-center justify-center w-full h-full bg-black" style={{ background: "rgba(0, 0, 0, 0.70)"}}>
         <div className="container">
           <div className="w-full bg-white shadow rounded-lg p-6 md:mx-auto md:w-1/2 2xl:w-1/3 dark:bg-darkBackground">
             <div className="flex justify-between">
@@ -209,9 +209,8 @@ function EditConsumableForm({
                   </div>
                 </>
               )}
-
               <div className="mb-2">
-                <label className="pl-1 text-sm font-bold">
+                <label className="pl-1 text-sm font-bold dark:text-darkText">
                   Cantidad Actual:
                 </label>
                 <input
@@ -298,7 +297,6 @@ function EditConsumableForm({
                   </div>
                 </>
               ) : null}
-
               {/* Mostrar errores */}
               {Object.keys(errors).length > 0 && (
                 <div className="text-red-500">

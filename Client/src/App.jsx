@@ -51,14 +51,8 @@ const App = () => {
         <Route path={CLIENTDETAIL} element={<ClientDetail />} />
         <Route path={TERMSANDPRIVACY} element={<TermsAndPrivacy />} />
         <Route path={DATEDETAIL} element={<SpecialistDate />} />
-        {/* <Route path={DETAIL} element={<Detail />} />
-        <Route path={EDIT} element={<Edit />} />
-        <Route path={ABOUT} element={<About />} />
-        <Route path={ERROR} element={<Error />} />*/}
         <Route path="consumables" element={<Consumables />} />
         <Route path="historyprice/:productId" element={<ConsHistoryPrice />} />
-        <Route path="newconsumable" element={<NewConsumableForm />} />
-        <Route path="editproduct/:code" element={<EditConsumableForm />} />
         <Route path="*" element={<Error />} />
       </Routes>
     </div>
