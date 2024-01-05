@@ -15,7 +15,7 @@ const getReg = async (
 ) => {
   try {
     let reg;
-    
+
     switch (tableNameText) {
       case "Specialists":
         const {
@@ -124,13 +124,13 @@ const getReg = async (
         const {
           nameOrLastName = "",
           attribute = "createdAt",
-          attribute2= "dayBirthday",
+          attribute2 = "dayBirthday",
           order = "desc",
           page = 0,
           size = 10,
           createDateEnd = "",
           createDateStart = "",
-          birthdaysMonth
+          birthdaysMonth = "",
         } = dataQuery;
         reg = await tableName.findAndCountAll({
           attributes: [
@@ -149,11 +149,11 @@ const getReg = async (
           where: {
             [Op.or]: [
               //filtro por nombres
-              
+
               { name: { [Op.iLike]: `%${nameOrLastName}%` } },
               { lastName: { [Op.iLike]: `%${nameOrLastName}%` } },
             ],
-            monthBirthday: { [Op.iLike]: `%${birthdaysMonth}%` } ,
+            monthBirthday: { [Op.iLike]: `%${birthdaysMonth}%` },
             createdAt: {
               //para la fecha de creación
               [Op.gte]: createDateStart || "1900-01-01",
