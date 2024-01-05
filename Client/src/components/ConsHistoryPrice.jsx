@@ -62,7 +62,7 @@ const ConsHistoryPrice = () => {
         {loading ? (
           <Loader />
         ) : (
-          user !== "superAdmin" ? <Restricted /> : 
+          user.role !== "superAdmin" ? <Restricted /> : 
           <div className="flex flex-col w-full dark:bg-darkBackground">
             <div className="flex flex-row justify-center w-full p-4 mt-10">
               <span>
