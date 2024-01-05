@@ -31,6 +31,7 @@ import {
   UPDATE_PRODUCT_PRICE_FAILURE,
   CLEAR_PRODUCT_PRICE,
   GET_PAY_METHODS,
+  GET_SPECIALISTS
 } from "./actionsTypes";
 
 import axios from "axios";
@@ -102,13 +103,14 @@ export const getClients = (
   size,
   createDateEnd,
   createDateStart,
+  birthdaysMonth,
   token
 ) => {
   const endPoint = API_URL_BASE + "/getclients?";
   return async function (dispatch) {
     try {
       const { data } = await axios.post(
-        `${endPoint}nameOrLastName=${nameOrLastName}&attribute=${attribute}&order=${order}&page=${page}&size=${size}&createDateEnd=${createDateEnd}&createDateStart=${createDateStart}`,
+        `${endPoint}nameOrLastName=${nameOrLastName}&attribute=${attribute}&order=${order}&page=${page}&size=${size}&createDateEnd=${createDateEnd}&createDateStart=${createDateStart}&birthdaysMonth=${birthdaysMonth}`,
         token
       );
       const modifiedData = data.rows.map((user) => {
@@ -180,6 +182,27 @@ export const getUsers = (
         type: GET_USERS,
         payload: modifiedData,
         count: data.count,
+      });
+    } catch (error) {
+      throw Error(error.message);
+    }
+  };
+};
+
+export const getspecialists = ( branchWorking,
+  token
+) => {
+  const endPoint = API_URL_BASE + "/specialists?";
+  return async function (dispatch) {
+    try {
+      const { data } = await axios.post(
+        `${endPoint}branchWorking=${branchWorking}`,
+        token
+      );
+
+      return dispatch({
+        type: GET_SPECIALISTS,
+        payload: data,
       });
     } catch (error) {
       throw Error(error.message);

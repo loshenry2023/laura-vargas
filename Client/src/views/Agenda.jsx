@@ -50,7 +50,9 @@ const Agenda = () => {
   const [refrescarCita, setRefrescarCita] = useState(false);
   const [showClientListModal, setShowClientListModal] = useState(false);
   const [showAppointmentModal, setShowAppointmentModal] = useState(false);
-  const [selectServices, setSelectServices] = useState(true);
+  const [showEditAppointment, setShowEditAppointment] = useState(false);
+  console.log(showAppointmentModal);
+
 
   const [dateInfo, setDateInfo] = useState({
     client: {
@@ -65,6 +67,7 @@ const Agenda = () => {
     service: {
       id: "",
       serviceName: "",
+      specialtyName: ""
     },
     specialist: {
       id: "",
@@ -110,14 +113,15 @@ const Agenda = () => {
         createDateStart,
         { token: tokenID }
       )
-    ).then(() => setLoading(false));
+    );
+    setLoading(false);
   }, [specialty]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
 
     if (name === "client") {
-      const parsedValue = JSON.parse(value);
+      // const parsedValue = JSON.parse(value);
 
       setDateInfo((prevInfo) => ({
         ...prevInfo,
@@ -136,9 +140,9 @@ const Agenda = () => {
             name: "",
           },
         }));
+        
       } else {
         const parsedValue = JSON.parse(value);
-
         setSpecialty(parsedValue.Specialties[0].specialtyName);
 
         setDateInfo((prevInfo) => ({
@@ -146,6 +150,7 @@ const Agenda = () => {
           service: {
             id: parsedValue.id,
             name: parsedValue.serviceName,
+            specialtyName: parsedValue.Specialties[0].specialtyName
           },
         }));
 
@@ -234,13 +239,15 @@ const Agenda = () => {
                     className="mt-1.5 cursor-pointer dark:text-darkText"
                     onClick={() => setShowClientListModal(true)}
                   />
-                  <input
-                    name=""
-                    id=""
-                    placeholder={`${chosenClient.name} ${chosenClient.lastName}`}
-                    disabled
-                    className="w-60 resize-y border mr-8 border-black rounded-md text-md dark:text-darkText dark:bg-darkPrimary md:w-fit md:mr-0"
-                  />
+          
+                    <input
+                      name=""
+                      id=""
+                      placeholder={`${chosenClient.name} ${chosenClient.lastName}`}
+                      disabled
+                      className="w-60 resize-y border mr-8 border-black rounded-md text-md dark:text-darkText dark:bg-darkPrimary md:w-fit md:mr-0"
+                    />
+                  
                 </div>
                 {/* <input
                   disabled
@@ -248,7 +255,7 @@ const Agenda = () => {
                   placeholder={workingBranch.branchName}
                   className="w-60 border border-black rounded-md text-md dark:text-darkText dark:bg-darkPrimary md:w-fit"
                 ></input> */}
-                {selectServices ? (
+                {!showEditAppointment ? (
                   <select
                     name="service"
                     id=""
@@ -257,56 +264,50 @@ const Agenda = () => {
                   >
                     <option
                       defaultValue={dateInfo.service.id ? false : true}
-                      value="noneSpecialty"
+                      value={JSON.stringify({
+                        Specialties: [{ specialtyName: "noneSpecialty" }],
+                      })}
+                      // selected={ clearService ? true : false}
                     >
                       {" "}
                       Procedimientos{" "}
                     </option>
                     {services.map((service, index) => (
-                      <option key={index} value={JSON.stringify(service)}>
+                      <option key={index} value={JSON.stringify(service)} selected={dateInfo.service.id === service.id ? true : false}>
                         {service.serviceName}
                       </option>
                     ))}
                   </select>
                 ) : (
+                  <></>
+                )}
+                {!showEditAppointment ? (
                   <select
-                    name="service"
+                    onChange={handleChange}
+                    name="specialist"
                     id=""
                     className="w-60 border border-black rounded-md text-md dark:text-darkText dark:bg-darkPrimary md:w-fit"
-                    onChange={handleChange}
                   >
                     <option
-                      defaultValue={dateInfo.service.id ? false : true}
-                      value="noneSpecialty"
+                      defaultValue={dateInfo.specialist.id ? false : true}
+                      value="null"
+                      selected={dateInfo.specialist.id ? true : false}
                     >
                       {" "}
-                      Procedimientos{" "}
+                      -- Especialista--{" "}
                     </option>
+                    {users.map(
+                      (user, index) =>
+                        user.role === "especialista" && (
+                          <option key={index} value={JSON.stringify(user)} selected = {user.id === dateInfo.specialist.id ? true : false}>
+                            {user.name} {user.lastName}
+                          </option>
+                        )
+                    )}
                   </select>
+                ) : (
+                  <></>
                 )}
-
-                <select
-                  onChange={handleChange}
-                  name="specialist"
-                  id=""
-                  className="w-60 border border-black rounded-md text-md dark:text-darkText dark:bg-darkPrimary md:w-fit"
-                >
-                  <option
-                    defaultValue={dateInfo.specialist.id ? false : true}
-                    value="null"
-                  >
-                    {" "}
-                    -- Especialista--{" "}
-                  </option>
-                  {users.map(
-                    (user, index) =>
-                      user.role === "especialista" && (
-                        <option key={index} value={JSON.stringify(user)}>
-                          {user.name} {user.lastName}
-                        </option>
-                      )
-                  )}
-                </select>
               </section>
             )}
             <Calendar
@@ -319,19 +320,25 @@ const Agenda = () => {
               setRefrescarCita={setRefrescarCita}
               chosenClient={chosenClient}
               setSpecialty={setSpecialty}
-              setSelectServices={setSelectServices}
+              setShowAppointmentModal={setShowAppointmentModal}
+              setShowEditAppointment={setShowEditAppointment}
+              showEditAppointment={showEditAppointment}
+              dateInfo={dateInfo}
             />
             <div>
               {user.role === "especialista" ? null : (
                 <button
                   onClick={handleAppointmentModal}
                   disabled={!isFormCompleted}
-                  className={`rounded mt-10 px-6 py-2 cursor-pointer ${isFormCompleted ? "bg-primaryPink" : "bg-gray-300"
-                    } shadow shadow-black text-black ${isFormCompleted ? "hover:bg-blue-600" : "cursor-not-allowed"
-                    } focus:outline-none transition-colors dark:text-darkText dark:bg-darkPrimary ${isFormCompleted
+                  className={`rounded mt-10 px-6 py-2 cursor-pointer ${
+                    isFormCompleted ? "bg-primaryPink" : "bg-gray-300"
+                  } shadow shadow-black text-black ${
+                    isFormCompleted ? "hover:bg-blue-600" : "cursor-not-allowed"
+                  } focus:outline-none transition-colors dark:text-darkText dark:bg-darkPrimary ${
+                    isFormCompleted
                       ? "dark:hover:bg-blue-600"
                       : "dark:cursor-not-allowed"
-                    }`}
+                  }`}
                 >
                   Agregar Cita
                 </button>

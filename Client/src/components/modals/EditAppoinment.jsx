@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import getParamsEnv from '../../functions/getParamsEnv';
 
 import validateEditAppointment from '../../functions/editAppointment';
+import { useNavigate } from 'react-router-dom';
 
 const { API_URL_BASE } = getParamsEnv();
 
@@ -22,7 +23,7 @@ const EditAppointment = ({ setShowEditAppointment, setSpecialty, token, date, se
 
   const [showAppointmentModal, setShowAppointmentModal] = useState(false);
   const [initialAppointmentInfo, setInitialAppointmentInfo] = useState({});
-
+  const navigate = useNavigate()
   const onlyDate = date.date_from
   const dateTime = onlyDate.split(",")[0];
   const dispatch = useDispatch();
@@ -105,6 +106,7 @@ const EditAppointment = ({ setShowEditAppointment, setSpecialty, token, date, se
   };
 
   const closeModal = () => {
+    //navigate(0)
     setShowEditAppointment(false);
   };
 

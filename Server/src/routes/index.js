@@ -10,6 +10,8 @@ const usersHandler = require("../Handlers/user/usersHandler");
 const getUserData = require("../controllers/user/getUserData");
 const postUserLogin = require("../controllers/user/postUserLogin");
 const postUserLogout = require("../controllers/user/postUserLogout");
+// Espeialistas:
+const getSpecialists = require("../Handlers/user/getSpecialists");
 // Especialidades:
 const postSpecialtyHandler = require("../Handlers/specialty/postSpecialtyHandler");
 const putSpecialtyHandler = require("../Handlers/specialty/putSpecialtyHandler");
@@ -115,5 +117,7 @@ router.post("/products", productHandlers.createProduct);
 router.put("/products/:id", productHandlers.editProduct);
 router.put("/products/:id/price", productHandlers.updateProductPrice);
 router.get("/products/:productId/prices-history", productHandlers.getProductPricesHistory);
+// specialists
+router.post("/specialists", getSpecialists); // obtiene todos los usuario con rol de especialista
 
 module.exports = router;

@@ -4,6 +4,7 @@ export const GET_USERS = "GET_USERS";
 export const GET_USER_ID = "GET_USER_ID";
 export const GET_BRANCHES = "GET_BRANCHES";
 export const GET_SPECIALTIES = "GET_SPECIALTIES";
+export const GET_SPECIALISTS = "GET_SPECIALISTS";
 export const GET_ROLES = "GET_ROLES";
 export const ERROR = "ERROR";
 export const DELETE_USER = "DELETE_USER";

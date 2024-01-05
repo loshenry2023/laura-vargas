@@ -17,7 +17,7 @@ const HistoryCalendar = ({ calendars }) => {
     //     };
     //     //const formattedDate = new Intl.DateTimeFormat('en-US', options).format(inputDate);
     //     const formattedDate = inputDate;
-    //     return formattedDate
+    //     return formattedDateminutos}-${maxutos}
     // }
 
     const calendarSortes = calendars.sort(
@@ -33,7 +33,7 @@ const HistoryCalendar = ({ calendars }) => {
                 {calendarSortes.map((calendar, index) => {
                     return (
                             <div key={index} className='w-60 h-28 scrollbar-container gap-1 flex flex-col shadow-sm shadow-black px-2 py-0.5 hover:bg-blue-300 dark:bg-darkPrimary dark:hover:bg-zinc-800'>
-                                <p className='text-md tracking-wide font-light dark:text-darkText'> <span className='font-medium dark:text-darkText'>Fecha de turno: <br /></span> {converterGMT(calendar.date_from)} </p>
+                                <p className='text-md tracking-wide font-light dark:text-darkText'> <span className='font-medium dark:text-darkText'>Fecha de turno: <br /></span> {converterGMT(calendar.date_from).split(" ")[0]} </p>
                                 <p className='text-md tracking-wide font-light dark:text-darkText'> <span className='font-medium dark:text-darkText'>Observaciones: <br /></span> {calendar.obs !== " " ? calendar.obs : " - "}  </p>
                             </div>
                     );
