@@ -102,17 +102,20 @@ function Consumables() {
                 <h1 className="text-2xl underline underline-offset-4 tracking-wide text-center font-fontTitle dark:text-beige sm:text-left">
                   Control de insumos
                 </h1>
-                <div className="ml-auto">
-                  <button
-                    onClick={handleShowNewConsumableModal}
-                    className="bg-primaryPink hover:bg-secondaryPink text-white py-2 px-4 rounded border dark:bg-darkPrimary dark:border-darkText dark:hover:bg-gray-200 dark:hover:text-black"
-                  >
-                    <div className="flex items-center">
-                      Nuevo Insumo <FaPlus className="ml-2" />
-                    </div>
-                  </button>
-                </div>
-                {showNewConsumableModal && (
+
+                {user?.role !== "admin" && ( // Renderiza el botón solo si el rol no es admin
+                  <div className="ml-auto">
+                    <button
+                      onClick={handleShowNewConsumableModal}
+                      className="bg-primaryPink hover:bg-secondaryPink text-white py-2 px-4 rounded border dark:bg-darkPrimary dark:border-darkText dark:hover:bg-gray-200 dark:hover:text-black"
+                    >
+                      <div className="flex items-center">
+                        Nuevo Insumo <FaPlus className="ml-2" />
+                      </div>
+                    </button>
+                  </div>
+                )}
+                {user?.role === "superAdmin" && showNewConsumableModal && (
                   <NewConsumableModal
                     onClose={() => {
                       setShowNewConsumableModal(false);
@@ -121,6 +124,7 @@ function Consumables() {
                     onProductAdd={handleNewProductAdded}
                   />
                 )}
+
                 <section className="flex flex-col items-start sm:w-full">
                   <div className="flex flex-col items-center w-full gap-3 lg:flex-row lg:items-center lg:gap-3">
                     <input

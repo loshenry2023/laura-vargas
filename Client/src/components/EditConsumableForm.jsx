@@ -15,6 +15,7 @@ function EditConsumableForm({
   code,
   onClose,
   setProductsData,
+  user,
 }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -175,34 +176,39 @@ function EditConsumableForm({
               />
             </div>
             <form>
-              <div className="mb-2">
-                <label className="pl-1 text-sm font-bold dark:text-darkText">Nombre:</label>
-                <input
-                  className="border border-black p-2 rounded w-full"
-                  type="text"
-                  value={productName}
-                  onChange={(e) => setProductName(e.target.value)}
-                />
-              </div>
-              <div className="mb-2">
-                <label className="pl-1 text-sm font-bold dark:text-darkText">Descripción:</label>
-                <input
-                  className="border border-black p-2 rounded w-full"
-                  type="text"
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
-                />
-              </div>
-              <div className="mb-2">
-                <label className="pl-1 text-sm font-bold dark:text-darkText">Proveedor:</label>
-                <input
-                  className="border border-black p-2 rounded w-full"
-                  type="text"
-                  value={supplier}
-                  onChange={(e) => setSupplier(e.target.value)}
-                />
-              </div>
-
+              {user.role === "superAdmin" && (
+                <>
+                  <div className="mb-2">
+                    <label className="pl-1 text-sm font-bold">Nombre:</label>
+                    <input
+                      className="border border-black p-2 rounded w-full"
+                      type="text"
+                      value={productName}
+                      onChange={(e) => setProductName(e.target.value)}
+                    />
+                  </div>
+                  <div className="mb-2">
+                    <label className="pl-1 text-sm font-bold">
+                      Descripción:
+                    </label>
+                    <input
+                      className="border border-black p-2 rounded w-full"
+                      type="text"
+                      value={description}
+                      onChange={(e) => setDescription(e.target.value)}
+                    />
+                  </div>
+                  <div className="mb-2">
+                    <label className="pl-1 text-sm font-bold">Proveedor:</label>
+                    <input
+                      className="border border-black p-2 rounded w-full"
+                      type="text"
+                      value={supplier}
+                      onChange={(e) => setSupplier(e.target.value)}
+                    />
+                  </div>
+                </>
+              )}
               <div className="mb-2">
                 <label className="pl-1 text-sm font-bold dark:text-darkText">
                   Cantidad Actual:
@@ -216,50 +222,81 @@ function EditConsumableForm({
                 />
               </div>
 
-              <div className="mb-2">
-                <label className="pl-1 text-sm font-bold dark:text-darkText">
-                  Cantidad a Agregar/Quitar:
-                </label>
-                <div className="flex items-center">
-                  <input
-                    className="border border-black p-2 rounded mr-2"
-                    type="number"
-                    value={adjustmentValue}
-                    onChange={(e) => {
-                      const value = parseInt(e.target.value);
-                      if (!isNaN(value) && value >= 0) {
-                        setAdjustmentValue(value);
-                      }
-                    }}
-                    min="0"
-                  />
-                  <button
-                    type="button"
-                    className="border border-black p-1 rounded dark:text-darkText dark:border-darkText transform duration-700 hover:bg-blue-600 hover:scale-110"
-                    onClick={() => handleAdjustAmount("subtract")}
-                  >
-                    Quitar
-                  </button>
-                  <button
-                    type="button"
-                    className="border border-black p-1 rounded ml-2 dark:text-darkText dark:border-darkText transform duration-700 hover:bg-blue-600 hover:scale-110"
-                    onClick={() => handleAdjustAmount("add")}
-                  >
-                    Agregar
-                  </button>
+              {user.role === "admin" ? (
+                <div className="mb-2">
+                  <label className="pl-1 text-sm font-bold">
+                    Cantidad a Quitar:
+                  </label>
+                  <div className="flex items-center">
+                    <input
+                      className="border border-black p-2 rounded mr-2"
+                      type="number"
+                      value={adjustmentValue}
+                      onChange={(e) => {
+                        const value = parseInt(e.target.value);
+                        if (!isNaN(value) && value >= 0) {
+                          setAdjustmentValue(value);
+                        }
+                      }}
+                      min="0"
+                    />
+                    <button
+                      type="button"
+                      className="border border-black p-1 rounded"
+                      onClick={() => handleAdjustAmount("subtract")}
+                    >
+                      Quitar
+                    </button>
+                  </div>
                 </div>
-              </div>
+              ) : null}
 
-              <div className="mb-2">
-                <label className="pl-1 text-sm font-bold dark:text-darkText">Precio:</label>
-                <input
-                  className="border border-black p-2 rounded w-full"
-                  type="number"
-                  value={newPrice}
-                  onChange={(e) => setNewPrice(e.target.value)}
-                />
-              </div>
-
+              {user.role === "superAdmin" ? (
+                <>
+                  <div className="mb-2">
+                    <label className="pl-1 text-sm font-bold">
+                      Cantidad a Quitar/Agregar:
+                    </label>
+                    <div className="flex items-center">
+                      <input
+                        className="border border-black p-2 rounded mr-2"
+                        type="number"
+                        value={adjustmentValue}
+                        onChange={(e) => {
+                          const value = parseInt(e.target.value);
+                          if (!isNaN(value) && value >= 0) {
+                            setAdjustmentValue(value);
+                          }
+                        }}
+                        min="0"
+                      />
+                      <button
+                        type="button"
+                        className="border border-black p-1 rounded"
+                        onClick={() => handleAdjustAmount("subtract")}
+                      >
+                        Quitar
+                      </button>
+                      <button
+                        type="button"
+                        className="border border-black p-1 rounded ml-2"
+                        onClick={() => handleAdjustAmount("add")}
+                      >
+                        Agregar
+                      </button>
+                    </div>
+                  </div>
+                  <div className="mb-2">
+                    <label className="pl-1 text-sm font-bold">Precio:</label>
+                    <input
+                      className="border border-black p-2 rounded w-full"
+                      type="number"
+                      value={newPrice}
+                      onChange={(e) => setNewPrice(e.target.value)}
+                    />
+                  </div>
+                </>
+              ) : null}
               {/* Mostrar errores */}
               {Object.keys(errors).length > 0 && (
                 <div className="text-red-500">
