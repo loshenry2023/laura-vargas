@@ -19,7 +19,9 @@ const HistoryServices = ({ history }) => {
   //   };
   //   const formattedDate = inputDate; //new Intl.DateTimeFormat('en-US', options).format(inputDate);
   //   return formattedDate
-  // }
+  // }  
+
+  console.log(history)
 
   const historySorted = history.sort(
     (a, b) => new Date(b.date) - new Date(a.date)
@@ -96,7 +98,7 @@ const HistoryServices = ({ history }) => {
                 <a
                   href={service.conformity}
                   target="_blank"
-                  className="cursor-pointer shadow-md rounded-2xl w-40 px-5 bg-beige hover:bg-blue-600 hover:text-white dark:bg-darkBackground dark:text-darkText dark:hover:bg-blue-600"
+                  className={`${service.conformity === "" ? "hidden" : ""} cursor-pointer shadow-md rounded-2xl w-40 px-5 bg-beige hover:bg-blue-600 hover:text-white dark:bg-darkBackground dark:text-darkText dark:hover:bg-blue-600`}
                 >
                   <p>Ver conformidad</p>
                 </a>

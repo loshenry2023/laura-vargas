@@ -85,6 +85,8 @@ const ClientInfo = () => {
       }
     }
 
+    console.log(clientInfo)
+
   return (
     <>
     {loading ? <Loader /> : ( 
