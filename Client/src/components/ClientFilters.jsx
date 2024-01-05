@@ -25,7 +25,7 @@ const ClientFilters = ({setSize, setOrder, nameOrLastName, setAttribute, setName
                 }}
                 type="date"
                 defaultValue=""
-                className="border rounded-md border-black px-2 text-sm dark:text-darkText dark:bg-darkPrimary dark:asd"
+                className="border rounded-md border-black px-2 text-sm dark:invert"
               />
             </div>
             <div className="flex gap-2">
@@ -40,7 +40,7 @@ const ClientFilters = ({setSize, setOrder, nameOrLastName, setAttribute, setName
                 }}
                 type="date"
                 defaultValue=""
-                className="border rounded-md border-black px-2 text-sm  dark:text-darkText dark:bg-darkPrimary"
+                className="border rounded-md border-black px-2 text-sm dark:invert"
               />
             </div> </>): null }
         </div>

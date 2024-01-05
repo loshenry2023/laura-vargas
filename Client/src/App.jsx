@@ -53,8 +53,6 @@ const App = () => {
         <Route path={DATEDETAIL} element={<SpecialistDate />} />
         <Route path="consumables" element={<Consumables />} />
         <Route path="historyprice/:productId" element={<ConsHistoryPrice />} />
-        <Route path="newconsumable" element={<NewConsumableForm />} />
-        <Route path="editproduct/:code" element={<EditConsumableForm />} />
         <Route path="*" element={<Error />} />
       </Routes>
     </div>
