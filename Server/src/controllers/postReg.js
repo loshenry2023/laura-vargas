@@ -86,7 +86,7 @@ async function AddRegHistoricProc(HistoryService, data, conn, Client, Incoming) 
     const { idUser, idclient, imageServiceDone, date, amount1, amount2, conformity, branchName, paymentMethodName1, paymentMethodName2, serviceName, attendedBy, email, name, lastName, id_pers } = data;
     let transaction; // manejo transacciones para evitar registros defectuosos por relaciones mal solicitadas
     try {
-        if (!idUser || !idclient || !imageServiceDone || !date || !conformity || !branchName || !paymentMethodName1 || !paymentMethodName2 || !serviceName || !attendedBy || !email || !name || !lastName || !amount1 || !amount2) { throw Error("Faltan datos"); }
+        if (!idUser || !idclient || !imageServiceDone || !date || !branchName || !paymentMethodName1 || !paymentMethodName2 || !serviceName || !attendedBy || !email || !name || !lastName || !amount1 || !amount2) { throw Error("Faltan datos"); }
         // Inicio la transacción:
         transaction = await conn.transaction();
         const client = await Client.findByPk(idclient);
