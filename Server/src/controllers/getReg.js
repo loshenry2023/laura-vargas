@@ -1,7 +1,7 @@
 // ! Obtiene registros.
 const { Op } = require("sequelize");
 const showLog = require("../functions/showLog");
-const { Specialty } = require('../DB_connection');
+const { Specialty, Branch } = require('../DB_connection');
 
 const getReg = async (
   tableName,
@@ -15,7 +15,29 @@ const getReg = async (
 ) => {
   try {
     let reg;
+    
     switch (tableNameText) {
+      case "Specialists":
+        const {
+          branchWorking,
+        } = dataQuery;
+        reg = await tableName.findAll({
+          include: [
+            {
+              model: Branch,
+              where: { branchName: { [Op.iLike]: `%${branchWorking}%` } },
+              as: "Branches",
+              through: { attributes: [] },
+              attributes: ["id", "branchName"],
+            },
+          ],
+          where: {
+            role: `especialista`,
+          },
+          order: [['lastName', 'asc']],
+          attributes: ["id", "name", "lastName", "userName", "role", "createdAt", "comission"],
+        });
+        break;
       case "Branch":
         reg = await tableName.findAll({
           attributes: [
@@ -102,11 +124,13 @@ const getReg = async (
         const {
           nameOrLastName = "",
           attribute = "createdAt",
+          attribute2= "dayBirthday",
           order = "desc",
           page = 0,
           size = 10,
           createDateEnd = "",
           createDateStart = "",
+          birthdaysMonth
         } = dataQuery;
         reg = await tableName.findAndCountAll({
           attributes: [
@@ -119,21 +143,24 @@ const getReg = async (
             "phoneNumber2",
             "image",
             "createdAt",
-            "birthday"
+            "birthday",
+            "monthBirthday"
           ],
           where: {
             [Op.or]: [
               //filtro por nombres
+              
               { name: { [Op.iLike]: `%${nameOrLastName}%` } },
               { lastName: { [Op.iLike]: `%${nameOrLastName}%` } },
             ],
+            monthBirthday: { [Op.iLike]: `%${birthdaysMonth}%` } ,
             createdAt: {
               //para la fecha de creación
               [Op.gte]: createDateStart || "1900-01-01",
               [Op.lte]: createDateEnd || new Date(),
             },
           },
-          order: [[attribute, order]],
+          order: [[attribute, order], [attribute2, order]],
           limit: size,
           offset: size * page,
         });

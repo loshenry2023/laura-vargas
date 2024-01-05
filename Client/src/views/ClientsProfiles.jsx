@@ -11,6 +11,7 @@ import { IoPersonAddOutline } from "react-icons/io5";
 import CreateClient from '../components/modals/CreateClient';
 import ClientFilters from "../components/ClientFilters";
 import Pagination from "../components/Pagination";
+import { useSearchParams } from "react-router-dom";
 
 const ClientsProfiles = () => {
 
@@ -22,6 +23,8 @@ const ClientsProfiles = () => {
   const dispatch = useDispatch();
 
   const [nameOrLastName, setNameOrLastName] = useState("");
+  const [birthdaysMonth, setBirthdaysMonth] = useState("");
+  console.log(birthdaysMonth)
   const [attribute, setAttribute] = useState("lastName");
   const [order, setOrder] = useState("asc");
   const [page, setPage] = useState(0);
@@ -47,6 +50,7 @@ const ClientsProfiles = () => {
         size,
         createDateEnd,
         createDateStart,
+        birthdaysMonth,
         { token }
       )
     ).then(() => setLoading(false));
@@ -60,6 +64,7 @@ const ClientsProfiles = () => {
     createDateStart,
     token,
     activarNuevoCliente,
+    birthdaysMonth,
   ]);
 
   return (
@@ -80,7 +85,7 @@ const ClientsProfiles = () => {
             <IoPersonAddOutline className='h-6 w-6 mt-0.5 cursor-pointer dark:text-darkText' onClick={handleClientFormModal}/> : null
             }
           </div>
-          <ClientFilters setNameOrLastName={setNameOrLastName} nameOrLastName={nameOrLastName}  setAttribute={setAttribute}  setOrder={setOrder}  setPage={setPage}  setSize={setSize}/>
+          <ClientFilters setNameOrLastName={setNameOrLastName} nameOrLastName={nameOrLastName}  setAttribute={setAttribute}  setOrder={setOrder}  setPage={setPage}  setSize={setSize} setBirthdaysMonth={setBirthdaysMonth}/>
           <ClientsTable clients={clients} />
           <Pagination page={page} setPage={setPage} size={size} setSize={setSize} count={count}/>
         </div>

@@ -1,23 +1,17 @@
-export default function converterGMT(date) {
+export default function converter12Hrs(date) {
 
 
 
   //console.log("RECIBO ", date);
   // Crear un objeto Date a partir de la cadena de fecha y hora
-  const fechaObjeto = new Date(date);
-
-  // Obtener año, mes y día
-  const year = fechaObjeto.getUTCFullYear();
-  const mes = (fechaObjeto.getUTCMonth() + 1).toString().padStart(2, '0'); // +1 porque los meses en JavaScript van de 0 a 11
-  const dia = fechaObjeto.getUTCDate().toString().padStart(2, '0');
 
   // Obtener la hora y minutos
-  let hora = fechaObjeto.getUTCHours().toString().padStart(2, '0');
-  const minutos = fechaObjeto.getUTCMinutes().toString().padStart(2, '0');
+  let hora = date.split(":")[0]
+  let minutos = date.split(":")[1]
 
 
   // Formatear la cadena de salida
-  const cadenaFormateada = `${year}-${mes}-${dia} ${hora}:${minutos}`;
+  const cadenaFormateada = `${hora > 12 ? hora - 12 : hora}:${minutos} ${hora > 11 && hora < 24 ? 'PM': 'AM'}`;
   //console.log("DEVUELVO ", cadenaFormateada);
 
   return cadenaFormateada;

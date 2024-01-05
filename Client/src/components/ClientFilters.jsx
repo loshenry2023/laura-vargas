@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
 
-const ClientFilters = ({setSize, setOrder, nameOrLastName, setAttribute, setNameOrLastName, setPage}) => {
+const ClientFilters = ({setOrder, nameOrLastName, setAttribute, setNameOrLastName, setPage, setBirthdaysMonth}) => {
 
   const location = useLocation()
 
@@ -81,8 +81,31 @@ const ClientFilters = ({setSize, setOrder, nameOrLastName, setAttribute, setName
             <option value="name">Nombre</option>
             <option value="lastName">Apellido</option>
             <option value="createdAt">Fecha de creación</option>
+            <option value="monthBirthday">Cumpleaños</option>
+          </select>
+          <select
+            onChange={(e) => {
+              setBirthdaysMonth(e.target.value);
+              setPage(0);
+            }}
+            className="font-medium py-0.5 w-full border border-black rounded-md text-xs dark:text-darkText dark:bg-darkPrimary"
+          >
+            <option value=""> -- Mes de cumpleaños -- </option>
+            <option value="01" >Enero</option>
+            <option value="02">Febrero</option>
+            <option value="03">Marzo</option>
+            <option value="04">Abril</option>
+            <option value="05">Mayo</option>
+            <option value="06">Junio</option>
+            <option value="07">Julio</option>
+            <option value="08">Agosto</option>
+            <option value="09">Septiembre</option>
+            <option value="10">Octubre</option>
+            <option value="11">Noviembre</option>
+            <option value="12">Diciembre</option>
           </select>
           </> : null}
+          
         </div>
       </div>
     </section>

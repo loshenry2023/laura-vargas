@@ -51,7 +51,8 @@ const Agenda = () => {
   const [showClientListModal, setShowClientListModal] = useState(false);
   const [showAppointmentModal, setShowAppointmentModal] = useState(false);
   const [selectServices, setSelectServices] = useState(true);
-
+  const [clearService, setClearService] = useState(false);
+console.log(clearService);
   const [dateInfo, setDateInfo] = useState({
     client: {
       id: "",
@@ -110,14 +111,15 @@ const Agenda = () => {
         createDateStart,
         { token: tokenID }
       )
-    ).then(() => setLoading(false));
+    );
+    setLoading(false);
   }, [specialty]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
 
     if (name === "client") {
-      const parsedValue = JSON.parse(value);
+      // const parsedValue = JSON.parse(value);
 
       setDateInfo((prevInfo) => ({
         ...prevInfo,
@@ -136,8 +138,10 @@ const Agenda = () => {
             name: "",
           },
         }));
+        
       } else {
         const parsedValue = JSON.parse(value);
+        setClearService(false);
 
         setSpecialty(parsedValue.Specialties[0].specialtyName);
 
@@ -234,13 +238,24 @@ const Agenda = () => {
                     className="mt-1.5 cursor-pointer dark:text-darkText"
                     onClick={() => setShowClientListModal(true)}
                   />
-                  <input
-                    name=""
-                    id=""
-                    placeholder={`${chosenClient.name} ${chosenClient.lastName}`}
-                    disabled
-                    className="w-60 resize-y border mr-8 border-black rounded-md text-md dark:text-darkText dark:bg-darkPrimary md:w-fit md:mr-0"
-                  />
+                  {selectServices ? (
+                    <input
+                      name=""
+                      id=""
+                      placeholder={`${chosenClient.name} ${chosenClient.lastName}`}
+                      disabled
+                      className="w-60 resize-y border mr-8 border-black rounded-md text-md dark:text-darkText dark:bg-darkPrimary md:w-fit md:mr-0"
+                    />
+                  ) : (
+                    
+                    <input
+                      name=""
+                      id=""
+                      placeholder="Elige cliente"
+                      disabled
+                      className="w-60 resize-y border mr-8 border-black rounded-md text-md dark:text-darkText dark:bg-darkPrimary md:w-fit md:mr-0"
+                    />
+                  )}
                 </div>
                 {/* <input
                   disabled
@@ -257,7 +272,10 @@ const Agenda = () => {
                   >
                     <option
                       defaultValue={dateInfo.service.id ? false : true}
-                      value="noneSpecialty"
+                      value={JSON.stringify({
+                        Specialties: [{ specialtyName: "noneSpecialty" }],
+                      })}
+                      selected={ clearService ? true : false}
                     >
                       {" "}
                       Procedimientos{" "}
@@ -284,29 +302,47 @@ const Agenda = () => {
                     </option>
                   </select>
                 )}
-
-                <select
-                  onChange={handleChange}
-                  name="specialist"
-                  id=""
-                  className="w-60 border border-black rounded-md text-md dark:text-darkText dark:bg-darkPrimary md:w-fit"
-                >
-                  <option
-                    defaultValue={dateInfo.specialist.id ? false : true}
-                    value="null"
+                {selectServices ? (
+                  <select
+                    onChange={handleChange}
+                    name="specialist"
+                    id=""
+                    className="w-60 border border-black rounded-md text-md dark:text-darkText dark:bg-darkPrimary md:w-fit"
                   >
-                    {" "}
-                    -- Especialista--{" "}
-                  </option>
-                  {users.map(
-                    (user, index) =>
-                      user.role === "especialista" && (
-                        <option key={index} value={JSON.stringify(user)}>
-                          {user.name} {user.lastName}
-                        </option>
-                      )
-                  )}
-                </select>
+                    <option
+                      defaultValue={dateInfo.specialist.id ? false : true}
+                      value="null"
+                      selected={dateInfo.specialist.id ? false : true}
+                    >
+                      {" "}
+                      -- Especialista--{" "}
+                    </option>
+                    {users.map(
+                      (user, index) =>
+                        user.role === "especialista" && (
+                          <option key={index} value={JSON.stringify(user)}>
+                            {user.name} {user.lastName}
+                          </option>
+                        )
+                    )}
+                  </select>
+                ) : (
+                  <select
+                    onChange={handleChange}
+                    name="specialist"
+                    id=""
+                    className="w-60 border border-black rounded-md text-md dark:text-darkText dark:bg-darkPrimary md:w-fit"
+                  >
+                    <option
+                      defaultValue={dateInfo.specialist.id ? false : true}
+                      value="null"
+                      selected={dateInfo.specialist.id ? false : true}
+                    >
+                      {" "}
+                      -- Especialista--{" "}
+                    </option>
+                  </select>
+                )}
               </section>
             )}
             <Calendar
@@ -320,18 +356,23 @@ const Agenda = () => {
               chosenClient={chosenClient}
               setSpecialty={setSpecialty}
               setSelectServices={setSelectServices}
+              setChosenClient={setChosenClient}
+              setClearService={setClearService}
             />
             <div>
               {user.role === "especialista" ? null : (
                 <button
                   onClick={handleAppointmentModal}
                   disabled={!isFormCompleted}
-                  className={`rounded mt-10 px-6 py-2 cursor-pointer ${isFormCompleted ? "bg-primaryPink" : "bg-gray-300"
-                    } shadow shadow-black text-black ${isFormCompleted ? "hover:bg-blue-600" : "cursor-not-allowed"
-                    } focus:outline-none transition-colors dark:text-darkText dark:bg-darkPrimary ${isFormCompleted
+                  className={`rounded mt-10 px-6 py-2 cursor-pointer ${
+                    isFormCompleted ? "bg-primaryPink" : "bg-gray-300"
+                  } shadow shadow-black text-black ${
+                    isFormCompleted ? "hover:bg-blue-600" : "cursor-not-allowed"
+                  } focus:outline-none transition-colors dark:text-darkText dark:bg-darkPrimary ${
+                    isFormCompleted
                       ? "dark:hover:bg-blue-600"
                       : "dark:cursor-not-allowed"
-                    }`}
+                  }`}
                 >
                   Agregar Cita
                 </button>

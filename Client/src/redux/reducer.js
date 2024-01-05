@@ -31,7 +31,8 @@ import {
   UPDATE_PRODUCT_PRICE_SUCCESS,
   UPDATE_PRODUCT_PRICE_FAILURE,
   CLEAR_PRODUCT_PRICE,
-  GET_PAY_METHODS
+  GET_PAY_METHODS,
+  GET_SPECIALISTS
 } from "./actionsTypes";
 
 const initialState = {
@@ -51,7 +52,8 @@ const initialState = {
   error: null,
   editingProduct: null,
   pricesHistory: [],
-  payMethods: []
+  payMethods: [],
+  specialists: []
 };
 
 const rootReducer = (
@@ -94,6 +96,15 @@ const rootReducer = (
       };
       localStorage.setItem("myAppReduxState", JSON.stringify(getUsersState));
       return getUsersState;
+
+    //! Trae todos los usuarios especialistas
+    case GET_SPECIALISTS:
+      const getspecialists= {
+        ...state,
+        specialists: payload,
+      };
+     localStorage.setItem("myAppReduxState", JSON.stringify(getspecialists));
+      return getspecialists;
 
     //! Trae el calendar
     case GET_CALENDAR:
