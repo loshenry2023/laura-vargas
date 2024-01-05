@@ -19,6 +19,7 @@ const ListClients = ({ setShowClientListModal, setChosenClient }) => {
   const dispatch = useDispatch();
 
   const [nameOrLastName, setNameOrLastName] = useState("");
+  const [birthdaysMonth, setBirthdaysMonth] = useState("");
   const [attribute, setAttribute] = useState("lastName");
   const [order, setOrder] = useState("asc");
   const [page, setPage] = useState(0);
@@ -44,6 +45,7 @@ const ListClients = ({ setShowClientListModal, setChosenClient }) => {
         size,
         createDateEnd,
         createDateStart,
+        birthdaysMonth,
         { token }
       )
     )
@@ -57,6 +59,7 @@ const ListClients = ({ setShowClientListModal, setChosenClient }) => {
     createDateStart,
     token,
     activarNuevoCliente,
+    birthdaysMonth
   ]);
 
   return (

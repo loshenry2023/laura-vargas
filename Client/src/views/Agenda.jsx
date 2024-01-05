@@ -50,9 +50,10 @@ const Agenda = () => {
   const [refrescarCita, setRefrescarCita] = useState(false);
   const [showClientListModal, setShowClientListModal] = useState(false);
   const [showAppointmentModal, setShowAppointmentModal] = useState(false);
-  const [selectServices, setSelectServices] = useState(true);
-  const [clearService, setClearService] = useState(false);
-console.log(clearService);
+  const [showEditAppointment, setShowEditAppointment] = useState(false);
+  console.log(showAppointmentModal);
+
+
   const [dateInfo, setDateInfo] = useState({
     client: {
       id: "",
@@ -66,6 +67,7 @@ console.log(clearService);
     service: {
       id: "",
       serviceName: "",
+      specialtyName: ""
     },
     specialist: {
       id: "",
@@ -141,8 +143,6 @@ console.log(clearService);
         
       } else {
         const parsedValue = JSON.parse(value);
-        setClearService(false);
-
         setSpecialty(parsedValue.Specialties[0].specialtyName);
 
         setDateInfo((prevInfo) => ({
@@ -150,6 +150,7 @@ console.log(clearService);
           service: {
             id: parsedValue.id,
             name: parsedValue.serviceName,
+            specialtyName: parsedValue.Specialties[0].specialtyName
           },
         }));
 
@@ -238,7 +239,7 @@ console.log(clearService);
                     className="mt-1.5 cursor-pointer dark:text-darkText"
                     onClick={() => setShowClientListModal(true)}
                   />
-                  {selectServices ? (
+          
                     <input
                       name=""
                       id=""
@@ -246,16 +247,7 @@ console.log(clearService);
                       disabled
                       className="w-60 resize-y border mr-8 border-black rounded-md text-md dark:text-darkText dark:bg-darkPrimary md:w-fit md:mr-0"
                     />
-                  ) : (
-                    
-                    <input
-                      name=""
-                      id=""
-                      placeholder="Elige cliente"
-                      disabled
-                      className="w-60 resize-y border mr-8 border-black rounded-md text-md dark:text-darkText dark:bg-darkPrimary md:w-fit md:mr-0"
-                    />
-                  )}
+                  
                 </div>
                 {/* <input
                   disabled
@@ -263,7 +255,7 @@ console.log(clearService);
                   placeholder={workingBranch.branchName}
                   className="w-60 border border-black rounded-md text-md dark:text-darkText dark:bg-darkPrimary md:w-fit"
                 ></input> */}
-                {selectServices ? (
+                {!showEditAppointment ? (
                   <select
                     name="service"
                     id=""
@@ -275,34 +267,21 @@ console.log(clearService);
                       value={JSON.stringify({
                         Specialties: [{ specialtyName: "noneSpecialty" }],
                       })}
-                      selected={ clearService ? true : false}
+                      // selected={ clearService ? true : false}
                     >
                       {" "}
                       Procedimientos{" "}
                     </option>
                     {services.map((service, index) => (
-                      <option key={index} value={JSON.stringify(service)}>
+                      <option key={index} value={JSON.stringify(service)} selected={dateInfo.service.id === service.id ? true : false}>
                         {service.serviceName}
                       </option>
                     ))}
                   </select>
                 ) : (
-                  <select
-                    name="service"
-                    id=""
-                    className="w-60 border border-black rounded-md text-md dark:text-darkText dark:bg-darkPrimary md:w-fit"
-                    onChange={handleChange}
-                  >
-                    <option
-                      defaultValue={dateInfo.service.id ? false : true}
-                      value="noneSpecialty"
-                    >
-                      {" "}
-                      Procedimientos{" "}
-                    </option>
-                  </select>
+                  <></>
                 )}
-                {selectServices ? (
+                {!showEditAppointment ? (
                   <select
                     onChange={handleChange}
                     name="specialist"
@@ -312,7 +291,7 @@ console.log(clearService);
                     <option
                       defaultValue={dateInfo.specialist.id ? false : true}
                       value="null"
-                      selected={dateInfo.specialist.id ? false : true}
+                      selected={dateInfo.specialist.id ? true : false}
                     >
                       {" "}
                       -- Especialista--{" "}
@@ -320,28 +299,14 @@ console.log(clearService);
                     {users.map(
                       (user, index) =>
                         user.role === "especialista" && (
-                          <option key={index} value={JSON.stringify(user)}>
+                          <option key={index} value={JSON.stringify(user)} selected = {user.id === dateInfo.specialist.id ? true : false}>
                             {user.name} {user.lastName}
                           </option>
                         )
                     )}
                   </select>
                 ) : (
-                  <select
-                    onChange={handleChange}
-                    name="specialist"
-                    id=""
-                    className="w-60 border border-black rounded-md text-md dark:text-darkText dark:bg-darkPrimary md:w-fit"
-                  >
-                    <option
-                      defaultValue={dateInfo.specialist.id ? false : true}
-                      value="null"
-                      selected={dateInfo.specialist.id ? false : true}
-                    >
-                      {" "}
-                      -- Especialista--{" "}
-                    </option>
-                  </select>
+                  <></>
                 )}
               </section>
             )}
@@ -355,9 +320,10 @@ console.log(clearService);
               setRefrescarCita={setRefrescarCita}
               chosenClient={chosenClient}
               setSpecialty={setSpecialty}
-              setSelectServices={setSelectServices}
-              setChosenClient={setChosenClient}
-              setClearService={setClearService}
+              setShowAppointmentModal={setShowAppointmentModal}
+              setShowEditAppointment={setShowEditAppointment}
+              showEditAppointment={showEditAppointment}
+              dateInfo={dateInfo}
             />
             <div>
               {user.role === "especialista" ? null : (

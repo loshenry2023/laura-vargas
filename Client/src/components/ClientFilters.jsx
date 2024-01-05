@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
 
-const ClientFilters = ({setOrder, nameOrLastName, setAttribute, setNameOrLastName, setPage, setBirthdaysMonth}) => {
+const ClientFilters = ({setOrder, nameOrLastName, setAttribute, setNameOrLastName, setPage, setBirthdaysMonth, setCreateDateStart, setCreateDateEnd}) => {
 
   const location = useLocation()
 

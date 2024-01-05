@@ -29,22 +29,20 @@ const Calendar = ({
   branches,
   refrescarCita,
   setRefrescarCita,
-  chosenClient,
   user,
-  setSelectServices,
-  setChosenClient,
-  setClearService
+  dateInfo,
+  setShowEditAppointment,
+  showEditAppointment
 }) => {
   const dispatch = useDispatch();
 
   const [date, setDate] = useState({});
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
   const [citaId, setCitaId] = useState(null);
-  const [showEditAppointment, setShowEditAppointment] = useState(false);
+  
   const days = ["D", "L", "M", "M", "J", "V", "S"];
   const currentDate = dayjs();
   const workingBranch = useSelector((state) => state?.workingBranch);
-  console.log(workingBranch)
   const specialists = useSelector((state) => state?.specialists);
   const workingBranchID = workingBranch.id;
   const branchWorking= workingBranch.branchName;
@@ -124,15 +122,8 @@ const Calendar = ({
     setLoading(false);
     if (showEditAppointment) {
       setSpecialty(date.User.Specialties[0].specialtyName);
-      setSelectServices(false);
-      setClearService(false)
     }else {
-      setSelectServices(true);
-      setChosenClient({
-        name: "Elige",
-    lastName: "cliente",
-      });
-      setSpecialty("noneSpecialty");
+    setSpecialty(dateInfo.service.specialtyName);
     }
     setEffectControl(false);
   }, [
@@ -147,7 +138,6 @@ const Calendar = ({
 
   const handleShowEditAppointment = (date) => {
     const parsedDate = JSON.parse(date);
-
     setDate(parsedDate);
     setShowEditAppointment(true);
   };
@@ -521,7 +511,6 @@ const Calendar = ({
           users={users}
           setRefrescarCita={setRefrescarCita}
           refrescarCita={refrescarCita}
-          chosenClient={chosenClient}
           setSpecialty={setSpecialty}
         />
       )}
