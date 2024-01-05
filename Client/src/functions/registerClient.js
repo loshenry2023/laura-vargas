@@ -5,6 +5,15 @@ const validateClientInput = (data) => {
   const phonePattern = /^[0-9]{8,15}$/;
   const numberPattern = /^\d+$/;
 
+  function isDateHigherThanToday(inputDate) {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const inputDateObject = new Date(inputDate);
+    inputDateObject.setHours(0, 0, 0, 0);
+  
+    return inputDateObject > today;
+  }
+
   if (!data.email) {
     validationErrors.email = "Ingrese un correo electrónico";
   } else if (!emailPattern.test(data.email)) {
@@ -33,6 +42,10 @@ const validateClientInput = (data) => {
     null
    }  if (data.phoneNumber2 && !phonePattern.test(data.phoneNumber2)) {
     validationErrors.phoneNumber2 = "Ingrese teléfono válido, 8-15 dig";
+  }
+
+  if (isDateHigherThanToday(data.birthday)) {
+    validationErrors.birthday = "Ingrese una fecha anterior al día de hoy"
   }
 
   if (data.id_pers.length === 0) {
