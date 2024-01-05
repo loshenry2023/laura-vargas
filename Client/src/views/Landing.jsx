@@ -10,8 +10,10 @@ import { setLogout } from "../redux/actions.js";
 //Variables de entorno
 import getParamsEnv from "../functions/getParamsEnv.js";
 const { LOGIN, HOME, AGENDA, ROOT } = getParamsEnv();
+
 // assets and icons
 import { IoExitOutline } from "react-icons/io5";
+import { PiUserSwitchFill } from "react-icons/pi";
 
 const Landing = () => {
   const dispatch = useDispatch();
@@ -84,10 +86,11 @@ const Landing = () => {
             >
               {hayUser ? `${user.name} ${user.lastName}` : "Iniciar sesión"}
             </li>
+            <li>
             {hayUser && (
-              <IoExitOutline className="h-6 w-6 " onClick={handleLogout} />
+              <PiUserSwitchFill className="h-10 w-10 cursor-pointer " onClick={handleLogout} />
             )}
-
+            </li>
           </ul>
         </nav>
         <div>

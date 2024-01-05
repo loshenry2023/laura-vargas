@@ -161,7 +161,7 @@ const EditClient = ({setShowEditModal, clientInfo, setClientRender,clientRender,
                                 <label className='mb-2 text-sm font-bold text-gray-900 dark:text-darkText'>ID de persona</label>
                                 <input
                                     placeholder="ID"
-                                    className={`border border-black p-2 rounded w-full ${errors.id_pers !== undefined && "rder-2  border-red-500"}`}
+                                    className={`border border-black p-2 rounded w-full ${errors.id_pers !== undefined && "border-2  border-red-500"}`}
                                     onChange={handleChange}
                                     type="text"
                                     name="id_pers"
@@ -175,7 +175,7 @@ const EditClient = ({setShowEditModal, clientInfo, setClientRender,clientRender,
                                 <label className='pl-1 text-sm font-bold dark:text-darkText'>Telefono</label>
                                 <input
                                     placeholder="Telefono 1"
-                                    className={`border border-black p-2 rounded w-full ${errors.phoneNumber1 !== undefined && "rder-2  border-red-500"}`}
+                                    className={`border border-black p-2 rounded w-full ${errors.phoneNumber1 !== undefined && "border-2  border-red-500"}`}
                                     onChange={handleChange}
                                     type="text"
                                     name="phoneNumber1"
