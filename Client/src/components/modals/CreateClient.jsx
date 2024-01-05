@@ -29,6 +29,7 @@ const CreateClient = ({setShowClientCreateModal, setActivarNuevoCliente,activarN
         id_pers: "",
         phoneNumber1: "",
         phoneNumber2: "",
+        birthday: "",
         image: "https://res.cloudinary.com/doqyrz0sg/image/upload/v1702302836/varpjl2p5dwvpwbmdiui.png",
         token: token,
       });
@@ -87,6 +88,7 @@ const CreateClient = ({setShowClientCreateModal, setActivarNuevoCliente,activarN
           lastName: client.lastName,
           phone1: client.phoneNumber1,
           phone2: client.phoneNumber2,
+          birthday: client.birthday,
           image: client.image,
           token: client.token,
         }
@@ -108,6 +110,7 @@ const CreateClient = ({setShowClientCreateModal, setActivarNuevoCliente,activarN
                 lastName: "",
                 phone1: "",
                 phone2: "",
+                birthday: "",
                 image: "",
                 id_pers: "",
                 token: "",
@@ -121,7 +124,6 @@ const CreateClient = ({setShowClientCreateModal, setActivarNuevoCliente,activarN
       }
     }
 }
-
 
     return (
         <>
@@ -211,6 +213,17 @@ const CreateClient = ({setShowClientCreateModal, setActivarNuevoCliente,activarN
                                 {errors.phoneNumber2 !== "" && <p className="text-xs text-red-500">{errors.phoneNumber2}</p>}
                             </div>
                         </div>
+                        <div className="first-letter:grid grid-cols-1 mb-2">
+                            <label className='pl-1 text-sm font-bold dark:text-darkText'>Fecha de nacimiento</label>
+                            <input
+                                placeholder="Fecha de nacimiento"
+                                className="border border-black p-2 rounded w-full"
+                                onChange={handleChange}
+                                type="date"
+                                name="birthday"
+                                value={client.birthday}
+                            />
+                        </div>
                         <div>
                         <div className="mt-2 grid grid-cols-1 place-items-center">
                             <UploadWidget setUserData={setClient} />
@@ -219,12 +232,14 @@ const CreateClient = ({setShowClientCreateModal, setActivarNuevoCliente,activarN
                             </div>
                             </div>
                         </div>
-                        <button
-                            type="submit"
-                            className="mt-2 px-4 py-2 w-full rounded bg-primaryPink shadow shadow-black text-black hover:bg-blue-600 focus:outline-none transition-colors dark:text-darkText dark:bg-darkPrimary dark:hover:bg-blue-600"
-                        >
-                            Crear nuevo cliente
-                        </button>
+                        <div className="flex justify-center items-center">
+                            <button
+                                type="submit"
+                                className="mt-2 px-4 py-2 w-fit rounded bg-primaryPink shadow shadow-black text-black hover:bg-blue-600 focus:outline-none transition-colors dark:text-darkText dark:bg-darkPrimary dark:hover:bg-blue-600"
+                            >
+                                Crear nuevo cliente
+                            </button>
+                        </div>
                         </form>
                     </div>
                 </div>

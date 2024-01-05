@@ -57,8 +57,6 @@ const App = () => {
         <Route path={ERROR} element={<Error />} />*/}
         <Route path="consumables" element={<Consumables />} />
         <Route path="historyprice/:productId" element={<ConsHistoryPrice />} />
-        <Route path="newconsumable" element={<NewConsumableForm />} />
-        <Route path="editproduct/:code" element={<EditConsumableForm />} />
         <Route path="*" element={<Error />} />
       </Routes>
     </div>

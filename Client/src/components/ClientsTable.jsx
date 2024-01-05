@@ -4,6 +4,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 
 //variables de entorno
 import getParamsEnv from "../functions/getParamsEnv";
+import converterGMT from '../functions/converteGMT';
 const { CLIENTDETAILBASE } = getParamsEnv();
 
 const ClientsTable = ({clients, setChosenClient, setShowClientListModal}) => {
@@ -18,7 +19,7 @@ const ClientsTable = ({clients, setChosenClient, setShowClientListModal}) => {
                 <thead className="bg-secondaryPink text-black text-left dark:bg-darkPrimary dark:text-darkText dark:border-grey">
                 {location.pathname !== "/agenda" ?
                   <tr>
-                                        <th scope="col" className="px-4 py-3">
+                    <th scope="col" className="px-4 py-3">
                       Fecha de creación
                     </th>
                     <th scope="col" className="px-4 py-3">
@@ -39,6 +40,9 @@ const ClientsTable = ({clients, setChosenClient, setShowClientListModal}) => {
                     <th scope="col" className="px-4 py-3">
                       Teléfono 2
                     </th>
+                    <th scope="col" className="px-4 py-3">
+                      Fecha de nacimiento
+                    </th>
                   </tr> : 
                    <tr>
                    <th scope="col" className="px-4 py-3">
@@ -55,6 +59,9 @@ const ClientsTable = ({clients, setChosenClient, setShowClientListModal}) => {
                    </th>
                    <th scope="col" className="px-4 py-3">
                      Teléfono 1
+                   </th>
+                   <th scope="col" className="px-4 py-3">
+                     Fecha de nacimiento
                    </th>
                  </tr>}
                 </thead>
@@ -88,6 +95,7 @@ const ClientsTable = ({clients, setChosenClient, setShowClientListModal}) => {
                           <td className="px-4 py-4">{fila.phoneNumber2 ? fila.phoneNumber2 : "-"}</td>
                         </>
                       ) : null}
+                      <td className="px-4 py-4">{fila.birthday ? converterGMT(fila.birthday).split(" ")[0]: "-"}</td>
                     </tr>
                   ))}
                 </tbody>

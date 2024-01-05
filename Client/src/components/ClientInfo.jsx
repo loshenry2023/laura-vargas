@@ -21,6 +21,7 @@ import axios from "axios";
 import ToasterConfig from "./Toaster.jsx";
 import { toast } from "react-hot-toast";
 import EditClient from "./modals/EditClient.jsx";
+import converterGMT from "../functions/converteGMT.js";
 const { CLIENTSPROFILES } = getParamsEnv();
 
 const ClientInfo = () => {
@@ -110,6 +111,7 @@ const ClientInfo = () => {
                 <p className="text-md tracking-wide font-light dark:text-darkText"> <span className="font-medium dark:text-darkText">Nombre:</span> {clientInfo.name}</p>
                 <p className="text-md tracking-wide font-light dark:text-darkText"> <span className="font-medium dark:text-darkText">Apellido:</span> {clientInfo.lastName}</p>
                 <p className="text-md tracking-wide font-light dark:text-darkText"><span className="font-medium dark:text-darkText">Email:</span> {clientInfo.email}</p>
+                <p className="text-md tracking-wide font-light dark:text-darkText"> <span className="font-medium dark:text-darkText">Fecha de nacimiento:</span> {clientInfo.birthday ? <span className='font-light'>{converterGMT(clientInfo.birthday).split(" ")[0]} </span> : <span className='font-light'> - </span>}</p>
                 <p className="text-md tracking-wide font-light dark:text-darkText"> <span className="font-medium dark:text-darkText">ID:</span> {clientInfo.id_pers ? <span className='font-light'>{clientInfo.id_pers} </span> : <span className='font-light'> - </span>}</p>
                 <p className="text-md tracking-wide font-light dark:text-darkText"><span className="font-medium dark:text-darkText">Teléfono:</span> {clientInfo.phoneNumber1}</p>
                 <p className="text-md tracking-wide font-light dark:text-darkText"><span className="font-medium dark:text-darkText">Teléfono secundario: </span> {clientInfo.phoneNumber2 ? clientInfo.phoneNumber2 : "-"}</p>

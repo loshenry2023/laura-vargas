@@ -12,6 +12,7 @@ import "./loading.css"
 //icons
 import { IoPersonAddOutline } from "react-icons/io5";
 import Pagination from "../components/Pagination";
+import Restricted from "./Restricted";
 
 function UserProfiles() {
   const dispatch = useDispatch();
@@ -99,7 +100,7 @@ function UserProfiles() {
                     }}
                     type="date"
                     defaultValue=""
-                    className="border rounded-md border-black px-2 text-sm dark:text-darkText dark:bg-darkPrimary dark:asd"
+                    className="border rounded-md border-black px-2 text-sm dark:invert"
                   />
                 </div>
                 <div className="flex gap-2">
@@ -110,7 +111,7 @@ function UserProfiles() {
                     }}
                     type="date"
                     defaultValue=""
-                    className="border rounded-md border-black px-2 text-sm  dark:text-darkText dark:bg-darkPrimary"
+                    className="border rounded-md border-black px-2 text-sm  dark:invert"
                   />
                 </div>
               </div>
@@ -217,13 +218,7 @@ function UserProfiles() {
             </section>
             <Pagination page={page} setPage={setPage} size={size} setSize={setSize} count={count}/>
           </div>)) : (
-            <div className="flex flex-col gap-10 w-full justify-center items-center dark:bg-darkBackground">
-            <div>
-            <h1 className="text-3xl tracking-wide text-center font-fontTitle  dark:text-darkText">Acceso restringido </h1>
-            <h5 className="text-2xl tracking-wide text-center text-gray-700 dark:text-darkText">Lo sentimos pero no tienes acceso a esta página.</h5>
-            </div>
-          <img src="https://cdn-icons-png.flaticon.com/512/345/345535.png" alt="denied-access" className="h-96 dark:invert"/>
-        </div>)}
+           <Restricted />)}
        </div> 
       </div>
   )
