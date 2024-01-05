@@ -96,9 +96,15 @@ const DateDetail = () => {
 
 
     const handleToggleConsentVisibility = () => {
-        setIsConsentVisible(!isConsentVisible);
+        if (isConsentVisible) {
+            setIsConsentVisible(false);
+            setConsentUrl("");
+            setConsent("https://res.cloudinary.com/doyafxwje/image/upload/v1703977059/Icons/pdf_bq1qdf.png");
+            setConsentLoaded(false);
+        } else {
+            setIsConsentVisible(true);
+        }
     };
-
     const finishConfirmed = (confirmed) => {
         if (confirmed) {
             hideDeleteModal();
@@ -212,8 +218,9 @@ const DateDetail = () => {
     checked={isConsentVisible}
     onChange={handleToggleConsentVisibility}
     className="form-checkbox h-4 w-4 text-primaryPink"
+    
 />
-            <span className="ml-2">Activar conformidad</span>
+            <span className="ml-2">Requiere conformidad</span>
         </div>
     );
 
