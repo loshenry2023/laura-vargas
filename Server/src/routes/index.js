@@ -111,9 +111,9 @@ router.put("/catgastos/:id", putCatHandler); // edita una categoría
 router.post("/deletecatgastos/:id", deleteCatHandler); //  elimina una categoría
 router.post("/catgastos", getCatHandler); // obtiene y devuelve todas las categorías
 // inventario:
-router.get("/products", productHandlers.getAllProductsHandler);
+router.post("/products", productHandlers.getAllProductsHandler);
 router.get("/product-prices", productHandlers.getProductPrices);
-router.post("/products", productHandlers.createProduct);
+router.post("/productsCreate", productHandlers.createProduct);
 router.put("/products/:id", productHandlers.editProduct);
 router.put("/products/:id/price", productHandlers.updateProductPrice);
 router.get("/products/:productId/prices-history", productHandlers.getProductPricesHistory);

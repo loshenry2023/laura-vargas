@@ -6,7 +6,7 @@ export const UploadWidgetConsent = ({ isConsentVisible, setConsent, setConsentLo
   const cloudinaryRef = useRef();
   const widgetRef = useRef();
 
-  console.log(isConsentVisible)
+  //console.log(isConsentVisible)
 
   useEffect(() => {
     cloudinaryRef.current = window.cloudinary;

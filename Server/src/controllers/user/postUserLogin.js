@@ -28,7 +28,9 @@ const postUserLogin = async (req, res) => {
         }
         // Actualizo el token:
         existingUser.token = idUser;
-
+        // Establezco la hora de login, para calcular el tiempo de inactividad en los próximos llamados:
+        const currentTime = new Date();
+        existingUser.lastUse = currentTime;
         await existingUser.save();
         // Obtengo las sedes relacionadas:
         const userBranches = existingUser.Branches.map(branch => ({ id: branch.id, branchName: branch.branchName }));

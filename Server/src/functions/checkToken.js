@@ -11,13 +11,29 @@ async function checkToken(tokenRec, clearToken = false) {
       // Además de encontrarlo se pide que lo elimine. Se aplica para logout:
       if (clearToken) {
         existingUsr.token = "";
+        existingUsr.lastUse = "1900-01-01";
         await existingUsr.save();
-        return { exist: true, cleared: true };
+        return { exist: true, cleared: true, code: 200 };
       } else {
-        return { exist: true, id: existingUsr.id, role: existingUsr.role };
+        // Verifico si el token sigue siendo vigente, comparando por tiempo transcurrido desde su último uso:
+        const currentTime = new Date();
+        const lastUseTime = existingUsr.lastUse;
+        // Calculo la diferencia en minutos:
+        const minutesDifference = Math.floor(
+          (currentTime - lastUseTime) / (1000 * 60)
+        );
+        // Verifico si pasaron 18 hs. desde el último uso:
+        if (minutesDifference > 1080) {
+          return { exist: false, mensaje: 'La sesión expiró', code: 403 };
+        }
+        //console.log("bien. Now ", currentTime, " lastUseTime: ", lastUseTime, " - dif ", minutesDifference);
+        // Actualizo la fecha y hora del último uso:
+        existingUsr.lastUse = currentTime;
+        await existingUsr.save();
+        return { exist: true, id: existingUsr.id, role: existingUsr.role, code: 200 };
       }
     } else {
-      return { exist: false };
+      return { exist: false, mensaje: 'Sin permiso', code: 401 };
     }
   } catch (error) {
     showLog(`Error validating token: ${error}`);
