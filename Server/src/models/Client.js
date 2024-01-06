@@ -1,14 +1,5 @@
 const { DataTypes } = require("sequelize");
 
-function extractBirthdayInfo(Client) {
-  const fechaNacimiento = Client.birthday;
-  if (fechaNacimiento) {
-    Client.dayBirthday = fechaNacimiento.getDate();
-    Client.monthBirthday = fechaNacimiento.getMonth() + 1; // Obtén el mes y suma 1 porque los meses en JavaScript son 0-indexados
-  }
-  return
-}
-
 module.exports = (sequelize) => {
   sequelize.define("Client", {
     id: {
@@ -63,15 +54,5 @@ module.exports = (sequelize) => {
     },
   }, {
     paranoid: true, // Habilita eliminación suave
-  }, {
-    hooks: {
-      beforeCreate: (Client, options) => {
-        extractBirthdayInfo(Client);
-      },
-      beforeUpdate: (Client, options) => {
-        extractBirthdayInfo(Client);
-      }
-    }
   });
-  
 };

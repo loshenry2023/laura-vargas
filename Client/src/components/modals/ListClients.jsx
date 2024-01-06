@@ -74,9 +74,9 @@ const ListClients = ({ setShowClientListModal, setChosenClient }) => {
             <IoClose className='h-6 w-6 mt-0.5 cursor-pointer hover:scale-125 dark:text-darkText' onClick={() => setShowClientListModal(false)} />
           </>
         </div>
-        <ClientFilters setNameOrLastName={setNameOrLastName} nameOrLastName={nameOrLastName} setAttribute={setAttribute} setOrder={setOrder} setPage={setPage} setSize={setSize} />
+          <ClientFilters setNameOrLastName={setNameOrLastName} nameOrLastName={nameOrLastName} setAttribute={setAttribute} setOrder={setOrder} setPage={setPage} setSize={setSize} />
         <div>
-          <ClientsTable setChosenClient={setChosenClient} setShowClientListModal={setShowClientListModal} clients={clients} />
+          <ClientsTable count={count} setChosenClient={setChosenClient} setShowClientListModal={setShowClientListModal} clients={clients} />
         </div>
         <Pagination page={page} setPage={setPage} size={size} setSize={setSize} count={count} />
       </div>

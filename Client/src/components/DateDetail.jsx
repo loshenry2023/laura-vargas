@@ -190,7 +190,6 @@ const DateDetail = () => {
                 token: token
             }
 
-            console.log(dateData, "mandando al back")
 
             const response = await axios.post(`${API_URL_BASE}/newhistoricproc`, dateData)
             if (response.data.created === "ok") {
