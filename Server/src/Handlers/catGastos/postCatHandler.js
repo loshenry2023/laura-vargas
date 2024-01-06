@@ -10,7 +10,11 @@ const postCatHandler = async (req, res) => {
     // Verifico token. Sólo un superAdmin puede agregar:
     if (!token) { throw Error("Se requiere token"); }
     const checked = await checkToken(token);
-    if (!checked.exist || checked.role !== "superAdmin") {
+    if (!checked.exist) {
+      showLog(checked.mensaje);
+      return res.status(checked.code).send(checked.mensaje);
+    }
+    if (checked.role !== "superAdmin") {
       showLog(checked.role !== "superAdmin" ? `Wrong role.` : `Wrong token.`);
       return res.status(401).send(`Sin permiso.`);
     }

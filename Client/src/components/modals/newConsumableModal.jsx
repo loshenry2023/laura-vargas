@@ -56,10 +56,10 @@ function NewConsumableModal({ onClose }) {
 
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
-      console.error("Hubo errores de validación", validationErrors);
+      //console.error("Hubo errores de validación", validationErrors);
     } else {
       if (!selectedBranch) {
-        console.error("error con la sucursal");
+        //console.error("error con la sucursal");
         return;
       }
 
@@ -68,10 +68,10 @@ function NewConsumableModal({ onClose }) {
           API_URL_BASE + "/products",
           newConsumable
         );
-        console.log(
-          "chequear la respuesta tiene que ser igual a created",
-          response
-        );
+        // console.log(
+        //   "chequear la respuesta tiene que ser igual a created",
+        //   response
+        // );
         if (response.statusText === "Created") {
           setIsCodeInUse(false);
           toast.success("Producto creado con éxito");
@@ -116,9 +116,8 @@ function NewConsumableModal({ onClose }) {
                   Nombre:
                 </label>
                 <input
-                  className={`border p-2 rounded w-full ${
-                    errors.productName ? "border-red-500" : "border-black"
-                  }`}
+                  className={`border p-2 rounded w-full ${errors.productName ? "border-red-500" : "border-black"
+                    }`}
                   type="text"
                   value={newConsumable.productName}
                   onChange={(e) =>
@@ -134,11 +133,10 @@ function NewConsumableModal({ onClose }) {
                   Código del producto:
                 </label>
                 <input
-                  className={`border-2 p-2 rounded w-full ${
-                    errors.productCode || isCodeInUse
+                  className={`border-2 p-2 rounded w-full ${errors.productCode || isCodeInUse
                       ? "border-red-500"
                       : "border-black"
-                  }`}
+                    }`}
                   type="text"
                   value={newConsumable.productCode}
                   onChange={(e) =>
@@ -155,9 +153,8 @@ function NewConsumableModal({ onClose }) {
                   Descripción:
                 </label>
                 <input
-                  className={`border p-2 rounded w-full ${
-                    errors.description ? "border-red-500" : "border-black"
-                  }`}
+                  className={`border p-2 rounded w-full ${errors.description ? "border-red-500" : "border-black"
+                    }`}
                   type="text"
                   value={newConsumable.description}
                   onChange={(e) =>
@@ -173,9 +170,8 @@ function NewConsumableModal({ onClose }) {
                   Proveedor:
                 </label>
                 <input
-                  className={`border p-2 rounded w-full ${
-                    errors.supplier ? "border-red-500" : "border-black"
-                  }`}
+                  className={`border p-2 rounded w-full ${errors.supplier ? "border-red-500" : "border-black"
+                    }`}
                   type="text"
                   value={newConsumable.supplier}
                   onChange={(e) =>
@@ -191,9 +187,8 @@ function NewConsumableModal({ onClose }) {
                   Cantidad:
                 </label>
                 <input
-                  className={`border p-2 rounded w-full ${
-                    errors.amount ? "border-red-500" : "border-black"
-                  }`}
+                  className={`border p-2 rounded w-full ${errors.amount ? "border-red-500" : "border-black"
+                    }`}
                   type="number"
                   value={newConsumable.amount}
                   onChange={(e) =>
@@ -209,9 +204,8 @@ function NewConsumableModal({ onClose }) {
                   Precio:
                 </label>
                 <input
-                  className={`border p-2 rounded w-full ${
-                    errors.price ? "border-red-500" : "border-black"
-                  }`}
+                  className={`border p-2 rounded w-full ${errors.price ? "border-red-500" : "border-black"
+                    }`}
                   type="number"
                   value={newConsumable.price}
                   onChange={(e) =>
