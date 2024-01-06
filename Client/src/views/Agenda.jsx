@@ -51,7 +51,6 @@ const Agenda = () => {
   const [showClientListModal, setShowClientListModal] = useState(false);
   const [showAppointmentModal, setShowAppointmentModal] = useState(false);
   const [showEditAppointment, setShowEditAppointment] = useState(false);
-  console.log(showAppointmentModal);
 
 
   const [dateInfo, setDateInfo] = useState({
