@@ -219,8 +219,8 @@ const Agenda = () => {
           <div
             className={
               user.role !== "especialista"
-                ? "w-full flex flex-col m-10 gap-5 justify-between items-center 2xl:h-[calc(100vh-220px)]"
-                : "w-full flex flex-col m-10 gap-5 items-center 2xl:h-[calc(100vh-220px)]"
+                ? "w-fit flex flex-col mx-auto m-10 gap-5 2xl:h-[calc(100vh-220px)]"
+                : "w-fit flex flex-col mx-auto m-10 gap-5 items-center 2xl:h-[calc(100vh-220px)]"
             }
           >
             <h1
@@ -230,11 +230,13 @@ const Agenda = () => {
                   : "items-start text-2xl underline underline-offset-4 mb-10 tracking-wide font-fontTitle dark:text-beige sm:text-left"
               }
             >
-              Agenda
+              Gestión de citas
             </h1>
             {user.role === "especialista" ? null : (
-              <section className="w-96 flex flex-col flex-wrap items-center justify-center gap-5 mb-10 md:flex-row sm:w-full">
-                <div className="mt-5 flex flex-row gap-5 sm:mt-0">
+              <section className="shadow shadow-black rounded-xl p-5 mb-10 bg-secondaryPink dark:bg-darkPrimary dark:shadow-darkText">
+                <h1 className="text-xl dark:text-darkText mb-2 ">Agendar cita </h1>
+                <div className="flex flex-col flex-wrap items-center gap-5 md:flex-row sm:w-fit">
+                <div className="mt-5 flex flex-row gap-5 sm:mt-0" >
                   <FaPlusCircle
                     className="mt-1.5 cursor-pointer dark:text-darkText"
                     onClick={() => setShowClientListModal(true)}
@@ -245,7 +247,7 @@ const Agenda = () => {
                       id=""
                       placeholder={`${chosenClient.name} ${chosenClient.lastName}`}
                       disabled
-                      className="w-60 resize-y border mr-8 border-black rounded-md text-md dark:text-darkText dark:bg-darkPrimary md:w-fit md:mr-0"
+                      className="w-60 bg-white resize-y border mr-8 border-black rounded-md text-md md:w-fit md:mr-0 dark:text-darkText dark:bg-darkPrimary dark:border-darkText "
                     />
                   
                 </div>
@@ -259,7 +261,7 @@ const Agenda = () => {
                   <select
                     name="service"
                     id=""
-                    className="w-60 border border-black rounded-md text-md dark:text-darkText dark:bg-darkPrimary md:w-fit"
+                    className="w-60 border border-black rounded-md text-md dark:text-darkText dark:bg-darkPrimary dark:border-darkText md:w-fit"
                     onChange={handleChange}
                   >
                     <option
@@ -286,7 +288,7 @@ const Agenda = () => {
                     onChange={handleChange}
                     name="specialist"
                     id=""
-                    className="w-60 border border-black rounded-md text-md dark:text-darkText dark:bg-darkPrimary md:w-fit"
+                    className="w-60 border border-black rounded-md text-md dark:text-darkText dark:bg-darkPrimary dark:border-darkText  md:w-fit"
                   >
                     <option
                       defaultValue={dateInfo.specialist.id ? false : true}
@@ -308,6 +310,7 @@ const Agenda = () => {
                 ) : (
                   <></>
                 )}
+                </div>
               </section>
             )}
             <Calendar
@@ -325,12 +328,12 @@ const Agenda = () => {
               showEditAppointment={showEditAppointment}
               dateInfo={dateInfo}
             />
-            <div>
+            <div className="h-full flex flex-row justify-center xl:items-end">
               {user.role === "especialista" ? null : (
                 <button
                   onClick={handleAppointmentModal}
                   disabled={!isFormCompleted}
-                  className={`rounded mt-10 px-6 py-2 cursor-pointer ${
+                  className={`rounded mt-auto px-6 py-2 cursor-pointer ${
                     isFormCompleted ? "bg-primaryPink" : "bg-gray-300"
                   } shadow shadow-black text-black ${
                     isFormCompleted ? "hover:bg-blue-600" : "cursor-not-allowed"

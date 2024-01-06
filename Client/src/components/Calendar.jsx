@@ -252,28 +252,10 @@ const Calendar = ({
               )}
             </div>
           </div>
-          {user.role === "especialista" ? (
-            <></>
-          ) : (
-            <div>
-              <select
-                name="specialists"
-                id=""
-                className="w-60 border border-black rounded-md text-md dark:text-darkText dark:bg-darkPrimary md:w-fit"
-                onChange={(e) => {setUserId(e.target.value), setClearService(true)}}
-              >
-                <option value=""> Todos los especialistas </option>
-                {specialists.map((specialis, index) => (
-                  <option key={index} value={specialis.id}>
-                    {`${specialis.name} ${specialis.lastName}`}
-                  </option>
-                ))}
-              </select>
-            </div>
-          )}
-          <div className="w-72 sm:px-5 overflow-auto sm:w-96 sm:h-96 md:w-[550px]">
+
+          <div className="flex flex-col gap-2 w-72 sm:px-5 overflow-auto sm:w-96 sm:h-96 md:w-[600px]">
             {/* // se pued eponer mas con h-full // */}
-            <h1 className="font-semibold mb-2 dark:text-darkText">
+            <h1 className="font-semibold dark:text-darkText">
               {capitalizedDate(formatedDate)}
             </h1>
             <div className="flex flex-row gap-2">
@@ -392,8 +374,29 @@ const Calendar = ({
                 2:00 PM - 7:00 PM
               </button>
             </div>
+            <div>
+            {user.role === "especialista" ? (
+              <></>
+            ) : (
+              <div>
+                <select
+                  name="specialists"
+                  id=""
+                  className="w-60 border border-black rounded-md text-md dark:text-darkText dark:bg-darkPrimary md:w-fit"
+                  onChange={(e) => {setUserId(e.target.value), setClearService(true)}}
+                >
+                  <option value=""> -- Mostrar agenda especialista --  </option>
+                  {specialists.map((specialis, index) => (
+                    <option key={index} value={specialis.id}>
+                      {`${specialis.name} ${specialis.lastName}`}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            )}
+              </div>
             {calendar.length === 0 && (
-              <h4 className="mt-2 font-medium text-xl dark:text-darkText">
+              <h4 className="font-medium text-xl dark:text-darkText">
                 Sin turnos hasta el momento
               </h4>
             )}
