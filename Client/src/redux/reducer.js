@@ -99,11 +99,11 @@ const rootReducer = (
 
     //! Trae todos los usuarios especialistas
     case GET_SPECIALISTS:
-      const getspecialists= {
+      const getspecialists = {
         ...state,
         specialists: payload,
       };
-     localStorage.setItem("myAppReduxState", JSON.stringify(getspecialists));
+      localStorage.setItem("myAppReduxState", JSON.stringify(getspecialists));
       return getspecialists;
 
     //! Trae el calendar
@@ -221,6 +221,7 @@ const rootReducer = (
         ...state,
         loading: true,
         error: null,
+        products: null,
       };
 
     case GET_PRODUCTS_SUCCESS:

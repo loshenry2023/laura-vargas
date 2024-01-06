@@ -98,7 +98,7 @@ const CreateAppointment = ({ setShowAppointmentModal, setChosenClient, dateInfo,
         const formattedDateTo = `${AppointmentInfo.date} ${AppointmentInfo.date_to}`;
 
 
-        console.log("al grabar ", formattedDateFrom)
+        //console.log("al grabar ", formattedDateFrom)
 
 
         try {

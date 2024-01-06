@@ -189,7 +189,7 @@ export const getUsers = (
   };
 };
 
-export const getspecialists = ( branchWorking,
+export const getspecialists = (branchWorking,
   token
 ) => {
   const endPoint = API_URL_BASE + "/specialists?";
@@ -324,7 +324,9 @@ export const getProductsFailure = (error) => ({
   payload: error,
 });
 
+
 export const getProducts = (
+  token,
   productName,
   selectedBranch,
   page,
@@ -333,26 +335,33 @@ export const getProducts = (
   code,
   amount,
   orderBy,
-  productCode // Asegúrate de colocar productCode aquí
+  productCode,
+
 ) => {
+  // console.log("productName ", productName);
+  // console.log("selectedBranch ", selectedBranch);
+  // console.log("page ", page);
+  // console.log("size ", size);
+  // console.log("description ", description);
+  // console.log("code ", code);
+  // console.log("amount ", amount);
+  // console.log("orderBy ", orderBy);
+  // console.log("productCode ", productCode);
   return async (dispatch) => {
     dispatch(getProductsRequest());
-
     try {
-      const response = await axios.get(API_URL_BASE + "/products", {
-        params: {
-          productName,
-          description,
-          code,
-          amount,
-          order: orderBy,
-          page,
-          size,
-          branch: selectedBranch,
-          productCode,
-        },
+      const response = await axios.post(API_URL_BASE + "/products", {
+        productName,
+        description,
+        code,
+        amount,
+        order: orderBy,
+        page,
+        size,
+        branch: selectedBranch,
+        productCode,
+        token
       });
-
       dispatch(getProductsSuccess(response.data));
     } catch (error) {
       dispatch(getProductsFailure(error.message));
@@ -382,7 +391,7 @@ export const createProduct = (newProductData) => {
       const state = getState();
 
       const response = await axios.post(
-        API_URL_BASE + "/products",
+        API_URL_BASE + "/productsCreate",
         newProductData
       );
       dispatch(createProductSuccess(response.data));

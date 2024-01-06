@@ -252,7 +252,6 @@ const Calendar = ({
               )}
             </div>
           </div>
-
           <div className="flex flex-col gap-2 w-72 sm:px-5 overflow-auto sm:w-96 sm:h-96 md:w-[600px]">
             {/* // se pued eponer mas con h-full // */}
             <h1 className="font-semibold dark:text-darkText">

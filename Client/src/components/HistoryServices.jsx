@@ -21,7 +21,7 @@ const HistoryServices = ({ history }) => {
   //   return formattedDate
   // }  
 
-  console.log(history)
+  //console.log(history)
 
   const historySorted = history.sort(
     (a, b) => new Date(b.date) - new Date(a.date)

@@ -146,14 +146,27 @@ const getReg = async (
             "birthday",
             "monthBirthday"
           ],
-          where: {
+          where: birthdaysMonth ? {
             [Op.or]: [
               //filtro por nombres
 
               { name: { [Op.iLike]: `%${nameOrLastName}%` } },
               { lastName: { [Op.iLike]: `%${nameOrLastName}%` } },
             ],
+            //filtro por mes de cumpleaños
             monthBirthday: { [Op.iLike]: `%${birthdaysMonth}%` },
+            createdAt: {
+              //para la fecha de creación
+              [Op.gte]: createDateStart || "1900-01-01",
+              [Op.lte]: createDateEnd || new Date(),
+            },
+          } : {
+            [Op.or]: [
+              //filtro por nombres
+
+              { name: { [Op.iLike]: `%${nameOrLastName}%` } },
+              { lastName: { [Op.iLike]: `%${nameOrLastName}%` } },
+            ],
             createdAt: {
               //para la fecha de creación
               [Op.gte]: createDateStart || "1900-01-01",

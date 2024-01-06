@@ -10,8 +10,8 @@ const sendMailHandler = async (req, res) => {
     if (!token) { throw Error("Se requiere token"); }
     const checked = await checkToken(token);
     if (!checked.exist) {
-      showLog(`Wrong token.`);
-      return res.status(401).send(`Sin permiso.`);
+      showLog(checked.mensaje);
+      return res.status(checked.code).send(checked.mensaje);
     }
     const resp = await sendMail(req.body);
     if (resp.sent === 'ok') {

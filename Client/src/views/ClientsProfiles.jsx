@@ -24,14 +24,14 @@ const ClientsProfiles = () => {
 
   const [nameOrLastName, setNameOrLastName] = useState("");
   const [birthdaysMonth, setBirthdaysMonth] = useState("");
-  console.log(birthdaysMonth)
+  //console.log(birthdaysMonth)
   const [attribute, setAttribute] = useState("lastName");
   const [order, setOrder] = useState("asc");
   const [page, setPage] = useState(0);
   const [size, setSize] = useState(10);
   const [createDateStart, setCreateDateStart] = useState("");
   const [createDateEnd, setCreateDateEnd] = useState("");
-  
+
   const [showClientFormModal, setShowClientCreateModal] = useState(false);
   const [activarNuevoCliente, setActivarNuevoCliente] = useState(false);
 
@@ -75,31 +75,31 @@ const ClientsProfiles = () => {
         {loading ? (
           <Loader />
         ) : (
-        <div className="flex flex-col mt-10 gap-5 w-2/3 mx-auto">
-          <div className="flex flex-row gap-2">
-            <h1 className="text-2xl underline underline-offset-4 tracking-wide text-center font-fontTitle dark:text-beige sm:text-left">
-              {" "}
-              Clientes{" "}
-            </h1>
-            {user.role !== "especialista" ?
-            <IoPersonAddOutline className='h-6 w-6 mt-0.5 cursor-pointer dark:text-darkText' onClick={handleClientFormModal}/> : null
-            }
+          <div className="flex flex-col mt-10 gap-5 w-2/3 mx-auto">
+            <div className="flex flex-row gap-2">
+              <h1 className="text-2xl underline underline-offset-4 tracking-wide text-center font-fontTitle dark:text-beige sm:text-left">
+                {" "}
+                Clientes{" "}
+              </h1>
+              {user.role !== "especialista" ?
+                <IoPersonAddOutline className='h-6 w-6 mt-0.5 cursor-pointer dark:text-darkText' onClick={handleClientFormModal} /> : null
+              }
+            </div>
+            <ClientFilters setNameOrLastName={setNameOrLastName} nameOrLastName={nameOrLastName} setAttribute={setAttribute} setOrder={setOrder} setPage={setPage} setSize={setSize} setBirthdaysMonth={setBirthdaysMonth} setCreateDateStart={setCreateDateStart} setCreateDateEnd={setCreateDateEnd} />
+            <ClientsTable clients={clients} />
+            <Pagination page={page} setPage={setPage} size={size} setSize={setSize} count={count} />
           </div>
-          <ClientFilters setNameOrLastName={setNameOrLastName} nameOrLastName={nameOrLastName}  setAttribute={setAttribute}  setOrder={setOrder}  setPage={setPage}  setSize={setSize} setBirthdaysMonth={setBirthdaysMonth} setCreateDateStart={setCreateDateStart} setCreateDateEnd={setCreateDateEnd}/>
-          <ClientsTable clients={clients} />
-          <Pagination page={page} setPage={setPage} size={size} setSize={setSize} count={count}/>
-        </div>
-          )}
-        </div>
-        {showClientFormModal ? (
-          <CreateClient
+        )}
+      </div>
+      {showClientFormModal ? (
+        <CreateClient
           activarNuevoCliente={activarNuevoCliente}
           setShowClientCreateModal={setShowClientCreateModal}
           setActivarNuevoCliente={setActivarNuevoCliente}
-          />
-        ) : null}
+        />
+      ) : null}
     </div>
-    
+
   );
 };
 

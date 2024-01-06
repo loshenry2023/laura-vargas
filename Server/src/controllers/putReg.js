@@ -110,9 +110,9 @@ async function editRegClient(Client, data, id, conn) {
         existingClient.phoneNumber1 = phone1;
         existingClient.phoneNumber2 = phone2 || null;
         existingClient.image = image;
-        existingClient.birthday = birthday || null;
-        existingClient.monthBirthday = birthday? birthday.split("-")[1] : null;
-        existingClient.dayBirthday = birthday? birthday.split("-")[2] : null;
+        existingClient.birthday = birthday !== "" ? birthday : null;
+        existingClient.dayBirthday = birthday ? birthday.split('-')[2]: null;
+        existingClient.monthBirthday = birthday ? birthday.split('-')[1]: null;
         await existingClient.save();
         await transaction.commit();
         return;

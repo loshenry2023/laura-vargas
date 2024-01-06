@@ -62,15 +62,15 @@ const EditAppointment = ({ setShowEditAppointment, setSpecialty, token, date, se
   const deepEqual = (obj1, obj2) => {
     const keys1 = Object.keys(obj1);
     const keys2 = Object.keys(obj2);
-  
+
     if (keys1.length !== keys2.length) {
       return false;
     }
-  
+
     for (const key of keys1) {
       const val1 = obj1[key];
       const val2 = obj2[key];
-  
+
       if (typeof val1 === 'object' && val1 !== null && typeof val2 === 'object' && val2 !== null) {
         if (!deepEqual(val1, val2)) {
           return false;
@@ -83,21 +83,21 @@ const EditAppointment = ({ setShowEditAppointment, setSpecialty, token, date, se
         return false;
       }
     }
-  
+
     return true;
   };
-  
+
   const arraysEqual = (arr1, arr2) => {
     if (arr1.length !== arr2.length) {
       return false;
     }
-  
+
     for (let i = 0; i < arr1.length; i++) {
       if (arr1[i] !== arr2[i]) {
         return false;
       }
     }
-  
+
     return true;
   };
 
@@ -114,7 +114,7 @@ const EditAppointment = ({ setShowEditAppointment, setSpecialty, token, date, se
     const { name, value } = e.target;
     let error = "";
 
-    if (name === "date"){
+    if (name === "date") {
       setAppointmentInfo((prevInfo) => ({
         ...prevInfo,
         date: value
@@ -125,16 +125,16 @@ const EditAppointment = ({ setShowEditAppointment, setSpecialty, token, date, se
       };
 
       error = validateEditAppointment(data)[name];
-    } else 
+    } else
 
-    if (name === "date_from" || name === "date_to") {
-      const data = {
-        date_from: name === "date_from" ? value : AppointmentInfo.date_from,
-        date_to: name === "date_to" ? value : AppointmentInfo.date_to,
-      };
+      if (name === "date_from" || name === "date_to") {
+        const data = {
+          date_from: name === "date_from" ? value : AppointmentInfo.date_from,
+          date_to: name === "date_to" ? value : AppointmentInfo.date_to,
+        };
 
-      error = validateEditAppointment(data)[name];
-    }
+        error = validateEditAppointment(data)[name];
+      }
 
     if (name === 'branch') {
       const parsedValue = JSON.parse(value);
@@ -147,7 +147,7 @@ const EditAppointment = ({ setShowEditAppointment, setSpecialty, token, date, se
         }
       }));
     } else if (name === 'specialist') {
-      if(value === "null") {
+      if (value === "null") {
         setAppointmentInfo((prevInfo) => ({
           ...prevInfo,
           specialist: {
@@ -158,22 +158,22 @@ const EditAppointment = ({ setShowEditAppointment, setSpecialty, token, date, se
         const data = {
           specialist: value,
         };
-  
+
         error = validateEditAppointment(data)[name];
-      
+
       } else {
 
-      
-      const parsedValue = JSON.parse(value);
 
-      setAppointmentInfo((prevInfo) => ({
-        ...prevInfo,
-        specialist: {
-          id: parsedValue.id,
-          name: `${parsedValue.name} ${parsedValue.lastName}`,
-        }
-      }));
-    }
+        const parsedValue = JSON.parse(value);
+
+        setAppointmentInfo((prevInfo) => ({
+          ...prevInfo,
+          specialist: {
+            id: parsedValue.id,
+            name: `${parsedValue.name} ${parsedValue.lastName}`,
+          }
+        }));
+      }
     } else if (name === 'service') {
       if (value === "null") {
         setAppointmentInfo((prevInfo) => ({
@@ -186,29 +186,29 @@ const EditAppointment = ({ setShowEditAppointment, setSpecialty, token, date, se
         const data = {
           specialist: value,
         };
-  
+
         error = validateEditAppointment(data)[name];
       } else {
-      const parsedValue = JSON.parse(value);
+        const parsedValue = JSON.parse(value);
 
-      setAppointmentInfo((prevInfo) => ({
-        ...prevInfo,
-        service: {
-          id: parsedValue.id,
-          name: parsedValue.serviceName,
-        }
-      }));
+        setAppointmentInfo((prevInfo) => ({
+          ...prevInfo,
+          service: {
+            id: parsedValue.id,
+            name: parsedValue.serviceName,
+          }
+        }));
 
-      setAppointmentInfo((prevInfo) => ({
-        ...prevInfo,
-        specialist: {
-          id: "",
-          name: "",
-        }
-      }));
+        setAppointmentInfo((prevInfo) => ({
+          ...prevInfo,
+          specialist: {
+            id: "",
+            name: "",
+          }
+        }));
 
-      setSpecialty(parsedValue.Specialties[0].specialtyName)
-    }
+        setSpecialty(parsedValue.Specialties[0].specialtyName)
+      }
     } else {
       setAppointmentInfo((prevInfo) => ({
         ...prevInfo,
@@ -226,14 +226,14 @@ const EditAppointment = ({ setShowEditAppointment, setSpecialty, token, date, se
   };
 
   useEffect(() => {
-    console.log(AppointmentInfo)
-    console.log(initialAppointmentInfo)
-  },[AppointmentInfo, initialAppointmentInfo])
+    //console.log(AppointmentInfo)
+    //console.log(initialAppointmentInfo)
+  }, [AppointmentInfo, initialAppointmentInfo])
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-  
+
 
     if (!isAppointmentInfoChanged()) {
       toast.error("No se ha modificado ningún campo. Debe modificar al menos un campo para editar la cita.");
@@ -269,14 +269,14 @@ const EditAppointment = ({ setShowEditAppointment, setSpecialty, token, date, se
     };
 
 
-      const errors = validateEditAppointment(dataErrors);
+    const errors = validateEditAppointment(dataErrors);
 
-        if (Object.keys(errors).length > 0) {
-          setValidationErrors(errors);
-          return;
-        }
-      
- 
+    if (Object.keys(errors).length > 0) {
+      setValidationErrors(errors);
+      return;
+    }
+
+
     try {
       const response = await axios.put(`${API_URL_BASE}/calendar/${date.id}`, data);
 
@@ -397,7 +397,7 @@ const EditAppointment = ({ setShowEditAppointment, setSpecialty, token, date, se
                     onChange={handleChange}
                     className="w-full border border-black rounded-md text-sm dark:text-darkText dark:bg-darkPrimary p-2.5"
                   >
-                  <option value="null">Especialista</option>
+                    <option value="null">Especialista</option>
                     {users.map((user, index) => (
                       <option key={index} value={JSON.stringify(user)} selected={AppointmentInfo.specialist.id === user.id ? true : false}>
                         {`${user.name} ${user.lastName}`}

@@ -38,6 +38,7 @@ function Consumables() {
   const branches = user.branches;
   const [selectedBranch, setSelectedBranch] = useState("");
   const products = useSelector((state) => state?.products);
+  const token = useSelector((state) => state?.token);
 
   const workingBranch = useSelector((state) => state?.workingBranch);
 
@@ -45,7 +46,6 @@ function Consumables() {
 
   useEffect(() => {
     if (user && user.branches && user.branches.length > 0) {
-      //setSelectedBranch(user.branches[0].branchName);
       setSelectedBranch(workingBranch.branchName);
     }
   }, [user]);
@@ -53,7 +53,7 @@ function Consumables() {
   useEffect(() => {
     if (selectedBranch) {
       dispatch(
-        getProducts(productName, selectedBranch, page, size, description)
+        getProducts(token, productName, selectedBranch, page, size, description)
       ).then(() => {
         setLoading(false);
       });
@@ -66,6 +66,7 @@ function Consumables() {
     description,
     newProductAdded,
     editedProduct,
+    token
   ]);
 
   const handleShowNewConsumableModal = () => {
