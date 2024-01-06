@@ -7,13 +7,13 @@ import getParamsEnv from "../functions/getParamsEnv";
 import converterGMT from '../functions/converteGMT';
 const { CLIENTDETAILBASE } = getParamsEnv();
 
-const ClientsTable = ({clients, setChosenClient, setShowClientListModal}) => {
+const ClientsTable = ({clients, count, setChosenClient, setShowClientListModal}) => {
     const navigate = useNavigate();
     const location = useLocation()
 
       return (
         <>
-          {clients ? (
+          {count > 0 ? (
             <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
               <table className="border border-black w-full text-sm text-left rtl:text-right text-black dark:text-beige dark:border-beige">
                 <thead className="bg-secondaryPink text-black text-left dark:bg-darkPrimary dark:text-darkText dark:border-grey">
@@ -102,7 +102,7 @@ const ClientsTable = ({clients, setChosenClient, setShowClientListModal}) => {
               </table>
             </div>
           ) : (
-            <h2 className="font-medium dark:text-darkText">
+            <h2 className="font-medium text-center  dark:text-darkText">
               {" "}
               No hay coincidencias
             </h2>

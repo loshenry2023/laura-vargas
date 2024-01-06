@@ -382,9 +382,9 @@ const Calendar = ({
                   name="specialists"
                   id=""
                   className="w-60 border border-black rounded-md text-md dark:text-darkText dark:bg-darkPrimary md:w-fit"
-                  onChange={(e) => {setUserId(e.target.value), setClearService(true)}}
+                  onChange={(e) => {setUserId(e.target.value)}}
                 >
-                  <option value=""> -- Mostrar agenda especialista --  </option>
+                  <option value=""> -- Mostrar agendas especialistas --  </option>
                   {specialists.map((specialis, index) => (
                     <option key={index} value={specialis.id}>
                       {`${specialis.name} ${specialis.lastName}`}

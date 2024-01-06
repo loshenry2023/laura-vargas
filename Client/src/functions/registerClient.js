@@ -48,7 +48,7 @@ const validateClientInput = (data) => {
     validationErrors.birthday = "Ingrese una fecha anterior al día de hoy"
   }
 
-  if (data.id_pers.length === 0) {
+  if (!data.id_pers) {
     null
    } else if (data.id_pers.length > 0 && data.id_pers.length !== 8) {
       validationErrors.id_pers = "El documento debe tener 8 dígitos";

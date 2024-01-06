@@ -268,7 +268,6 @@ const Agenda = () => {
                       value={JSON.stringify({
                         Specialties: [{ specialtyName: "noneSpecialty" }],
                       })}
-                      // selected={ clearService ? true : false}
                     >
                       {" "}
                       Procedimientos{" "}
