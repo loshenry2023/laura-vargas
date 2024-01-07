@@ -29,7 +29,7 @@ const SpecialistMonitoring = () => {
     token,
   })
 
-  console.log(filterDate)
+  console.log(specialistData)
 
 
   const handleDate = (e) => {
@@ -57,54 +57,54 @@ useEffect(() => {
 }, [filterDate]);
 
   return (
-    <>
-      <NavBar />
-      <div className="flex flex-row dark:bg-darkBackground">
-        <SideBar />
-        {loading ? (
-          <Loader />
-        ) : user.role === "superAdmin" ? (
-          <div className="flex flex-col mt-10 gap-5 w-2/3 mx-auto">
-            <div className="flex gap-2">
-              <h1 className="text-2xl underline underline-offset-4 tracking-wide text-center font-fontTitle text-black dark:text-darkText sm:text-left">
-                {" "}
-                Seguimiento Especialistas{" "}
-              </h1>
+      <>
+        <NavBar />
+        <div className="flex flex-row dark:bg-darkBackground">
+          <SideBar />
+          {loading ? (
+            <Loader />
+          ) : user.role === "superAdmin" ? (
+            <div className="flex flex-col mt-10 gap-5 w-2/3 mx-auto">
+              <div className="flex gap-2">
+                <h1 className="text-2xl underline underline-offset-4 tracking-wide text-center font-fontTitle text-black dark:text-darkText sm:text-left">
+                  {" "}
+                  Seguimiento Especialistas{" "}
+                </h1>
+              </div>
+              <div className="flex flex-col gap-5 md:flex-row">
+              <div className="flex gap-2">
+                <label className="hidden md:inline dark:text-darkText">
+                  Fecha inicial
+                </label>
+                <input
+                  name="dateFrom"
+                  type="date"
+                  defaultValue={formattedDate}
+                  onChange={handleDate}
+                  className="border rounded-md border-black px-2 text-sm dark:invert"
+                />
+              </div>
+              <div className="flex gap-2">
+                <label className="hidden md:inline dark:text-darkText">
+                  Fecha final
+                </label>
+                <input
+                  name="dateTo"
+                  type="date"
+                  defaultValue={formattedDate}
+                  onChange={handleDate}
+                  className="border rounded-md border-black px-2 text-sm dark:invert"
+                />
+              </div> 
+              </div>
+              <SpecialistTable count={count} specialistData={specialistData.rows}/>
             </div>
-            <div className="flex flex-col gap-5 md:flex-row">
-            <div className="flex gap-2">
-              <label className="hidden md:inline dark:text-darkText">
-                Fecha inicial
-              </label>
-              <input
-                name="dateFrom"
-                type="date"
-                defaultValue={formattedDate}
-                onChange={handleDate}
-                className="border rounded-md border-black px-2 text-sm dark:invert"
-              />
-            </div>
-            <div className="flex gap-2">
-              <label className="hidden md:inline dark:text-darkText">
-                Fecha final
-              </label>
-              <input
-                name="dateTo"
-                type="date"
-                defaultValue={formattedDate}
-                onChange={handleDate}
-                className="border rounded-md border-black px-2 text-sm dark:invert"
-              />
-            </div> 
-            </div>
-            <SpecialistTable count={count} specialistData={specialistData.rows}/>
-          </div>
-        ) : (
-          <Restricted />
-        )}
-      </div>
-    </>
-  );
+          ) : (
+            <Restricted />
+          )}
+        </div>
+      </>
+    )
 };
 
 export default SpecialistMonitoring;
