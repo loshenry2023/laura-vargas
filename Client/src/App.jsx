@@ -22,6 +22,7 @@ import getParamsEnv from "./functions/getParamsEnv.js";
 import ClientDetail from "./views/ClientDetail.jsx";
 import ClientsProfiles from "./views/ClientsProfiles.jsx";
 import BranchSelection from "./views/BranchSelection.jsx";
+import SpecialistMonitoring from "./views/SpecialistMonitoring.jsx";
 const {
   ROOT,
   LOGIN,
@@ -34,6 +35,7 @@ const {
   CLIENTDETAIL,
   CLIENTSPROFILES,
   DATEDETAIL,
+  SPECIALISTMONITORING,
 } = getParamsEnv();
 
 const App = () => {
@@ -51,6 +53,7 @@ const App = () => {
         <Route path={CLIENTDETAIL} element={<ClientDetail />} />
         <Route path={TERMSANDPRIVACY} element={<TermsAndPrivacy />} />
         <Route path={DATEDETAIL} element={<SpecialistDate />} />
+        <Route path={SPECIALISTMONITORING} element={<SpecialistMonitoring />} />
         <Route path="consumables" element={<Consumables />} />
         <Route path="historyprice/:productId" element={<ConsHistoryPrice />} />
         <Route path="*" element={<Error />} />

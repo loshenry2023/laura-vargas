@@ -1,0 +1,50 @@
+import React from 'react'
+
+const SpecialistTable = ({specialistData, count}) => {
+
+  const valorTotal = 30000
+
+  return (
+    <>
+    {count > 0 ? (
+    <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+    <table className="border border-black w-full text-sm text-left rtl:text-right text-black dark:text-beige dark:border-beige">
+      <thead className="bg-secondaryPink text-black text-left dark:bg-darkPrimary dark:text-darkText dark:border-gre">
+        <tr>
+          <th scope="col" className="px-6 py-3">
+            Especialista
+          </th>
+          <th scope="col" className="px-6 py-3">
+            Procedimientos realizados
+          </th>
+          <th scope="col" className="px-6 py-3">
+            Valor Total
+          </th>
+          <th scope="col" className="px-6 py-3">
+            Comisión
+          </th>
+          <th scope="col" className="px-6 py-3">
+            Total a pagar
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        {specialistData.map((specialist, index) => 
+         <tr
+         key={index}
+         className="text-xs hover:bg-gray-200 cursor-pointer dark:hover:bg-gray-200 dark:hover:text-black"
+       >
+          <td className="px-6 py-4"> {specialist.name} {specialist.lastName}</td>
+          <td className="px-6 py-4"> {specialist.services.length === 0 ? "Sin servicios registrados" : specialist.services.length}</td>
+          <td className="px-6 py-4"> {specialist.payments.length === 0 ? "Sin pagos registrados" : 30000}</td>
+          <td className="px-6 py-4"> {specialist.comission}%</td>
+          <td className="px-6 py-4"> {specialist.payments.length === 0 ? 0 : (valorTotal * specialist.comission / 100)} </td>
+        </tr>)}
+      </tbody>
+    </table>
+  </div>) : (<h2 className="font-medium text-center  dark:text-darkText">No hay coincidencias</h2>)}
+  </>
+  )
+}
+
+export default SpecialistTable

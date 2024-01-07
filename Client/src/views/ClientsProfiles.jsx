@@ -12,7 +12,6 @@ import { IoPersonAddOutline } from "react-icons/io5";
 import CreateClient from '../components/modals/CreateClient';
 import ClientFilters from "../components/ClientFilters";
 import Pagination from "../components/Pagination";
-import { useSearchParams } from "react-router-dom";
 
 const ClientsProfiles = () => {
 

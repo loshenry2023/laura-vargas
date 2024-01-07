@@ -1,17 +1,21 @@
+//hooks, components, reducer
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+
+//icons
 import { FaCalendar } from "react-icons/fa";
 import { FaLocationPin } from "react-icons/fa6";
 import { IoMdAnalytics } from "react-icons/io";
 import { HiMiniUserGroup } from "react-icons/hi2";
 import { GiFingernail } from "react-icons/gi";
 import { ImProfile } from "react-icons/im";
-import { Link } from "react-router-dom";
 import { TfiMenu } from "react-icons/tfi";
+import { MdWorkHistory } from "react-icons/md";
 
 // Variables de entorno
 import getParamsEnv from "../functions/getParamsEnv.js";
-const { AGENDA, USERPROFILES, CONSUMABLES, CLIENTSPROFILES } = getParamsEnv();
+const { AGENDA, USERPROFILES, CONSUMABLES, CLIENTSPROFILES, SPECIALISTMONITORING } = getParamsEnv();
 
 const IconWithTooltip = ({ to, iconName, tooltipText }) => {
   const [tooltipVisible, setTooltipVisible] = useState(false);
@@ -61,6 +65,8 @@ const renderIcon = (iconName) => {
       return <IoMdAnalytics className="w-6 h-6 dark:text-beige" />;
     case "Consumables":
       return <TfiMenu className="w-6 h-6 dark:text-beige" />;
+    case "specialistmonitoring":
+      return <MdWorkHistory className="w-6 h-6 dark:text-beige" />;
     default:
       return null;
   }
@@ -90,6 +96,7 @@ const SideBar = () => {
         <IconWithTooltip to="#" onClick={() => handleIconClick("fingernail")} iconName="fingernail" tooltipText="Servicios" />
         <IconWithTooltip to="#" onClick={() => handleIconClick("analytics")} iconName="analytics" tooltipText="Estadísticas" />
         <IconWithTooltip to={CONSUMABLES} iconName="Consumables" tooltipText="Insumos" />
+        <IconWithTooltip to={SPECIALISTMONITORING} iconName="specialistmonitoring" tooltipText="Seguimiento especialistas" />
         </>
       )
     }
