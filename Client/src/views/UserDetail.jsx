@@ -18,10 +18,10 @@ const UserDetail = () => {
     <div>
       <NavBar />
       <div className="flex flex-row dark:bg-darkBackground">
-        <SideBar/>
-        {user?.role === "superAdmin" || user?.role === "admin" ? 
-        <UserInfo/> : (
-          <Restricted />)} 
+        <SideBar />
+        {user?.role === "superAdmin" || user?.role === "admin" ?
+          <UserInfo /> : (
+            <Restricted />)}
       </div>
     </div>
   );

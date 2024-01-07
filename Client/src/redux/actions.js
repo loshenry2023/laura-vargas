@@ -31,7 +31,8 @@ import {
   UPDATE_PRODUCT_PRICE_FAILURE,
   CLEAR_PRODUCT_PRICE,
   GET_PAY_METHODS,
-  GET_SPECIALISTS
+  GET_SPECIALISTS,
+  SET_TOKEN_ERROR
 } from "./actionsTypes";
 
 import axios from "axios";
@@ -62,7 +63,15 @@ export const getBranches = (token) => {
         payload: response.data,
       });
     } catch (error) {
-      throw Error(error.message);
+      // Errores 401 y 403 son para quitar al usuario de la sesión:
+      if (error.request.status === 401 || error.request.status === 403) {
+        return dispatch({
+          type: SET_TOKEN_ERROR,
+          payload: error.request.status,
+        });
+      } else {
+        throw Error(error.message);
+      }
     }
   };
 };
@@ -76,7 +85,15 @@ export const getSpecialties = (token) => {
         payload: response.data,
       });
     } catch (error) {
-      throw Error(error.message);
+      // Errores 401 y 403 son para quitar al usuario de la sesión:
+      if (error.request.status === 401 || error.request.status === 403) {
+        return dispatch({
+          type: SET_TOKEN_ERROR,
+          payload: error.request.status,
+        });
+      } else {
+        throw Error(error.message);
+      }
     }
   };
 };
@@ -90,7 +107,15 @@ export const getServices = (token) => {
         payload: response.data,
       });
     } catch (error) {
-      throw Error(error.message);
+      // Errores 401 y 403 son para quitar al usuario de la sesión:
+      if (error.request.status === 401 || error.request.status === 403) {
+        return dispatch({
+          type: SET_TOKEN_ERROR,
+          payload: error.request.status,
+        });
+      } else {
+        throw Error(error.message);
+      }
     }
   };
 };
@@ -124,7 +149,15 @@ export const getClients = (
         countClient: data.count,
       });
     } catch (error) {
-      throw Error(error.message);
+      // Errores 401 y 403 son para quitar al usuario de la sesión:
+      if (error.request.status === 401 || error.request.status === 403) {
+        return dispatch({
+          type: SET_TOKEN_ERROR,
+          payload: error.request.status,
+        });
+      } else {
+        throw Error(error.message);
+      }
     }
   };
 };
@@ -141,7 +174,15 @@ export const getClientId = (id, token) => {
         payload: response.data,
       });
     } catch (error) {
-      throw Error(error.message);
+      // Errores 401 y 403 son para quitar al usuario de la sesión:
+      if (error.request.status === 401 || error.request.status === 403) {
+        return dispatch({
+          type: SET_TOKEN_ERROR,
+          payload: error.request.status,
+        });
+      } else {
+        throw Error(error.message);
+      }
     }
   };
 };
@@ -184,7 +225,15 @@ export const getUsers = (
         count: data.count,
       });
     } catch (error) {
-      throw Error(error.message);
+      // Errores 401 y 403 son para quitar al usuario de la sesión:
+      if (error.request.status === 401 || error.request.status === 403) {
+        return dispatch({
+          type: SET_TOKEN_ERROR,
+          payload: error.request.status,
+        });
+      } else {
+        throw Error(error.message);
+      }
     }
   };
 };
@@ -205,7 +254,15 @@ export const getspecialists = (branchWorking,
         payload: data,
       });
     } catch (error) {
-      throw Error(error.message);
+      // Errores 401 y 403 son para quitar al usuario de la sesión:
+      if (error.request.status === 401 || error.request.status === 403) {
+        return dispatch({
+          type: SET_TOKEN_ERROR,
+          payload: error.request.status,
+        });
+      } else {
+        throw Error(error.message);
+      }
     }
   };
 };
@@ -237,7 +294,15 @@ export const getCalendar = (branch, dateFrom, dateTo, userId, token) => {
         payload: modifiedData,
       });
     } catch (error) {
-      throw Error(error.message);
+      // Errores 401 y 403 son para quitar al usuario de la sesión:
+      if (error.request.status === 401 || error.request.status === 403) {
+        return dispatch({
+          type: SET_TOKEN_ERROR,
+          payload: error.request.status,
+        });
+      } else {
+        throw Error(error.message);
+      }
     }
   };
 };
@@ -254,7 +319,15 @@ export const getUserId = (id, token) => {
         payload: response.data,
       });
     } catch (error) {
-      throw Error(error.message);
+      // Errores 401 y 403 son para quitar al usuario de la sesión:
+      if (error.request.status === 401 || error.request.status === 403) {
+        return dispatch({
+          type: SET_TOKEN_ERROR,
+          payload: error.request.status,
+        });
+      } else {
+        throw Error(error.message);
+      }
     }
   };
 };
@@ -272,7 +345,15 @@ export const deleteUser = (id, token) => {
         idDelete: id,
       });
     } catch (error) {
-      throw Error(error.message);
+      // Errores 401 y 403 son para quitar al usuario de la sesión:
+      if (error.request.status === 401 || error.request.status === 403) {
+        return dispatch({
+          type: SET_TOKEN_ERROR,
+          payload: error.request.status,
+        });
+      } else {
+        throw Error(error.message);
+      }
     }
   };
 };
@@ -324,7 +405,6 @@ export const getProductsFailure = (error) => ({
   payload: error,
 });
 
-
 export const getProducts = (
   token,
   productName,
@@ -364,7 +444,18 @@ export const getProducts = (
       });
       dispatch(getProductsSuccess(response.data));
     } catch (error) {
-      dispatch(getProductsFailure(error.message));
+      // Errores 401 y 403 son para quitar al usuario de la sesión:
+      if (error.request.status === 401 || error.request.status === 403) {
+        return dispatch({
+          type: SET_TOKEN_ERROR,
+          payload: error.request.status,
+        });
+      } else {
+        //        throw Error(error.message);
+        dispatch(getProductsFailure(error.message));
+      }
+
+
     }
   };
 };
@@ -396,7 +487,18 @@ export const createProduct = (newProductData) => {
       );
       dispatch(createProductSuccess(response.data));
     } catch (error) {
-      dispatch(createProductFailure(error.message));
+      // Errores 401 y 403 son para quitar al usuario de la sesión:
+      if (error.request.status === 401 || error.request.status === 403) {
+        return dispatch({
+          type: SET_TOKEN_ERROR,
+          payload: error.request.status,
+        });
+      } else {
+        //        throw Error(error.message);
+        dispatch(createProductFailure(error.message));
+      }
+
+
     }
   };
 };
@@ -424,7 +526,19 @@ export const editProduct = (productId, updatedProduct) => {
         payload: { productId, updatedProduct },
       });
     } catch (error) {
-      dispatch({ type: EDIT_PRODUCT_FAILURE, payload: error.message });
+      // Errores 401 y 403 son para quitar al usuario de la sesión:
+      if (error.request.status === 401 || error.request.status === 403) {
+        return dispatch({
+          type: SET_TOKEN_ERROR,
+          payload: error.request.status,
+        });
+      } else {
+        //        throw Error(error.message);
+        dispatch({ type: EDIT_PRODUCT_FAILURE, payload: error.message });
+      }
+
+
+
     }
   };
 };
@@ -450,7 +564,18 @@ export const getProductPricesHistory = (productId) => async (dispatch) => {
     );
     dispatch(getProductPricesHistorySuccess(response.data));
   } catch (error) {
-    dispatch(getProductPricesHistoryFailure(error.message));
+    // Errores 401 y 403 son para quitar al usuario de la sesión:
+    if (error.request.status === 401 || error.request.status === 403) {
+      return dispatch({
+        type: SET_TOKEN_ERROR,
+        payload: error.request.status,
+      });
+    } else {
+      //        throw Error(error.message);
+      dispatch(getProductPricesHistoryFailure(error.message));
+    }
+
+
   }
 };
 
@@ -491,7 +616,17 @@ export const updateProductPrice = (productId, newPrice) => {
 
       dispatch(updateProductPriceSuccess());
     } catch (error) {
-      dispatch(updateProductPriceFailure(error.message));
+      // Errores 401 y 403 son para quitar al usuario de la sesión:
+      if (error.request.status === 401 || error.request.status === 403) {
+        return dispatch({
+          type: SET_TOKEN_ERROR,
+          payload: error.request.status,
+        });
+      } else {
+        //        throw Error(error.message);
+        dispatch(updateProductPriceFailure(error.message));
+      }
+
     }
   };
 };
@@ -506,7 +641,20 @@ export const getPayMethods = (token) => {
         payload: response.data,
       });
     } catch (error) {
-      throw Error(error.message);
+      if (error.request.status === 401 || error.request.status === 403) {
+        return dispatch({
+          type: SET_TOKEN_ERROR,
+          payload: error.request.status,
+        });
+      } else {
+        throw Error(error.message);
+      }
     }
   };
 };
+
+// export const setTokenError = (error) => ({
+//   type: SET_TOKEN_ERROR,
+//   payload: error,
+// });
+

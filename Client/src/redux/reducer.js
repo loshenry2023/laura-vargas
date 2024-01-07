@@ -32,7 +32,8 @@ import {
   UPDATE_PRODUCT_PRICE_FAILURE,
   CLEAR_PRODUCT_PRICE,
   GET_PAY_METHODS,
-  GET_SPECIALISTS
+  GET_SPECIALISTS,
+  SET_TOKEN_ERROR,
 } from "./actionsTypes";
 
 const initialState = {
@@ -53,7 +54,8 @@ const initialState = {
   editingProduct: null,
   pricesHistory: [],
   payMethods: [],
-  specialists: []
+  specialists: [],
+  tokenError: 0
 };
 
 const rootReducer = (
@@ -330,6 +332,13 @@ const rootReducer = (
       };
       localStorage.setItem("myAppReduxState", JSON.stringify(setPayMethods));
       return setPayMethods;
+
+    case SET_TOKEN_ERROR:
+      console.log("PROCESO ERROR ", payload)
+      return {
+        ...state,
+        tokenError: payload,
+      };
 
     default:
       return state;
