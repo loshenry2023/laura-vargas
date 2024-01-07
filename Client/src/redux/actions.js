@@ -657,8 +657,8 @@ export const getPayMethods = (token) => {
   };
 };
 
-// export const setTokenError = (error) => ({
-//   type: SET_TOKEN_ERROR,
-//   payload: error,
-// });
+export const setTokenError = (error) => ({
+  type: SET_TOKEN_ERROR,
+  payload: error,
+});
 
