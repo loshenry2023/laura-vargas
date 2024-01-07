@@ -40,12 +40,14 @@ async function createBasicData() {
         {
           branchName: "Villavicencio",
           address: "Calle 26 b num 39-34, Villavicencio, Colombia",
-          phoneNumber: "+573502142355",
+          phoneNumber: "+573114928756",
+          coordinates: "https://maps.app.goo.gl/urGxSpTtibWLYTsF8",
         },
         {
           branchName: "Restrepo",
           address: "CC Balcones Plaza, Local L29C, Restrepo, Meta, Colombia",
           phoneNumber: "+573502142355",
+          coordinates: "https://maps.app.goo.gl/mjDcG7ZvJjjW6HzGA",
         },
       ];
       let branchCrtd;
