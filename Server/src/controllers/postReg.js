@@ -28,7 +28,7 @@ const postReg = async (tableName, tableNameText, data, conn = "", tableName2 = "
                 resp = await AddRegCatGastos(tableName, data);
                 return { "created": "ok", "id": resp };
             case "HistoryService":
-                resp = await AddRegHistoricProc(tableName, data, conn, tableName2, tableName3);
+                resp = await AddRegHistoricProc(tableName, data, conn, tableName2, tableName3, tableName4);
                 return { "created": "ok" };
             case "Calendar":
                 resp = await AddRegCalendar(tableName, data, conn, tableName2, tableName3, tableName4, tableName5);
@@ -82,7 +82,7 @@ async function AddRegCalendar(Calendar, data, conn, User, Service, Client, Branc
     }
 }
 
-async function AddRegHistoricProc(HistoryService, data, conn, Client, Incoming) {
+async function AddRegHistoricProc(HistoryService, data, conn, Client, Incoming, User) {
     const { idUser, idclient, imageServiceDone, date, amount1, amount2, conformity, branchName, paymentMethodName1, paymentMethodName2, serviceName, attendedBy, email, name, lastName, id_pers } = data;
     let transaction; // manejo transacciones para evitar registros defectuosos por relaciones mal solicitadas
     try {
@@ -99,6 +99,7 @@ async function AddRegHistoricProc(HistoryService, data, conn, Client, Incoming) 
         await Incoming.create({ amount: amount2, paymentMethodName: paymentMethodName2, DateIncoming: date, HistoryServiceId: regCreated.id }, { transaction });
         // Relación: asocio el historial de servicio con el cliente:
         await client.addHistoryService(regCreated, { transaction });
+
         await transaction.commit();
         return;
     } catch (error) {
@@ -198,6 +199,7 @@ async function AddRegUser(User, data, conn) {
         for (const spec of specialty) {
             await UserCreated.addSpecialties(spec, { transaction });
         }
+
         await transaction.commit();
         // Obtengo el id para devolver:
         const userCreated = await User.findOne({

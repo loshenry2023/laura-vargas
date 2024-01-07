@@ -1,7 +1,7 @@
 // ! Obtiene registros.
 const { Op } = require("sequelize");
 const showLog = require("../functions/showLog");
-const { Specialty, Branch } = require('../DB_connection');
+const { User, Specialty, Branch, HistoryService } = require('../DB_connection');
 
 const getReg = async (
   tableName,
@@ -11,11 +11,11 @@ const getReg = async (
   tableName4 = "",
   tableName5 = "",
   id = "",
-  dataQuery = ""
+  dataQuery = "",
+  conn = "",
 ) => {
   try {
     let reg;
-
     switch (tableNameText) {
       case "Specialists":
         const {
@@ -149,7 +149,6 @@ const getReg = async (
           where: birthdaysMonth ? {
             [Op.or]: [
               //filtro por nombres
-
               { name: { [Op.iLike]: `%${nameOrLastName}%` } },
               { lastName: { [Op.iLike]: `%${nameOrLastName}%` } },
             ],
