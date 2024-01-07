@@ -11,6 +11,7 @@ VITE_CLIENTS_PROFILES=/clientsProfiles
 VITE_TERMS_AND_PRIVACY=/terms-and-privacy
 VITE_API_URL_BASE=https://laura-vargas.vercel.app/laura-vargas
 VITE_DATE_DETAIL=/dateDetail/:id
+VITE_SPECIALIST_MONITORING=/specialistMonitoring
 
 VITE_CONSUMABLES=/consumables
 VITE_HISTORY_PRICE=/historyprice/:productId
