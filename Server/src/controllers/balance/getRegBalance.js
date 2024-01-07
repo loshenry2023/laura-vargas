@@ -122,8 +122,13 @@ const getRegBalance = async (dataQuery) => {
             payments: [],
         }
         let usersWithHistory = []; // para ir acumulando los datos finales. Será el dato de retorno
+
         for (const user of userInfo) {
             // Busco todos los registros en el historial para ese usuario, que coincidan con los procedimientos, medios de pago, sede y rango de fechas solicitados:
+            //console.log("--------------------------");
+            //console.log("Especialista: ", user.userName);
+
+
             const regService = await HistoryService.findAll({
                 attributes: ["date", "branchName", "idUser", "serviceName"],
                 where: {
@@ -137,7 +142,7 @@ const getRegBalance = async (dataQuery) => {
                     branchName: branchName,
                     idUser: user.id,
                 },
-                order: [["date", "asc"]],
+                order: [["date", "ASC"]],
                 include: [
                     {
                         model: Incoming,
@@ -147,35 +152,51 @@ const getRegBalance = async (dataQuery) => {
                                 [Op.in]: paymentInfo.map(payment => payment.paymentMethodName),
                             },
                         },
-                        order: [["DateIncoming", "asc"]],
+                        order: [["DateIncoming", "ASC"]],
                     },
                 ],
             });
+            servicesOut = [];
+            //console.log("Procedimientos:");
             for (const service of regService) {
                 // Voy armando el array de procedimientos:
+
+                //console.log(service.date, "-> ", service.serviceName);
+
+
                 const match = serviceInfo.find(svice => svice.serviceName === service.serviceName);
                 const idSvc = match ? match.id : null;
                 serviceOut = {
                     date: service.date,
-                    serviceID: idSvc,
+                    // serviceID: idSvc,
                     serviceName: service.serviceName,
                 }
                 servicesOut.push(serviceOut);
+
+            };
+            paymentsOut = [];
+            //console.log("Pagos:");
+            for (const service of regService) {
                 // Voy armando el array de pagos:
                 if (service.Incomings && service.Incomings.length > 0) {
+
                     service.Incomings.forEach(incoming => {
+
+                        //console.log(incoming.DateIncoming, "-> ", incoming.amount, " ", incoming.paymentMethodName);
+
                         const matchInc = paymentInfo.find(pment => pment.paymentMethodName === incoming.paymentMethodName);
                         const idMthd = matchInc ? matchInc.id : null;
                         paymentOut = {
                             date: incoming.DateIncoming,
-                            MethodID: idMthd,
+                            // MethodID: idMthd,
                             Method: incoming.paymentMethodName,
                             Amount: incoming.amount,
                         }
                         paymentsOut.push(paymentOut);
                     });
                 }
-            };
+            }
+
             // Voy armando el array final de salida:
             historyOut = {
                 userID: user.id,

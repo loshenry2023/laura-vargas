@@ -369,7 +369,11 @@ export const setLogout = (token) => {
         type: USER_LOGOUT,
       });
     } catch (error) {
-      throw Error(error.message);
+      //throw Error(error.message);
+      // Aunque falle la red, registro la salida del usuario lo mismo:
+      return dispatch({
+        type: USER_LOGOUT,
+      });
     }
   };
 };
