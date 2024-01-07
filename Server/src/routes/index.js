@@ -56,6 +56,8 @@ const deleteCatHandler = require("../Handlers/catGastos/deleteCatHandler");
 const getCatHandler = require("../Handlers/catGastos/getCatHandler");
 //inventario
 const productHandlers = require("../Handlers/products/productHandlers");
+// Balance y comisiones:
+const getBalance = require("../Handlers/balance/getBalance");
 
 //! Rutas
 // Usuarios:
@@ -117,7 +119,9 @@ router.post("/productsCreate", productHandlers.createProduct);
 router.put("/products/:id", productHandlers.editProduct);
 router.put("/products/:id/price", productHandlers.updateProductPrice);
 router.get("/products/:productId/prices-history", productHandlers.getProductPricesHistory);
-// specialists
+// specialists:
 router.post("/specialists", getSpecialists); // obtiene todos los usuario con rol de especialista
+// Balance y comisiones:
+router.post("/getbalance", getBalance); // obtiene todos los usuarios para el balance y comisiones
 
 module.exports = router;

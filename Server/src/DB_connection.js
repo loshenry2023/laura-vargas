@@ -83,9 +83,11 @@ Calendar.belongsTo(Service); // Un Calendar pertenece a un único service
 Calendar.belongsTo(User); // Un Calendar pertenece a un único usuario
 Calendar.belongsTo(Client); // Un Calendar pertenece a un único cliente
 Calendar.belongsTo(Branch); // Un Calendar pertenece a una única sede
-
 Incoming.belongsToMany(Payment, { through: "incoming_payment" }); // muchos ingresos pertenecen a muchos medios de pago
 HistoryService.hasMany(Incoming); //un registro histórico puede tener muchos pagos hechos
+
+//User.belongsToMany(HistoryService, { through: "usr_history" });  //muchos USUARIOS pertenecen a muchos procedimientos
+//User.hasMany(HistoryService); //un usuario puede tener muchos procedimientos hechos
 
 //Relacion 1 a muchos esto es para el inventario:
 Product.belongsTo(Branch, { foreignKey: "branchId" });
