@@ -5,6 +5,7 @@ import Loader from "../components/Loader";
 import { useDispatch, useSelector } from "react-redux";
 import { getClients } from "../redux/actions";
 import ClientsTable from "../components/ClientsTable";
+import ErrorToken from "./ErrorToken";
 
 //icons
 import { IoPersonAddOutline } from "react-icons/io5";
@@ -20,6 +21,7 @@ const ClientsProfiles = () => {
   const user = useSelector((state) => state?.user);
   const clients = useSelector((state) => state?.clients);
   const count = useSelector((state) => state?.countClient);
+  const tokenError = useSelector((state) => state?.tokenError);
   const dispatch = useDispatch();
 
   const [nameOrLastName, setNameOrLastName] = useState("");
@@ -65,42 +67,49 @@ const ClientsProfiles = () => {
     token,
     activarNuevoCliente,
     birthdaysMonth,
+    tokenError
   ]);
 
-  return (
-    <div>
-      <NavBar />
-      <div className="flex flex-row dark:bg-darkBackground">
-        <SideBar />
-        {loading ? (
-          <Loader />
-        ) : (
-          <div className="flex flex-col mt-10 gap-5 w-2/3 mx-auto">
-            <div className="flex flex-row gap-2">
-              <h1 className="text-2xl underline underline-offset-4 tracking-wide text-center font-fontTitle dark:text-beige sm:text-left">
-                {" "}
-                Clientes{" "}
-              </h1>
-              {user.role !== "especialista" ?
-                <IoPersonAddOutline className='h-6 w-6 mt-0.5 cursor-pointer dark:text-darkText' onClick={handleClientFormModal} /> : null
-              }
+  if (tokenError === 401 || tokenError === 403) {
+    return (
+      <ErrorToken error={tokenError} />
+    );
+  } else {
+    return (
+      <div>
+        <NavBar />
+        <div className="flex flex-row dark:bg-darkBackground">
+          <SideBar />
+          {loading ? (
+            <Loader />
+          ) : (
+            <div className="flex flex-col mt-10 gap-5 w-2/3 mx-auto">
+              <div className="flex flex-row gap-2">
+                <h1 className="text-2xl underline underline-offset-4 tracking-wide text-center font-fontTitle dark:text-beige sm:text-left">
+                  {" "}
+                  Clientes{" "}
+                </h1>
+                {user.role !== "especialista" ?
+                  <IoPersonAddOutline className='h-6 w-6 mt-0.5 cursor-pointer dark:text-darkText' onClick={handleClientFormModal} /> : null
+                }
+              </div>
+              <ClientFilters setNameOrLastName={setNameOrLastName} nameOrLastName={nameOrLastName} setAttribute={setAttribute} setOrder={setOrder} setPage={setPage} setSize={setSize} setBirthdaysMonth={setBirthdaysMonth} setCreateDateStart={setCreateDateStart} setCreateDateEnd={setCreateDateEnd} />
+              <ClientsTable count={count} clients={clients} />
+              <Pagination page={page} setPage={setPage} size={size} setSize={setSize} count={count} />
             </div>
-            <ClientFilters setNameOrLastName={setNameOrLastName} nameOrLastName={nameOrLastName} setAttribute={setAttribute} setOrder={setOrder} setPage={setPage} setSize={setSize} setBirthdaysMonth={setBirthdaysMonth} setCreateDateStart={setCreateDateStart} setCreateDateEnd={setCreateDateEnd} />
-            <ClientsTable count={count} clients={clients} />
-            <Pagination page={page} setPage={setPage} size={size} setSize={setSize} count={count} />
-          </div>
-        )}
+          )}
+        </div>
+        {showClientFormModal ? (
+          <CreateClient
+            activarNuevoCliente={activarNuevoCliente}
+            setShowClientCreateModal={setShowClientCreateModal}
+            setActivarNuevoCliente={setActivarNuevoCliente}
+          />
+        ) : null}
       </div>
-      {showClientFormModal ? (
-        <CreateClient
-          activarNuevoCliente={activarNuevoCliente}
-          setShowClientCreateModal={setShowClientCreateModal}
-          setActivarNuevoCliente={setActivarNuevoCliente}
-        />
-      ) : null}
-    </div>
 
-  );
+    );
+  }
 };
 
 export default ClientsProfiles;

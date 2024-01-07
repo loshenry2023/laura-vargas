@@ -5,6 +5,7 @@ import SideBar from "../components/SideBar";
 import Loader from "../components/Loader";
 import CreateAppointment from "../components/modals/CreateAppointment";
 import ListClients from "../components/modals/ListClients";
+import ErrorToken from "./ErrorToken";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -19,7 +20,7 @@ import { FaPlusCircle } from "react-icons/fa";
 const Agenda = () => {
   const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
-
+  const tokenError = useSelector((state) => state?.tokenError);
   const currentDate = new Date();
   const year = currentDate.getFullYear();
   const month = (currentDate.getMonth() + 1).toString().padStart(2, "0"); // Agregar 1 ya que los meses se indexan desde 0
@@ -114,7 +115,7 @@ const Agenda = () => {
       )
     );
     setLoading(false);
-  }, [specialty]);
+  }, [specialty, tokenError]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -139,7 +140,7 @@ const Agenda = () => {
             name: "",
           },
         }));
-        
+
       } else {
         const parsedValue = JSON.parse(value);
         setSpecialty(parsedValue.Specialties[0].specialtyName);
@@ -207,169 +208,172 @@ const Agenda = () => {
     }));
   }, [chosenClient]);
 
-  return (
-    <div>
-      <NavBar />
-      <div className="flex flex-row dark:bg-darkBackground">
-        <SideBar />
-        {loading ? (
-          <Loader />
-        ) : (
-          <div
-            className={
-              user.role !== "especialista"
-                ? "w-fit flex flex-col mx-auto m-10 gap-5 2xl:h-[calc(100vh-220px)]"
-                : "w-fit flex flex-col mx-auto m-10 gap-5 items-center 2xl:h-[calc(100vh-220px)]"
-            }
-          >
-            <h1
+  if (tokenError === 401 || tokenError === 403) {
+    return (
+      <ErrorToken error={tokenError} />
+    );
+  } else {
+    return (
+      <div>
+        <NavBar />
+        <div className="flex flex-row dark:bg-darkBackground">
+          <SideBar />
+          {loading ? (
+            <Loader />
+          ) : (
+            <div
               className={
                 user.role !== "especialista"
-                  ? "items-start text-2xl underline underline-offset-4 tracking-wide font-fontTitle dark:text-beige sm:text-left"
-                  : "items-start text-2xl underline underline-offset-4 mb-10 tracking-wide font-fontTitle dark:text-beige sm:text-left"
+                  ? "w-fit flex flex-col mx-auto m-10 gap-5 2xl:h-[calc(100vh-220px)]"
+                  : "w-fit flex flex-col mx-auto m-10 gap-5 items-center 2xl:h-[calc(100vh-220px)]"
               }
             >
-              Gestión de citas
-            </h1>
-            {user.role === "especialista" ? null : (
-              <section className="shadow shadow-black rounded-xl p-5 mb-10 bg-secondaryPink dark:bg-darkPrimary dark:shadow-darkText">
-                <h1 className="text-xl dark:text-darkText mb-2 ">Agendar cita </h1>
-                <div className="flex flex-col flex-wrap items-center gap-5 md:flex-row sm:w-fit">
-                <div className="mt-5 flex flex-row gap-5 sm:mt-0" >
-                  <FaPlusCircle
-                    className="mt-1.5 cursor-pointer dark:text-darkText"
-                    onClick={() => setShowClientListModal(true)}
-                  />
-          
-                    <input
-                      name=""
-                      id=""
-                      placeholder={`${chosenClient.name} ${chosenClient.lastName}`}
-                      disabled
-                      className="w-60 bg-white resize-y border mr-8 border-black rounded-md text-md md:w-fit md:mr-0 dark:text-darkText dark:bg-darkPrimary dark:border-darkText "
-                    />
-                  
-                </div>
-                {/* <input
+              <h1
+                className={
+                  user.role !== "especialista"
+                    ? "items-start text-2xl underline underline-offset-4 tracking-wide font-fontTitle dark:text-beige sm:text-left"
+                    : "items-start text-2xl underline underline-offset-4 mb-10 tracking-wide font-fontTitle dark:text-beige sm:text-left"
+                }
+              >
+                Gestión de citas
+              </h1>
+              {user.role === "especialista" ? null : (
+                <section className="shadow shadow-black rounded-xl p-5 mb-10 bg-secondaryPink dark:bg-darkPrimary dark:shadow-darkText">
+                  <h1 className="text-xl dark:text-darkText mb-2 ">Agendar cita </h1>
+                  <div className="flex flex-col flex-wrap items-center gap-5 md:flex-row sm:w-fit">
+                    <div className="mt-5 flex flex-row gap-5 sm:mt-0" >
+                      <FaPlusCircle
+                        className="mt-1.5 cursor-pointer dark:text-darkText"
+                        onClick={() => setShowClientListModal(true)}
+                      />
+
+                      <input
+                        name=""
+                        id=""
+                        placeholder={`${chosenClient.name} ${chosenClient.lastName}`}
+                        disabled
+                        className="w-60 bg-white resize-y border mr-8 border-black rounded-md text-md md:w-fit md:mr-0 dark:text-darkText dark:bg-darkPrimary dark:border-darkText "
+                      />
+
+                    </div>
+                    {/* <input
                   disabled
                   value={workingBranch.branchName}
                   placeholder={workingBranch.branchName}
                   className="w-60 border border-black rounded-md text-md dark:text-darkText dark:bg-darkPrimary md:w-fit"
                 ></input> */}
-                {!showEditAppointment ? (
-                  <select
-                    name="service"
-                    id=""
-                    className="w-60 border border-black rounded-md text-md dark:text-darkText dark:bg-darkPrimary dark:border-darkText md:w-fit"
-                    onChange={handleChange}
-                  >
-                    <option
-                      defaultValue={dateInfo.service.id ? false : true}
-                      value={JSON.stringify({
-                        Specialties: [{ specialtyName: "noneSpecialty" }],
-                      })}
-                    >
-                      {" "}
-                      Procedimientos{" "}
-                    </option>
-                    {services.map((service, index) => (
-                      <option key={index} value={JSON.stringify(service)} selected={dateInfo.service.id === service.id ? true : false}>
-                        {service.serviceName}
-                      </option>
-                    ))}
-                  </select>
-                ) : (
-                  <></>
-                )}
-                {!showEditAppointment ? (
-                  <select
-                    onChange={handleChange}
-                    name="specialist"
-                    id=""
-                    className="w-60 border border-black rounded-md text-md dark:text-darkText dark:bg-darkPrimary dark:border-darkText  md:w-fit"
-                  >
-                    <option
-                      defaultValue={dateInfo.specialist.id ? false : true}
-                      value="null"
-                      selected={dateInfo.specialist.id ? true : false}
-                    >
-                      {" "}
-                      -- Especialista--{" "}
-                    </option>
-                    {users.map(
-                      (user, index) =>
-                        user.role === "especialista" && (
-                          <option key={index} value={JSON.stringify(user)} selected = {user.id === dateInfo.specialist.id ? true : false}>
-                            {user.name} {user.lastName}
+                    {!showEditAppointment ? (
+                      <select
+                        name="service"
+                        id=""
+                        className="w-60 border border-black rounded-md text-md dark:text-darkText dark:bg-darkPrimary dark:border-darkText md:w-fit"
+                        onChange={handleChange}
+                      >
+                        <option
+                          defaultValue={dateInfo.service.id ? false : true}
+                          value={JSON.stringify({
+                            Specialties: [{ specialtyName: "noneSpecialty" }],
+                          })}
+                        >
+                          {" "}
+                          Procedimientos{" "}
+                        </option>
+                        {services.map((service, index) => (
+                          <option key={index} value={JSON.stringify(service)} selected={dateInfo.service.id === service.id ? true : false}>
+                            {service.serviceName}
                           </option>
-                        )
+                        ))}
+                      </select>
+                    ) : (
+                      <></>
                     )}
-                  </select>
-                ) : (
-                  <></>
-                )}
-                </div>
-              </section>
-            )}
-            <Calendar
-              setDateInfo={setDateInfo}
-              branches={branches}
-              services={services}
-              users={users}
-              user={user}
-              refrescarCita={refrescarCita}
-              setRefrescarCita={setRefrescarCita}
-              chosenClient={chosenClient}
-              setSpecialty={setSpecialty}
-              setShowAppointmentModal={setShowAppointmentModal}
-              setShowEditAppointment={setShowEditAppointment}
-              showEditAppointment={showEditAppointment}
-              dateInfo={dateInfo}
-            />
-            <div className="h-full flex flex-row justify-center xl:items-end">
-              {user.role === "especialista" ? null : (
-                <button
-                  onClick={handleAppointmentModal}
-                  disabled={!isFormCompleted}
-                  className={`rounded mt-auto px-6 py-2 cursor-pointer ${
-                    isFormCompleted ? "bg-primaryPink" : "bg-gray-300"
-                  } shadow shadow-black text-black ${
-                    isFormCompleted ? "hover:bg-blue-600" : "cursor-not-allowed"
-                  } focus:outline-none transition-colors dark:text-darkText dark:bg-darkPrimary ${
-                    isFormCompleted
-                      ? "dark:hover:bg-blue-600"
-                      : "dark:cursor-not-allowed"
-                  }`}
-                >
-                  Agregar Cita
-                </button>
+                    {!showEditAppointment ? (
+                      <select
+                        onChange={handleChange}
+                        name="specialist"
+                        id=""
+                        className="w-60 border border-black rounded-md text-md dark:text-darkText dark:bg-darkPrimary dark:border-darkText  md:w-fit"
+                      >
+                        <option
+                          defaultValue={dateInfo.specialist.id ? false : true}
+                          value="null"
+                          selected={dateInfo.specialist.id ? true : false}
+                        >
+                          {" "}
+                          -- Especialista--{" "}
+                        </option>
+                        {users.map(
+                          (user, index) =>
+                            user.role === "especialista" && (
+                              <option key={index} value={JSON.stringify(user)} selected={user.id === dateInfo.specialist.id ? true : false}>
+                                {user.name} {user.lastName}
+                              </option>
+                            )
+                        )}
+                      </select>
+                    ) : (
+                      <></>
+                    )}
+                  </div>
+                </section>
               )}
+              <Calendar
+                setDateInfo={setDateInfo}
+                branches={branches}
+                services={services}
+                users={users}
+                user={user}
+                refrescarCita={refrescarCita}
+                setRefrescarCita={setRefrescarCita}
+                chosenClient={chosenClient}
+                setSpecialty={setSpecialty}
+                setShowAppointmentModal={setShowAppointmentModal}
+                setShowEditAppointment={setShowEditAppointment}
+                showEditAppointment={showEditAppointment}
+                dateInfo={dateInfo}
+              />
+              <div className="h-full flex flex-row justify-center xl:items-end">
+                {user.role === "especialista" ? null : (
+                  <button
+                    onClick={handleAppointmentModal}
+                    disabled={!isFormCompleted}
+                    className={`rounded mt-auto px-6 py-2 cursor-pointer ${isFormCompleted ? "bg-primaryPink" : "bg-gray-300"
+                      } shadow shadow-black text-black ${isFormCompleted ? "hover:bg-blue-600" : "cursor-not-allowed"
+                      } focus:outline-none transition-colors dark:text-darkText dark:bg-darkPrimary ${isFormCompleted
+                        ? "dark:hover:bg-blue-600"
+                        : "dark:cursor-not-allowed"
+                      }`}
+                  >
+                    Agregar Cita
+                  </button>
+                )}
+              </div>
             </div>
-          </div>
-        )}
-        {showClientListModal ? (
-          <ListClients
-            setChosenClient={setChosenClient}
-            setShowClientListModal={setShowClientListModal}
-          />
-        ) : null}
-        {showAppointmentModal && (
-          <CreateAppointment
-            branches={branches}
-            setShowAppointmentModal={setShowAppointmentModal}
-            dateInfo={dateInfo}
-            setDateInfo={setDateInfo}
-            token={tokenID}
-            setRefrescarCita={setRefrescarCita}
-            refrescarCita={refrescarCita}
-            chosenClient={chosenClient}
-            formattedDate={formattedDate}
-            setChosenClient={setChosenClient}
-          />
-        )}
+          )}
+          {showClientListModal ? (
+            <ListClients
+              setChosenClient={setChosenClient}
+              setShowClientListModal={setShowClientListModal}
+            />
+          ) : null}
+          {showAppointmentModal && (
+            <CreateAppointment
+              branches={branches}
+              setShowAppointmentModal={setShowAppointmentModal}
+              dateInfo={dateInfo}
+              setDateInfo={setDateInfo}
+              token={tokenID}
+              setRefrescarCita={setRefrescarCita}
+              refrescarCita={refrescarCita}
+              chosenClient={chosenClient}
+              formattedDate={formattedDate}
+              setChosenClient={setChosenClient}
+            />
+          )}
+        </div>
       </div>
-    </div>
-  );
+    );
+  }
 };
 
 export default Agenda;

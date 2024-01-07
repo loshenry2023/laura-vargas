@@ -23,6 +23,7 @@ async function checkToken(tokenRec, clearToken = false) {
           (currentTime - lastUseTime) / (1000 * 60)
         );
         // Verifico si pasaron 18 hs. desde el último uso:
+        // if (minutesDifference > 0.1) {
         if (minutesDifference > 1080) {
           return { exist: false, mensaje: 'La sesión expiró', code: 403 };
         }
