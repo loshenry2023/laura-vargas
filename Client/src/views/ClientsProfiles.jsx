@@ -86,7 +86,7 @@ const ClientsProfiles = () => {
               }
             </div>
             <ClientFilters setNameOrLastName={setNameOrLastName} nameOrLastName={nameOrLastName} setAttribute={setAttribute} setOrder={setOrder} setPage={setPage} setSize={setSize} setBirthdaysMonth={setBirthdaysMonth} setCreateDateStart={setCreateDateStart} setCreateDateEnd={setCreateDateEnd} />
-            <ClientsTable clients={clients} />
+            <ClientsTable count={count} clients={clients} />
             <Pagination page={page} setPage={setPage} size={size} setSize={setSize} count={count} />
           </div>
         )}

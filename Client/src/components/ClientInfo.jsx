@@ -84,9 +84,6 @@ const ClientInfo = () => {
       setShowDeleteConfirmation(false);
     }
   }
-
-  //console.log(clientInfo)
-
   return (
     <>
       {loading ? <Loader /> : (

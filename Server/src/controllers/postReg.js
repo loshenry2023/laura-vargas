@@ -122,13 +122,10 @@ async function AddRegClient(User, data, conn) {
         if (existingClient) {
             throw Error("El cliente ya existe");
         }
-        const formattedBirthday = birthday !== "" ? new Date(birthday) : null;
-        const formattedMonthBirthday = birthday ? birthday.split("-")[1] : null;
-        const formattedDayBirthday = birthday ? birthday.split("-")[2] : null;
-        // Inicio la transacción:
+        //const formattedBirthday = birthday !== "" ? new Date(birthday) : null;
         transaction = await conn.transaction();
         const [ClientCreated, created] = await User.findOrCreate({
-            where: { email, name, lastName, id_pers, phoneNumber1: phone1, phoneNumber2: phone2, image, birthday: formattedBirthday, monthBirthday: formattedMonthBirthday, dayBirthday: formattedDayBirthday },
+            where: { email, name, lastName, id_pers, phoneNumber1: phone1, phoneNumber2: phone2, image, birthday: birthday || null, monthBirthday: birthday ? birthday.split('-')[1]: null, dayBirthday: birthday ? birthday.split('-')[2]: null},
             transaction,
         });
         await transaction.commit();

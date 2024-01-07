@@ -220,9 +220,6 @@ const EditAppointment = ({ setShowEditAppointment, setSpecialty, token, date, se
       ...prevErrors,
       [name]: error,
     }));
-
-
-
   };
 
   useEffect(() => {
