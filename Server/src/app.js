@@ -1,6 +1,7 @@
 const express = require("express");
 const router = require("./routes/index");
 const server = express();
+const cronJobs = require('./cronJobs');
 
 // Middleware para tener acceso sin seguridad (uso local):
 server.use((req, res, next) => {

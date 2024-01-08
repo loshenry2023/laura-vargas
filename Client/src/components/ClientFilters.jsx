@@ -1,19 +1,18 @@
 import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
 
-const ClientFilters = ({setSize, setOrder, nameOrLastName, setAttribute, setNameOrLastName, setPage}) => {
+const ClientFilters = ({setOrder, nameOrLastName, setAttribute, setNameOrLastName, setPage, setBirthdaysMonth, setCreateDateStart, setCreateDateEnd}) => {
 
   const location = useLocation()
 
   return (
     <section className="flex flex-col gap-4">
+      {location.pathname !== "/agenda" ? <h4 className="text-md underline mb-[-12px] dark:text-darkText">Filtro por fecha de creación</h4> : null}
       <div className="flex flex-col gap-2 mx-auto sm:flex sm:flex-row sm:gap-5 sm:w-full">
         <div className="flex flex-col gap-6 md:flex-row">
             {location.pathname !== "/agenda" ? (
             <>
             <div className="flex gap-2">
-                <>
-                </>
               <label className="hidden md:inline dark:text-darkText">
                 Fecha inicial
               </label>
@@ -25,7 +24,7 @@ const ClientFilters = ({setSize, setOrder, nameOrLastName, setAttribute, setName
                 }}
                 type="date"
                 defaultValue=""
-                className="border rounded-md border-black px-2 text-sm dark:text-darkText dark:bg-darkPrimary dark:asd"
+                className="border rounded-md border-black px-2 text-sm dark:invert"
               />
             </div>
             <div className="flex gap-2">
@@ -40,7 +39,7 @@ const ClientFilters = ({setSize, setOrder, nameOrLastName, setAttribute, setName
                 }}
                 type="date"
                 defaultValue=""
-                className="border rounded-md border-black px-2 text-sm  dark:text-darkText dark:bg-darkPrimary"
+                className="border rounded-md border-black px-2 text-sm dark:invert"
               />
             </div> </>): null }
         </div>
@@ -81,8 +80,31 @@ const ClientFilters = ({setSize, setOrder, nameOrLastName, setAttribute, setName
             <option value="name">Nombre</option>
             <option value="lastName">Apellido</option>
             <option value="createdAt">Fecha de creación</option>
+            <option value="monthBirthday">Cumpleaños</option>
+          </select>
+          <select
+            onChange={(e) => {
+              setBirthdaysMonth(e.target.value);
+              setPage(0);
+            }}
+            className="font-medium py-0.5 w-full border border-black rounded-md text-xs dark:text-darkText dark:bg-darkPrimary"
+          >
+            <option value=""> -- Mes de cumpleaños -- </option>
+            <option value="01" >Enero</option>
+            <option value="02">Febrero</option>
+            <option value="03">Marzo</option>
+            <option value="04">Abril</option>
+            <option value="05">Mayo</option>
+            <option value="06">Junio</option>
+            <option value="07">Julio</option>
+            <option value="08">Agosto</option>
+            <option value="09">Septiembre</option>
+            <option value="10">Octubre</option>
+            <option value="11">Noviembre</option>
+            <option value="12">Diciembre</option>
           </select>
           </> : null}
+          
         </div>
       </div>
     </section>

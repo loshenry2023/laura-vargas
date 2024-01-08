@@ -15,6 +15,7 @@ export default function getParamsEnv() {
   const API_URL_BASE = import.meta.env.VITE_API_URL_BASE || "http://localhost:3001/laura-vargas";
   const DATEDETAIL = import.meta.env.VITE_DATE_DETAIL || "/dateDetail/:id";
   const DATEDETAILBASE = import.meta.env.VITE_DATE_DETAIL_BASE || "/dateDetail";
+  const SPECIALISTMONITORING = import.meta.env.VITE_SPECIALIST_MONITORING || "/specialistMonitoring";
 
   const CONSUMABLES = import.meta.env.VITE_CONSUMABLES || "/consumables";
   const HISTORYPRICE = import.meta.env.VITE_HISTORY_PRICE || "/historyprice/:productId";
@@ -46,6 +47,7 @@ export default function getParamsEnv() {
     USERPROFILES,
     CLIENTDETAIL,
     CLIENTDETAILBASE,
+    SPECIALISTMONITORING,
     API_URL_BASE,
     CLOUD_NAME,
     UPLOAD_PRESET,

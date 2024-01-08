@@ -31,7 +31,9 @@ import {
   UPDATE_PRODUCT_PRICE_SUCCESS,
   UPDATE_PRODUCT_PRICE_FAILURE,
   CLEAR_PRODUCT_PRICE,
-  GET_PAY_METHODS
+  GET_PAY_METHODS,
+  GET_SPECIALISTS,
+  SET_TOKEN_ERROR,
 } from "./actionsTypes";
 
 const initialState = {
@@ -51,7 +53,9 @@ const initialState = {
   error: null,
   editingProduct: null,
   pricesHistory: [],
-  payMethods: []
+  payMethods: [],
+  specialists: [],
+  tokenError: 0
 };
 
 const rootReducer = (
@@ -94,6 +98,15 @@ const rootReducer = (
       };
       localStorage.setItem("myAppReduxState", JSON.stringify(getUsersState));
       return getUsersState;
+
+    //! Trae todos los usuarios especialistas
+    case GET_SPECIALISTS:
+      const getspecialists = {
+        ...state,
+        specialists: payload,
+      };
+      localStorage.setItem("myAppReduxState", JSON.stringify(getspecialists));
+      return getspecialists;
 
     //! Trae el calendar
     case GET_CALENDAR:
@@ -210,6 +223,7 @@ const rootReducer = (
         ...state,
         loading: true,
         error: null,
+        products: null,
       };
 
     case GET_PRODUCTS_SUCCESS:
@@ -318,6 +332,13 @@ const rootReducer = (
       };
       localStorage.setItem("myAppReduxState", JSON.stringify(setPayMethods));
       return setPayMethods;
+
+    case SET_TOKEN_ERROR:
+      console.log("PROCESO ERROR ", payload)
+      return {
+        ...state,
+        tokenError: payload,
+      };
 
     default:
       return state;

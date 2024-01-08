@@ -5,6 +5,15 @@ const validateClientInput = (data) => {
   const phonePattern = /^[0-9]{8,15}$/;
   const numberPattern = /^\d+$/;
 
+  function isDateHigherThanToday(inputDate) {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const inputDateObject = new Date(inputDate);
+    inputDateObject.setHours(0, 0, 0, 0);
+  
+    return inputDateObject > today;
+  }
+
   if (!data.email) {
     validationErrors.email = "Ingrese un correo electrónico";
   } else if (!emailPattern.test(data.email)) {
@@ -35,7 +44,11 @@ const validateClientInput = (data) => {
     validationErrors.phoneNumber2 = "Ingrese teléfono válido, 8-15 dig";
   }
 
-  if (data.id_pers.length === 0) {
+  if (isDateHigherThanToday(data.birthday)) {
+    validationErrors.birthday = "Ingrese una fecha anterior al día de hoy"
+  }
+
+  if (!data.id_pers) {
     null
    } else if (data.id_pers.length > 0 && data.id_pers.length !== 8) {
       validationErrors.id_pers = "El documento debe tener 8 dígitos";

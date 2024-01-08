@@ -1,23 +1,46 @@
 const productController = require("../../controllers/products-price/productController");
 const showLog = require("../../functions/showLog");
+const checkToken = require('../../functions/checkToken');
 
 const getAllProductsHandler = async (req, res) => {
   try {
     const {
       productName,
-      supplier,
-      amount,
+      description,
       code,
-      attribute,
+      amount,
       order,
       page,
       size,
-      description,
       branch,
       productCode,
-    } = req.query;
+      token,
+      supplier = "",
+      attribute = "",
+    } = req.body;
 
-    //console.log("BRANCH ", branch)
+    // Verifico token:
+    if (!token) { throw Error("Se requiere token"); }
+    const checked = await checkToken(token);
+    if (!checked.exist) {
+      showLog(checked.mensaje);
+      return res.status(checked.code).send(checked.mensaje);
+    }
+
+    // console.log("----------------------------");
+    // console.log("productName ", productName);
+    // console.log("supplier ", supplier);
+    // console.log("amount ", amount);
+    // console.log("code ", code);
+    // console.log("attribute ", attribute);
+
+    // console.log("order ", order);
+    // console.log("page ", page);
+    // console.log("size ", size);
+    // console.log("description ", description);
+    // console.log("branch ", branch);
+    // console.log("productCode ", productCode);
+    // console.log("----------------------------");
 
     const products = await productController.getAllProductsWithLatestPrice(
       productName,

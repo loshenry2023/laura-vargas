@@ -51,6 +51,10 @@ module.exports = (sequelize) => {
       type: DataTypes.DATE,
       allowNull: true,
     },
+    lastUse: {
+      type: DataTypes.DATE,
+      allowNull: true,
+    },
   }, {
     paranoid: true, // Habilita eliminación suave
   });

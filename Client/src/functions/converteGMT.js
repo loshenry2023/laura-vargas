@@ -2,7 +2,7 @@ export default function converterGMT(date) {
 
 
 
-  console.log("RECIBO ", date);
+  //console.log("RECIBO ", date);
   // Crear un objeto Date a partir de la cadena de fecha y hora
   const fechaObjeto = new Date(date);
 
@@ -12,12 +12,13 @@ export default function converterGMT(date) {
   const dia = fechaObjeto.getUTCDate().toString().padStart(2, '0');
 
   // Obtener la hora y minutos
-  const hora = fechaObjeto.getUTCHours().toString().padStart(2, '0');
+  let hora = fechaObjeto.getUTCHours().toString().padStart(2, '0');
   const minutos = fechaObjeto.getUTCMinutes().toString().padStart(2, '0');
+
 
   // Formatear la cadena de salida
   const cadenaFormateada = `${year}-${mes}-${dia} ${hora}:${minutos}`;
-  console.log("DEVUELVO ", cadenaFormateada);
+  //console.log("DEVUELVO ", cadenaFormateada);
 
   return cadenaFormateada;
 

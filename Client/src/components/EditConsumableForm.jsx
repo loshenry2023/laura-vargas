@@ -15,6 +15,7 @@ function EditConsumableForm({
   code,
   onClose,
   setProductsData,
+  user,
 }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -54,7 +55,7 @@ function EditConsumableForm({
     let amountToAddOrSubtract = parseInt(adjustmentValue, 10);
 
     if (isNaN(amountToAddOrSubtract) || amountToAddOrSubtract <= 0) {
-      console.error("Ingresa un número válido para la cantidad.");
+      // console.error("Ingresa un número válido para la cantidad.");
       return;
     }
 
@@ -72,7 +73,6 @@ function EditConsumableForm({
       setErrors({});
     }
 
-    console.log("amount update", updatedAmount, "estado actual", amount);
     setAmount(updatedAmount);
   };
 
@@ -116,9 +116,9 @@ function EditConsumableForm({
       parseFloat(newPrice) === parseFloat(priceHistory)
     ) {
       toast.error("No se realizaron modificaciones.");
-      setTimeout(() => {
-        setEditConsumableModal(false);
-      }, 2000);
+      // setTimeout(() => {
+      //   setEditConsumableModal(false);
+      // }, 2000);
       return;
     }
 
@@ -132,12 +132,10 @@ function EditConsumableForm({
       amount,
     };
 
-    console.log("Product:", updatedProduct);
     setProductsData(updatedProduct);
     if (parseFloat(newPrice) !== parseFloat(priceHistory)) {
       try {
         await dispatch(updateProductPrice(product.code, newPrice));
-        toast.success("Precio actualizado correctamente.");
       } catch (error) {
         console.error(
           "Error al actualizar el precio del producto:",
@@ -150,7 +148,6 @@ function EditConsumableForm({
     try {
       await dispatch(editProduct(product.code, updatedProduct));
       setProductsData(updatedProduct);
-      toast.success("Producto editado correctamente.");
     } catch (error) {
       console.error("Error al editar el producto:", error.message);
       toast.error("Hubo un problema al editar el producto.");
@@ -166,7 +163,7 @@ function EditConsumableForm({
 
   return (
     <>
-      <div className="absolute top-0 left-0 flex items-center justify-center w-full h-full bg-black opacity-95">
+      <div className="fixed top-0 left-0 flex items-center justify-center w-full h-full bg-black" style={{ background: "rgba(0, 0, 0, 0.70)" }}>
         <div className="container">
           <div className="w-full bg-white shadow rounded-lg p-6 md:mx-auto md:w-1/2 2xl:w-1/3 dark:bg-darkBackground">
             <div className="flex justify-between">
@@ -179,36 +176,41 @@ function EditConsumableForm({
               />
             </div>
             <form>
+              {user.role === "superAdmin" && (
+                <>
+                  <div className="mb-2">
+                    <label className="pl-1 text-sm font-bold">Nombre:</label>
+                    <input
+                      className="border border-black p-2 rounded w-full"
+                      type="text"
+                      value={productName}
+                      onChange={(e) => setProductName(e.target.value)}
+                    />
+                  </div>
+                  <div className="mb-2">
+                    <label className="pl-1 text-sm font-bold">
+                      Descripción:
+                    </label>
+                    <input
+                      className="border border-black p-2 rounded w-full"
+                      type="text"
+                      value={description}
+                      onChange={(e) => setDescription(e.target.value)}
+                    />
+                  </div>
+                  <div className="mb-2">
+                    <label className="pl-1 text-sm font-bold">Proveedor:</label>
+                    <input
+                      className="border border-black p-2 rounded w-full"
+                      type="text"
+                      value={supplier}
+                      onChange={(e) => setSupplier(e.target.value)}
+                    />
+                  </div>
+                </>
+              )}
               <div className="mb-2">
-                <label className="pl-1 text-sm font-bold">Nombre:</label>
-                <input
-                  className="border border-black p-2 rounded w-full"
-                  type="text"
-                  value={productName}
-                  onChange={(e) => setProductName(e.target.value)}
-                />
-              </div>
-              <div className="mb-2">
-                <label className="pl-1 text-sm font-bold">Descripción:</label>
-                <input
-                  className="border border-black p-2 rounded w-full"
-                  type="text"
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
-                />
-              </div>
-              <div className="mb-2">
-                <label className="pl-1 text-sm font-bold">Proveedor:</label>
-                <input
-                  className="border border-black p-2 rounded w-full"
-                  type="text"
-                  value={supplier}
-                  onChange={(e) => setSupplier(e.target.value)}
-                />
-              </div>
-
-              <div className="mb-2">
-                <label className="pl-1 text-sm font-bold">
+                <label className="pl-1 text-sm font-bold dark:text-darkText">
                   Cantidad Actual:
                 </label>
                 <input
@@ -220,50 +222,81 @@ function EditConsumableForm({
                 />
               </div>
 
-              <div className="mb-2">
-                <label className="pl-1 text-sm font-bold">
-                  Cantidad a Agregar/Quitar:
-                </label>
-                <div className="flex items-center">
-                  <input
-                    className="border border-black p-2 rounded mr-2"
-                    type="number"
-                    value={adjustmentValue}
-                    onChange={(e) => {
-                      const value = parseInt(e.target.value);
-                      if (!isNaN(value) && value >= 0) {
-                        setAdjustmentValue(value);
-                      }
-                    }}
-                    min="0"
-                  />
-                  <button
-                    type="button"
-                    className="border border-black p-1 rounded"
-                    onClick={() => handleAdjustAmount("subtract")}
-                  >
-                    Quitar
-                  </button>
-                  <button
-                    type="button"
-                    className="border border-black p-1 rounded ml-2"
-                    onClick={() => handleAdjustAmount("add")}
-                  >
-                    Agregar
-                  </button>
+              {user.role === "admin" ? (
+                <div className="mb-2">
+                  <label className="pl-1 text-sm font-bold">
+                    Cantidad a Quitar:
+                  </label>
+                  <div className="flex items-center">
+                    <input
+                      className="border border-black p-2 rounded mr-2"
+                      type="number"
+                      value={adjustmentValue}
+                      onChange={(e) => {
+                        const value = parseInt(e.target.value);
+                        if (!isNaN(value) && value >= 0) {
+                          setAdjustmentValue(value);
+                        }
+                      }}
+                      min="0"
+                    />
+                    <button
+                      type="button"
+                      className="border border-black p-1 rounded"
+                      onClick={() => handleAdjustAmount("subtract")}
+                    >
+                      Quitar
+                    </button>
+                  </div>
                 </div>
-              </div>
+              ) : null}
 
-              <div className="mb-2">
-                <label className="pl-1 text-sm font-bold">Precio:</label>
-                <input
-                  className="border border-black p-2 rounded w-full"
-                  type="number"
-                  value={newPrice}
-                  onChange={(e) => setNewPrice(e.target.value)}
-                />
-              </div>
-
+              {user.role === "superAdmin" ? (
+                <>
+                  <div className="mb-2">
+                    <label className="pl-1 text-sm font-bold">
+                      Cantidad a Quitar/Agregar:
+                    </label>
+                    <div className="flex items-center">
+                      <input
+                        className="border border-black p-2 rounded mr-2"
+                        type="number"
+                        value={adjustmentValue}
+                        onChange={(e) => {
+                          const value = parseInt(e.target.value);
+                          if (!isNaN(value) && value >= 0) {
+                            setAdjustmentValue(value);
+                          }
+                        }}
+                        min="0"
+                      />
+                      <button
+                        type="button"
+                        className="border border-black p-1 rounded"
+                        onClick={() => handleAdjustAmount("subtract")}
+                      >
+                        Quitar
+                      </button>
+                      <button
+                        type="button"
+                        className="border border-black p-1 rounded ml-2"
+                        onClick={() => handleAdjustAmount("add")}
+                      >
+                        Agregar
+                      </button>
+                    </div>
+                  </div>
+                  <div className="mb-2">
+                    <label className="pl-1 text-sm font-bold">Precio:</label>
+                    <input
+                      className="border border-black p-2 rounded w-full"
+                      type="number"
+                      value={newPrice}
+                      onChange={(e) => setNewPrice(e.target.value)}
+                    />
+                  </div>
+                </>
+              ) : null}
               {/* Mostrar errores */}
               {Object.keys(errors).length > 0 && (
                 <div className="text-red-500">

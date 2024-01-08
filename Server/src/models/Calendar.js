@@ -24,6 +24,10 @@ module.exports = (sequelize) => {
       type: DataTypes.BOOLEAN,
       allowNull: false,
     },
+    reminded: {
+      type: DataTypes.BOOLEAN,
+      allowNull: true,
+    },
     deletedAt: {
       type: DataTypes.DATE,
       allowNull: true,

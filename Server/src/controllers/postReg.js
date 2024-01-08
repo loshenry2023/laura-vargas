@@ -28,7 +28,7 @@ const postReg = async (tableName, tableNameText, data, conn = "", tableName2 = "
                 resp = await AddRegCatGastos(tableName, data);
                 return { "created": "ok", "id": resp };
             case "HistoryService":
-                resp = await AddRegHistoricProc(tableName, data, conn, tableName2, tableName3);
+                resp = await AddRegHistoricProc(tableName, data, conn, tableName2, tableName3, tableName4);
                 return { "created": "ok" };
             case "Calendar":
                 resp = await AddRegCalendar(tableName, data, conn, tableName2, tableName3, tableName4, tableName5);
@@ -49,7 +49,7 @@ async function AddRegCalendar(Calendar, data, conn, User, Service, Client, Branc
         // Inicio la transacción:
         transaction = await conn.transaction();
         const regCreated = await Calendar.create({
-            date_from, date_to, obs, current: true, BranchId: idBranch,
+            date_from, date_to, obs, current: true, BranchId: idBranch, reminded: false,
         }, { transaction });
         const user = await User.findByPk(idUser);
         if (!user) {
@@ -82,11 +82,11 @@ async function AddRegCalendar(Calendar, data, conn, User, Service, Client, Branc
     }
 }
 
-async function AddRegHistoricProc(HistoryService, data, conn, Client, Incoming) {
+async function AddRegHistoricProc(HistoryService, data, conn, Client, Incoming, User) {
     const { idUser, idclient, imageServiceDone, date, amount1, amount2, conformity, branchName, paymentMethodName1, paymentMethodName2, serviceName, attendedBy, email, name, lastName, id_pers } = data;
     let transaction; // manejo transacciones para evitar registros defectuosos por relaciones mal solicitadas
     try {
-        if (!idUser || !idclient || !imageServiceDone || !date || !conformity || !branchName || !paymentMethodName1 || !paymentMethodName2 || !serviceName || !attendedBy || !email || !name || !lastName || !amount1 || !amount2) { throw Error("Faltan datos"); }
+        if (!idUser || !idclient || !imageServiceDone || !date || !branchName || !paymentMethodName1 || !paymentMethodName2 || !serviceName || !attendedBy || !email || !name || !lastName || !amount1 || !amount2) { throw Error("Faltan datos"); }
         // Inicio la transacción:
         transaction = await conn.transaction();
         const client = await Client.findByPk(idclient);
@@ -99,6 +99,7 @@ async function AddRegHistoricProc(HistoryService, data, conn, Client, Incoming) 
         await Incoming.create({ amount: amount2, paymentMethodName: paymentMethodName2, DateIncoming: date, HistoryServiceId: regCreated.id }, { transaction });
         // Relación: asocio el historial de servicio con el cliente:
         await client.addHistoryService(regCreated, { transaction });
+
         await transaction.commit();
         return;
     } catch (error) {
@@ -108,7 +109,7 @@ async function AddRegHistoricProc(HistoryService, data, conn, Client, Incoming) 
 }
 
 async function AddRegClient(User, data, conn) {
-    const { email, name, lastName, id_pers, phone1, phone2, image } = data;
+    const { email, name, lastName, id_pers, phone1, phone2, image, birthday } = data;
     let transaction; // manejo transacciones para evitar registros defectuosos por relaciones mal solicitadas
     try {
         if (!email || !name || !lastName || !phone1 || !image) { throw Error("Faltan datos"); }
@@ -121,10 +122,10 @@ async function AddRegClient(User, data, conn) {
         if (existingClient) {
             throw Error("El cliente ya existe");
         }
-        // Inicio la transacción:
+        //const formattedBirthday = birthday !== "" ? new Date(birthday) : null;
         transaction = await conn.transaction();
         const [ClientCreated, created] = await User.findOrCreate({
-            where: { email, name, lastName, id_pers, phoneNumber1: phone1, phoneNumber2: phone2, image },
+            where: { email, name, lastName, id_pers, phoneNumber1: phone1, phoneNumber2: phone2, image, birthday: birthday || null, monthBirthday: birthday ? birthday.split('-')[1] : null, dayBirthday: birthday ? birthday.split('-')[2] : null },
             transaction,
         });
         await transaction.commit();
@@ -198,6 +199,7 @@ async function AddRegUser(User, data, conn) {
         for (const spec of specialty) {
             await UserCreated.addSpecialties(spec, { transaction });
         }
+
         await transaction.commit();
         // Obtengo el id para devolver:
         const userCreated = await User.findOne({

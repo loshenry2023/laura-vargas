@@ -3,44 +3,61 @@ import React, { useEffect, useState } from "react";
 import { generateDate, months } from "../functions/calendar";
 import cn from "../functions/cn";
 import converterGMT from "../functions/converteGMT";
+import converter12Hrs from "../functions/converte12Hrs";
 import { GrFormNext, GrFormPrevious } from "react-icons/gr";
 import Loader from "../components/Loader";
 import EditAppointment from "./modals/EditAppoinment";
 import { Link } from "react-router-dom";
-import getParamsEnv from '../functions/getParamsEnv';
-import { Toaster, toast } from 'react-hot-toast';
-import axios from 'axios'
+import getParamsEnv from "../functions/getParamsEnv";
+import { Toaster, toast } from "react-hot-toast";
+import axios from "axios";
 
 //icons
 import { FaEye } from "react-icons/fa";
 import { MdEdit } from "react-icons/md";
 import { MdDelete } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
-import { getCalendar } from "../redux/actions";
-
+import { getCalendar, getspecialists } from "../redux/actions";
 
 const { API_URL_BASE, DATEDETAILBASE } = getParamsEnv();
 
-const Calendar = ({setDateInfo, services, users, setSpecialty, branches, refrescarCita, setRefrescarCita, chosenClient, user, setSelectServices}) => {
+const Calendar = ({
+  setDateInfo,
+  services,
+  users,
+  setSpecialty,
+  branches,
+  refrescarCita,
+  setRefrescarCita,
+  user,
+  dateInfo,
+  setShowEditAppointment,
+  showEditAppointment
+}) => {
   const dispatch = useDispatch();
 
-  const [date, setDate] = useState({})
+  const [date, setDate] = useState({});
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
-  const [citaId, setCitaId] = useState(null)
-  const [showEditAppointment, setShowEditAppointment] = useState(false)
+  const [citaId, setCitaId] = useState(null);
+  
   const days = ["D", "L", "M", "M", "J", "V", "S"];
   const currentDate = dayjs();
   const workingBranch = useSelector((state) => state?.workingBranch);
+  const specialists = useSelector((state) => state?.specialists);
   const workingBranchID = workingBranch.id;
+  const branchWorking= workingBranch.branchName;
   const token = useSelector((state) => state?.token);
   const calendar = useSelector((state) => state?.calendar);
   const [today, setToday] = useState(currentDate);
   const [selectDate, setSelectDate] = useState(currentDate);
-  const [userId, setUserId] = useState(user.role === "especialista" ? user.id : "")
+  const [userId, setUserId] = useState(
+    user.role === "especialista" ? user.id : ""
+  );
   const [branch, setBranch] = useState(workingBranchID);
   const [loading, setLoading] = useState(true);
   const dateNow = new Date();
-  const day = dateNow.getDate() < 10 ? `0${dateNow.getDate()}` : dateNow.getDate();
+  const day =
+    dateNow.getDate() < 10 ? `0${dateNow.getDate()}` : dateNow.getDate();
   const month =
     dateNow.getMonth() + 1 < 10
       ? `0${dateNow.getMonth() + 1}`
@@ -49,18 +66,25 @@ const Calendar = ({setDateInfo, services, users, setSpecialty, branches, refresc
   const firstDateTo = `${dateNow.getFullYear()}-${month}-${day} 23:59:59`;
   const [dateFrom, setDateFrom] = useState(firstDateFrom);
   const [dateTo, setDateTo] = useState(firstDateTo);
-  const [dayRange, setDayRange] = useState(`${dateNow.getFullYear()}-${month}-${day}`);
+  const [dayRange, setDayRange] = useState(
+    `${dateNow.getFullYear()}-${month}-${day}`
+  );
   const [activeButton, setactiveButton] = useState({
     range1: false,
     range2: false,
     range3: false,
   });
-  const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-  const formatedDate = selectDate.toDate().toLocaleDateString('es-ES', options);
+  const options = {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  };
+  const formatedDate = selectDate.toDate().toLocaleDateString("es-ES", options);
   const capitalizedDate = (str) => {
     return str.charAt(0).toUpperCase() + str.slice(1);
   };
-  const [effectControl, setEffectControl] = useState(false)
+  const [effectControl, setEffectControl] = useState(false);
 
   const range = [
     { hourFrom: "06:00:00", hourTo: "09:59:59" },
@@ -70,72 +94,71 @@ const Calendar = ({setDateInfo, services, users, setSpecialty, branches, refresc
 
   const handleDelete = async () => {
     try {
-      const response = await axios.post(`${API_URL_BASE}/deletecalendar/${citaId}`, { token });
+      const response = await axios.post(
+        `${API_URL_BASE}/deletecalendar/${citaId}`,
+        { token }
+      );
       if (response.data.deleted === "ok") {
-      toast.success("Cita eliminada exitosamente");
-  
-      
-      setCitaId(null);
+        toast.success("Cita eliminada exitosamente");
+
+        setCitaId(null);
       } else {
-      toast.error("Hubo un problema con la creación");
+        toast.error("Hubo un problema con la creación");
       }
     } catch (error) {
       console.error(error);
-      const errorMessage = error.response ? error.response.data : 'An error occurred';
+      const errorMessage = error.response
+        ? error.response.data
+        : "An error occurred";
       toast.error(`Hubo un problema con la creacion. ${errorMessage}`);
     }
-    };
-  
-    
+  };
+
   useEffect(() => {
+    dispatch(getspecialists(branchWorking, { token: token }));
 
-    if(!effectControl){
-     
-      setEffectControl(true)
-      dispatch(getCalendar(branch, dateFrom, dateTo, userId, { token: token })).then(
-        setLoading(false)
-      );
-      setEffectControl(false)
-      
+    setEffectControl(true);
+    dispatch(getCalendar(branch, dateFrom, dateTo, userId, { token: token }));
+    setLoading(false);
+    if (showEditAppointment) {
+      setSpecialty(date.User.Specialties[0].specialtyName);
+    }else {
+    setSpecialty(dateInfo.service.specialtyName);
     }
-    if (showEditAppointment){
-      setSpecialty(date.User.Specialties[0].specialtyName)
-      setSelectServices(false)
-    } else {
-      setSpecialty("noneSpecialty")
-      setSelectServices(true)
-    }
-
-    
-  }, [workingBranch.id, dateFrom, dateTo, citaId, refrescarCita, showEditAppointment]);
+    setEffectControl(false);
+  }, [
+    workingBranch.id,
+    dateFrom,
+    dateTo,
+    citaId,
+    refrescarCita,
+    showEditAppointment,
+    userId
+  ]);
 
   const handleShowEditAppointment = (date) => {
-    
-    const parsedDate = JSON.parse(date)
-    
-    setDate(parsedDate)
-    setShowEditAppointment(true)
-    
+    const parsedDate = JSON.parse(date);
+    setDate(parsedDate);
+    setShowEditAppointment(true);
+  };
+
+  const hideDeleteModal = () => {
+    setShowDeleteConfirmation(false);
+  };
+
+  const handleModal = (id) => {
+    setCitaId(id);
+    setShowDeleteConfirmation(true);
+  };
+
+  const deleteConfirmed = (confirmed) => {
+    if (confirmed) {
+      hideDeleteModal();
+      handleDelete();
+    } else {
+      hideDeleteModal();
     }
-
-    const hideDeleteModal = () => {
-      setShowDeleteConfirmation(false);
-    };
-
-    const handleModal = (id) => {
-      setCitaId(id)
-        setShowDeleteConfirmation(true);
-      };
-
-      const deleteConfirmed = (confirmed) => {
-        if (confirmed) {
-          hideDeleteModal();
-          handleDelete()
-        } else {
-          hideDeleteModal();
-        }
-      };
-
+  };
 
   return (
     <>
@@ -204,18 +227,22 @@ const Calendar = ({setDateInfo, services, users, setSpecialty, branches, refresc
                         )}
                         onClick={() => {
                           setSelectDate(date);
-                          let day = `${date.$y}-${date.$M + 1 < 10 ? `0${date.$M + 1}` : date.$M + 1
-                            }-${date.$D < 10 ? `0${date.$D}` : date.$D}`;
+                          let day = `${date.$y}-${
+                            date.$M + 1 < 10 ? `0${date.$M + 1}` : date.$M + 1
+                          }-${date.$D < 10 ? `0${date.$D}` : date.$D}`;
                           setDateFrom(`${day} 00:00:00`);
                           setDateTo(`${day} 23:59:59`);
                           setDayRange(day);
-                          setactiveButton({ range1: false, range2: false, range3: false });
+                          setactiveButton({
+                            range1: false,
+                            range2: false,
+                            range3: false,
+                          });
                           setDateInfo((prevInfo) => ({
-                        ...prevInfo,
-                        dateTime: date,
-                      }));
+                            ...prevInfo,
+                            dateTime: date,
+                          }));
                         }}
-
                       >
                         {date.date()}
                       </h1>
@@ -225,9 +252,9 @@ const Calendar = ({setDateInfo, services, users, setSpecialty, branches, refresc
               )}
             </div>
           </div>
-          <div className="w-72 sm:px-5 overflow-auto sm:w-96 sm:h-96 md:w-[550px]">
+          <div className="flex flex-col gap-2 w-72 sm:px-5 overflow-auto sm:w-96 sm:h-96 md:w-[600px]">
             {/* // se pued eponer mas con h-full // */}
-            <h1 className="font-semibold mb-2 dark:text-darkText">
+            <h1 className="font-semibold dark:text-darkText">
               {capitalizedDate(formatedDate)}
             </h1>
             <div className="flex flex-row gap-2">
@@ -235,30 +262,30 @@ const Calendar = ({setDateInfo, services, users, setSpecialty, branches, refresc
                 onClick={
                   activeButton.range1
                     ? () => {
-                      setDateFrom(`${dayRange} 00:00:00`);
-                      setDateTo(`${dayRange} 23:59:59`);
-                      setactiveButton({
-                        range1: false,
-                        range2: false,
-                        range3: false,
-                      });
-                    }
+                        setDateFrom(`${dayRange} 00:00:00`);
+                        setDateTo(`${dayRange} 23:59:59`);
+                        setactiveButton({
+                          range1: false,
+                          range2: false,
+                          range3: false,
+                        });
+                      }
                     : () => {
-                      setDateFrom((prevDateFrom) => {
-                        const newDateFrom = `${dayRange} ${range[0].hourFrom}`;
-                        return newDateFrom;
-                      });
+                        setDateFrom((prevDateFrom) => {
+                          const newDateFrom = `${dayRange} ${range[0].hourFrom}`;
+                          return newDateFrom;
+                        });
 
-                      setDateTo((prevDateTo) => {
-                        const newDateTo = `${dayRange} ${range[0].hourTo}`;
-                        return newDateTo;
-                      });
-                      setactiveButton({
-                        range1: true,
-                        range2: false,
-                        range3: false,
-                      });
-                    }
+                        setDateTo((prevDateTo) => {
+                          const newDateTo = `${dayRange} ${range[0].hourTo}`;
+                          return newDateTo;
+                        });
+                        setactiveButton({
+                          range1: true,
+                          range2: false,
+                          range3: false,
+                        });
+                      }
                 }
                 className={
                   activeButton.range1
@@ -266,38 +293,38 @@ const Calendar = ({setDateInfo, services, users, setSpecialty, branches, refresc
                     : "border border-black px-1 rounded-md dark:text-darkText dark:border dark:border-beige dark:bg-darkPrimary"
                 }
               >
-                06:00 a 10:00
+                6:00 AM - 10:00 AM
               </button>
 
               <button
                 onClick={
                   activeButton.range2
                     ? () => {
-                      setDateFrom(`${dayRange} 00:00:00`);
-                      setDateTo(`${dayRange} 23:59:59`);
+                        setDateFrom(`${dayRange} 00:00:00`);
+                        setDateTo(`${dayRange} 23:59:59`);
 
-                      setactiveButton({
-                        range1: false,
-                        range2: false,
-                        range3: false,
-                      });
-                    }
+                        setactiveButton({
+                          range1: false,
+                          range2: false,
+                          range3: false,
+                        });
+                      }
                     : () => {
-                      setDateFrom((prevDateFrom) => {
-                        const newDateFrom = `${dayRange} ${range[1].hourFrom}`;
-                        return newDateFrom;
-                      });
+                        setDateFrom((prevDateFrom) => {
+                          const newDateFrom = `${dayRange} ${range[1].hourFrom}`;
+                          return newDateFrom;
+                        });
 
-                      setDateTo((prevDateTo) => {
-                        const newDateTo = `${dayRange} ${range[1].hourTo}`;
-                        return newDateTo;
-                      });
-                      setactiveButton({
-                        range1: false,
-                        range2: true,
-                        range3: false,
-                      });
-                    }
+                        setDateTo((prevDateTo) => {
+                          const newDateTo = `${dayRange} ${range[1].hourTo}`;
+                          return newDateTo;
+                        });
+                        setactiveButton({
+                          range1: false,
+                          range2: true,
+                          range3: false,
+                        });
+                      }
                 }
                 className={
                   activeButton.range2
@@ -305,37 +332,37 @@ const Calendar = ({setDateInfo, services, users, setSpecialty, branches, refresc
                     : "border border-black px-1 rounded-md dark:text-darkText dark:border dark:border-beige dark:bg-darkPrimary"
                 }
               >
-                10:00 a 14:00
+                10:00 AM - 2:00 PM
               </button>
 
               <button
                 onClick={
                   activeButton.range3
                     ? () => {
-                      setDateFrom(`${dayRange} 00:00:00`);
-                      setDateTo(`${dayRange} 23:59:59`);
-                      setactiveButton({
-                        range1: false,
-                        range2: false,
-                        range3: false,
-                      });
-                    }
+                        setDateFrom(`${dayRange} 00:00:00`);
+                        setDateTo(`${dayRange} 23:59:59`);
+                        setactiveButton({
+                          range1: false,
+                          range2: false,
+                          range3: false,
+                        });
+                      }
                     : () => {
-                      setDateFrom((prevDateFrom) => {
-                        const newDateFrom = `${dayRange} ${range[2].hourFrom}`;
-                        return newDateFrom;
-                      });
+                        setDateFrom((prevDateFrom) => {
+                          const newDateFrom = `${dayRange} ${range[2].hourFrom}`;
+                          return newDateFrom;
+                        });
 
-                      setDateTo((prevDateTo) => {
-                        const newDateTo = `${dayRange} ${range[2].hourTo}`;
-                        return newDateTo;
-                      });
-                      setactiveButton({
-                        range1: false,
-                        range2: false,
-                        range3: true,
-                      });
-                    }
+                        setDateTo((prevDateTo) => {
+                          const newDateTo = `${dayRange} ${range[2].hourTo}`;
+                          return newDateTo;
+                        });
+                        setactiveButton({
+                          range1: false,
+                          range2: false,
+                          range3: true,
+                        });
+                      }
                 }
                 className={
                   activeButton.range3
@@ -343,11 +370,34 @@ const Calendar = ({setDateInfo, services, users, setSpecialty, branches, refresc
                     : "border border-black px-1 rounded-md dark:text-darkText dark:border dark:border-beige dark:bg-darkPrimary"
                 }
               >
-                14:00 a 19:00
+                2:00 PM - 7:00 PM
               </button>
             </div>
+            <div>
+            {user.role === "especialista" ? (
+              <></>
+            ) : (
+              <div>
+                <select
+                  name="specialists"
+                  id=""
+                  className="w-60 border border-black rounded-md text-md dark:text-darkText dark:bg-darkPrimary md:w-fit"
+                  onChange={(e) => {setUserId(e.target.value)}}
+                >
+                  <option value=""> -- Mostrar agendas especialistas --  </option>
+                  {specialists.map((specialis, index) => (
+                    <option key={index} value={specialis.id}>
+                      {`${specialis.name} ${specialis.lastName}`}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            )}
+              </div>
             {calendar.length === 0 && (
-              <h4 className="mt-2 font-medium text-xl dark:text-darkText">Sin turnos hasta el momento</h4>
+              <h4 className="font-medium text-xl dark:text-darkText">
+                Sin turnos hasta el momento
+              </h4>
             )}
             {calendar.map((cita, index) => {
               return (
@@ -356,46 +406,67 @@ const Calendar = ({setDateInfo, services, users, setSpecialty, branches, refresc
                   className={
                     cita.current === true
                       ? "border p-1 shadow shadow-black rounded-lg mt-2 hover:scale-105 dark:bg-darkPrimary dark:border-none"
-                      : "bg-red-100 p-1 border-black mt-2 rounded-lg hover:scale-105 dark:bg-red-950" 
+                      : "bg-red-100 p-1 border-black mt-2 rounded-lg hover:scale-105 dark:bg-red-950"
                   }
                 >
                   <div className="flex flex-col">
                     <div className="flex flex-row justify-between">
                       <h5 className="text-md font-medium tracking-wide dark:text-darkText underline underline-offset-2">
                         {" "}
-                        {cita.date_from.split(" ")[1].slice(0,5)} -  {cita.date_to.split(" ")[1].slice(0,5)}
-                        
+                        {converter12Hrs(cita.date_from.split(" ")[1].slice(0, 5))} -{" "}
+                        {converter12Hrs(cita.date_to.split(" ")[1].slice(0, 5))}
                         <span>
                           {" "}
                           - {cita.Client.name} {cita.Client.lastName}
                         </span>
                       </h5>
-                      {cita.current === false ? null :
-                      <div className="flex pt-[6px] gap-2">
-                      <Link to={`${DATEDETAILBASE}/${cita.id}`} ><FaEye className={user.role === "especialista" ? "hover:scale-125 hover:text-blue-500 cursor-pointer delay-200 dark:text-darkText dark:hover:text-blue-500 mr-2" :  "hover:scale-125 hover:text-blue-500 cursor-pointer delay-200 dark:text-darkText dark:hover:text-blue-500"}/></Link>
-                      {user.role === "especialista" ? null : 
-                      <>
-                        <MdEdit onClick={() => handleShowEditAppointment(JSON.stringify(cita))} className="hover:scale-125 hover:text-primaryPink cursor-pointer delay-200 dark:text-darkText dark:hover:text-primaryPink" />
-                        <MdDelete onClick={() => handleModal(cita.id)} className="hover:scale-125 hover:text-red-500 cursor-pointer delay-200 dark:text-darkText dark:hover:text-red-500" />
-                      </>
-                      }
-                      </div>
-                      }
+                      {cita.current === false ? null : (
+                        <div className="flex pt-[6px] gap-2">
+                          <Link to={`${DATEDETAILBASE}/${cita.id}`}>
+                            <FaEye
+                              className={
+                                user.role === "especialista"
+                                  ? "hover:scale-125 hover:text-blue-500 cursor-pointer delay-200 dark:text-darkText dark:hover:text-blue-500 mr-2"
+                                  : "hover:scale-125 hover:text-blue-500 cursor-pointer delay-200 dark:text-darkText dark:hover:text-blue-500"
+                              }
+                            />
+                          </Link>
+                          {user.role === "especialista" ? null : (
+                            <>
+                              <MdEdit
+                                onClick={() =>
+                                  handleShowEditAppointment(
+                                    JSON.stringify(cita)
+                                  )
+                                }
+                                className="hover:scale-125 hover:text-primaryPink cursor-pointer delay-200 dark:text-darkText dark:hover:text-primaryPink"
+                              />
+                              <MdDelete
+                                onClick={() => handleModal(cita.id)}
+                                className="hover:scale-125 hover:text-red-500 cursor-pointer delay-200 dark:text-darkText dark:hover:text-red-500"
+                              />
+                            </>
+                          )}
+                        </div>
+                      )}
                     </div>
-                    <p className="text-md tracking-wide font-light dark:text-darkText">
+                    {/* <p className="text-md tracking-wide font-light dark:text-darkText">
                       {" "}
                       <span className="font-medium">Sede:</span>{" "}
                       {cita.Branch.branchName}
-                    </p>
+                    </p> */}
                     <p className="text-md tracking-wide font-light dark:text-darkText">
                       {" "}
                       <span className="font-medium">Especialista:</span>{" "}
-                      {cita.User === null ? "Error en la carga de especialista" : `${cita.User.name} ${cita.User.lastName}`}
-                      
+                      {cita.User === null
+                        ? "Error en la carga de especialista"
+                        : `${cita.User.name} ${cita.User.lastName}`}
                     </p>
                     <p className="text-md tracking-wide font-light dark:text-darkText">
                       <span className="font-medium">Procedimiento:</span>{" "}
-                      {cita.Service === null ? "Error en la carga de procedimiento. Llamar cliente" : cita.Service.serviceName}
+                      {cita.Service === null
+                        ? "Error en la carga de procedimiento. Llamar cliente"
+                        : cita.Service.serviceName}
                     </p>
                   </div>
                 </div>
@@ -431,64 +502,63 @@ const Calendar = ({setDateInfo, services, users, setSpecialty, branches, refresc
           </div>
         </div>
       )}
-      {showEditAppointment && date &&
-	  (
-		<EditAppointment
-		token={token}
-		setShowEditAppointment={setShowEditAppointment}
-		citaId={citaId}
-		date={date}
-		branches={branches}
-		services={services}
-		users={users}
-    setRefrescarCita={setRefrescarCita}
-    refrescarCita={refrescarCita}
-    chosenClient={chosenClient}
-    setSpecialty={setSpecialty}
-		 />
-	  )}
-    <Toaster
-          position="top-center"
-          reverseOrder={false}
-          gutter={8}
-          containerClassName=""
-          containerStyle={{
-            zIndex: 1000,
-            marginTop: "20px",
-            height: "150px",
-          }}
-          toastOptions={{
-            className: "",
+      {showEditAppointment && date && (
+        <EditAppointment
+          token={token}
+          setShowEditAppointment={setShowEditAppointment}
+          citaId={citaId}
+          date={date}
+          branches={branches}
+          services={services}
+          users={users}
+          setRefrescarCita={setRefrescarCita}
+          refrescarCita={refrescarCita}
+          setSpecialty={setSpecialty}
+        />
+      )}
+      <Toaster
+        position="top-center"
+        reverseOrder={false}
+        gutter={8}
+        containerClassName=""
+        containerStyle={{
+          zIndex: 1000,
+          marginTop: "20px",
+          height: "150px",
+        }}
+        toastOptions={{
+          className: "",
+          duration: 3000,
+          style: {
+            background: "#ffc8c8",
+            color: "#363636",
+          },
+
+          success: {
             duration: 3000,
+            theme: {
+              primary: "green",
+              secondary: "black",
+            },
             style: {
-              background: "#ffc8c8",
-              color: "#363636",
+              background: "#00A868",
+              color: "#FFFF",
             },
+          },
 
-            success: {
-              duration: 3000,
-              theme: {
-                primary: "green",
-                secondary: "black",
-              },
-              style: {
-                background: "#00A868",
-                color: "#FFFF",
-              },
+          error: {
+            duration: 3000,
+            theme: {
+              primary: "pink",
+              secondary: "black",
             },
-
-            error: {
-              duration: 3000,
-              theme: {
-                primary: "pink",
-                secondary: "black",
-              },
-              style: {
-                background: "#C43433",
-                color: "#fff",
-              },
+            style: {
+              background: "#C43433",
+              color: "#fff",
             },
-          }} />
+          },
+        }}
+      />
     </>
   );
 };

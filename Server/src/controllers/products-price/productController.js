@@ -7,14 +7,29 @@ const getAllProductsWithLatestPrice = async (
   supplier = "",
   amount = null,
   code = null,
+  attribute = "",
   order = "asc", // Orden por defecto
-  branchId = "",
   page = 0,
   size = 10,
   description = "",
   branch = "",
   productCode = ""
 ) => {
+
+  // console.log("productName ", productName);
+  // console.log("supplier ", supplier);
+  // console.log("amount ", amount);
+  // console.log("amount !== null ? ", amount !== null ? true : false);
+
+  // console.log("code ", code);
+  // console.log("code !== null ? ", code !== null ? true : false);
+
+  // console.log("page ", page);
+  // console.log("size ", size);
+  // console.log("description ", description);
+  // console.log("branch ", branch);
+  // console.log("productCode ", productCode);
+
   try {
     const { count, rows } = await Product.findAndCountAll({
       include: [
@@ -57,18 +72,23 @@ const getAllProductsWithLatestPrice = async (
           description !== ""
             ? { description: { [Op.iLike]: `%${description}%` } }
             : {},
-        ],
+        ].filter(Boolean), // Elimina los filtros nulos o vacíos
       },
       order: [["code", order]],
       limit: size,
       offset: size * page,
     });
+
+
     return {
       count,
       rows,
     };
   } catch (err) {
-    showLog(`getAllProductsWithLatestPrice -> getAllProducts error: ${err.message}`);
+
+    showLog(
+      `getAllProductsWithLatestPrice -> getAllProducts error: ${err.message}`
+    );
     return { message: err.message };
   }
 };
@@ -136,7 +156,6 @@ async function getProductPricesHistory(req, res) {
     });
     //    console.log("OK ", pricesHistory);
 
-
     res.json(pricesHistory);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -146,11 +165,23 @@ async function createProduct(req, res) {
   try {
     const { price, branchId, productCode, ...productData } = req.body;
 
-    // Verificar si el código de producto ya existe en la base de datos
-    const existingProduct = await Product.findOne({ where: { productCode } });
+    // Verificar si el código de producto ya existe en la base de datos para esa sucursal
+    const existingProduct = await Product.findOne({
+      where: { productCode },
+      include: [
+        {
+          model: Branch,
+          where: { id: branchId },
+        },
+      ],
+    });
 
     if (existingProduct) {
-      return res.status(400).json({ error: "productCode already exists" });
+      return res
+        .status(400)
+        .json({
+          error: "Product with same code already exists in this branch",
+        });
     }
 
     const requiredFields = ["productName", "description", "supplier", "amount"];

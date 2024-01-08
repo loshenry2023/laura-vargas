@@ -36,9 +36,9 @@ const LogIn = () => {
     if (role === "superAdmin" || role === "admin" || role === "especialista") {
       if (branches.length == 1) {
         dispatch(setBranch({ ...branches[0] }));
-        if(role === "superAdmin" || role === "admin"){
+        if (role === "superAdmin" || role === "admin") {
           navigate(HOME)
-        } else [
+        } else[
           navigate(AGENDA)
         ]
       } else {
@@ -84,24 +84,20 @@ const LogIn = () => {
       setBranches(branches);
       setRole(role);
 
-
-
       dispatch(getToken(idToken));
     } catch (error) {
-
       if (!ultIntento) {
         if (error.code === "auth/popup-closed-by-user") {
           // atrapo el error y reintento:
-
           setTimeout(() => {
           }, 1000);
           ultIntento = true;
           handleYahoo(true, ultIntento);
         } else {
           if (error.message.includes("404")) {
-            { toast.error(`${error.response.data}`.charAt(0).toUpperCase() + `${error.response.data}`.slice(1)) }
+            toast.error(`No estás autorizado. Verifica tus datos y si el error persiste, comunícate con el administrador.`)
           } else {
-            toast.error(error.message);
+            toast.error(`${error.message}. Por favor comunícate con el administrador.`)
           }
         };
       }
@@ -141,8 +137,11 @@ const LogIn = () => {
       setRole(role);
       dispatch(getToken(accessToken));
     } catch (error) {
-      if (error.message.includes("404")) { { toast.error(`${error.response.data}`.charAt(0).toUpperCase() + `${error.response.data}`.slice(1)) } }
-      else { toast.error(error.message) }
+      if (error.message.includes("404")) {
+        toast.error(`No estás autorizado. Verifica tus datos y si el error persiste, comunícate con el administrador.`)
+      } else {
+        toast.error(`${error.message}. Por favor comunícate con el administrador.`)
+      }
     }
   };
 

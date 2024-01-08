@@ -54,7 +54,7 @@ function NewConsumableForm({ onAddConsumable, onCancel }) {
       console.error("Hubo errores de validación", validationErrors);
     } else {
       if (!selectedBranch) {
-        console.error("error con la sucursal");
+        //console.error("error con la sucursal");
         return;
       }
 
@@ -65,14 +65,14 @@ function NewConsumableForm({ onAddConsumable, onCancel }) {
         );
 
         if (response.statusText === "Created") {
-          toast.success("Consumable creado con exito");
+          toast.success("Producto creado con exito");
           setSubmissionStatus("success");
           navigate("/consumables");
         } else {
           setSubmissionStatus("error");
         }
       } catch (error) {
-        window.alert(`codigo de producto en uso: ${newConsumable.productCode}`);
+        toast.error(`Código de producto en uso: ${newConsumable.productCode}`);
         setSubmissionStatus("error");
       }
     }
@@ -100,9 +100,8 @@ function NewConsumableForm({ onAddConsumable, onCancel }) {
               <div className="first-letter:grid grid-cols-1 mb-2">
                 <label className="pl-1 text-sm font-bold">Nombre:</label>
                 <input
-                  className={`border p-2 rounded w-full ${
-                    errors.productName ? "border-red-500" : "border-black"
-                  }`}
+                  className={`border p-2 rounded w-full ${errors.productName ? "border-red-500" : "border-black"
+                    }`}
                   type="text"
                   value={newConsumable.productName}
                   onChange={(e) =>
@@ -118,9 +117,8 @@ function NewConsumableForm({ onAddConsumable, onCancel }) {
                   Código del producto:
                 </label>
                 <input
-                  className={`border p-2 rounded w-full ${
-                    errors.productCode ? "border-red-500" : "border-black"
-                  }`}
+                  className={`border p-2 rounded w-full ${errors.productCode ? "border-red-500" : "border-black"
+                    }`}
                   type="text"
                   value={newConsumable.productCode}
                   onChange={(e) =>
@@ -134,9 +132,8 @@ function NewConsumableForm({ onAddConsumable, onCancel }) {
               <div className="grid grid-cols-1 md:grid-cols-1 gap-4 mb-2">
                 <label className="pl-1 text-sm font-bold">Descripción:</label>
                 <input
-                  className={`border p-2 rounded w-full ${
-                    errors.description ? "border-red-500" : "border-black"
-                  }`}
+                  className={`border p-2 rounded w-full ${errors.description ? "border-red-500" : "border-black"
+                    }`}
                   type="text"
                   value={newConsumable.description}
                   onChange={(e) =>
@@ -150,9 +147,8 @@ function NewConsumableForm({ onAddConsumable, onCancel }) {
               <div>
                 <label className="pl-1 text-sm font-bold">Proveedor:</label>
                 <input
-                  className={`border p-2 rounded w-full ${
-                    errors.supplier ? "border-red-500" : "border-black"
-                  }`}
+                  className={`border p-2 rounded w-full ${errors.supplier ? "border-red-500" : "border-black"
+                    }`}
                   type="text"
                   value={newConsumable.supplier}
                   onChange={(e) =>
@@ -166,9 +162,8 @@ function NewConsumableForm({ onAddConsumable, onCancel }) {
               <div>
                 <label className="pl-1 text-sm font-bold">Cantidad:</label>
                 <input
-                  className={`border p-2 rounded w-full ${
-                    errors.amount ? "border-red-500" : "border-black"
-                  }`}
+                  className={`border p-2 rounded w-full ${errors.amount ? "border-red-500" : "border-black"
+                    }`}
                   type="number"
                   value={newConsumable.amount}
                   onChange={(e) =>
@@ -182,9 +177,8 @@ function NewConsumableForm({ onAddConsumable, onCancel }) {
               <div>
                 <label className="pl-1 text-sm font-bold">Precio:</label>
                 <input
-                  className={`border p-2 rounded w-full ${
-                    errors.price ? "border-red-500" : "border-black"
-                  }`}
+                  className={`border p-2 rounded w-full ${errors.price ? "border-red-500" : "border-black"
+                    }`}
                   type="number"
                   value={newConsumable.price}
                   onChange={(e) =>

@@ -11,14 +11,14 @@ const getAllClientHandler = async (req, res) => {
     if (!token) { throw Error("Se requiere token"); }
     const checked = await checkToken(token);
     if (!checked.exist) {
-      showLog(`Wrong token.`);
-      return res.status(401).send(`Sin permiso.`);
+      showLog(checked.mensaje);
+      return res.status(checked.code).send(checked.mensaje);
     }
     const resp = await getReg(Client, "Clients", "", "", "", "", "", req.query);
-    const {count, rows} =resp
-    if (count >=0) {
+    const { count, rows } = resp
+    if (count >= 0) {
       showLog(`getAllClientHandler OK`);
-      return res.status(200).json({count, rows});
+      return res.status(200).json({ count, rows });
     } else {
       showLog(`getAllClientHandler ERROR-> Not found`);
       return res.status(404).json({ message: "Not found" });

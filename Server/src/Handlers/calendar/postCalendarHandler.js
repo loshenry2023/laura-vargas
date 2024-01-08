@@ -10,10 +10,15 @@ const postCalendarHandler = async (req, res) => {
     // Verifico token. Sólo un superAdmin o admin puede agregar:
     if (!token) { throw Error("Se requiere token"); }
     const checked = await checkToken(token);
-    if (!checked.exist || checked.role === "especialista") {
+    if (!checked.exist) {
+      showLog(checked.mensaje);
+      return res.status(checked.code).send(checked.mensaje);
+    }
+    if (checked.role === "especialista") {
       showLog(checked.role === "especialista" ? `Wrong role.` : `Wrong token.`);
       return res.status(401).send(`Sin permiso.`);
     }
+
     const resp = await postReg(Calendar, "Calendar", req.body, conn, User, Service, Client, Branch);
     if (resp.created === 'ok') {
       showLog(`postCalendarHandler OK`);

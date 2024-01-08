@@ -10,6 +10,8 @@ const usersHandler = require("../Handlers/user/usersHandler");
 const getUserData = require("../controllers/user/getUserData");
 const postUserLogin = require("../controllers/user/postUserLogin");
 const postUserLogout = require("../controllers/user/postUserLogout");
+// Espeialistas:
+const getSpecialists = require("../Handlers/user/getSpecialists");
 // Especialidades:
 const postSpecialtyHandler = require("../Handlers/specialty/postSpecialtyHandler");
 const putSpecialtyHandler = require("../Handlers/specialty/putSpecialtyHandler");
@@ -54,6 +56,8 @@ const deleteCatHandler = require("../Handlers/catGastos/deleteCatHandler");
 const getCatHandler = require("../Handlers/catGastos/getCatHandler");
 //inventario
 const productHandlers = require("../Handlers/products/productHandlers");
+// Balance y comisiones:
+const getBalance = require("../Handlers/balance/getBalance");
 
 //! Rutas
 // Usuarios:
@@ -109,11 +113,15 @@ router.put("/catgastos/:id", putCatHandler); // edita una categoría
 router.post("/deletecatgastos/:id", deleteCatHandler); //  elimina una categoría
 router.post("/catgastos", getCatHandler); // obtiene y devuelve todas las categorías
 // inventario:
-router.get("/products", productHandlers.getAllProductsHandler);
+router.post("/products", productHandlers.getAllProductsHandler);
 router.get("/product-prices", productHandlers.getProductPrices);
-router.post("/products", productHandlers.createProduct);
+router.post("/productsCreate", productHandlers.createProduct);
 router.put("/products/:id", productHandlers.editProduct);
 router.put("/products/:id/price", productHandlers.updateProductPrice);
 router.get("/products/:productId/prices-history", productHandlers.getProductPricesHistory);
+// specialists:
+router.post("/specialists", getSpecialists); // obtiene todos los usuario con rol de especialista
+// Balance y comisiones:
+router.post("/getbalance", getBalance); // obtiene todos los usuarios para el balance y comisiones
 
 module.exports = router;

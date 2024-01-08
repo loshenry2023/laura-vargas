@@ -63,6 +63,7 @@ async function editRegCalendar(Calendar, data, id, conn, User, Service, Client, 
         existingEvent.date_to = date_to;
         existingEvent.obs = obs;
         existingEvent.current = current;
+        existingEvent.reminded = false;
         await existingEvent.save();
         // Relación con User:
         const user = await User.findByPk(idUser);
@@ -93,7 +94,7 @@ async function editRegCalendar(Calendar, data, id, conn, User, Service, Client, 
 }
 
 async function editRegClient(Client, data, id, conn) {
-    const { email, name, lastName, id_pers, phone1, phone2, image } = data;
+    const { email, name, lastName, id_pers, phone1, phone2, image, birthday } = data;
     let transaction; // manejo transacciones para evitar registros defectuosos por relaciones mal solicitadas
     try {
         if (!email || !name || !lastName || !phone1 || !image) { throw Error("Faltan datos"); }
@@ -110,6 +111,9 @@ async function editRegClient(Client, data, id, conn) {
         existingClient.phoneNumber1 = phone1;
         existingClient.phoneNumber2 = phone2 || null;
         existingClient.image = image;
+        existingClient.birthday = birthday !== "" ? birthday : null;
+        existingClient.dayBirthday = birthday ? birthday.split('-')[2] : null;
+        existingClient.monthBirthday = birthday ? birthday.split('-')[1] : null;
         await existingClient.save();
         await transaction.commit();
         return;
