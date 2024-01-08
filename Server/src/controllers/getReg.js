@@ -1,7 +1,7 @@
 // ! Obtiene registros.
 const { Op } = require("sequelize");
 const showLog = require("../functions/showLog");
-const { User, Specialty, Branch, HistoryService } = require('../DB_connection');
+const { Specialty, Branch } = require('../DB_connection');
 
 const getReg = async (
   tableName,
@@ -12,7 +12,7 @@ const getReg = async (
   tableName5 = "",
   id = "",
   dataQuery = "",
-  conn = "",
+
 ) => {
   try {
     let reg;
@@ -232,7 +232,11 @@ const getReg = async (
       case "Calendar":
         // Preparo los filtros previos a la consulta:
         const { dateFrom, dateTo, userId, branch } = dataQuery;
-        reg = await tableName.findAll({
+        // console.log("dateFrom ", dateFrom);
+        // console.log("dateTo ", dateTo);
+        // console.log("userId ", userId);
+        // console.log("branch ", branch);
+        reg = await tableName.findAll({ // Calendar
           attributes: ["id", "date_from", "date_to", "obs", "current"],
           where: {
             date_from: {
