@@ -63,6 +63,7 @@ async function editRegCalendar(Calendar, data, id, conn, User, Service, Client, 
         existingEvent.date_to = date_to;
         existingEvent.obs = obs;
         existingEvent.current = current;
+        existingEvent.reminded = false;
         await existingEvent.save();
         // Relación con User:
         const user = await User.findByPk(idUser);
@@ -111,8 +112,8 @@ async function editRegClient(Client, data, id, conn) {
         existingClient.phoneNumber2 = phone2 || null;
         existingClient.image = image;
         existingClient.birthday = birthday !== "" ? birthday : null;
-        existingClient.dayBirthday = birthday ? birthday.split('-')[2]: null;
-        existingClient.monthBirthday = birthday ? birthday.split('-')[1]: null;
+        existingClient.dayBirthday = birthday ? birthday.split('-')[2] : null;
+        existingClient.monthBirthday = birthday ? birthday.split('-')[1] : null;
         await existingClient.save();
         await transaction.commit();
         return;

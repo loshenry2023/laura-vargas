@@ -49,7 +49,7 @@ async function AddRegCalendar(Calendar, data, conn, User, Service, Client, Branc
         // Inicio la transacción:
         transaction = await conn.transaction();
         const regCreated = await Calendar.create({
-            date_from, date_to, obs, current: true, BranchId: idBranch,
+            date_from, date_to, obs, current: true, BranchId: idBranch, reminded: false,
         }, { transaction });
         const user = await User.findByPk(idUser);
         if (!user) {
@@ -125,7 +125,7 @@ async function AddRegClient(User, data, conn) {
         //const formattedBirthday = birthday !== "" ? new Date(birthday) : null;
         transaction = await conn.transaction();
         const [ClientCreated, created] = await User.findOrCreate({
-            where: { email, name, lastName, id_pers, phoneNumber1: phone1, phoneNumber2: phone2, image, birthday: birthday || null, monthBirthday: birthday ? birthday.split('-')[1]: null, dayBirthday: birthday ? birthday.split('-')[2]: null},
+            where: { email, name, lastName, id_pers, phoneNumber1: phone1, phoneNumber2: phone2, image, birthday: birthday || null, monthBirthday: birthday ? birthday.split('-')[1] : null, dayBirthday: birthday ? birthday.split('-')[2] : null },
             transaction,
         });
         await transaction.commit();
