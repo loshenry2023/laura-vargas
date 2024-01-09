@@ -35,7 +35,7 @@ const Landing = () => {
   const handleLogin = () => {
     if (hayUser) {
       // Hay un usuario registrado desde antes, no lo hago loguear:
-      if (user.role === "superAdmin" || user.role === "admin") {
+      if (user.role === "superAdmin") {
         navigate(HOME)
       } else {
         navigate(AGENDA)

@@ -56,7 +56,7 @@ const SpecialistMonitoring = () => {
         setLoading(false);
       } catch (error) {
         console.error("Error fetching data:", error);
-        if (error.request.status === 401 || error.request.status === 403) {
+        if (error.request.status === 403) {
           dispatch(setTokenError(error.request.status));
         }
         setLoading(false);
