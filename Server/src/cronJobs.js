@@ -6,7 +6,7 @@ function DailyNotification() {
     getAppointmentsReminder();
 }
 
-//cron.schedule('*/10 * * * * *', () => { // para pruebas de envíos frecuentes
+// cron.schedule('*/10 * * * * *', () => { // para pruebas de envíos frecuentes
 cron.schedule('0 8 * * *', () => { // una vez al día a las 8 hs de Colombia
     DailyNotification();
 }, {

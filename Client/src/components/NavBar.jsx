@@ -19,7 +19,6 @@ const { ROOT, HOME, AGENDA, BRANCH } = getParamsEnv();
 
 const NavBar = () => {
   const [theme, setTheme] = useState("light");
-  const [showNotification, setShowNotification] = useState(true);
   const user = useSelector((state) => state.user);
   const token = useSelector((state) => state.token);
   const workingBranch = useSelector((state) => state.workingBranch);
@@ -80,6 +79,13 @@ const NavBar = () => {
     localStorage.removeItem('showRed');
   }
 
+  const changeBranch = () => {
+    navigate(BRANCH)
+    dispatch(eraseNotification({}))
+    localStorage.removeItem('dispatchPerformed');
+    localStorage.removeItem('showRed');
+  }
+
   const showRed = localStorage.getItem('showRed');
 
   return (
@@ -123,7 +129,7 @@ const NavBar = () => {
           </span>
           </div>
           <div className="flex gap-4 items-center pointer-events:auto">
-          {user.branches.length > 1 ? <TbStatusChange  onClick={() => navigate(BRANCH)} className="h-6 w-6 cursor-pointer"/> : null}
+          {user.branches.length > 1 ? <TbStatusChange  onClick={changeBranch} className="h-6 w-6 cursor-pointer"/> : null}
           <MdDarkMode
             onClick={handleDarkMode}
             className="h-6 w-6 cursor-pointer"
