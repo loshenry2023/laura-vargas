@@ -21,7 +21,6 @@ const Home = () => {
   const user = useSelector((state) => state?.user);
   const [loading, setLoading] = useState(true)
 
-
   useEffect(() => {
     dispatch(getPayMethods({ token }))
     dispatch(getspecialists(branchWorking.branchName, { token: token }))

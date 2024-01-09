@@ -8,7 +8,7 @@ import { MdDarkMode } from "react-icons/md";
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { setAppointmentNotification, setLogout } from "../redux/actions.js";
+import { eraseNotification, getcalendarcount, setLogout } from "../redux/actions.js";
 
 //functions
 import capitalizeFirstLetter from "../functions/capitalizeFirstLetter.js"
@@ -19,8 +19,11 @@ const { ROOT, HOME, AGENDA, BRANCH } = getParamsEnv();
 
 const NavBar = () => {
   const [theme, setTheme] = useState("light");
+  const [showNotification, setShowNotification] = useState(true);
   const user = useSelector((state) => state.user);
+  const token = useSelector((state) => state.token);
   const workingBranch = useSelector((state) => state.workingBranch);
+  const appointments = useSelector((state) => state.appointments);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -30,6 +33,12 @@ const NavBar = () => {
     localStorage.setItem("darkMode", JSON.stringify(newTheme));
   };
 
+  const getCalendarCount = {
+    branchID: workingBranch.id,
+    userID: user.id,
+    token
+  }
+
   useEffect(() => {
     const storedTheme = JSON.parse(localStorage.getItem("darkMode"));
     if (storedTheme === "light" || !storedTheme) {
@@ -37,7 +46,19 @@ const NavBar = () => {
     } else {
       document.documentElement.classList.add("dark");
     }
+
+    if (localStorage.getItem('dispatchPerformed') === null) {
+      localStorage.setItem('dispatchPerformed', 'false');
+    }
+
+    if(localStorage.getItem('dispatchPerformed') === 'false'){
+      dispatch(getcalendarcount(getCalendarCount))
+      localStorage.setItem('dispatchPerformed', 'true');
+      localStorage.setItem('showRed', 'true');
+    }
+
   }, [theme]);
+
 
 
   let roleColor;
@@ -49,11 +70,17 @@ const NavBar = () => {
     roleColor = "#ffc8c8";
   }
 
-
   const handleLogout = () => {
     dispatch(setLogout(user.token));
     navigate(ROOT);
   };
+
+  const eraseNotifications = () => {
+    dispatch(eraseNotification({}))
+    localStorage.removeItem('showRed');
+  }
+
+  const showRed = localStorage.getItem('showRed');
 
   return (
     <>
@@ -103,7 +130,7 @@ const NavBar = () => {
           />
           <CiBellOn className="relative h-6 w-6" />
           {user.role === "superAdmin" || user.role === "admin" ? null :
-            <span className="text-sm flex flex-row items-center justify-center font-bold mx-auto my-auto absolute w-4 h-4 top-[40px] right-[76px] rounded-full bg-red-500 cursor-pointer"> 1  </span>}
+            showRed && <span onClick={() => eraseNotifications()} className="text-sm flex flex-row items-center justify-center font-bold mx-auto my-auto absolute w-4 h-4 top-[40px] right-[76px] rounded-full bg-red-500 cursor-pointer"> {appointments.count}  </span>}
           <Link to={ROOT}>
             <IoExitOutline className="h-6 w-6 " onClick={handleLogout} />
           </Link>
