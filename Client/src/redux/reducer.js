@@ -34,6 +34,7 @@ import {
   GET_PAY_METHODS,
   GET_SPECIALISTS,
   SET_TOKEN_ERROR,
+  GET_BALANCE,
 } from "./actionsTypes";
 
 const initialState = {
@@ -55,7 +56,8 @@ const initialState = {
   pricesHistory: [],
   payMethods: [],
   specialists: [],
-  tokenError: 0
+  tokenError: 0,
+  balance: {}
 };
 
 const rootReducer = (
@@ -202,6 +204,15 @@ const rootReducer = (
       };
       localStorage.setItem("myAppReduxState", JSON.stringify(getServices));
       return getServices;
+
+      //! Trae el balance
+      case GET_BALANCE:
+        const getBalance = {
+          ...state,
+          balance: {...payload},
+        };
+        localStorage.setItem("myAppReduxState", JSON.stringify(getBalance));
+        return getBalance;
 
     case ERROR:
       const errorState = {
