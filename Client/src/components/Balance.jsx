@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getBalance } from "../redux/actions";
+import { getBalance, getCalendar } from "../redux/actions";
 import Loader from "./Loader";
 
 const Balance = ({ specialists, services, payMethods }) => {
@@ -10,13 +10,13 @@ const Balance = ({ specialists, services, payMethods }) => {
   const workingBranch = useSelector((state) => state?.workingBranch);
   const balanceData = useSelector((state) => state?.balance);
   const [loading, setLoading] = useState(true);
+  const [errors, setErrors] = useState({});
   const today = new Date();
   const year = today.getFullYear();
   const month = today.getMonth() + 1; // Months are zero-indexed, so add 1
   const day = today.getDate();
   const formattedDate = `${year}-${month < 10 ? '0' + month : month}-${day < 10 ? '0' + day : day}`;
 
-  const [comission, setComission] = useState(0);
 
   const [fetchDataBalance, setFetchDataBalance] = useState({
     branchName: workingBranch.branchName,
@@ -43,7 +43,6 @@ const Balance = ({ specialists, services, payMethods }) => {
             : [e.target.value]
           : e.target.value;
   
-      // Crear una copia del objeto sin la propiedad si el valor es un array vacío
       const { [e.target.name]: removedProperty, ...updatedData } = {
         ...prevData,
         [e.target.name]: updatedValue,
@@ -54,6 +53,19 @@ const Balance = ({ specialists, services, payMethods }) => {
   };
 
   console.log(fetchDataBalance)
+
+  // function isDateHigherThanToday(inputDate) {
+  //   const today = new Date();
+  //   today.setHours(0, 0, 0, 0);
+  //   const inputDateObject = new Date(inputDate);
+  //   inputDateObject.setHours(0, 0, 0, 0);
+  
+  //   return inputDateObject > today;
+  // }
+
+  // if (isDateHigherThanToday(handleDataToFetch.dateTo)) {
+  //   errors.birthday = "Ingrese una fecha anterior al día de hoy"
+  // }
 
   //Total Incomes
   let totalIncomes = 0;

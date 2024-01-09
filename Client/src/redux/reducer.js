@@ -14,6 +14,7 @@ import {
   GET_CLIENT_ID,
   CLEAR_CLIENT_ID,
   SET_WORKING_BRANCH,
+  SET_APPOINTMENT_NOTIFICATION,
   GET_CALENDAR,
   GET_PRODUCTS_FAILURE,
   GET_PRODUCTS_REQUEST,
@@ -40,6 +41,7 @@ import {
 const initialState = {
   token: "",
   workingBranch: {},
+  appointments: {},
   user: {},
   userID: {},
   users: [],
@@ -81,6 +83,15 @@ const rootReducer = (
       };
       localStorage.setItem("myAppReduxState", JSON.stringify(setWorkingBranch));
       return setWorkingBranch;
+
+     //! Setea cantidad de appointments
+    case SET_APPOINTMENT_NOTIFICATION:
+      const setAppointmentNotification = {
+        ...state,
+        appointments: payload,
+      };
+      localStorage.setItem("myAppReduxState", JSON.stringify(setAppointmentNotification));
+      return setAppointmentNotification;
 
     //! Trae usuario de logIn
     case GET_USER:
@@ -227,6 +238,8 @@ const rootReducer = (
 
     case USER_LOGOUT:
       localStorage.removeItem("myAppReduxState");
+      localStorage.removeItem("dispatchPerformed");
+      localStorage.removeItem("showRed");
       return initialState;
 
     case GET_PRODUCTS_REQUEST:

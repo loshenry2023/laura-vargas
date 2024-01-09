@@ -12,6 +12,7 @@ import {
   GET_CLIENTS,
   GET_CLIENT_ID,
   CLEAR_CLIENT_ID,
+  SET_APPOINTMENT_NOTIFICATION,
   GET_CALENDAR,
   SET_WORKING_BRANCH,
   GET_PRODUCTS_REQUEST,
@@ -52,6 +53,14 @@ export const setBranch = (branch) => {
   return {
     type: SET_WORKING_BRANCH,
     payload: branch,
+  };
+};
+
+
+export const setAppointmentNotification = (payload) => {
+  return {
+    type: SET_APPOINTMENT_NOTIFICATION,
+    payload: payload,
   };
 };
 

@@ -3,7 +3,7 @@ import SideBar from "../components/SideBar";
 import NavBar from "../components/NavBar";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import { getBalance, getPayMethods, getServices, getSpecialties, getspecialists } from '../redux/actions.js'
+import { getPayMethods, getServices, getspecialists } from '../redux/actions.js'
 import Restricted from "./Restricted.jsx";
 import ErrorToken from "./ErrorToken";
 import Balance from "../components/Balance.jsx";
@@ -13,12 +13,12 @@ import Loader from "../components/Loader.jsx";
 const Home = () => {
   const dispatch = useDispatch()
   const token = useSelector((state) => state?.token)
-  const user = useSelector((state) => state?.user)
   const branchWorking = useSelector((state) => state?.workingBranch)
   const tokenError = useSelector((state) => state?.tokenError);
   const specialists = useSelector((state) => state?.specialists)
   const services = useSelector((state) => state?.services)
   const payMethods = useSelector((state) => state?.payMethods)
+  const user = useSelector((state) => state?.user);
   const [loading, setLoading] = useState(true)
 
 
@@ -36,15 +36,14 @@ const Home = () => {
   } else {
     return (
       <>
-        <NavBar />
+        <NavBar user={user}/>
         <div className="flex flex-row dark:bg-darkBackground">
           <SideBar />
           {loading ? (
             <Loader />
           ) : (
-          user.role === "admin" || user.role === "superAdmin" ?
-            <Balance specialists={specialists} services={services} payMethods={payMethods}/> :
-            <Restricted />
+         user.role === "superAdmin" ?
+            <Balance specialists={specialists} services={services} payMethods={payMethods}/> :  <Restricted />
           )}
         </div>
       </>

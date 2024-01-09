@@ -8,7 +8,7 @@ import { MdDarkMode } from "react-icons/md";
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { setLogout } from "../redux/actions.js";
+import { setAppointmentNotification, setLogout } from "../redux/actions.js";
 
 //functions
 import capitalizeFirstLetter from "../functions/capitalizeFirstLetter.js"
@@ -39,6 +39,7 @@ const NavBar = () => {
     }
   }, [theme]);
 
+
   let roleColor;
   if (user.role === "superAdmin") {
     roleColor = "linear-gradient(to right, #ffc8c8, #bf3d30)";
@@ -47,6 +48,7 @@ const NavBar = () => {
   } else if (user.role === "especialista") {
     roleColor = "#ffc8c8";
   }
+
 
   const handleLogout = () => {
     dispatch(setLogout(user.token));
@@ -60,7 +62,7 @@ const NavBar = () => {
         style={{ background: roleColor }}
       >
         <div className="flex flex-row items-center gap-5">
-        {user.role === "especialista" ? 
+        {user.role !== "superAdmin" ? 
           <Link to={AGENDA}>
             <img
               className="hidden sm:flex w-20"
@@ -99,7 +101,9 @@ const NavBar = () => {
             onClick={handleDarkMode}
             className="h-6 w-6 cursor-pointer"
           />
-          <CiBellOn className="h-6 w-6" />
+          <CiBellOn className="relative h-6 w-6" />
+          {user.role === "superAdmin" || user.role === "admin" ? null :
+            <span className="text-sm flex flex-row items-center justify-center font-bold mx-auto my-auto absolute w-4 h-4 top-[40px] right-[76px] rounded-full bg-red-500 cursor-pointer"> 1  </span>}
           <Link to={ROOT}>
             <IoExitOutline className="h-6 w-6 " onClick={handleLogout} />
           </Link>
