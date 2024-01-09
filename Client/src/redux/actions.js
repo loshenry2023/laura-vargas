@@ -13,6 +13,7 @@ import {
   GET_CLIENT_ID,
   CLEAR_CLIENT_ID,
   SET_APPOINTMENT_NOTIFICATION,
+  ERASE_APPOINTMENT_NOTIFICATION,
   GET_CALENDAR,
   SET_WORKING_BRANCH,
   GET_PRODUCTS_REQUEST,
@@ -56,12 +57,34 @@ export const setBranch = (branch) => {
   };
 };
 
-
-export const setAppointmentNotification = (payload) => {
+export const eraseNotification = (data) => {
   return {
-    type: SET_APPOINTMENT_NOTIFICATION,
-    payload: payload,
+    type: ERASE_APPOINTMENT_NOTIFICATION,
+    payload: data,
   };
+};
+
+
+export const getcalendarcount = (calendarData) => {
+  return async function (dispatch) {
+    try {
+      const response = await axios.post(API_URL_BASE + "/getcalendarcount", calendarData);
+      return dispatch({
+        type: SET_APPOINTMENT_NOTIFICATION,
+        payload: response.data,
+      });
+    } catch (error) {
+      // Errores 401 y 403 son para quitar al usuario de la sesión:
+      if (error.request.status === 401 || error.request.status === 403) {
+        return dispatch({
+          type: SET_TOKEN_ERROR,
+          payload: error.request.status,
+        });
+      } else {
+        throw Error(error.message);
+      }
+    }
+  }
 };
 
 export const getBranches = (token) => {

@@ -36,6 +36,7 @@ import {
   GET_SPECIALISTS,
   SET_TOKEN_ERROR,
   GET_BALANCE,
+  ERASE_APPOINTMENT_NOTIFICATION,
 } from "./actionsTypes";
 
 const initialState = {
@@ -86,12 +87,22 @@ const rootReducer = (
 
      //! Setea cantidad de appointments
     case SET_APPOINTMENT_NOTIFICATION:
-      const setAppointmentNotification = {
+      const calendarCount = {
         ...state,
         appointments: payload,
       };
-      localStorage.setItem("myAppReduxState", JSON.stringify(setAppointmentNotification));
-      return setAppointmentNotification;
+      localStorage.setItem("myAppReduxState", JSON.stringify(calendarCount));
+      return calendarCount;
+
+      //! Setea appointments a 0
+      case ERASE_APPOINTMENT_NOTIFICATION:
+      const eraseCalendarCount = {
+        ...state,
+        appointments: payload,
+      };
+      console.log(eraseCalendarCount)
+      localStorage.setItem("myAppReduxState", JSON.stringify( eraseCalendarCount));
+      return eraseCalendarCount;
 
     //! Trae usuario de logIn
     case GET_USER:
@@ -239,7 +250,7 @@ const rootReducer = (
     case USER_LOGOUT:
       localStorage.removeItem("myAppReduxState");
       localStorage.removeItem("dispatchPerformed");
-      localStorage.removeItem("showRed");
+      localStorage.removeItem('showRed')
       return initialState;
 
     case GET_PRODUCTS_REQUEST:

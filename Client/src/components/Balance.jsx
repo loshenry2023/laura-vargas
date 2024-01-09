@@ -192,11 +192,11 @@ console.log(comision)
             </div>
           </section>
           <section className="flex flex-col md:flex-row gap-10">
-            <div className="h-40 p-5 flex flex-row justify-center items-center rounded-2xl shadow-md shadow-black transition duration-700 dark:bg-darkPrimary hover:bg-blue-500 dark:hover:bg-zinc-800">
+            <div className="h-40 w-60 p-5 flex flex-row justify-center items-center rounded-2xl shadow-md shadow-black transition duration-700 dark:bg-darkPrimary hover:bg-blue-500 dark:hover:bg-zinc-800">
               <h1 className="text-2xl dark:text-darkText">Total ingresos: <span> {totalIncomes}$</span></h1>
             </div>
-            <div className="h-40 p-5 flex flex-row justify-center items-center rounded-2xl shadow-md shadow-black transition duration-700 dark:bg-darkPrimary hover:bg-blue-500 dark:hover:bg-zinc-800">
-              <h1 className="text-2xl dark:text-darkText"> Comision: {comision}% </h1>
+            <div className="h-40 w-60 p-5 flex flex-row justify-center items-center rounded-2xl shadow-md shadow-black transition duration-700 dark:bg-darkPrimary hover:bg-blue-500 dark:hover:bg-zinc-800">
+              <h1 className="text-center text-2xl dark:text-darkText"> {comision ? `Comision: ${comision}%` : "Seleccione especialista para visualizar comisión"} </h1>
             </div>
           </section>
         </>
