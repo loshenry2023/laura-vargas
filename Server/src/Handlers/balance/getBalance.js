@@ -14,6 +14,7 @@ const getBalance = async (req, res) => {
       showLog(checked.mensaje);
       return res.status(checked.code).send(checked.mensaje);
     }
+
     if (checked.role !== "superAdmin") {
       showLog(checked.role !== "superAdmin" ? `Wrong role.` : `Wrong token.`);
       return res.status(401).send(`Sin permiso.`);
