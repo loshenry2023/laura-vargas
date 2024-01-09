@@ -289,6 +289,7 @@ async function createBasicData() {
         obs: "Tener en cuenta que es un paciente delicado",
         current: true,
         BranchId: branch.id,
+        reminded: false,
       });
       //Relaciones:
       const user = await User.findOne({
