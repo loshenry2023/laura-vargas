@@ -39,8 +39,8 @@ import {
 } from "./actionsTypes";
 
 import axios from "axios";
-import getParamsEnv from "../functions/getParamsEnv";
 import converterGMT from "../functions/converteGMT";
+import getParamsEnv from "../functions/getParamsEnv";
 const { API_URL_BASE } = getParamsEnv();
 
 export const getUser = (userData) => {
