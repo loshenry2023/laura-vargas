@@ -50,7 +50,7 @@ const NavBar = () => {
       localStorage.setItem('dispatchPerformed', 'false');
     }
 
-    if(localStorage.getItem('dispatchPerformed') === 'false'){
+    if (localStorage.getItem('dispatchPerformed') === 'false') {
       dispatch(getcalendarcount(getCalendarCount))
       localStorage.setItem('dispatchPerformed', 'true');
       localStorage.setItem('showRed', 'true');
@@ -95,26 +95,26 @@ const NavBar = () => {
         style={{ background: roleColor }}
       >
         <div className="flex flex-row items-center gap-5">
-        {user.role !== "superAdmin" ? 
-          <Link to={AGENDA}>
-            <img
-              className="hidden sm:flex w-20"
-              src={
-                "https://res.cloudinary.com/doqyrz0sg/image/upload/v1702388420/aznyz3d12hy3wr3kk9j9.png"
-              }
-              alt="logo"
-            />
-          </Link> : 
+          {user.role !== "superAdmin" ?
+            <Link to={AGENDA}>
+              <img
+                className="hidden sm:flex w-20"
+                src={
+                  "https://res.cloudinary.com/doqyrz0sg/image/upload/v1702388420/aznyz3d12hy3wr3kk9j9.png"
+                }
+                alt="logo"
+              />
+            </Link> :
 
-           <Link to={HOME}>
-          <img
-            className="hidden sm:flex w-20"
-            src={
-              "https://res.cloudinary.com/doqyrz0sg/image/upload/v1702388420/aznyz3d12hy3wr3kk9j9.png"
-            }
-            alt="logo"
-          />
-        </Link>
+            <Link to={HOME}>
+              <img
+                className="hidden sm:flex w-20"
+                src={
+                  "https://res.cloudinary.com/doqyrz0sg/image/upload/v1702388420/aznyz3d12hy3wr3kk9j9.png"
+                }
+                alt="logo"
+              />
+            </Link>
           }
         </div>
         <div className="flex gap-4 ml:10 sm:ml-28 items-center pointer-events:auto ">
@@ -127,15 +127,15 @@ const NavBar = () => {
             {" "}
             {user.name} {" "} {user.lastName} {" - "} {user.role === "superAdmin" ? "Admin General" : capitalizeFirstLetter(user.role)}  {" - "} {workingBranch.branchName}
           </span>
-          </div>
-          <div className="flex gap-4 items-center pointer-events:auto">
-          {user.branches.length > 1 ? <TbStatusChange  onClick={changeBranch} className="h-6 w-6 cursor-pointer"/> : null}
+        </div>
+        <div className="flex gap-4 items-center pointer-events:auto">
+          {user.branches.length > 1 ? <TbStatusChange onClick={changeBranch} className="h-6 w-6 cursor-pointer" /> : null}
           <MdDarkMode
             onClick={handleDarkMode}
             className="h-6 w-6 cursor-pointer"
           />
           <CiBellOn className="relative h-6 w-6" />
-          {user.role === "superAdmin" || user.role === "admin" ? null :
+          {user.role === "superAdmin" || user.role === "admin" || appointments.count === 0 ? null :
             showRed && <span onClick={() => eraseNotifications()} className="text-sm flex flex-row items-center justify-center font-bold mx-auto my-auto absolute w-4 h-4 top-[40px] right-[76px] rounded-full bg-red-500 cursor-pointer"> {appointments.count}  </span>}
           <Link to={ROOT}>
             <IoExitOutline className="h-6 w-6 " onClick={handleLogout} />
