@@ -7,9 +7,9 @@ const ClientFilters = ({setOrder, nameOrLastName, setAttribute, setNameOrLastNam
 
   return (
     <section className="flex flex-col gap-4">
-      {location.pathname !== "/agenda" ? <h4 className="text-md underline mb-[-12px] dark:text-darkText">Filtro por fecha de creación</h4> : null}
-      <div className="flex flex-col gap-2 mx-auto sm:flex sm:flex-row sm:gap-5 sm:w-full">
-        <div className="flex flex-col gap-6 md:flex-row">
+      {location.pathname !== "/agenda" ? <h4 className="text-md underline mb-[-10px] dark:text-darkText">Filtro por fecha de creación</h4> : null}
+      <div className="flex flex-col gap-2 sm:flex sm:flex-row sm:gap-5 sm:w-full">
+        <div className="flex flex-col gap-6 sm:flex-row">
             {location.pathname !== "/agenda" ? (
             <>
             <div className="flex gap-2">
@@ -24,7 +24,7 @@ const ClientFilters = ({setOrder, nameOrLastName, setAttribute, setNameOrLastNam
                 }}
                 type="date"
                 defaultValue=""
-                className="border rounded-md border-black px-2 text-sm dark:invert"
+                className="w-full text-center border rounded-md border-black px-2 text-sm sm:w-fit dark:invert"
               />
             </div>
             <div className="flex gap-2">
@@ -39,7 +39,7 @@ const ClientFilters = ({setOrder, nameOrLastName, setAttribute, setNameOrLastNam
                 }}
                 type="date"
                 defaultValue=""
-                className="border rounded-md border-black px-2 text-sm dark:invert"
+                className="w-full text-center border rounded-md border-black px-2 text-sm sm:w-fit dark:invert"
               />
             </div> </>): null }
         </div>

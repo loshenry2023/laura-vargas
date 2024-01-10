@@ -22,7 +22,8 @@ import ToasterConfig from "./Toaster.jsx";
 import { toast } from "react-hot-toast";
 import EditClient from "./modals/EditClient.jsx";
 import converterGMT from "../functions/converteGMT.js";
-const { CLIENTSPROFILES } = getParamsEnv();
+const { CLIENTSPROFILES, API_URL_BASE } = getParamsEnv();
+
 
 const ClientInfo = () => {
   const params = useParams();
@@ -75,7 +76,7 @@ const ClientInfo = () => {
   const deleteConfirmed = async (confirmed) => {
     setShowDeleteConfirmation(true);
     if (confirmed) {
-      const deletedClient = await axios.post(`http://localhost:3001/laura-vargas/deleteclient/${detailId}`, { token: token })
+      const deletedClient = await axios.post(`${API_URL_BASE}/deleteclient/${detailId}`, { token: token })
       toast.success("Cliente eliminado correctamente");
       setTimeout(() => {
         navigate(CLIENTSPROFILES);

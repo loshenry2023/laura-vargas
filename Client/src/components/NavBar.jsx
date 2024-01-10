@@ -123,7 +123,7 @@ const NavBar = () => {
             alt="userPhoto"
             className="h-10 w-10 shadow-md shadow-black rounded-full"
           />
-          <span className="font-medium text-md">
+          <span className="text-sm font-medium sm:text-lg">
             {" "}
             {user.name} {" "} {user.lastName} {" - "} {user.role === "superAdmin" ? "Admin General" : capitalizeFirstLetter(user.role)}  {" - "} {workingBranch.branchName}
           </span>
