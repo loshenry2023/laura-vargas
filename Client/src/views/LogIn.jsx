@@ -36,7 +36,7 @@ const LogIn = () => {
     if (role === "superAdmin" || role === "admin" || role === "especialista") {
       if (branches.length == 1) {
         dispatch(setBranch({ ...branches[0] }));
-        if (role === "superAdmin" || role === "admin") {
+        if (role === "superAdmin") {
           navigate(HOME)
         } else[
           navigate(AGENDA)

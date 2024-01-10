@@ -15,7 +15,7 @@ import { MdWorkHistory } from "react-icons/md";
 
 // Variables de entorno
 import getParamsEnv from "../functions/getParamsEnv.js";
-const { AGENDA, USERPROFILES, CONSUMABLES, CLIENTSPROFILES, SPECIALISTMONITORING } = getParamsEnv();
+const { AGENDA, USERPROFILES, CONSUMABLES, CLIENTSPROFILES, HOME, SPECIALISTMONITORING } = getParamsEnv();
 
 const IconWithTooltip = ({ to, iconName, tooltipText }) => {
   const [tooltipVisible, setTooltipVisible] = useState(false);
@@ -83,23 +83,27 @@ const SideBar = () => {
     >
       <hr className="w-14 h-[1px] bg-beige border-0" />
       {user.role === "especialista" ? (
-        <>
-        <IconWithTooltip to={AGENDA} iconName="calendar" tooltipText="Agenda" />
-        <IconWithTooltip to={CLIENTSPROFILES} iconName="userGroup" tooltipText="Clientes" />
-        </>
-      ) : (
-        <>
-        <IconWithTooltip to={USERPROFILES} iconName="profile" tooltipText="Plantilla" />
-        <IconWithTooltip to={CLIENTSPROFILES} iconName="userGroup" tooltipText="Clientes" />
-        <IconWithTooltip to={AGENDA} iconName="calendar" tooltipText="Agenda" />
-        <IconWithTooltip to="#" onClick={() => handleIconClick("location")} iconName="location" tooltipText="Ubicacion" />
-        <IconWithTooltip to="#" onClick={() => handleIconClick("fingernail")} iconName="fingernail" tooltipText="Servicios" />
-        <IconWithTooltip to="#" onClick={() => handleIconClick("analytics")} iconName="analytics" tooltipText="Estadísticas" />
-        <IconWithTooltip to={CONSUMABLES} iconName="Consumables" tooltipText="Insumos" />
-        <IconWithTooltip to={SPECIALISTMONITORING} iconName="specialistmonitoring" tooltipText="Seguimiento especialistas" />
-        </>
-      )
-    }
+    <>
+      <IconWithTooltip to={AGENDA} iconName="calendar" tooltipText="Agenda" />
+      <IconWithTooltip to={CLIENTSPROFILES} iconName="userGroup" tooltipText="Clientes" />
+    </>
+  ) : user.role === "admin" ? (
+    <>
+      <IconWithTooltip to={AGENDA} iconName="calendar" tooltipText="Agenda" />
+      <IconWithTooltip to={USERPROFILES} iconName="profile" tooltipText="Plantilla" />
+      <IconWithTooltip to={CLIENTSPROFILES} iconName="userGroup" tooltipText="Clientes" />
+      <IconWithTooltip to={CONSUMABLES} iconName="Consumables" tooltipText="Insumos" />
+    </>
+  ) : (
+    <>
+      <IconWithTooltip to={HOME} iconName="analytics" tooltipText="Balance" />
+      <IconWithTooltip to={USERPROFILES} iconName="profile" tooltipText="Plantilla" />
+      <IconWithTooltip to={CLIENTSPROFILES} iconName="userGroup" tooltipText="Clientes" />
+      <IconWithTooltip to={AGENDA} iconName="calendar" tooltipText="Agenda" />
+      <IconWithTooltip to={CONSUMABLES} iconName="Consumables" tooltipText="Insumos" />
+      <IconWithTooltip to={SPECIALISTMONITORING} iconName="specialistmonitoring" tooltipText="Seguimiento especialistas" />
+    </>
+  )}
     </div>
   );
 };

@@ -35,11 +35,7 @@ const postUserLogin = async (req, res) => {
         // Obtengo las sedes relacionadas y las citas que tiene reservadas en cada una para la fecha actual:
         const miDate = new Date();
         const currentDateWithoutTime = miDate.toISOString().slice(0, 10);
-        //const userBranches = existingUser.Branches.map(branch => ({ id: branch.id, branchName: branch.branchName }));
-        const userBranches = await Promise.all(existingUser.Branches.map(async (branch) => {
-            const appointments = await calendarPromises(branch.id, currentDateWithoutTime, existingUser.id);
-            return { id: branch.id, branchName: branch.branchName, appointments };
-        }));
+        const userBranches = existingUser.Branches.map(branch => ({ id: branch.id, branchName: branch.branchName }));
         // Obtengo las especialidades relacionadas:
         const userSpecialties = existingUser.Specialties.map(specialty => ({ id: specialty.id, specialtyName: specialty.specialtyName }));
 
@@ -65,34 +61,6 @@ const postUserLogin = async (req, res) => {
         showLog(`postUserLogin ERROR-> ${err.message}`);
         return res.status(500).send(err.message);
     }
-}
-
-async function calendarPromises(branchId, currentDateWithoutTime, idUser) {
-    // Obtengo la cantidad de citas para la sede actual, para la fecha actual:
-    const result = await Calendar.findAndCountAll({
-        attributes: ["id"],
-        where: {
-            date_from: {
-                [Op.gte]: currentDateWithoutTime + " 00:00:00",
-                [Op.lte]: currentDateWithoutTime + " 23:59:59",
-            },
-            current: true,
-        },
-        include: [
-            {
-                model: Branch,
-                attributes: ["id"],
-                where: { id: branchId },
-            },
-            {
-                model: User,
-                attributes: ["id"],
-                where: idUser ? { id: idUser } : {},
-            },
-        ],
-    });
-    const Out = result.count;
-    return Out;
 }
 
 module.exports = postUserLogin;

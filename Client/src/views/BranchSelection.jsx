@@ -29,7 +29,7 @@ const handleChange = (e) => {
 
 const handleBranch = () => {
     dispatch(setBranch(workingBranch))
-    if(user.role !== "especialista"){
+    if(user.role === "superAdmin"){
       navigate(HOME)
     } else {
       navigate(AGENDA)

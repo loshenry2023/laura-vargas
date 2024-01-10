@@ -10,6 +10,7 @@ const usersHandler = require("../Handlers/user/usersHandler");
 const getUserData = require("../controllers/user/getUserData");
 const postUserLogin = require("../controllers/user/postUserLogin");
 const postUserLogout = require("../controllers/user/postUserLogout");
+const getCalendarCount = require("../controllers/user/getCalendarCount");
 // Espeialistas:
 const getSpecialists = require("../Handlers/user/getSpecialists");
 // Especialidades:
@@ -68,6 +69,7 @@ router.post("/users", usersHandler); // obtiene y devuelve todos los usuarios
 router.post("/userdetails/:id", getUserData); // obtiene y devuelve los detalles de un usuario por id
 router.post("/userdata", postUserLogin); // obtiene los datos de un usuario para el login, registra el token y devuelve sus datos asociados
 router.post("/logoutuser", postUserLogout); // logout de usuario, borra el token registrado
+router.post("/getcalendarcount", getCalendarCount); // obtiene y devuelve la cantidad de citas para un usuario en una sede
 // Especialidades:
 router.post("/specialty", postSpecialtyHandler); //  crea una especialidad
 router.put("/specialty/:id", putSpecialtyHandler); //  edita una especialidad

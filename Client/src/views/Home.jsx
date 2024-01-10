@@ -2,21 +2,30 @@
 import SideBar from "../components/SideBar";
 import NavBar from "../components/NavBar";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
-import { getPayMethods } from '../redux/actions.js'
+import { useEffect, useState } from "react";
+import { getPayMethods, getServices, getspecialists } from '../redux/actions.js'
 import Restricted from "./Restricted.jsx";
 import ErrorToken from "./ErrorToken";
+import Balance from "../components/Balance.jsx";
+import Loader from "../components/Loader.jsx";
 
 
 const Home = () => {
-  const token = useSelector((state) => state?.token)
-  const user = useSelector((state) => state?.user)
-  const tokenError = useSelector((state) => state?.tokenError);
-
   const dispatch = useDispatch()
+  const token = useSelector((state) => state?.token)
+  const branchWorking = useSelector((state) => state?.workingBranch)
+  const tokenError = useSelector((state) => state?.tokenError);
+  const specialists = useSelector((state) => state?.specialists)
+  const services = useSelector((state) => state?.services)
+  const payMethods = useSelector((state) => state?.payMethods)
+  const user = useSelector((state) => state?.user);
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     dispatch(getPayMethods({ token }))
+    dispatch(getspecialists(branchWorking.branchName, { token: token }))
+    dispatch((getServices({token})))
+    .then(setLoading(false))
   }, [tokenError]);
 
   if (tokenError === 401 || tokenError === 403) {
@@ -26,15 +35,15 @@ const Home = () => {
   } else {
     return (
       <>
-        <NavBar />
-        <div className="flex flex-row">
+        <NavBar user={user}/>
+        <div className="flex flex-row dark:bg-darkBackground">
           <SideBar />
-          {user.role === "admin" || user.role === "superAdmin" ?
-            <section className="mx-auto h-[calc(100vh-80px)] w-screen dark:bg-darkBackground">
-              <h1 className="w-full text-xl text-center mt-10 dark:text-beige">Home</h1>
-            </section> :
-            <Restricted />
-          }
+          {loading ? (
+            <Loader />
+          ) : (
+         user.role === "superAdmin" ?
+            <Balance specialists={specialists} services={services} payMethods={payMethods}/> :  <Restricted />
+          )}
         </div>
       </>
     );
