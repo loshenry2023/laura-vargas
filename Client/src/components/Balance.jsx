@@ -5,6 +5,7 @@ import Loader from "./Loader";
 
 const Balance = ({ specialists, services, payMethods }) => {
 
+  const testData = /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/;
   const dispatch = useDispatch();
   const token = useSelector((state) => state?.token);
   const workingBranch = useSelector((state) => state?.workingBranch);
@@ -32,6 +33,17 @@ const Balance = ({ specialists, services, payMethods }) => {
   }, [fetchDataBalance]);
 
 
+  const handleDate = (e) => {
+      if(testData.test(e.target.value) && e.target.value.split("-")[0] >= 2024){
+        setFetchDataBalance(
+        {
+          ...fetchDataBalance,
+          [e.target.name]: e.target.value
+        }
+      )} 
+  }
+
+
   const handleDataToFetch = (e) => {
     setFetchDataBalance((prevData) => {
       const updatedValue =
@@ -51,21 +63,6 @@ const Balance = ({ specialists, services, payMethods }) => {
       return updatedValue.length === 0 ? updatedData : { ...prevData, [e.target.name]: updatedValue };
     });
   };
-
-  console.log(fetchDataBalance)
-
-  // function isDateHigherThanToday(inputDate) {
-  //   const today = new Date();
-  //   today.setHours(0, 0, 0, 0);
-  //   const inputDateObject = new Date(inputDate);
-  //   inputDateObject.setHours(0, 0, 0, 0);
-  
-  //   return inputDateObject > today;
-  // }
-
-  // if (isDateHigherThanToday(handleDataToFetch.dateTo)) {
-  //   errors.birthday = "Ingrese una fecha anterior al día de hoy"
-  // }
 
   //Total Incomes
   let totalIncomes = 0;
@@ -100,11 +97,6 @@ if(fetchDataBalance.idUser){
   comision = Number(specialistData[0].comission)
 }
 
-console.log(comision)
-
-
-
-
   return (
     <div className="flex flex-col mt-10 gap-5 w-2/3 mx-auto">
       {loading ? (
@@ -124,7 +116,7 @@ console.log(comision)
                 type="date"
                 name="dateFrom"
                 defaultValue={formattedDate}
-                onChange={handleDataToFetch}
+                onChange={handleDate}
                 className="border rounded-md border-black px-2 text-sm dark:invert"
               />
             </div>
@@ -136,7 +128,7 @@ console.log(comision)
                 type="date"
                 name="dateTo"
                 defaultValue={formattedDate}
-                onChange={handleDataToFetch}
+                onChange={handleDate}
                 className="border rounded-md border-black px-2 text-sm  dark:invert"
               />
             </div>

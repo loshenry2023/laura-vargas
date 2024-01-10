@@ -112,7 +112,7 @@ function Consumables() {
                   </h1>
 
                   {user?.role !== "admin" && ( // Renderiza el botón solo si el rol no es admin
-                    <div className="ml-auto">
+                    <div className="flex justify-center md:ml-auto">
                       <button
                         onClick={handleShowNewConsumableModal}
                         className="bg-primaryPink hover:bg-secondaryPink text-white py-2 px-4 rounded border dark:bg-darkPrimary dark:border-darkText dark:hover:bg-gray-200 dark:hover:text-black"
@@ -134,7 +134,7 @@ function Consumables() {
                   )}
 
                   <section className="flex flex-col items-start sm:w-full">
-                    <div className="flex flex-col items-center w-full gap-3 lg:flex-row lg:items-center lg:gap-3">
+                    <div className="flex flex-col items-center w-full gap-3">
                       <input
                         value={productName}
                         onChange={(e) => {
@@ -143,7 +143,7 @@ function Consumables() {
                         }}
                         type="text"
                         placeholder="Buscar por nombre..."
-                        className="w-full border border-black focus:outline-none focus:ring-1 focus:ring-grey px-1 text-sm dark:bg-darkPrimary dark:placeholder-darkText dark:text-darkText"
+                        className="w-full text-center border border-black focus:outline-none focus:ring-1 focus:ring-grey px-1 text-sm md:text-left dark:bg-darkPrimary dark:placeholder-darkText dark:text-darkText"
                       />
                       <input
                         value={description}
@@ -153,7 +153,7 @@ function Consumables() {
                         }}
                         type="text"
                         placeholder="Buscar por descripción..."
-                        className="w-full border border-black focus:outline-none focus:ring-1 focus:ring-grey px-1 text-sm dark:bg-darkPrimary dark:placeholder-darkText dark:text-darkText"
+                        className="w-full text-center border border-black focus:outline-none focus:ring-1 focus:ring-grey px-1 text-sm md:text-left dark:bg-darkPrimary dark:placeholder-darkText dark:text-darkText"
                       />
                     </div>
                   </section>

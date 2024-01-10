@@ -10,7 +10,15 @@ import axios from "axios";
 import Restricted from "./Restricted";
 import ErrorToken from "./ErrorToken";
 
+import getParamsEnv from "../functions/getParamsEnv";
+const { API_URL_BASE } = getParamsEnv();
+
+
 const SpecialistMonitoring = () => {
+
+
+  const testData = /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/;
+
   const dispatch = useDispatch();
   const [specialistData, setSpecialsit] = useState({})
   const [loading, setLoading] = useState(true);
@@ -33,29 +41,27 @@ const SpecialistMonitoring = () => {
     token,
   })
 
-  console.log(specialistData)
-
 
   const handleDate = (e) => {
+    if(testData.test(e.target.value) && e.target.value.split("-")[0] >= 2024){
     setFitlerDate(
       {
         ...filterDate,
         [e.target.name]: e.target.value
       }
-    )
+    )}
   }
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.post(
-          `http://localhost:3001/laura-vargas/getbalance`,
+          `${API_URL_BASE}/getbalance`,
           filterDate
         );
         setSpecialsit(response.data);
         setLoading(false);
       } catch (error) {
-        console.error("Error fetching data:", error);
         if (error.request.status === 403) {
           dispatch(setTokenError(error.request.status));
         }
@@ -87,7 +93,7 @@ const SpecialistMonitoring = () => {
                 </h1>
               </div>
               <div className="flex flex-col gap-5 md:flex-row">
-                <div className="flex gap-2">
+                <div className="flex  gap-2">
                   <label className="hidden md:inline dark:text-darkText">
                     Fecha inicial
                   </label>
@@ -96,7 +102,7 @@ const SpecialistMonitoring = () => {
                     type="date"
                     defaultValue={formattedDate}
                     onChange={handleDate}
-                    className="border rounded-md border-black px-2 text-sm dark:invert"
+                    className="w-full text-center border rounded-md border-black px-2 text-sm md:w-fit dark:invert"
                   />
                 </div>
                 <div className="flex gap-2">
@@ -108,7 +114,7 @@ const SpecialistMonitoring = () => {
                     type="date"
                     defaultValue={formattedDate}
                     onChange={handleDate}
-                    className="border rounded-md border-black px-2 text-sm dark:invert"
+                    className="w-full text-center border rounded-md border-black px-2 text-sm md:w-fit dark:invert"
                   />
                 </div>
               </div>

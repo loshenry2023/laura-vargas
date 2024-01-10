@@ -116,7 +116,6 @@ const Calendar = ({
 
   useEffect(() => {
     dispatch(getspecialists(branchWorking, { token: token }));
-
     setEffectControl(true);
     dispatch(getCalendar(branch, dateFrom, dateTo, userId, { token: token }));
     setLoading(false);
