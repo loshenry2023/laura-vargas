@@ -1,23 +1,22 @@
-# ** Proyecto real en la etapa de PF Soy Henry - Laura Vargas **
+# Proyecto FullStack - Consulta de Información sobre Videojuegos
 
-Este proyecto individual forma parte del curso FullStack de Henry. Su objetivo principal es crear una aplicación que permita consultar información sobre videojuegos.
+Este proyecto individual forma parte del curso FullStack de Henry, liderado por Laura Vargas. La meta principal es desarrollar una aplicación que permita consultar información sobre videojuegos.
 
-## **🧾 Principales funcionalidades**
+## 📋 Principales Funcionalidades
 
-- Distincion de funcionalidades pro roles, SuperAdmin, Admin, Especialista.
-- Agregar empleados/especialistas a una nomina.
-- Agregar clientes a una nomina.
-- Visualizar balances, diarios, semanales, mensuales, segun se requiera.
-- Manejo de inventario, agregar quitar.
-- Agendar, editar, o borrar sitas de los clientes, con los diferentes empleados en sus especialidades
-- Interfaz de usuario amigable construida con React y React Router.
-- Diseño web responsive.
-- Gestión de estados con Redux Toolkit.
-- Backend desarrollado con Express y Sequelize para interactuar con la base de datos.
-- Utilización de PostgreSQL como base de datos.
-- Solicitudes HTTP con Axios.
+- **Roles Distintivos**: SuperAdmin, Admin, Especialista.
+- **Gestión de Nóminas**: Agregar empleados/especialistas y clientes.
+- **Visualización de Balances**: Diarios, semanales, mensuales según sea necesario.
+- **Manejo de Inventario**: Agregar, quitar, y modificar inventario.
+- **Agenda de Citas**: Agendar, editar o borrar citas de clientes con diferentes empleados, y sus respectivas especializaciones.
+- **Interfaz Amigable**: Construida con React y React Router.
+- **Diseño Responsive**: Adaptable a diferentes dispositivos.
+- **Gestión de Estados**: Utilizando Redux Toolkit.
+- **Backend**: Desarrollado con Express y Sequelize para interactuar con la base de datos.
+- **Base de Datos**: PostgreSQL.
+- **Solicitudes HTTP**: Con Axios.
 
-## **🧾 Tecnologías utilizadas**
+## 🛠️ Tecnologías Utilizadas
 
 - React
 - React Router
@@ -28,22 +27,26 @@ Este proyecto individual forma parte del curso FullStack de Henry. Su objetivo p
 - Axios
 - Tailwind
 
-## **🧾 Instrucciones de Ejecución**
+## 🚀 Instrucciones de Ejecución
 
-- Clonar el repositorio.
-- Navegar al directorio del proyecto. Hay dos carpetas: Server y Client, para el frontend y el backend, respectivamente.
-- Ejecutar npm install para instalar las dependencias.
-- Configurar la nueva base de datos PostgreSQL.
-- Ejecutar npm start para iniciar la aplicación (backend).
-- Ejecutar npm start para iniciar la aplicación (frontend).
+1. Clonar el repositorio.
+2. Navegar al directorio del proyecto. Dos carpetas están disponibles: `Server` y `Client`, para el frontend y backend, respectivamente.
+3. Ejecutar `npm install` para instalar las dependencias.
+4. Configurar la base de datos PostgreSQL.
+5. Ejecutar `npm start` para iniciar la aplicación (backend).
+6. Ejecutar `npm start` para iniciar la aplicación (frontend).
 
-## **🧾 Acerca del Autor**
+## 📚 Acerca del Autor
 
-Este proyecto fue creado por [**Paulo Vinci**](https://www.linkedin.com/in/paulo-damian-vinci/).
+Este proyecto fue creado por [**Laura Vargas**](https://www.linkedin.com/in/laura-vargas/).
 
-[**Daniel Castañeda**] (https://www.linkedin.com/in/luis-daniel-casta%C3%B1eda-abanto-5b3119216/).
-[**Paulo Vinci**] (https://www.linkedin.com/in/paulo-damian-vinci/).
-[**Tomas Bombau**] (https://www.linkedin.com/in/tom%C3%A1s-ignacio-bombau-049a52139/).
-[**Ramiro Alet**] (https://www.linkedin.com/in/ramiro-alet/).
-[**Fernando Suppa Nieto**] (https://www.linkedin.com/in/fernando-suppa-nieto/).
-[**Matias Suppa Nieto**] (https://www.linkedin.com/in/matias-nicolas-suppa-nieto-139b6b234/).
+Con la colaboración de:
+
+- [**Daniel Castañeda**](https://www.linkedin.com/in/luis-daniel-casta%C3%B1eda-abanto-5b3119216/)
+- [**Paulo Vinci**](https://www.linkedin.com/in/paulo-damian-vinci/)
+- [**Tomas Bombau**](https://www.linkedin.com/in/tom%C3%A1s-ignacio-bombau-049a52139/)
+- [**Ramiro Alet**](https://www.linkedin.com/in/ramiro-alet/)
+- [**Fernando Suppa Nieto**](https://www.linkedin.com/in/fernando-suppa-nieto/)
+- [**Matias Suppa Nieto**](https://www.linkedin.com/in/matias-nicolas-suppa-nieto-139b6b234/)
+
+¡Explora y disfruta del proyecto! 🚀
