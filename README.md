@@ -1,6 +1,6 @@
 # Proyecto FullStack - Laura Vargas
 
-Este proyecto grupal es un **proyecto real** en la etapa de PF, forma parte del curso FullStack de Henry. La meta principal es desarrollar una aplicación que permita la gestion de locales de estetica.
+Este proyecto grupal es un **proyecto real** en la etapa de PF, forma parte del curso FullStack de Henry. La meta principal es desarrollar una aplicación que permita la gestión de locales de estética.
 
 ## 📚 Índice de Contenido
 
