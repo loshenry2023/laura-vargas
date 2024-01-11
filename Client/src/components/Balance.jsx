@@ -28,8 +28,83 @@ const Balance = ({ specialists, services, payMethods }) => {
   });
 
   useEffect(() => {
-    dispatch(getBalance(fetchDataBalance)).then(setLoading(false));
-  }, [fetchDataBalance]);
+    const fetchData = async () => {
+      try {
+        const response = await dispatch(getBalance(fetchDataBalance));
+        console.log("Balance Data:", response);
+        setLoading(false);
+
+        // Procesar datos
+        let totalIncomes = 0;
+        let specialistCounts = [];
+        let serviceCounts = [];
+        let paymentMethodIncomes = [];
+
+        if (response.payload && response.payload.rows) {
+          response.payload.rows.forEach((user, index) => {
+            // Calcular total de ingresos
+            user.payments.forEach((payment) => {
+              totalIncomes += payment.Amount;
+            });
+
+            // Datos para el gráfico de especialistas
+            specialistCounts.push({
+              id: `specialist-${index}`,
+              name: `${user.name} ${user.lastName}`,
+              value: user.services.length,
+            });
+
+            // Datos para el gráfico de cantidad de veces que se realizó cada servicio
+            services.forEach((service, serviceIndex) => {
+              const serviceCount = user.services.filter(
+                (userService) => userService.serviceName === service.serviceName
+              ).length;
+              const existingService = serviceCounts.find(
+                (item) => item.id === `service-${serviceIndex}`
+              );
+
+              if (existingService) {
+                existingService.value += serviceCount;
+              } else {
+                serviceCounts.push({
+                  id: `service-${serviceIndex}`,
+                  name: service.serviceName,
+                  value: serviceCount,
+                });
+              }
+            });
+
+            // Obtener los ingresos reales por método de pago
+            paymentMethodIncomes = payMethods.map((payMethod) => {
+              const methodName = payMethod.paymentMethodName;
+              const methodData = paymentMethodIncomes.find(
+                (item) => item.name === methodName
+              ) || { name: methodName, value: 0 };
+              methodData.value += user.payments
+                .filter((payment) => payment.Method === methodName)
+                .reduce((acc, payment) => acc + payment.Amount, 0);
+              return methodData;
+            });
+          });
+        }
+
+        // Actualizar gráficos y estado
+        setChartDataSpecialists([...specialistCounts]);
+
+        setChartDataServicesCount([...serviceCounts]);
+
+        setChartDataPaymentMethods([...paymentMethodIncomes]);
+
+        console.log("Ingresos totales:", totalIncomes);
+        console.log("Ingresos por Métodos de Pago:", paymentMethodIncomes);
+      } catch (error) {
+        console.error("Error fetching balance data:", error);
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [dispatch, fetchDataBalance, specialists, services, payMethods]);
 
   const handleDate = (e) => {
     if (testData.test(e.target.value) && e.target.value.split("-")[0] >= 2024) {
@@ -100,133 +175,19 @@ const Balance = ({ specialists, services, payMethods }) => {
   }
 
   const [chartDataSpecialists, setChartDataSpecialists] = useState([
-    { name: "Total" }, //, value: totalIncomes
+    { name: "Total" },
     ...specialists,
   ]);
 
   const [chartDataServicesCount, setChartDataServicesCount] = useState([
-    { name: "Total" }, //, value: totalIncomes
+    { name: "Total" },
     ...services,
   ]);
 
   const [chartDataPaymentMethods, setChartDataPaymentMethods] = useState([
-    { name: "Total" }, //, value: totalIncomes
+    { name: "Total" },
     ...paymentMethods,
   ]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await dispatch(getBalance(fetchDataBalance));
-        console.log("Balance Data:", response);
-        setLoading(false);
-
-        // Procesar datos
-        let totalIncomes = 0;
-        let specialistCounts = [];
-        let serviceCounts = [];
-
-        if (response.payload && response.payload.rows) {
-          response.payload.rows.forEach((user, index) => {
-            // Calcular total de ingresos
-            user.payments.forEach((payment) => {
-              totalIncomes += payment.Amount;
-            });
-
-            // Datos para el gráfico de especialistas
-            specialistCounts.push({
-              id: `specialist-${index}`, // Asegúrate de que `id` sea único
-              name: `${user.name} ${user.lastName}`,
-              value: user.services.length,
-            });
-
-            // Datos para el gráfico de cantidad de veces que se realizó cada servicio
-            services.forEach((service, serviceIndex) => {
-              const serviceCount = user.services.filter(
-                (userService) => userService.serviceName === service.serviceName
-              ).length;
-              const existingService = serviceCounts.find(
-                (item) => item.id === `service-${serviceIndex}`
-              );
-
-              if (existingService) {
-                existingService.value += serviceCount;
-              } else {
-                serviceCounts.push({
-                  id: `service-${serviceIndex}`, // Asegúrate de que `id` sea único
-                  name: service.serviceName,
-                  value: serviceCount,
-                });
-              }
-            });
-          });
-        }
-
-        console.log("Ingresos totales:", totalIncomes);
-        console.log("Métodos de pago:", paymentMethods);
-
-        // Actualizar gráficos
-        // Datos para el gráfico de especialista
-        setChartDataSpecialists([
-          // { name: "Cantidad de Servicios por Especialista" },
-          ...specialistCounts,
-        ]);
-        // Datos para el gráfico de procedimientos
-        setChartDataServicesCount([
-          // {
-          //   name: "Cantidad de Veces que se Realizó cada Servicio",
-          // },
-          ...serviceCounts,
-        ]);
-
-        console.log("paymethods para grafico paymentmethods", paymentMethods);
-        console.log("paymethods para grafico paymethods", payMethods);
-
-        // Datos para el gráfico de métodos de pago
-        // Crear un conjunto con todos los nombres de métodos de pago
-        const allPaymentMethodsSet = new Set(
-          payMethods.map((payMethod) => payMethod.paymentMethodName)
-        );
-
-        // Crear un array con todos los métodos de pago con un valor inicial de 0
-        const allPaymentMethods = Array.from(allPaymentMethodsSet).map(
-          (methodName) => ({
-            name: methodName,
-            value: 0,
-          })
-        );
-
-        // Obtener los ingresos reales por método de pago
-        const paymentMethodIncomes = payMethods.map((payMethod) => {
-          const methodName = payMethod.paymentMethodName;
-          const methodData = paymentMethods.find(
-            (item) => item[methodName]
-          ) || { [methodName]: 0 };
-          return { name: methodName, value: methodData[methodName] };
-        });
-
-        // Combinar ambos arrays para obtener el resultado final
-        const finalPaymentMethods = allPaymentMethods.map((allMethod) => {
-          const realMethod = paymentMethodIncomes.find(
-            (realMethod) => realMethod.name === allMethod.name
-          );
-          return realMethod || allMethod;
-        });
-
-        setChartDataPaymentMethods([
-          // { name: "Estadísticas por Métodos de Pago" },
-          ...finalPaymentMethods,
-        ]);
-
-        console.log("Ingresos por Métodos de Pago:", paymentMethodIncomes);
-      } catch (error) {
-        console.error("Error fetching balance data:", error);
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, [dispatch, fetchDataBalance, specialists, services, payMethods]);
 
   return (
     <div className="flex flex-col mt-10 gap-5 w-2/3 mx-auto">
