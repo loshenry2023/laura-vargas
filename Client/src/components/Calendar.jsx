@@ -116,7 +116,6 @@ const Calendar = ({
 
   useEffect(() => {
     dispatch(getspecialists(branchWorking, { token: token }));
-
     setEffectControl(true);
     dispatch(getCalendar(branch, dateFrom, dateTo, userId, { token: token }));
     setLoading(false);
@@ -167,7 +166,7 @@ const Calendar = ({
       {loading ? (
         <Loader />
       ) : (
-        <div className="flex flex-col gap-10 justify-center items-center w-full sm:w-full xl:flex-row">
+        <div className="mb-10 flex flex-col gap-10 justify-center items-center w-full sm:w-full xl:flex-row">
           <div className="w-72 sm:w-96 sm:h-96 md:w-[550px]">
             <div className="flex justify-between items-center">
               <h1 className="select-none font-semibold dark:text-darkText">
@@ -403,6 +402,7 @@ const Calendar = ({
             )}
             {calendar.map((cita, index) => {
               return (
+                cita.Client === null ? null :
                 <div
                   key={index}
                   className={

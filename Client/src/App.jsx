@@ -8,6 +8,7 @@ import TermsAndPrivacy from "./views/TermsAndPrivacy.jsx";
 import UserDetail from "./views/UserDetail.jsx";
 import Agenda from "./views/Agenda.jsx";
 import SpecialistDate from "./views/SpecialistDate.jsx";
+import DevelopedBy from "./views/DevelopedBy/DevelopedBy.jsx";
 
 import Consumables from "./views/Consumables.jsx";
 import ConsHistoryPrice from "./components/ConsHistoryPrice.jsx";
@@ -37,6 +38,7 @@ const {
   CLIENTSPROFILES,
   DATEDETAIL,
   SPECIALISTMONITORING,
+  DEVELOPEDBY
 } = getParamsEnv();
 
 const App = () => {
@@ -55,6 +57,7 @@ const App = () => {
         <Route path={TERMSANDPRIVACY} element={<TermsAndPrivacy />} />
         <Route path={DATEDETAIL} element={<SpecialistDate />} />
         <Route path={SPECIALISTMONITORING} element={<SpecialistMonitoring />} />
+        <Route path={DEVELOPEDBY} element={<DevelopedBy />} />
         <Route path="consumables" element={<Consumables />} />
         <Route path="historyprice/:productId" element={<ConsHistoryPrice />} />
         <Route path="*" element={<Error />} />

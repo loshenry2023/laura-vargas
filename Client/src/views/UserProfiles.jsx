@@ -97,8 +97,8 @@ function UserProfiles() {
             loading ? (<Loader />) : (
               <div className="flex flex-col mt-10 gap-5 w-2/3 mx-auto">
                 <h1 className="text-2xl underline underline-offset-4 tracking-wide text-center font-fontTitle dark:text-beige sm:text-left" >Plantilla de empleados</h1>
-                <section className="flex flex-col gap-2 mx-auto sm:flex sm:flex-row sm:gap-5 sm:w-full">
-                  <div className="flex flex-col gap-6 md:flex-row">
+                <section className="flex flex-col gap-2 sm:flex sm:flex-row sm:gap-5 sm:w-full">
+                  <div className="flex flex-col gap-6 sm:flex-row">
                     <div className="flex gap-2">
                       <label className="hidden md:inline dark:text-darkText">Fecha inicial</label>
                       <input
@@ -107,7 +107,7 @@ function UserProfiles() {
                         }}
                         type="date"
                         defaultValue=""
-                        className="border rounded-md border-black px-2 text-sm dark:invert"
+                        className="w-full text-center border rounded-md border-black px-2 text-sm sm:w-fit dark:invert"
                       />
                     </div>
                     <div className="flex gap-2">
@@ -118,7 +118,7 @@ function UserProfiles() {
                         }}
                         type="date"
                         defaultValue=""
-                        className="border rounded-md border-black px-2 text-sm  dark:invert"
+                        className="w-full text-center border rounded-md border-black px-2 text-sm sm:w-fit dark:invert"
                       />
                     </div>
                   </div>

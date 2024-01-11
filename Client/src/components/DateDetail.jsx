@@ -234,7 +234,7 @@ const DateDetail = () => {
     }
 
     return (
-        <div className="flex flex-col mx-auto mt-10">
+        <div className="flex flex-col mx-auto my-10">
             <div className='flex flex-row'>
                 <IoMdArrowRoundBack onClick={handleGoBack} className='w-6 h-6 mt-1 mr-2 hover:scale-110 cursor-pointer dark:text-darkText' />
                 <h1 className='mb-4 text-2xl underline underline-offset-4 tracking-wide text-center font-fontTitle dark:text-beige sm:text-left'> Información de cita</h1>
@@ -330,15 +330,15 @@ const DateDetail = () => {
                                 <div className=" rounded overflow-hidden shadow-lg p-6 flex flex-row flex-wrap gap-2 justify-center">
                                     <div className="rounded overflow-hidden flex-grow p-6 shadow-sm shadow-black dark:bg-darkPrimary dark:shadow-darkText">
                                         <p className="text-xl font-medium text-gray-700 dark:text-darkText">Procedimiento</p>
-                                        <p className='text-sm text-center dark:text-darkText'>{appointment.Service.serviceName}</p>
+                                        <p className='text-sm text-left 2xl:text-center dark:text-darkText'>{appointment.Service.serviceName}</p>
                                     </div>
                                     <div className="rounded overflow-auto shadow-sm flex-grow p-6 shadow-black dark:bg-darkPrimary dark:shadow-darkText">
                                         <label className="text-xl font-medium text-gray-700 dark:text-darkText">Observaciones</label>
-                                        <p className='text-sm text-center dark:text-darkText'>{appointment.obs !== " " ? appointment.obs : " - "} </p>
+                                        <p className='text-sm text-left 2xl:text-center dark:text-darkText'>{appointment.obs !== " " ? appointment.obs : " - "} </p>
                                     </div>
                                     <div className="rounded overflow-hidden shadow-sm flex-grow p-6 shadow-black dark:bg-darkPrimary dark:shadow-darkText">
-                                        <p className="text-xl font-medium text-gray-700 dark:text-darkText">Precio final</p>
-                                        <p className='text-sm m-auto text-center dark:text-darkText'>{appointment.Service.price}</p>
+                                        <p className="text-xl font-medium text-gray-700 dark:text-darkText"> Precio final</p>
+                                        <p className='text-sm m-auto text-left 2xl:text-center dark:text-darkText'>{appointment.Service.price}</p>
                                     </div>
                                 </div>
                             </div>

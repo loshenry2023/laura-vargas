@@ -14,6 +14,7 @@ import {
   GET_CLIENT_ID,
   CLEAR_CLIENT_ID,
   SET_WORKING_BRANCH,
+  SET_APPOINTMENT_NOTIFICATION,
   GET_CALENDAR,
   GET_PRODUCTS_FAILURE,
   GET_PRODUCTS_REQUEST,
@@ -35,11 +36,13 @@ import {
   GET_SPECIALISTS,
   SET_TOKEN_ERROR,
   GET_BALANCE,
+  ERASE_APPOINTMENT_NOTIFICATION,
 } from "./actionsTypes";
 
 const initialState = {
   token: "",
   workingBranch: {},
+  appointments: {},
   user: {},
   userID: {},
   users: [],
@@ -57,7 +60,7 @@ const initialState = {
   payMethods: [],
   specialists: [],
   tokenError: 0,
-  balance: {}
+  balance: {},
 };
 
 const rootReducer = (
@@ -81,6 +84,25 @@ const rootReducer = (
       };
       localStorage.setItem("myAppReduxState", JSON.stringify(setWorkingBranch));
       return setWorkingBranch;
+
+     //! Setea cantidad de appointments
+    case SET_APPOINTMENT_NOTIFICATION:
+      const calendarCount = {
+        ...state,
+        appointments: payload,
+      };
+      localStorage.setItem("myAppReduxState", JSON.stringify(calendarCount));
+      return calendarCount;
+
+      //! Setea appointments a 0
+      case ERASE_APPOINTMENT_NOTIFICATION:
+      const eraseCalendarCount = {
+        ...state,
+        appointments: payload,
+      };
+      console.log(eraseCalendarCount)
+      localStorage.setItem("myAppReduxState", JSON.stringify( eraseCalendarCount));
+      return eraseCalendarCount;
 
     //! Trae usuario de logIn
     case GET_USER:
@@ -227,6 +249,8 @@ const rootReducer = (
 
     case USER_LOGOUT:
       localStorage.removeItem("myAppReduxState");
+      localStorage.removeItem("dispatchPerformed");
+      localStorage.removeItem('showRed')
       return initialState;
 
     case GET_PRODUCTS_REQUEST:
