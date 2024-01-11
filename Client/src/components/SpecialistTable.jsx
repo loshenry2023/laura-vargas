@@ -53,7 +53,9 @@ const SpecialistTable = ({ specialistData, count }) => {
                     {" "}
                     {specialist.payments.length === 0
                       ? "Sin pagos registrados"
+
                       : valorTotal = formatNumber(specialist.payments.reduce((total, payment) => total + payment.Amount, 0))}
+
                   </td>
                   <td className="px-6 py-4"> {specialist.comission}%</td>
                   <td className="px-6 py-4">
