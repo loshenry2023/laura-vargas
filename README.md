@@ -1,6 +1,6 @@
 # Proyecto FullStack - Laura Vargas
 
-![Imagen de la Landing Page](../laura-vargas/Client/src/assets/Captura%20de%20pantalla%202024-01-11%20150743.png)
+![Landing](laura-vargas/Client/src/assets/Captura%20de%20pantalla%202024-01-11%20150743.png)
 
 Este proyecto grupal es un **proyecto real** en la etapa de PF, forma parte del curso FullStack de Henry. La meta principal es desarrollar una aplicación que permita la gestión de locales de estética.
 
