@@ -103,8 +103,8 @@ const Landing = () => {
           </h5>
         </div>
         <footer
-          className="text-sm flex justify-end items-center h-20 pr-10">
-          <Link to={DEVELOPEDBY} target="_blank" className="font-medium hover:underline" >
+          className="text-md flex justify-end items-center h-20 pr-10">
+          <Link to={DEVELOPEDBY} className="font-medium hover:underline hover:scale-110" >
             @Developed by
           </Link>
         </footer>
