@@ -179,7 +179,7 @@ function EditConsumableForm({
               {user.role === "superAdmin" && (
                 <>
                   <div className="mb-2">
-                    <label className="pl-1 text-sm font-bold">Nombre:</label>
+                    <label className="pl-1 text-sm font-bold dark:text-darkText">Nombre:</label>
                     <input
                       className="border border-black p-2 rounded w-full"
                       type="text"
@@ -188,7 +188,7 @@ function EditConsumableForm({
                     />
                   </div>
                   <div className="mb-2">
-                    <label className="pl-1 text-sm font-bold">
+                    <label className="pl-1 text-sm font-bold dark:text-darkText">
                       Descripción:
                     </label>
                     <input
@@ -199,7 +199,7 @@ function EditConsumableForm({
                     />
                   </div>
                   <div className="mb-2">
-                    <label className="pl-1 text-sm font-bold">Proveedor:</label>
+                    <label className="pl-1 text-sm font-bold dark:text-darkText">Proveedor:</label>
                     <input
                       className="border border-black p-2 rounded w-full"
                       type="text"
@@ -224,7 +224,7 @@ function EditConsumableForm({
 
               {user.role === "admin" ? (
                 <div className="mb-2">
-                  <label className="pl-1 text-sm font-bold">
+                  <label className="pl-1 text-sm font-bold dark:text-darkText">
                     Cantidad a Quitar:
                   </label>
                   <div className="flex items-center">
@@ -242,7 +242,7 @@ function EditConsumableForm({
                     />
                     <button
                       type="button"
-                      className="border border-black p-1 rounded"
+                      className="border border-black p-1 rounded "
                       onClick={() => handleAdjustAmount("subtract")}
                     >
                       Quitar
@@ -254,7 +254,7 @@ function EditConsumableForm({
               {user.role === "superAdmin" ? (
                 <>
                   <div className="mb-2">
-                    <label className="pl-1 text-sm font-bold">
+                    <label className="pl-1 text-sm font-bold dark:text-darkText">
                       Cantidad a Quitar/Agregar:
                     </label>
                     <div className="flex items-center">
@@ -272,14 +272,14 @@ function EditConsumableForm({
                       />
                       <button
                         type="button"
-                        className="border border-black p-1 rounded"
+                        className="border border-black p-1 rounded font-bold dark:text-darkText dark:border-darkText"
                         onClick={() => handleAdjustAmount("subtract")}
                       >
                         Quitar
                       </button>
                       <button
                         type="button"
-                        className="border border-black p-1 rounded ml-2"
+                        className="border border-black p-1 rounded font-bold dark:text-darkText dark:border-darkText ml-2"
                         onClick={() => handleAdjustAmount("add")}
                       >
                         Agregar
@@ -287,7 +287,7 @@ function EditConsumableForm({
                     </div>
                   </div>
                   <div className="mb-2">
-                    <label className="pl-1 text-sm font-bold">Precio:</label>
+                    <label className="pl-1 text-sm font-bold dark:text-darkText">Precio:</label>
                     <input
                       className="border border-black p-2 rounded w-full"
                       type="number"
@@ -309,7 +309,7 @@ function EditConsumableForm({
                 <button
                   type="button"
                   onClick={handleUpdate}
-                  className="h-10 w-[130px] cursor-pointer flex items-center justify-center shadow shadow-black bg-primaryPink text-black text-sm px-2 py-2 rounded-md hover:bg-blue-600 transition duration-300 dark:text-darkText dark:bg-darkPrimary dark:hover:bg-blue-600"
+                  className="h-10 cursor-pointer flex items-center justify-center shadow shadow-black bg-primaryPink text-black text-md p-5 rounded-md hover:bg-blue-600 transition duration-300 dark:text-darkText dark:bg-darkPrimary dark:hover:bg-blue-600"
                 >
                   Actualizar insumo
                 </button>
