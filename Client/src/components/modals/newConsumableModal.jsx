@@ -45,6 +45,14 @@ function NewConsumableModal({ onClose }) {
 
       updateNewConsumable("branchId", defaultBranchId);
     }
+
+    const close = (e) => {
+      if(e.keyCode === 27){
+        onClose();
+      }
+    }
+    window.addEventListener('keydown', close)
+    return () => window.removeEventListener('keydown', close)
   }, [user]);
 
   const handleSubmit = async (e) => {

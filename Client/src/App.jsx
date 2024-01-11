@@ -14,6 +14,7 @@ import Consumables from "./views/Consumables.jsx";
 import ConsHistoryPrice from "./components/ConsHistoryPrice.jsx";
 import NewConsumableForm from "./components/NewConsumableForm.jsx";
 import EditConsumableForm from "./components/EditConsumableForm.jsx";
+import ControlTables from "./views/ControlTables.jsx";
 
 // hooks, routers, reducers:
 import { Route, Routes } from "react-router-dom";
@@ -60,6 +61,7 @@ const App = () => {
         <Route path="consumables" element={<Consumables />} />
         <Route path="historyprice/:productId" element={<ConsHistoryPrice />} />
         <Route path="*" element={<Error />} />
+        <Route path="controlTables" element={<ControlTables />} />
       </Routes>
     </div>
   );
