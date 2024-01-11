@@ -60,7 +60,7 @@ const initialState = {
   payMethods: [],
   specialists: [],
   tokenError: 0,
-  balance: {}
+  balance: {},
 };
 
 const rootReducer = (

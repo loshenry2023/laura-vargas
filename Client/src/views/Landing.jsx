@@ -9,7 +9,7 @@ import { setLogout } from "../redux/actions.js";
 
 //Variables de entorno
 import getParamsEnv from "../functions/getParamsEnv.js";
-const { LOGIN, HOME, AGENDA, ROOT } = getParamsEnv();
+const { LOGIN, HOME, AGENDA, ROOT, DEVELOPEDBY } = getParamsEnv();
 
 // assets and icons
 import { IoExitOutline } from "react-icons/io5";
@@ -22,6 +22,7 @@ const Landing = () => {
   const branches = useSelector(state => state?.branches)
   const navigate = useNavigate();
   const [hayUser, setHayuser] = useState(false)
+  const [showTeamDevModal, setShowTeamDevModal] = useState(false);
 
   useEffect(() => {
     // Preguntar si tengo almacenado un token de antes:
@@ -102,9 +103,9 @@ const Landing = () => {
           </h5>
         </div>
         <footer
-          className="text-sm flex justify-end items-center h-20 pr-10">
-          <Link className="font-medium hover:underline" to={""}>
-            About
+          className="text-md flex justify-end items-center h-20 pr-10">
+          <Link to={DEVELOPEDBY} className="font-medium hover:underline hover:scale-110" >
+            @Developed by
           </Link>
         </footer>
       </div>
