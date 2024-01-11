@@ -1,6 +1,13 @@
-# Proyecto FullStack - Laura-Vargas
+# Proyecto FullStack - Laura Vargas
 
 Este proyecto grupal es un **proyecto real** en la etapa de PF, forma parte del curso FullStack de Henry. La meta principal es desarrollar una aplicación que permita la gestion de locales de estetica.
+
+## 📚 Índice de Contenido
+
+- [Principales Funcionalidades](#principales-funcionalidades)
+- [Tecnologías Utilizadas](#tecnologías-utilizadas)
+- [Instrucciones de Ejecución](#instrucciones-de-ejecución)
+- [Acerca de los Autores](#autores)
 
 ## 📋 Principales Funcionalidades
 
@@ -36,15 +43,15 @@ Este proyecto grupal es un **proyecto real** en la etapa de PF, forma parte del 
 5. Ejecutar `npm start` para iniciar la aplicación (backend).
 6. Ejecutar `npm start` para iniciar la aplicación (frontend).
 
-## 📚 Acerca del Autor
+## 👥 Autores
 
 Este proyecto fue creado por:
 
-- [**Daniel Castañeda**](https://www.linkedin.com/in/luis-daniel-casta%C3%B1eda-abanto-5b3119216/)
-- [**Paulo Vinci**](https://www.linkedin.com/in/paulo-damian-vinci/)
-- [**Tomas Bombau**](https://www.linkedin.com/in/tom%C3%A1s-ignacio-bombau-049a52139/)
-- [**Ramiro Alet**](https://www.linkedin.com/in/ramiro-alet/)
-- [**Fernando Suppa Nieto**](https://www.linkedin.com/in/fernando-suppa-nieto/)
-- [**Matias Suppa Nieto**](https://www.linkedin.com/in/matias-nicolas-suppa-nieto-139b6b234/)
+- [**Daniel Castañeda**](https://www.linkedin.com/in/luis-daniel-casta%C3%B1eda-abanto-5b3119216/): Full Stack Web Development.
+- [**Fernando Suppa Nieto**](https://www.linkedin.com/in/fernando-suppa-nieto/): Full Stack Web Development.
+- [**Matias Suppa Nieto**](https://www.linkedin.com/in/matias-nicolas-suppa-nieto-139b6b234/): Full Stack Web Development.
+- [**Paulo Vinci**](https://www.linkedin.com/in/paulo-damian-vinci/): Full Stack Web Development.
+- [**Ramiro Alet**](https://www.linkedin.com/in/ramiro-alet/): Full Stack Web Development.
+- [**Tomas Bombau**](https://www.linkedin.com/in/tom%C3%A1s-ignacio-bombau-049a52139/): Full Stack Web Development.
 
 ¡Explora y disfruta del proyecto! 🚀
