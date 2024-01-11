@@ -3,7 +3,7 @@ import { ResponsiveContainer, PieChart, Pie, Cell, Tooltip } from "recharts";
 
 const colors = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
 
-function DonutChart({ data, title }) {
+function DonutChartPayMethods({ data, title }) {
   const [showDetails, setShowDetails] = useState(false);
 
   const totalValue = data.reduce((acc, entry) => acc + entry.value, 0);
@@ -52,7 +52,7 @@ function DonutChart({ data, title }) {
             fill="#333"
           >
             {" "}
-            Total: {totalValue}
+            Total: ${totalValue}
           </text>
           <Tooltip />
         </PieChart>
@@ -98,4 +98,4 @@ function DonutChart({ data, title }) {
   );
 }
 
-export default DonutChart;
+export default DonutChartPayMethods;

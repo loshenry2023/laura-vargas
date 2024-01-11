@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getBalance, getCalendar } from "../redux/actions";
 import Loader from "./Loader";
 import DonutChart from "./DonutChart";
+import DonutChartPayMethods from "./DonutChartPayMethods";
 
 const Balance = ({ specialists, services, payMethods }) => {
   const testData = /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/;
@@ -42,19 +43,19 @@ const Balance = ({ specialists, services, payMethods }) => {
 
         if (response.payload && response.payload.rows) {
           response.payload.rows.forEach((user, index) => {
-            // Calcular total de ingresos
+            // calcular total ingresos
             user.payments.forEach((payment) => {
               totalIncomes += payment.Amount;
             });
 
-            // Datos para el gráfico de especialistas
+            // datos gráfico de especialistas
             specialistCounts.push({
               id: `specialist-${index}`,
               name: `${user.name} ${user.lastName}`,
               value: user.services.length,
             });
 
-            // Datos para el gráfico de cantidad de veces que se realizó cada servicio
+            // datos gráfico de cantidad de servicios
             services.forEach((service, serviceIndex) => {
               const serviceCount = user.services.filter(
                 (userService) => userService.serviceName === service.serviceName
@@ -74,7 +75,7 @@ const Balance = ({ specialists, services, payMethods }) => {
               }
             });
 
-            // Obtener los ingresos reales por método de pago
+            // ingresos reales por método de pago
             paymentMethodIncomes = payMethods.map((payMethod) => {
               const methodName = payMethod.paymentMethodName;
               const methodData = paymentMethodIncomes.find(
@@ -88,7 +89,7 @@ const Balance = ({ specialists, services, payMethods }) => {
           });
         }
 
-        // Actualizar gráficos y estado
+        // actualizar gráficos y estado
         setChartDataSpecialists([...specialistCounts]);
 
         setChartDataServicesCount([...serviceCounts]);
@@ -286,8 +287,9 @@ const Balance = ({ specialists, services, payMethods }) => {
             <div className="col-span-1">
               <section className="flex flex-col gap-4">
                 <div className="h-40 w-60 p-5 flex flex-row justify-center items-center rounded-2xl shadow-md shadow-black transition duration-700 dark:bg-darkPrimary hover:bg-blue-500 dark:hover:bg-zinc-800">
-                  <h1 className="text-2xl dark:text-darkText">
-                    Total ingresos: <span> {totalIncomes}$</span>
+                  <h1 className="text-2xl dark:text-darkText flex flex-col items-center">
+                    Total ingresos:{" "}
+                    <span className=" mt-2"> ${totalIncomes}</span>
                   </h1>
                 </div>
                 <div className="h-40 w-60 p-5 flex flex-row justify-center items-center rounded-2xl shadow-md shadow-black transition duration-700 dark:bg-darkPrimary hover:bg-blue-500 dark:hover:bg-zinc-800">
@@ -303,7 +305,7 @@ const Balance = ({ specialists, services, payMethods }) => {
             {/* Columna central */}
             <div className="col-span-2 grid grid-cols-1 gap-4">
               {/* Métodos de pago ocupa 2 columnas */}
-              <DonutChart
+              <DonutChartPayMethods
                 data={chartDataPaymentMethods}
                 title="Métodos de pago"
                 className="col-span-2"
