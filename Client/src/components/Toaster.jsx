@@ -19,7 +19,8 @@ const ToasterConfig = () => {
             duration: 3000,
             style: {
               background: "#ffc8c8",
-              color: "#363636",
+              color: "#000",
+              fontSize: "17px"
             },
 
             success: {

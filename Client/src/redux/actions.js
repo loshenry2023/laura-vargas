@@ -110,6 +110,7 @@ export const getBranches = (token) => {
 };
 
 export const getSpecialties = (token) => {
+  console.log("probando dispatch")
   return async function (dispatch) {
     try {
       const response = await axios.post(API_URL_BASE + "/specialties", token);

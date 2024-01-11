@@ -48,6 +48,14 @@ function EditConsumableForm({
       setPriceHistory(currentPrice);
       setNewPrice(currentPrice);
     }
+
+    const close = (e) => {
+      if(e.keyCode === 27){
+        setEditConsumableModal(false)
+      }
+    }
+    window.addEventListener('keydown', close)
+    return () => window.removeEventListener('keydown', close)
   }, [product, products]);
 
   const handleAdjustAmount = (operation) => {

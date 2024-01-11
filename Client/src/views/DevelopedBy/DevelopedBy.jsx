@@ -1,4 +1,6 @@
 import React, { useEffect } from "react";
+import ToasterConfig from "../../components/Toaster";
+import { toast } from 'react-hot-toast'
 
 //! Import styles module css
 import styles from "./DevelopedBy.module.css";
@@ -22,7 +24,7 @@ const DevelopedBy = () => {
       linkedin:
         "https://www.linkedin.com/in/tom%C3%A1s-ignacio-bombau-049a52139/",
       github: "https://github.com/Tomas-Bombau",
-      email: "mailto:tomas.bombau@gmail.com?",
+      email: "tomas.bombau@gmail.com",
     },
     {
       name: "Fernando Suppa",
@@ -30,7 +32,7 @@ const DevelopedBy = () => {
       foto: "https://res.cloudinary.com/desaac6ma/image/upload/v1704989957/samples/FOTOS/Vana_-_Corporate_Headshot_2024-01-11-9_48_08AM_7-removebg-preview_gdxrb7.png",
       linkedin: "https://www.linkedin.com/in/fernando-suppa-nieto/",
       github: "https://github.com/fsuppanieto",
-      email: "mailto:fsuppanieto@gmail.com?",
+      email: "fsuppanieto@gmail.com",
     },
     {
       name: "Ramiro Alet",
@@ -38,7 +40,7 @@ const DevelopedBy = () => {
       foto: "https://res.cloudinary.com/desaac6ma/image/upload/v1704990122/samples/FOTOS/photo1_yxjjoi-removebg-preview_hvlpsi.png",
       linkedin: "https://www.linkedin.com/in/ramiro-alet/",
       github: "https://github.com/ralet11",
-      email: "mailto:ramiro.alet@gmail.com?",
+      email: "ramiro.alet@gmail.com",
     },
     {
       name: "Paulo Vinci",
@@ -46,7 +48,7 @@ const DevelopedBy = () => {
       foto: "https://res.cloudinary.com/desaac6ma/image/upload/v1704905834/samples/FOTOS/Vana_Studio_-_Portrait_of_at_the_office_detailed_face_imaginative_fantasy_concept_art_style_by_loish_3_1_vz1gdo-removebg-preview_c2ylfg.png",
       linkedin: "https://www.linkedin.com/in/paulo-damian-vinci/",
       github: "https://github.com/PauloDamianVinci",
-      email: "mailto:paulodamianvinci@gmail.com?",
+      email: "paulodamianvinci@gmail.com",
     },
     {
       name: "Matias Suppa",
@@ -55,7 +57,7 @@ const DevelopedBy = () => {
       linkedin:
         "https://www.linkedin.com/in/matias-nicolas-suppa-nieto-139b6b234/",
       github: "https://github.com/mactrias",
-      email: "mailto:matias.suppanieto@davinci.edu.ar?",
+      email: "matias.suppanieto@davinci.edu.ar",
     },
     {
       name: "Daniel Castañeda",
@@ -64,7 +66,7 @@ const DevelopedBy = () => {
       linkedin:
         "https://www.linkedin.com/in/luis-daniel-casta%C3%B1eda-abanto-5b3119216/",
       github: "https://github.com/castanedad121",
-      email: "mailto:castanedad121@gmail.com?",
+      email: "castanedad121@gmail.com",
     },
   ];
 
@@ -96,7 +98,7 @@ const DevelopedBy = () => {
                 className=" flex flex-col flex-wrap justify-center h-40 w-80 bg-transparent"
               >
                 <div
-                  className="block h-48 rounded-lg bg-white shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] dark:bg-darkBackground shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)]"
+                  className="block h-48 rounded-lg bg-white shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] dark:bg-darkBackground"
                   style={{ background: "rgba(255, 255, 255, 0.10)" }}
                 >
                   <div className="flex justify-center">
@@ -131,11 +133,10 @@ const DevelopedBy = () => {
                         <IoLogoLinkedin className="mb-1 text-3xl font-bold" />
                       </a>
                       <a
-                        href={member.email}
-                        className="drop-shadow-md text-gray-900 px-2 hover:text-white hover:scale-110 dark:hover:text-white dark:text-primaryPink"
+                        className="drop-shadow-md cursor-pointer text-gray-900 px-2 hover:text-white hover:scale-110 dark:hover:text-white dark:text-primaryPink"
                         target="_blank"
                       >
-                        <IoMail className="mb-1 text-3xl font-bold" />
+                        <IoMail onClick={() => {navigator.clipboard.writeText(member.email), toast(`Dirección ${member.email} copiada al portapapeles`)}} className="mb-1 text-3xl font-bold" />
                       </a>
                     </ul>
                   </div>
@@ -143,9 +144,10 @@ const DevelopedBy = () => {
               </div>
             ))}
           </div>
-          <button onClick={() => navigate(ROOT)} className="mt-20 mb-20 drop-shadow-2xl border p-2 rounded-2xl text-3xl font-bold transition duration-1000 hover:text-primaryPink dark:hover:bg-zinc-800 dark:text-darkText">Volver al inicio</button>
+          <button onClick={() => navigate(ROOT)} className="mt-20 mb-20 drop-shadow-2xl border p-2 rounded-2xl text-2xl font-bold transition duration-700 hover:text-primaryPink dark:hover:bg-primaryPink dark:hover:text-black dark:text-darkText">Volver al inicio</button>
         </div>
       </div>
+      <ToasterConfig />
     </div>
   );
 };

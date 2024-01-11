@@ -223,8 +223,13 @@ const EditAppointment = ({ setShowEditAppointment, setSpecialty, token, date, se
   };
 
   useEffect(() => {
-    //console.log(AppointmentInfo)
-    //console.log(initialAppointmentInfo)
+    const close = (e) => {
+      if(e.keyCode === 27){
+        closeModal()
+      }
+    }
+    window.addEventListener('keydown', close)
+    return () => window.removeEventListener('keydown', close)
   }, [AppointmentInfo, initialAppointmentInfo])
 
   const handleSubmit = async (e) => {
