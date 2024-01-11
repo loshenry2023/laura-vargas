@@ -234,7 +234,7 @@ const DateDetail = () => {
     }
 
     return (
-        <div className="flex flex-col mx-auto mt-10">
+        <div className="flex flex-col mx-auto my-10">
             <div className='flex flex-row'>
                 <IoMdArrowRoundBack onClick={handleGoBack} className='w-6 h-6 mt-1 mr-2 hover:scale-110 cursor-pointer dark:text-darkText' />
                 <h1 className='mb-4 text-2xl underline underline-offset-4 tracking-wide text-center font-fontTitle dark:text-beige sm:text-left'> Información de cita</h1>
