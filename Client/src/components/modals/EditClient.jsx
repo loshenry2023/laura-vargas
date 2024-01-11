@@ -1,5 +1,5 @@
 //hooks,reducer, componentes
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux';
 import axios from "axios"
 import { toast } from 'react-hot-toast'
@@ -16,8 +16,17 @@ import converterGMT from '../../functions/converteGMT';
 const { API_URL_BASE } = getParamsEnv()
 
 const EditClient = ({setShowEditModal, clientInfo, setClientRender,clientRender, detailId}) => {
-    const token = useSelector((state) => state?.token);
 
+    useEffect(() => {
+        const close = (e) => {
+          if(e.keyCode === 27){
+            closeModal()
+          }
+        }
+        window.addEventListener('keydown', close)
+        return () => window.removeEventListener('keydown', close)}, [])
+
+    const token = useSelector((state) => state?.token);
     const [client, setClient] = useState({
         email: clientInfo.email,
         name: clientInfo.name,

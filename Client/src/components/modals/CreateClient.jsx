@@ -1,5 +1,5 @@
 //hooks,reducer, componentes
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import axios from "axios"
 import { toast } from 'react-hot-toast'
@@ -20,6 +20,18 @@ import getParamsEnv from '../../functions/getParamsEnv'
 const { API_URL_BASE } = getParamsEnv()
 
 const CreateClient = ({setShowClientCreateModal, setActivarNuevoCliente,activarNuevoCliente, setChosenClient, setShowClientFormModal, setShowClientListModal}) => {
+
+    useEffect(() => {
+        const close = (e) => {
+            if(e.keyCode === 27){
+                closeWithX()
+                closeModal()
+            }
+          }
+          window.addEventListener('keydown', close)
+          return () => window.removeEventListener('keydown', close)
+    })
+
     const location = useLocation()
     const token = useSelector((state) => state?.token);
     const [client, setClient] = useState({

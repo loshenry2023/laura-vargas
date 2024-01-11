@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { IoClose } from 'react-icons/io5';
 import validateRegisterInput from '../../functions/registerFormValidations';
@@ -10,10 +10,17 @@ import getParamsEnv from '../../functions/getParamsEnv';
 const { USERPROFILES, API_URL_BASE } = getParamsEnv();
 
 function EditModal({ setShowEditModal, branches, specialties, userId, tokenID }) {
+    useEffect(() => {
+        const close = (e) => {
+          if(e.keyCode === 27){
+            closeModal()
+          }
+        }
+        window.addEventListener('keydown', close)
+        return () => window.removeEventListener('keydown', close)}, [])
+
     const navigate = useNavigate();
-
     const roles = ["superAdmin", "admin", "especialista"];
-
     const [controlData, setControlData] = useState({
         name: userId.name,
         lastName: userId.lastName,
