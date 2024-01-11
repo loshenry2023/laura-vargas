@@ -2,7 +2,13 @@ import React from "react";
 
 const SpecialistTable = ({ specialistData, count }) => {
   let valorTotal = 0;
+  let valorAPagar = 0;
 
+  const formatNumber = (number) => {
+    return number.toLocaleString("es-CO");
+  };
+
+  console.log(specialistData)
   return (
     <>
       {count > 0 ? (
@@ -47,17 +53,16 @@ const SpecialistTable = ({ specialistData, count }) => {
                     {" "}
                     {specialist.payments.length === 0
                       ? "Sin pagos registrados"
-                      : (valorTotal = specialist.payments.reduce(
-                          (total, payment) => total + payment.Amount,
-                          0
-                        ))}
+
+                      : valorTotal = formatNumber(specialist.payments.reduce((total, payment) => total + payment.Amount, 0))}
+
                   </td>
                   <td className="px-6 py-4"> {specialist.comission}%</td>
                   <td className="px-6 py-4">
                     {" "}
                     {specialist.payments.length === 0
                       ? 0
-                      : (valorTotal * specialist.comission) / 100}{" "}
+                      : valorAPagar = formatNumber((Number(valorTotal.replace(/\./g, ''))) * specialist.comission / 100)}{" "}
                   </td>
                 </tr>
               ))}
