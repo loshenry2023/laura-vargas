@@ -143,7 +143,7 @@ const DevelopedBy = () => {
               </div>
             ))}
           </div>
-          <button onClick={() => navigate(ROOT)} className="mt-20 mb-20 drop-shadow-2xl border p-2 rounded-2xl text-3xl font-bold transition duration-1000 hover:text-primaryPink dark:hover:bg-zinc-800 dark:text-darkText">Go back</button>
+          <button onClick={() => navigate(ROOT)} className="mt-20 mb-20 drop-shadow-2xl border p-2 rounded-2xl text-3xl font-bold transition duration-1000 hover:text-primaryPink dark:hover:bg-zinc-800 dark:text-darkText">Volver al inicio</button>
         </div>
       </div>
     </div>
