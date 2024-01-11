@@ -20,6 +20,7 @@ const Balance = ({ specialists, services, payMethods }) => {
   const formattedDate = `${year}-${month < 10 ? "0" + month : month}-${
     day < 10 ? "0" + day : day
   }`;
+  const [showAdditionalCharts, setShowAdditionalCharts] = useState(false);
 
   const [fetchDataBalance, setFetchDataBalance] = useState({
     branchName: workingBranch.branchName,
@@ -28,11 +29,15 @@ const Balance = ({ specialists, services, payMethods }) => {
     token,
   });
 
+  const formatNumber = (number) => {
+    return number.toLocaleString("es-CO");
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await dispatch(getBalance(fetchDataBalance));
-        console.log("Balance Data:", response);
+        // console.log("Balance Data:", response);
         setLoading(false);
 
         // Procesar datos
@@ -84,6 +89,7 @@ const Balance = ({ specialists, services, payMethods }) => {
               methodData.value += user.payments
                 .filter((payment) => payment.Method === methodName)
                 .reduce((acc, payment) => acc + payment.Amount, 0);
+
               return methodData;
             });
           });
@@ -96,8 +102,8 @@ const Balance = ({ specialists, services, payMethods }) => {
 
         setChartDataPaymentMethods([...paymentMethodIncomes]);
 
-        console.log("Ingresos totales:", totalIncomes);
-        console.log("Ingresos por Métodos de Pago:", paymentMethodIncomes);
+        // // console.log("Ingresos totales:", totalIncomes);
+        // console.log("Ingresos por Métodos de Pago:", paymentMethodIncomes);
       } catch (error) {
         console.error("Error fetching balance data:", error);
         setLoading(false);
@@ -190,6 +196,10 @@ const Balance = ({ specialists, services, payMethods }) => {
     ...paymentMethods,
   ]);
 
+  const handleToggleCharts = () => {
+    setShowAdditionalCharts(!showAdditionalCharts);
+  };
+
   return (
     <div className="flex flex-col mt-10 gap-5 w-2/3 mx-auto">
       {loading ? (
@@ -197,8 +207,7 @@ const Balance = ({ specialists, services, payMethods }) => {
       ) : (
         <>
           <h1 className="text-2xl underline underline-offset-4 tracking-wide text-center font-fontTitle dark:text-beige sm:text-left">
-            {" "}
-            Balance{" "}
+            Balance
           </h1>
           <section className="flex md:flex-row gap-10">
             <div className="flex gap-2">
@@ -283,47 +292,52 @@ const Balance = ({ specialists, services, payMethods }) => {
             </div>
           </section>
           <div className="grid grid-cols-3 gap-4">
-            {/* Columna izquierda */}
             <div className="col-span-1">
               <section className="flex flex-col gap-4">
                 <div className="h-40 w-60 p-5 flex flex-row justify-center items-center rounded-2xl shadow-md shadow-black transition duration-700 dark:bg-darkPrimary hover:bg-blue-500 dark:hover:bg-zinc-800">
                   <h1 className="text-2xl dark:text-darkText flex flex-col items-center">
                     Total ingresos:{" "}
-                    <span className=" mt-2"> ${totalIncomes}</span>
+                    <span className=" mt-2">
+                      {" "}
+                      ${formatNumber(totalIncomes)}
+                    </span>
                   </h1>
                 </div>
                 <div className="h-40 w-60 p-5 flex flex-row justify-center items-center rounded-2xl shadow-md shadow-black transition duration-700 dark:bg-darkPrimary hover:bg-blue-500 dark:hover:bg-zinc-800">
                   <h1 className="text-center text-2xl dark:text-darkText">
                     {comision
                       ? `Comision: ${comision}%`
-                      : "Seleccione especialista para visualizar comisión"}{" "}
+                      : "Seleccione especialista para visualizar comisión"}
                   </h1>
                 </div>
+                <button
+                  className={`h-10 w-60 p-5 flex flex-row justify-center items-center rounded-2xl shadow-md shadow-black transition duration-700 dark:bg-darkPrimary hover:bg-blue-500 dark:hover:bg-zinc-800 ${
+                    showAdditionalCharts ? "bg-blue-500 text-white" : ""
+                  }`}
+                  onClick={handleToggleCharts}
+                >
+                  Más informacion
+                </button>
               </section>
             </div>
-
-            {/* Columna central */}
             <div className="col-span-2 grid grid-cols-1 gap-4">
-              {/* Métodos de pago ocupa 2 columnas */}
               <DonutChartPayMethods
                 data={chartDataPaymentMethods}
                 title="Métodos de pago"
                 className="col-span-2"
               />
-
-              {/* Fila para Turnos por especialista y Cantidad de servicios realizados */}
-              <div className="flex gap-4">
-                {/* Turnos por especialista ocupa 1 columna */}
-                <DonutChart
-                  data={chartDataSpecialists}
-                  title="Turnos por especialista"
-                />
-                {/* Cantidad de servicios ocupa 1 columna */}
-                <DonutChart
-                  data={chartDataServicesCount}
-                  title="Cantidad de servicios realizados"
-                />
-              </div>
+              {showAdditionalCharts && (
+                <div className="flex gap-4">
+                  <DonutChart
+                    data={chartDataSpecialists}
+                    title="Turnos por especialista"
+                  />
+                  <DonutChart
+                    data={chartDataServicesCount}
+                    title="Cantidad de servicios realizados"
+                  />
+                </div>
+              )}
             </div>
           </div>
         </>

@@ -11,8 +11,8 @@ function DonutChart({ data, title }) {
   const buttonStyle = {
     borderRadius: "8px",
     padding: "8px",
-    border: "1px solid black", // Borde negro
-    backgroundColor: showDetails ? "#ccc" : "transparent", // Cambio de color al hacer clic
+    border: "1px solid black",
+    backgroundColor: showDetails ? "#ccc" : "transparent",
   };
 
   return (
@@ -29,7 +29,10 @@ function DonutChart({ data, title }) {
             innerRadius={50}
             outerRadius={80}
             fill="#8884d8"
-            label={(entry) => `${(entry.percent * 100).toFixed(2)}%`}
+            label={(entry) => {
+              const percentage = (entry.percent * 100).toFixed(2);
+              return `${percentage === "100.00" ? "100%" : `${percentage}%`}`;
+            }}
           >
             {data.map((entry, index) => (
               <Cell
@@ -69,7 +72,7 @@ function DonutChart({ data, title }) {
             {data.map((entry) => (
               <div
                 className="text-xs"
-                key={`legend-${entry.name}`} // Cambiado a entry.name como clave
+                key={`legend-${entry.name}`} // probe entry.name como clave
                 style={{ marginBottom: "10px" }}
               >
                 <li>
