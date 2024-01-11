@@ -2,13 +2,6 @@
 
 Este proyecto grupal es un **proyecto real** en la etapa de PF, forma parte del curso FullStack de Henry. La meta principal es desarrollar una aplicación que permita la gestión de locales de estética.
 
-## 📚 Índice de Contenido
-
-- [Principales Funcionalidades](#principales-funcionalidades)
-- [Tecnologías Utilizadas](#tecnologías-utilizadas)
-- [Instrucciones de Ejecución](#instrucciones-de-ejecución)
-- [Acerca de los Autores](#autores)
-
 ## 📋 Principales Funcionalidades
 
 - **Roles Distintivos**: SuperAdmin, Admin, Especialista.
@@ -53,5 +46,3 @@ Este proyecto fue creado por:
 - [**Paulo Vinci**](https://www.linkedin.com/in/paulo-damian-vinci/): Full Stack Web Development.
 - [**Ramiro Alet**](https://www.linkedin.com/in/ramiro-alet/): Full Stack Web Development.
 - [**Tomas Bombau**](https://www.linkedin.com/in/tom%C3%A1s-ignacio-bombau-049a52139/): Full Stack Web Development.
-
-¡Explora y disfruta del proyecto! 🚀
