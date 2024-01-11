@@ -142,13 +142,15 @@ const Calendar = ({
     setShowEditAppointment(true);
   };
 
-  const hideDeleteModal = () => {
-    setShowDeleteConfirmation(false);
-  };
+ 
 
   const handleModal = (id) => {
     setCitaId(id);
     setShowDeleteConfirmation(true);
+  };
+
+  const hideDeleteModal = () => {
+    setShowDeleteConfirmation(false);
   };
 
   const deleteConfirmed = (confirmed) => {

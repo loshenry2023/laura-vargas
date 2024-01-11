@@ -12,6 +12,7 @@ import { GiFingernail } from "react-icons/gi";
 import { ImProfile } from "react-icons/im";
 import { TfiMenu } from "react-icons/tfi";
 import { MdWorkHistory } from "react-icons/md";
+import { AiFillTool } from "react-icons/ai";
 
 // Variables de entorno
 import getParamsEnv from "../functions/getParamsEnv.js";
@@ -57,16 +58,12 @@ const renderIcon = (iconName) => {
       return <FaCalendar className="w-6 h-6 dark:text-beige" />;
     case "userGroup":
       return <HiMiniUserGroup className="w-6 h-6 dark:text-beige" />;
-    case "location":
-      return <FaLocationPin className="w-6 h-6 dark:text-beige" />;
-    case "fingernail":
-      return <GiFingernail className="w-6 h-6 dark:text-beige" />;
-    case "analytics":
-      return <IoMdAnalytics className="w-6 h-6 dark:text-beige" />;
     case "Consumables":
       return <TfiMenu className="w-6 h-6 dark:text-beige" />;
     case "specialistmonitoring":
       return <MdWorkHistory className="w-6 h-6 dark:text-beige" />;
+    case "tableControl":
+      return <AiFillTool className="w-6 h-6 dark:text-beige" />; 
     default:
       return null;
   }
@@ -84,22 +81,19 @@ const SideBar = () => {
       <hr className="w-14 h-[1px] bg-beige border-0" />
       {user.role === "especialista" ? (
         <>
-        <IconWithTooltip to={AGENDA} iconName="calendar" tooltipText="Agenda" />
-        <IconWithTooltip to={CLIENTSPROFILES} iconName="userGroup" tooltipText="Clientes" />
+          <IconWithTooltip to={AGENDA} iconName="calendar" tooltipText="Agenda" />
+          <IconWithTooltip to={CLIENTSPROFILES} iconName="userGroup" tooltipText="Clientes" />
         </>
       ) : (
         <>
-        <IconWithTooltip to={USERPROFILES} iconName="profile" tooltipText="Plantilla" />
-        <IconWithTooltip to={CLIENTSPROFILES} iconName="userGroup" tooltipText="Clientes" />
-        <IconWithTooltip to={AGENDA} iconName="calendar" tooltipText="Agenda" />
-        <IconWithTooltip to="#" onClick={() => handleIconClick("location")} iconName="location" tooltipText="Ubicacion" />
-        <IconWithTooltip to="#" onClick={() => handleIconClick("fingernail")} iconName="fingernail" tooltipText="Servicios" />
-        <IconWithTooltip to="#" onClick={() => handleIconClick("analytics")} iconName="analytics" tooltipText="Estadísticas" />
-        <IconWithTooltip to={CONSUMABLES} iconName="Consumables" tooltipText="Insumos" />
-        <IconWithTooltip to={SPECIALISTMONITORING} iconName="specialistmonitoring" tooltipText="Seguimiento especialistas" />
+          <IconWithTooltip to={USERPROFILES} iconName="profile" tooltipText="Plantilla" />
+          <IconWithTooltip to={CLIENTSPROFILES} iconName="userGroup" tooltipText="Clientes" />
+          <IconWithTooltip to={AGENDA} iconName="calendar" tooltipText="Agenda" />
+          <IconWithTooltip to={CONSUMABLES} iconName="Consumables" tooltipText="Insumos" />
+          <IconWithTooltip to={SPECIALISTMONITORING} iconName="specialistmonitoring" tooltipText="Seguimiento especialistas" />
+          <IconWithTooltip to="/controlTables" onClick={() => handleIconClick("tableControl")} iconName="tableControl" tooltipText="Control de tablas" />
         </>
-      )
-    }
+      )}
     </div>
   );
 };
