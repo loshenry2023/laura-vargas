@@ -1,6 +1,6 @@
-# Proyecto FullStack - Consulta de Información sobre Videojuegos
+# Proyecto FullStack - Laura-Vargas
 
-Este proyecto individual forma parte del curso FullStack de Henry, liderado por Laura Vargas. La meta principal es desarrollar una aplicación que permita consultar información sobre videojuegos.
+Este proyecto grupal es un **proyecto real** en la etapa de PF, forma parte del curso FullStack de Henry. La meta principal es desarrollar una aplicación que permita la gestion de locales de estetica.
 
 ## 📋 Principales Funcionalidades
 
@@ -38,9 +38,7 @@ Este proyecto individual forma parte del curso FullStack de Henry, liderado por 
 
 ## 📚 Acerca del Autor
 
-Este proyecto fue creado por [**Laura Vargas**](https://www.linkedin.com/in/laura-vargas/).
-
-Con la colaboración de:
+Este proyecto fue creado por:
 
 - [**Daniel Castañeda**](https://www.linkedin.com/in/luis-daniel-casta%C3%B1eda-abanto-5b3119216/)
 - [**Paulo Vinci**](https://www.linkedin.com/in/paulo-damian-vinci/)
