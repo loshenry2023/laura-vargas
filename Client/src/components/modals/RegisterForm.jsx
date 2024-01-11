@@ -1,6 +1,6 @@
 
 // Hooks
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
 //icons
@@ -19,6 +19,16 @@ import { useSelector } from 'react-redux';
 const { API_URL_BASE } = getParamsEnv()
 
 function RegisterForm({ setShowResgisterFormModal, branches, specialties, tokenID, activarNuevoUsuario, setActivarNuevoUsuario }) {
+
+useEffect(() => {
+    const close = (e) => {
+      if(e.keyCode === 27){
+        setShowResgisterFormModal(false);
+      }
+    }
+    window.addEventListener('keydown', close)
+    return () => window.removeEventListener('keydown', close)
+},[])
 
   const roles = ["superAdmin", "admin", "especialista"];
   const user = useSelector(state => state?.user)

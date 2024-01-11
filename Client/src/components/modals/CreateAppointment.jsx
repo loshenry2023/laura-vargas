@@ -18,6 +18,17 @@ const { API_URL_BASE } = getParamsEnv()
 
 const CreateAppointment = ({ setShowAppointmentModal, setChosenClient, dateInfo, setDateInfo, token, formattedDate, setRefrescarCita, refrescarCita, chosenClient, branches }) => {
 
+    useEffect(() => {
+        const close = (e) => {
+          if(e.keyCode === 27){
+            closeModal()
+          }
+        }
+        window.addEventListener('keydown', close)
+        return () => window.removeEventListener('keydown', close)
+      }, [])
+
+
     const userSpecialist = useSelector((state) => state?.user)
     const workingBranch = useSelector((state) => state?.workingBranch)
     const [validationErrors, setValidationErrors] = useState({});

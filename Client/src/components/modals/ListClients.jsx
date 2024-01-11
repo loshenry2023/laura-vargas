@@ -30,7 +30,6 @@ const ListClients = ({ setShowClientListModal, setChosenClient }) => {
   const [showClientFormModal, setShowClientFormModal] = useState(false);
   const [activarNuevoCliente, setActivarNuevoCliente] = useState(false);
 
-
   const showCreateModal = () => {
     setShowClientFormModal(true)
   }
@@ -49,7 +48,15 @@ const ListClients = ({ setShowClientListModal, setChosenClient }) => {
         { token }
       )
     )
-  }, [
+    const close = (e) => {
+      if(e.keyCode === 27){
+        if(showClientFormModal === false) {setShowClientListModal(false)}
+        if(showClientFormModal === true ) {setShowClientListModal(true)}
+      }
+    }
+    window.addEventListener('keydown', close)
+    return () => window.removeEventListener('keydown', close)}
+  , [
     nameOrLastName,
     attribute,
     order,
