@@ -16,6 +16,7 @@ export default function getParamsEnv() {
   const DATEDETAIL = import.meta.env.VITE_DATE_DETAIL || "/dateDetail/:id";
   const DATEDETAILBASE = import.meta.env.VITE_DATE_DETAIL_BASE || "/dateDetail";
   const SPECIALISTMONITORING = import.meta.env.VITE_SPECIALIST_MONITORING || "/specialistMonitoring";
+  const DEVELOPEDBY = import.meta.env.VITE_DEVELOPEDBY || "/developedby";
 
   const CONSUMABLES = import.meta.env.VITE_CONSUMABLES || "/consumables";
   const HISTORYPRICE = import.meta.env.VITE_HISTORY_PRICE || "/historyprice/:productId";
@@ -66,5 +67,6 @@ export default function getParamsEnv() {
     EDITPRODUCT,
     HISTORYPRICEBASE,
     EDITPRODUCTBASE,
+    DEVELOPEDBY
   };
 }
