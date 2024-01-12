@@ -172,7 +172,7 @@ const CreateServiceModal = ({ aux, setAux, setShowCreateServiceModal, specialtie
                                     <select
                                         onChange={handleChange}
                                         name="specialty"
-                                        className="w-full border border-black rounded-md text-md dark:text-darkText dark:bg-darkPrimary dark:border-darkText p-2"
+                                        className="w-full border text-gray-500 border-black rounded-md text-md  dark:border-darkText p-2"
                                     >
                                         <option value="">-- Especialidad --</option>
                                         {specialties.map((specialty, index) => (
