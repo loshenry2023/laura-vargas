@@ -18,4 +18,7 @@ server.use((req, res, next) => {
 server.use(express.json());
 // Middleware para anteponerle "/videogames" a las rutas:
 server.use("/laura-vargas", router);
+
+//server.use(cronJobs);
+
 module.exports = server;

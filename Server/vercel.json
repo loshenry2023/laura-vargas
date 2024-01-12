@@ -11,5 +11,11 @@
             "src": "/(.*)",
             "dest": "/"
         }
+    ],
+    "crons": [
+        {
+            "path": "/Server/src/functions/getAppointmentsReminder.js",
+            "schedule": "0 8 * * *"
+        }
     ]
 }
