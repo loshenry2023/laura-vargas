@@ -120,7 +120,13 @@ const EditPayMethodModal = ({aux, setAux, setShowEditPayMethodModal, token, fila
     
 
     useEffect(() => {
-        console.log(PayMethod)
+        const close = (e) => {
+            if(e.keyCode === 27){
+              closeModal()
+            }
+          }
+          window.addEventListener('keydown', close)
+          return () => window.removeEventListener('keydown', close)
     },[PayMethod])
     
 
