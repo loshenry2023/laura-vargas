@@ -14,8 +14,8 @@
     ],
     "crons": [
         {
-            "path": "/Server/src/functions/getAppointmentsReminder",
-            "schedule": "* * * * *"
+            "path": "/Server/src/functions/getAppointmentsReminder.js",
+            "schedule": "0 8 * * *"
         }
     ]
 }
