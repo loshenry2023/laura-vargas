@@ -3,6 +3,10 @@ import { ResponsiveContainer, PieChart, Pie, Cell, Tooltip } from "recharts";
 
 function DonutChartPayMethods({ data, title }) {
 
+
+
+  console.log("DATA DONUT ", data)
+
   const formatNumber = (number) => {
     return number.toLocaleString("es-CO");
   };
