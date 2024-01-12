@@ -22,7 +22,7 @@ function DonutChartPayMethods({ data, title }) {
 
   return (
     <div className="flex flex-col w-full">
-      <h2 className="text-lg font-bold mb-2 text-center dark:text-darkText">{title}</h2>
+      <h2 className="text-lg font-bold mb-5 text-center dark:text-darkText">{title}</h2>
       <ResponsiveContainer className="flex flex-row" width="100%" height={300}>
         <PieChart>
           <Pie
@@ -32,9 +32,10 @@ function DonutChartPayMethods({ data, title }) {
             cx="50%"
             cy="50%"
             innerRadius={100}
-            outerRadius={150}
+            outerRadius={120}
             fill="#8884d8"
-            label={(entry) => `${(entry.percent * 100).toFixed(2)}%`}
+            label={({ value, percent }) => value !== 0 ? `${(percent * 100).toFixed(2)}%` : ""}
+            labelLine={false}
           >
             {data.map((entry, index) => (
               <Cell
