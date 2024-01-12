@@ -1,17 +1,8 @@
 import React, { useState } from "react";
 import { ResponsiveContainer, PieChart, Pie, Cell, Tooltip } from "recharts";
 
-const colors = [
-  "#FA98C0",
-  "#AB5AFA",
-  "#76D1FA",
-  "#5AA3FA",
-  "#EFB8FA",
-  "#A908F9",
-];
-
 function DonutChartPayMethods({ data, title }) {
-  const [showDetails, setShowDetails] = useState(false);
+
   const formatNumber = (number) => {
     return number.toLocaleString("es-CO");
   };
@@ -20,17 +11,19 @@ function DonutChartPayMethods({ data, title }) {
     data.reduce((acc, entry) => acc + entry.value, 0)
   );
 
-  const buttonStyle = {
-    borderRadius: "8px",
-    padding: "8px",
-    border: "1px solid black",
-    backgroundColor: showDetails ? "#ccc" : "transparent",
-  };
+  const colors = [
+    "#FA98C0",
+    "#AB5AFA",
+    "#76D1FA",
+    "#5AA3FA",
+    "#EFB8FA",
+    "#A908F9",
+  ];
 
   return (
-    <div>
-      <h2 className="text-lg font-bold mb-2">{title}</h2>
-      <ResponsiveContainer width="100%" height={300}>
+    <div className="flex flex-col w-full">
+      <h2 className="text-lg font-bold mb-2 text-center dark:text-darkText">{title}</h2>
+      <ResponsiveContainer className="flex flex-row" width="100%" height={300}>
         <PieChart>
           <Pie
             data={data}
@@ -61,7 +54,7 @@ function DonutChartPayMethods({ data, title }) {
             dominantBaseline="middle"
             fontSize="14"
             fontWeight="bold"
-            fill="#333"
+            fill="#000"
           >
             {" "}
             Total: ${totalValue}
@@ -71,43 +64,6 @@ function DonutChartPayMethods({ data, title }) {
           />
         </PieChart>
       </ResponsiveContainer>
-      <div style={{ marginLeft: "20px" }}>
-        <button
-          style={buttonStyle}
-          onClick={() => setShowDetails(!showDetails)}
-        >
-          {showDetails ? "Ocultar Detalles" : "Mostrar Detalles"}
-        </button>
-        {showDetails && (
-          <ul>
-            {data.map((entry) => (
-              <div
-                className="text-xs"
-                key={`legend-${entry.name}`} // Cambiado a entry.name como clave
-                style={{ marginBottom: "10px" }}
-              >
-                <li>
-                  <span
-                    style={{
-                      display:
-                        entry && entry.name && entry.name.includes("Total")
-                          ? "none"
-                          : "inline-block",
-                      width: "12px",
-                      height: "12px",
-                      backgroundColor:
-                        colors[data.indexOf(entry) % colors.length],
-                      borderRadius: "50%",
-                      marginRight: "8px",
-                    }}
-                  ></span>
-                  {entry ? `${entry.name}: $${formatNumber(entry.value)}` : ""}
-                </li>
-              </div>
-            ))}
-          </ul>
-        )}
-      </div>
     </div>
   );
 }
