@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { ResponsiveContainer, PieChart, Pie, Cell, Tooltip } from "recharts";
 
 function DonutChartPayMethods({ data, title }) {
-
   const formatNumber = (number) => {
     return number.toLocaleString("es-CO");
   };
@@ -22,7 +21,9 @@ function DonutChartPayMethods({ data, title }) {
 
   return (
     <div className="flex flex-col w-full">
-      <h2 className="text-lg font-bold mb-5 text-center dark:text-darkText">{title}</h2>
+      <h2 className="text-lg font-bold mb-5 text-center dark:text-darkText">
+        {title}
+      </h2>
       <ResponsiveContainer className="flex flex-row" width="100%" height={300}>
         <PieChart>
           <Pie
@@ -33,8 +34,11 @@ function DonutChartPayMethods({ data, title }) {
             cy="50%"
             innerRadius={100}
             outerRadius={120}
+            paddingAngle={2}
             fill="#8884d8"
-            label={({ value, percent }) => value !== 0 ? `${(percent * 100).toFixed(2)}%` : ""}
+            label={({ value, percent }) =>
+              value !== 0 ? `${(percent * 100).toFixed(2)}%` : ""
+            }
             labelLine={false}
           >
             {data.map((entry, index) => (
@@ -61,7 +65,10 @@ function DonutChartPayMethods({ data, title }) {
             Total: ${totalValue}
           </text>
           <Tooltip
-            formatter={(value, name, props) => [`${name}: $${value}`, props]}
+            formatter={(value, name, props) => [
+              `${name}: $${formatNumber(value)}`,
+              props,
+            ]}
           />
         </PieChart>
       </ResponsiveContainer>

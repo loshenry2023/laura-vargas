@@ -1,7 +1,14 @@
 import React, { useState } from "react";
 import { ResponsiveContainer, PieChart, Pie, Cell, Tooltip } from "recharts";
 
-const colors = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
+const colors = [
+  "#FA98C0",
+  "#AB5AFA",
+  "#76D1FA",
+  "#5AA3FA",
+  "#EFB8FA",
+  "#A908F9",
+];
 
 function DonutChart({ data, title }) {
   const [showDetails, setShowDetails] = useState(false);
@@ -10,8 +17,10 @@ function DonutChart({ data, title }) {
 
   return (
     <div className="w-80 p-4 shadow-sm shadow-black rounded mt-10">
-      <h2 className="w-full text-lg font-bold text-center dark:text-darkText">{title}</h2>
-      <ResponsiveContainer width="100%" height={200}>
+      <h2 className="w-full text-lg font-bold text-center dark:text-darkText">
+        {title}
+      </h2>
+      <ResponsiveContainer width="100%" height={250}>
         <PieChart>
           <Pie
             data={data}
@@ -20,16 +29,18 @@ function DonutChart({ data, title }) {
             cx="50%"
             cy="50%"
             innerRadius={50}
-            outerRadius={80}
+            outerRadius={70}
             fill="#000"
-            label={(entry) => {
-              const percentage = (entry.percent * 100).toFixed(2);
-              return `${percentage === "100.00" ? "100%" : `${percentage}%`}`;
-            }}
+            paddingAngle={1}
+            label={({ value, percent }) =>
+              value !== 0 ? `${(percent * 100).toFixed(2)}%` : ""
+            }
+            labelLine={false}
           >
             {data.map((entry, index) => (
               <Cell
-                key={`cell-${entry.name}`} // Cambiado a entry.name como clave
+                key={`cell-${entry.name}`}
+                fontSize={12}
                 fill={
                   entry.value !== null && entry.value !== undefined
                     ? colors[index % colors.length]
