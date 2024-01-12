@@ -1,4 +1,4 @@
-//! Ejecuta una vez por día la notificación de próximos turnos a los pacientes.
+//! Ejecuta una vez por día la notificación de próximos turnos a los pacientes. Esto no corre en Vercel porque tiene su propio cron, configurado en vercel.json.
 const cron = require('node-cron');
 const getAppointmentsReminder = require("../src/functions/getAppointmentsReminder");
 
