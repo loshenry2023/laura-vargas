@@ -36,7 +36,13 @@ const EditServiceModal = ({ aux, setAux, filaService, setShowEditServiceModal, s
     })
 
     useEffect(() => {
-        console.log(service)
+        const close = (e) => {
+            if(e.keyCode === 27){
+              closeModal()
+            }
+          }
+          window.addEventListener('keydown', close)
+          return () => window.removeEventListener('keydown', close)
     },[service])
 
     const [errors, setErrors] = useState({
@@ -177,7 +183,7 @@ const EditServiceModal = ({ aux, setAux, filaService, setShowEditServiceModal, s
                                     <select
                                         onChange={handleChange}
                                         name="specialty"
-                                        className="w-full border border-black rounded-md text-md dark:text-darkText dark:bg-darkPrimary dark:border-darkText p-2"
+                                        className="w-full border border-black rounded-md text-md  dark:border-darkText p-2"
                                     >
                                         <option value="">-- Especialidad --</option>
                                         {specialties.map((specialty, index) => (

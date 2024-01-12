@@ -112,8 +112,13 @@ const CreateSpecialtyModal = ({aux, setAux, setShowCreateSpecialtyModal, token }
     };
     
     useEffect(() => {
-        console.log(Specialty)
-        console.log(errors, "errores")
+        const close = (e) => {
+            if(e.keyCode === 27){
+              closeModal()
+            }
+          }
+          window.addEventListener('keydown', close)
+          return () => window.removeEventListener('keydown', close)
     }, [Specialty])
 
 
