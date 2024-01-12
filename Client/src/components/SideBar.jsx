@@ -52,6 +52,8 @@ const IconWithTooltip = ({ to, iconName, tooltipText }) => {
 
 const renderIcon = (iconName) => {
   switch (iconName) {
+    case "analytics":
+      return <IoMdAnalytics className="w-6 h-6 dark:text-beige" />;
     case "profile":
       return <ImProfile className="w-6 h-6 dark:text-beige" />;
     case "calendar":

@@ -135,7 +135,13 @@ const CreateServiceModal = ({ aux, setAux, setShowCreateServiceModal, specialtie
     }
 
     useEffect(() => {
-        console.log(service)
+        const close = (e) => {
+            if(e.keyCode === 27){
+              closeModal()
+            }
+          }
+          window.addEventListener('keydown', close)
+          return () => window.removeEventListener('keydown', close)
     }, [service])
 
     return (

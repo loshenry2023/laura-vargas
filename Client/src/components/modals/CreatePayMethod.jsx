@@ -112,9 +112,13 @@ const CreatePayMethodModal = ({ aux, setAux, setShowCreatePayMethodModal, token 
     };
     
     useEffect(() => {
-        console.log(PayMethod)
-        console.log(errors, "errores")
-    }, [PayMethod])
+        const close = (e) => {
+            if(e.keyCode === 27){
+              closeModal()
+            }
+          }
+          window.addEventListener('keydown', close)
+          return () => window.removeEventListener('keydown', close)}, [PayMethod])
 
 
     return (

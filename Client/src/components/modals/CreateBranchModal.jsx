@@ -113,8 +113,13 @@ const CreateBranchModal = ({ aux, setAux, setShowCreateBranchModal, token }) => 
     };
 
     useEffect(() => {
-        console.log(newBranch)
-    },[newBranch])
+        const close = (e) => {
+            if(e.keyCode === 27){
+              closeModal()
+            }
+          }
+          window.addEventListener('keydown', close)
+          return () => window.removeEventListener('keydown', close)},[newBranch])
     
 
 
