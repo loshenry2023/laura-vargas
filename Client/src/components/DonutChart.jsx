@@ -8,17 +8,10 @@ function DonutChart({ data, title }) {
 
   const totalValue = data.reduce((acc, entry) => acc + entry.value, 0);
 
-  const buttonStyle = {
-    borderRadius: "8px",
-    padding: "8px",
-    border: "1px solid black",
-    backgroundColor: showDetails ? "#ccc" : "transparent",
-  };
-
   return (
-    <div>
-      <h2 className="text-lg font-bold mb-2">{title}</h2>
-      <ResponsiveContainer width="100%" height={300}>
+    <div className="w-80 p-4 shadow-sm shadow-black rounded mt-10">
+      <h2 className="w-full text-lg font-bold text-center dark:text-darkText">{title}</h2>
+      <ResponsiveContainer width="100%" height={200}>
         <PieChart>
           <Pie
             data={data}
@@ -28,7 +21,7 @@ function DonutChart({ data, title }) {
             cy="50%"
             innerRadius={50}
             outerRadius={80}
-            fill="#8884d8"
+            fill="#000"
             label={(entry) => {
               const percentage = (entry.percent * 100).toFixed(2);
               return `${percentage === "100.00" ? "100%" : `${percentage}%`}`;
@@ -52,7 +45,7 @@ function DonutChart({ data, title }) {
             dominantBaseline="middle"
             fontSize="14"
             fontWeight="bold"
-            fill="#333"
+            fill="#000"
           >
             {" "}
             Total: {totalValue}
@@ -60,22 +53,22 @@ function DonutChart({ data, title }) {
           <Tooltip />
         </PieChart>
       </ResponsiveContainer>
-      <div style={{ marginLeft: "20px" }}>
+      <div className="flex flex-col items-center justify-center">
         <button
-          style={buttonStyle}
+          className=" rounded-xl border p-0.5 w-40 sm:mt-0 dark:text-darkText"
           onClick={() => setShowDetails(!showDetails)}
         >
           {showDetails ? "Ocultar Detalles" : "Mostrar Detalles"}
         </button>
         {showDetails && (
-          <ul>
+          <ul className="mt-2">
             {data.map((entry) => (
               <div
                 className="text-xs"
                 key={`legend-${entry.name}`} // probe entry.name como clave
                 style={{ marginBottom: "10px" }}
               >
-                <li>
+                <li className="text-md dark:text-darkText">
                   <span
                     style={{
                       display:
