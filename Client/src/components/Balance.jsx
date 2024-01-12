@@ -21,6 +21,7 @@ const Balance = ({ specialists, services, payMethods }) => {
     day < 10 ? "0" + day : day
   }`;
   const [showAdditionalCharts, setShowAdditionalCharts] = useState(false);
+  const [showDetails, setShowDetails] = useState(false);
 
   const [fetchDataBalance, setFetchDataBalance] = useState({
     branchName: workingBranch.branchName,
@@ -28,6 +29,15 @@ const Balance = ({ specialists, services, payMethods }) => {
     dateTo: formattedDate,
     token,
   });
+
+  const colors = [
+    "#FA98C0",
+    "#AB5AFA",
+    "#76D1FA",
+    "#5AA3FA",
+    "#EFB8FA",
+    "#A908F9",
+  ];
 
   const formatNumber = (number) => {
     return number.toLocaleString("es-CO");
@@ -201,17 +211,17 @@ const Balance = ({ specialists, services, payMethods }) => {
   };
 
   return (
-    <div className="flex flex-col mt-10 gap-5 w-2/3 mx-auto">
+    <div className="flex flex-col w-2/3 mx-auto">
       {loading ? (
         <Loader />
       ) : (
-        <>
+        <div className="flex flex-col mt-10 gap-5">
           <h1 className="text-2xl underline underline-offset-4 tracking-wide text-center font-fontTitle dark:text-beige sm:text-left">
             Balance
           </h1>
-          <section className="flex md:flex-row gap-10">
-            <div className="flex gap-2">
-              <label className="hidden md:inline dark:text-darkText">
+          <section className="flex flex-wrap md:flex-row gap-5">
+            <div className="flex gap-2 w-full xl:w-fit">
+              <label className="hidden xl:inline dark:text-darkText">
                 Fecha inicial
               </label>
               <input
@@ -219,11 +229,11 @@ const Balance = ({ specialists, services, payMethods }) => {
                 name="dateFrom"
                 defaultValue={formattedDate}
                 onChange={handleDate}
-                className="border rounded-md border-black px-2 text-sm dark:invert"
+                className="w-full border rounded-md border-black px-2 text-sm dark:invert xl:w-fit"
               />
             </div>
-            <div className="flex gap-2">
-              <label className="hidden md:inline dark:text-darkText">
+            <div className="flex gap-2 w-full xl:w-fit">
+              <label className="hidden xl:inline dark:text-darkText">
                 Fecha final
               </label>
               <input
@@ -231,18 +241,18 @@ const Balance = ({ specialists, services, payMethods }) => {
                 name="dateTo"
                 defaultValue={formattedDate}
                 onChange={handleDate}
-                className="border rounded-md border-black px-2 text-sm  dark:invert"
+                className="w-full border rounded-md border-black px-2 text-sm dark:invert xl:w-fit"
               />
             </div>
           </section>
-          <section className="flex flex-col gap-6 md:flex-row md:flex-wrap">
-            <div className="flex gap-2">
-              <label className="hidden md:inline dark:text-darkText">
+          <section className="flex flex-col gap-6 md:flex-wrap xl:flex-row">
+            <div className="flex gap-2 w-full xl:w-fit">
+              <label className="hidden xl:inline dark:text-darkText">
                 Especialista
               </label>
               <select
                 type="text"
-                className="border rounded-md border-black px-2 text-sm  dark:invert"
+                className="border w-full rounded-md border-black px-2 text-sm dark:invert xl:w-fit"
                 onChange={(e) => handleDataToFetch(e)}
                 name="idUser"
               >
@@ -254,13 +264,13 @@ const Balance = ({ specialists, services, payMethods }) => {
                 ))}
               </select>
             </div>
-            <div className="flex gap-2">
-              <label className="hidden md:inline dark:text-darkText">
+            <div className="flex gap-2 w-full xl:w-fit">
+              <label className="hidden xl:inline dark:text-darkText">
                 Procedimientos
               </label>
               <select
                 type="text"
-                className="border rounded-md border-black px-2 text-sm  dark:invert"
+                className="border rounded-md w-full border-black px-2 text-sm  dark:invert xl:w-fit"
                 onChange={(e) => handleDataToFetch(e)}
                 name="idService"
               >
@@ -272,13 +282,13 @@ const Balance = ({ specialists, services, payMethods }) => {
                 ))}
               </select>
             </div>
-            <div className="flex gap-2">
-              <label className="hidden md:inline dark:text-darkText">
+            <div className="flex gap-2 w-full xl:w-fit">
+              <label className="hidden xl:inline dark:text-darkText">
                 Métodos de pago
               </label>
               <select
                 type="text"
-                className="border rounded-md border-black px-2 text-sm  dark:invert"
+                className="border rounded-md w-full border-black px-2 text-sm  dark:invert xl:w-fit"
                 onChange={(e) => handleDataToFetch(e)}
                 name="idPayment"
               >
@@ -291,43 +301,85 @@ const Balance = ({ specialists, services, payMethods }) => {
               </select>
             </div>
           </section>
-          <div className="grid grid-cols-3 gap-4">
-            <div className="col-span-1">
-              <section className="flex flex-col gap-4">
-                <div className="h-40 w-60 p-5 flex flex-row justify-center items-center rounded-2xl shadow-md shadow-black transition duration-700 dark:bg-darkPrimary hover:bg-blue-500 dark:hover:bg-zinc-800">
-                  <h1 className="text-2xl dark:text-darkText flex flex-col items-center">
-                    Total ingresos:{" "}
-                    <span className=" mt-2">
-                      {" "}
-                      ${formatNumber(totalIncomes)}
-                    </span>
-                  </h1>
-                </div>
-                <div className="h-40 w-60 p-5 flex flex-row justify-center items-center rounded-2xl shadow-md shadow-black transition duration-700 dark:bg-darkPrimary hover:bg-blue-500 dark:hover:bg-zinc-800">
-                  <h1 className="text-center text-2xl dark:text-darkText">
-                    {comision
-                      ? `Comision: ${comision}%`
-                      : "Seleccione especialista para visualizar comisión"}
-                  </h1>
-                </div>
-                <button
-                  className={`h-10 w-60 p-5 flex flex-row justify-center items-center rounded-2xl shadow-md shadow-black transition duration-700 dark:bg-darkPrimary hover:bg-blue-500 dark:hover:bg-zinc-800 ${
-                    showAdditionalCharts ? "bg-blue-500 text-white" : ""
-                  }`}
-                  onClick={handleToggleCharts}
-                >
-                  Más informacion
-                </button>
-              </section>
-            </div>
-            <div className="col-span-2 grid grid-cols-1 gap-4">
+          <div className="w-full mt-10 flex flex-col items-center justify-between xl:flex-row sm:justify-start">
+            <section className="flex flex-col gap-4 sm:flex-row xl:flex-col">
+              <div className="h-40 w-60 p-5 flex flex-row justify-center items-center rounded-2xl shadow-md shadow-black transition duration-700 dark:bg-darkPrimary hover:bg-blue-500 dark:hover:bg-zinc-800">
+                <h1 className="text-2xl dark:text-darkText flex flex-col items-center">
+                  Total ingresos:{" "}
+                  <span className=" mt-2"> ${formatNumber(totalIncomes)}</span>
+                </h1>
+              </div>
+              <div className="h-40 w-60 p-5 flex flex-row justify-center items-center rounded-2xl shadow-md shadow-black transition duration-700 dark:bg-darkPrimary hover:bg-blue-500 dark:hover:bg-zinc-800">
+                <h1 className="text-center text-2xl dark:text-darkText">
+                  {comision
+                    ? `Comision: ${comision}%`
+                    : "Seleccione especialista para visualizar comisión"}
+                </h1>
+              </div>
+            </section>
+            <section className="mt-10 flex flex-col sm:flex-row items-center sm:items-start xl:mt-0 sm:w-full">
               <DonutChartPayMethods
                 data={chartDataPaymentMethods}
                 title="Métodos de pago"
                 className="col-span-2"
               />
+              <div className="mx-2">
+                <button
+                  className="w-40 p-2 mt-10 rounded-2xl shadow-md font-bold shadow-black transition duration-700 dark:bg-darkPrimary hover:bg-blue-500 dark:hover:bg-zinc-800 dark:text-darkText xl:mt-0"
+                  onClick={() => setShowDetails(!showDetails)}
+                >
+                  {showDetails ? "Ocultar detalles" : "Mostrar detalles"}
+                </button>
+                {showDetails && (
+                  <ul className="mt-4 dark:text-darkText">
+                    {chartDataPaymentMethods.map((entry) => (
+                      <div
+                        className="text-xs"
+                        key={`legend-${entry.name}`} // Cambiado a entry.name como clave
+                        style={{ marginBottom: "12px" }}
+                      >
+                        <li className="text-[13px] p-1">
+                          <span
+                            style={{
+                              display:
+                                entry &&
+                                entry.name &&
+                                entry.name.includes("Total")
+                                  ? "none"
+                                  : "inline-block",
+                              width: "12px",
+                              height: "12px",
+                              backgroundColor:
+                                colors[
+                                  chartDataPaymentMethods.indexOf(entry) %
+                                    colors.length
+                                ],
+                              borderRadius: "50%",
+                              marginRight: "8px",
+                            }}
+                          ></span>
+                          {entry
+                            ? `${entry.name}: $${formatNumber(entry.value)}`
+                            : ""}
+                        </li>
+                      </div>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            </section>
+          </div>
+          <section className="mb-10 w-full flex flex-col items-center justify-center">
+            <button
+                className={`mt-5 xl:ml-[70px] w-fit p-2 rounded-2xl shadow-md font-bold shadow-black transition duration-700 dark:bg-darkPrimary hover:bg-blue-500 dark:hover:bg-zinc-800 dark:text-darkText ${
+                  showAdditionalCharts ? "bg-blue-500 text-white" : ""
+                }`}
+                onClick={handleToggleCharts}
+              >
+                {showAdditionalCharts ? "Menos informacion" : "Más información"}
+          </button>
               {showAdditionalCharts && (
-                <div className="flex gap-4">
+                <div className="flex flex-col justify-center sm:flex-row sm:gap-10">
                   <DonutChart
                     data={chartDataSpecialists}
                     title="Turnos por especialista"
@@ -338,9 +390,8 @@ const Balance = ({ specialists, services, payMethods }) => {
                   />
                 </div>
               )}
-            </div>
+            </section>
           </div>
-        </>
       )}
     </div>
   );
