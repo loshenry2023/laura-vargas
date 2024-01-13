@@ -14,7 +14,7 @@
     ],
     "crons": [
         {
-            "path": "/src/functions/getAppointmentsReminder",
+            "path": "https://laura-vargas-dkpl.vercel.app/Server/src/functions/getAppointmentsReminder.js",
             "schedule": "0 8 * * *"
         }
     ]
