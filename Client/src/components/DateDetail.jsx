@@ -17,8 +17,6 @@ import { useNavigate } from 'react-router-dom';
 import './dateDetail.css'
 import getParamsEnv from '../functions/getParamsEnv';
 import { IoMdArrowRoundBack } from "react-icons/io";
-import { IoIosClose } from "react-icons/io";
-
 
 
 const { API_URL_BASE, AGENDA } = getParamsEnv()
@@ -190,7 +188,6 @@ const DateDetail = () => {
                 token: token
             }
 
-
             const response = await axios.post(`${API_URL_BASE}/newhistoricproc`, dateData)
             if (response.data.created === "ok") {
                 toast.success("Cita Finalizada exitosamente")
@@ -198,16 +195,11 @@ const DateDetail = () => {
                 setTimeout(() => {
                     navigate(AGENDA)
                 }, 3000);
-
             }
 
         } catch (error) {
-
+            toast.error(error.message)
         }
-
-
-
-
     }
 
     const Checkbox = () => (
@@ -234,7 +226,7 @@ const DateDetail = () => {
     }
 
     return (
-        <div className="flex flex-col mx-auto my-10">
+        <div className="flex flex-col mx-auto py-10 overflow-auto">
             <div className='flex flex-row'>
                 <IoMdArrowRoundBack onClick={handleGoBack} className='w-6 h-6 mt-1 mr-2 hover:scale-110 cursor-pointer dark:text-darkText' />
                 <h1 className='mb-4 text-2xl underline underline-offset-4 tracking-wide text-center font-fontTitle dark:text-beige sm:text-left'> Información de cita</h1>
@@ -338,7 +330,7 @@ const DateDetail = () => {
                                     </div>
                                     <div className="rounded overflow-hidden shadow-sm flex-grow p-6 shadow-black dark:bg-darkPrimary dark:shadow-darkText">
                                         <p className="text-xl font-medium text-gray-700 dark:text-darkText"> Precio final</p>
-                                        <p className='text-sm m-auto text-left 2xl:text-center dark:text-darkText'>{appointment.Service.price}</p>
+                                        <p className='text-sm m-auto text-left 2xl:text-center dark:text-darkText'>${appointment.Service.price}</p>
                                     </div>
                                 </div>
                             </div>

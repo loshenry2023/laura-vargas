@@ -77,6 +77,8 @@ const Agenda = () => {
     dateTime: formattedDate,
   });
 
+  console.log(dateInfo)
+
   const [isFormCompleted, setIsFormCompleted] = useState(false);
 
   useEffect(() => {
@@ -252,7 +254,7 @@ const Agenda = () => {
                         id=""
                         placeholder={`${chosenClient.name} ${chosenClient.lastName}`}
                         disabled
-                        className="w-60 bg-white resize-y border mr-8 border-black rounded-md text-md md:w-fit md:mr-0 dark:text-darkText dark:bg-darkPrimary dark:border-darkText "
+                        className="w-60 pl-2 bg-white resize-y border mr-8 border-black rounded-md text-md md:w-fit md:mr-0 dark:text-darkText dark:bg-darkPrimary dark:border-darkText "
                       />
 
                     </div>
@@ -266,7 +268,7 @@ const Agenda = () => {
                       <select
                         name="service"
                         id=""
-                        className="w-60 border border-black rounded-md text-md dark:text-darkText dark:bg-darkPrimary dark:border-darkText md:w-fit"
+                        className="w-60 pl-2 border border-black rounded-md text-md dark:text-darkText dark:bg-darkPrimary dark:border-darkText md:w-fit"
                         onChange={handleChange}
                       >
                         <option
@@ -292,7 +294,7 @@ const Agenda = () => {
                         onChange={handleChange}
                         name="specialist"
                         id=""
-                        className="w-60 border border-black rounded-md text-md dark:text-darkText dark:bg-darkPrimary dark:border-darkText  md:w-fit"
+                        className="w-60 pl-2 border border-black rounded-md text-md dark:text-darkText dark:bg-darkPrimary dark:border-darkText  md:w-fit"
                       >
                         <option
                           defaultValue={dateInfo.specialist.id ? false : true}

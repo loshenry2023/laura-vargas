@@ -86,20 +86,20 @@ const HistoryServices = ({ history }) => {
                   {service.serviceName}
                 </p>
               </div>
-              <div className="flex flex-col justify-end pb-2 gap-2">
+              <div className="flex flex-col justify-end items-end gap-2">
                 <a
                   href={service.imageServiceDone}
                   target="_blank"
-                  className="cursor-pointer shadow-md rounded-2xl w-40 px-5 bg-beige hover:bg-blue-600 hover:text-white dark:bg-darkBackground dark:text-darkText dark:hover:bg-blue-600"
+                  className="cursor-pointer shadow-md rounded-2xl w-fit px-2 bg-beige hover:bg-blue-600 hover:text-white dark:bg-darkBackground dark:text-darkText dark:hover:bg-blue-600"
                 >
-                  <p className="text-center"> Ver foto</p>
+                  <p className="text-center"> Ver foto </p>
                 </a>
                 <a
                   href={service.conformity}
                   target="_blank"
-                  className={`${service.conformity === "" ? "hidden" : ""} cursor-pointer shadow-md rounded-2xl w-40 px-5 bg-beige hover:bg-blue-600 hover:text-white dark:bg-darkBackground dark:text-darkText dark:hover:bg-blue-600`}
+                  className={`${service.conformity === "" ? "hidden" : ""} cursor-pointer shadow-md rounded-2xl w-fit px-2 bg-beige hover:bg-blue-600 hover:text-white dark:bg-darkBackground dark:text-darkText dark:hover:bg-blue-600`}
                 >
-                  <p className="text-center">Ver conformidad</p>
+                  <p className="text-center"> Ver conformidad </p>
                 </a>
               </div>
             </div>

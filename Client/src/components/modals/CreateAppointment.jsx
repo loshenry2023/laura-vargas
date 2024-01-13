@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react'
 import axios from "axios"
 import { useSelector } from 'react-redux';
 import { toast } from 'react-hot-toast'
+import { useNavigate } from 'react-router-dom';
 
 //icons
 import { IoClose } from 'react-icons/io5';
@@ -13,10 +14,12 @@ import formatDate from '../../functions/formatDate';
 
 //var de entorno
 import getParamsEnv from '../../functions/getParamsEnv';
-const { API_URL_BASE } = getParamsEnv()
+const { API_URL_BASE, AGENDA } = getParamsEnv()
 
 
 const CreateAppointment = ({ setShowAppointmentModal, setChosenClient, dateInfo, setDateInfo, token, formattedDate, setRefrescarCita, refrescarCita, chosenClient, branches }) => {
+
+    const navigate = useNavigate()
 
     useEffect(() => {
         const close = (e) => {
@@ -34,6 +37,7 @@ const CreateAppointment = ({ setShowAppointmentModal, setChosenClient, dateInfo,
     const [validationErrors, setValidationErrors] = useState({});
     const specialistName = `${dateInfo.specialist.name} ${dateInfo.specialist.lastName}`
     const currentDate = new Date();
+    
 
 
     const [AppointmentInfo, setAppointmentInfo] = useState({
@@ -48,6 +52,7 @@ const CreateAppointment = ({ setShowAppointmentModal, setChosenClient, dateInfo,
         obs: ""
     })
 
+    const [rememberDate, setRememberDate] = useState(AppointmentInfo.date)
 
 
     const closeModal = () => {
@@ -145,6 +150,7 @@ const CreateAppointment = ({ setShowAppointmentModal, setChosenClient, dateInfo,
                     closeModal();
                 }, 3000);
                 setDateInfo({
+                    ...dateInfo,
                     client: {
                         id: "",
                         name: "",
@@ -163,7 +169,7 @@ const CreateAppointment = ({ setShowAppointmentModal, setChosenClient, dateInfo,
                         name: "",
                         lastName: ""
                     },
-                    dateTime: formattedDate,
+                   
                 })
                 setChosenClient({ name: "Elige", lastName: "cliente" })
                 axios.post(`${API_URL_BASE}/sendmail`, sendEmail);
