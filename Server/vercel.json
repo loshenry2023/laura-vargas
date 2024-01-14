@@ -14,7 +14,7 @@
     ],
     "crons": [
         {
-            "path": "/api/serverless-example?query=123",
+            "path": "/server/src/functions/getAppointmentsReminder",
             "schedule": "0 8 * * *"
         }
     ]
