@@ -34,8 +34,9 @@ function DonutChartPayMethods({ data, title }) {
             cy="50%"
             innerRadius={100}
             outerRadius={120}
-            paddingAngle={2}
+            // paddingAngle={1}
             fill="#8884d8"
+            fontSize={14}
             label={({ value, percent }) =>
               value !== 0 ? `${(percent * 100).toFixed(2)}%` : ""
             }
