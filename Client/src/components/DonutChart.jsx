@@ -31,7 +31,7 @@ function DonutChart({ data, title }) {
             innerRadius={50}
             outerRadius={70}
             fill="#000"
-            paddingAngle={1}
+            // paddingAngle={1}
             label={({ value, percent }) =>
               value !== 0 ? `${(percent * 100).toFixed(2)}%` : ""
             }
