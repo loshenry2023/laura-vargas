@@ -4,7 +4,7 @@ function serviceValidation(service) {
     // Validación de nombre
     if (!service.name.trim()) {
         errors.name = "El nombre no puede estar vacío";
-    } else if (service.name.length > 30) {
+    } else if (service.name.length > 60) {
         errors.name = "El nombre no puede tener más de 30 caracteres";
     }
 

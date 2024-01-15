@@ -1,3 +1,5 @@
+
+
 function branchValidation(branch) {
     const errors = {};
 
@@ -19,8 +21,14 @@ function branchValidation(branch) {
     } else if (isNaN(branch.phone) || branch.phone.length < 10 || branch.phone.length > 15) {
         errors.phone = "El teléfono debe ser un número válido entre 10 y 15 dígitos";
     }
-
-    return errors;
+   // Validación de coordenadas
+   if (!branch.coordinates || typeof branch.coordinates !== 'string') {
+    errors.coordinates = "El enlace de coordenadas no es válido";
 }
+
+return errors;
+}
+
+
 
 export default branchValidation;

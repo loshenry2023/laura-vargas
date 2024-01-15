@@ -1,22 +1,9 @@
 //hooks,reducer, componentes
 import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux';
 import axios from "axios"
 import { toast } from 'react-hot-toast'
 import branchValidation from '../../functions/createBranchValidations';
-import { getBranches } from '../../redux/actions';
-
-
-
-
-//icons
 import { IoClose } from 'react-icons/io5';
-
-
-//funciones
-
-
-//Variables de entorno
 import getParamsEnv from '../../functions/getParamsEnv'
 
 
@@ -30,7 +17,8 @@ const EditBranchModal = ({ aux, setAux, setShowEditBranchModal, token, filaBranc
     const [newBranch, setNewBranch] = useState({
         name: filaBranch.branchName,
         address: filaBranch.address,
-        phone: filaBranch.phoneNumber
+        phone: filaBranch.phoneNumber,
+        coordinates: filaBranch.coordinates
     })
 
     const [errors, setErrors] = useState({
@@ -66,18 +54,17 @@ const EditBranchModal = ({ aux, setAux, setShowEditBranchModal, token, filaBranc
     const handleSubmit = async (e) => {
         e.preventDefault();
     
-        // Check if there are any changes in the form fields
         const isFormModified =
             newBranch.name !== filaBranch.branchName ||
             newBranch.address !== filaBranch.address ||
-            newBranch.phone !== filaBranch.phoneNumber;
+            newBranch.phone !== filaBranch.phoneNumber ||
+            newBranch.coordinates !== filaBranch.coordinates
     
         if (!isFormModified) {
             toast.error("Debe modificar al menos un campo para editar la sede");
             return;
         }
-    
-        // Validate the form data
+
         const validationErrors = branchValidation(newBranch);
     
         if (Object.keys(validationErrors).length > 0) {
@@ -90,7 +77,7 @@ const EditBranchModal = ({ aux, setAux, setShowEditBranchModal, token, filaBranc
                 branchName: newBranch.name,
                 address: newBranch.address,
                 phoneNumber: newBranch.phone,
-                coordinates: "",
+                coordinates: newBranch.coordinates ||  "",
                 openningHours: "",
                 clossingHours: "",
                 workingDays: "",
@@ -112,6 +99,7 @@ const EditBranchModal = ({ aux, setAux, setShowEditBranchModal, token, filaBranc
                         name: "",
                         address: "",
                         phone: "",
+                        coordinates: ""
                     });
                 }, 3000);
             } else {
@@ -144,7 +132,7 @@ const EditBranchModal = ({ aux, setAux, setShowEditBranchModal, token, filaBranc
                             <IoClose onClick={closeModal} className=' ml-5 cursor-pointer mt-2 w-5 h-5 hover:scale-125 dark:text-darkText' />
                         </div>
                         <form onSubmit={handleSubmit}>
-                            <div className=" mb-2">
+                         
                                 <div>
                                     <label className='pl-1 text-sm font-bold dark:text-darkText'>Nombre de la Sede</label>
                                     <input
@@ -170,7 +158,7 @@ const EditBranchModal = ({ aux, setAux, setShowEditBranchModal, token, filaBranc
                                     {errors.address !== "" && <p className="text-xs text-red-500 p-1">{errors.address}</p>}
                                 </div>
 
-                            </div>
+                      
                             <div>
                                     <label className='pl-1 text-sm font-bold dark:text-darkText'>Teléfono</label>
                                     <input
@@ -182,6 +170,18 @@ const EditBranchModal = ({ aux, setAux, setShowEditBranchModal, token, filaBranc
                                         className={`border border-black p-2 rounded w-full ${errors.phone !== undefined && "border-2 border-red-500"}`}
                                     />
                                   {errors.phone !== "" && <p className="text-xs text-red-500 p-1">{errors.phone}</p>}
+                                </div>
+                                <div>
+                                    <label className='pl-1 text-sm font-bold dark:text-darkText'>Coordenadas</label>
+                                    <input
+                                        onChange={handleChange}
+                                        type="text"
+                                        name="phone"  
+                                        value={newBranch.coordinates}
+                                        placeholder="Ingrese link de coordenadas"
+                                        className={`border border-black p-2 rounded w-full ${errors.coordinates !== undefined && "border-2 border-red-500"}`}
+                                    />
+                                  {errors.coordinates !== "" && <p className="text-xs text-red-500 p-1">{errors.coordinates}</p>}
                                 </div>
 
 

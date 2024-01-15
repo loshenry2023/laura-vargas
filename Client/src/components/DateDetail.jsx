@@ -57,6 +57,7 @@ const DateDetail = () => {
         amount2: ""
     })
     const [aux, setAux] = useState(false)
+    const [showPriceConfirmation, setShowPriceConfirmation] = useState()
 
     useEffect(() => {
 
@@ -93,6 +94,7 @@ const DateDetail = () => {
     };
 
 
+
     const handleToggleConsentVisibility = () => {
         if (isConsentVisible) {
             setIsConsentVisible(false);
@@ -111,6 +113,24 @@ const DateDetail = () => {
             hideDeleteModal();
         }
     };
+
+    const priceConfirmed = (confirmed) => {
+        if (confirmed) {
+            setShowPriceConfirmation(false)
+           setShowFinishConfirmation(true)
+        } else {
+            setShowPriceConfirmation(false);
+        }
+    };
+
+    const handleCheckPrice = () =>{
+        console.log("papa")
+        if ((Number(price.amount1 + Number(price.amount2)) !== Number(appointment.Service.price) )) {
+            setShowPriceConfirmation(true)
+        }else {
+            setShowFinishConfirmation(true)
+        }
+    }
 
     const hideDeleteModal = () => {
         setShowFinishConfirmation(false)
@@ -149,10 +169,12 @@ const DateDetail = () => {
 
     const observationSectionStyle = {
         backgroundColor: photoLoaded && '#A8D0B9',
+        color: photoLoaded && 'black'
     };
 
     const observationSectionStyleConsent = {
         backgroundColor: consentLoaded && '#A8D0B9',
+        color: consentLoaded && 'black'
     };
 
     const isButtonDisabled = !(
@@ -187,6 +209,7 @@ const DateDetail = () => {
                 id_pers: appointment.Client.id_pers,
                 token: token
             }
+
 
             const response = await axios.post(`${API_URL_BASE}/newhistoricproc`, dateData)
             if (response.data.created === "ok") {
@@ -404,7 +427,7 @@ const DateDetail = () => {
                         <div className="flex justify-center mt-4">
                             <button
                                 disabled={isButtonDisabled}
-                                onClick={() => setShowFinishConfirmation(true)}
+                                onClick={(handleCheckPrice)}
                                 className={`btn bg-primaryPink px-4 py-2 rounded-full cursor-pointer shadow shadow-black ${isButtonDisabled ? 'disabled-btn' : ''} `}
                                 style={{ backgroundColor: isButtonDisabled ? 'grey' : '#e59494' }}
                             >
@@ -441,6 +464,33 @@ const DateDetail = () => {
                     </div>
                 </div>
             )}
+            {showPriceConfirmation && (
+                <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+                    <div
+                        className={`bg-white p-6 rounded-lg shadow-lg text-center sm:flex sm:flex-col ${window.innerWidth < 340 ? "max-w-sm" : "max-w-md"
+                            }`}
+                    >
+                        <p className="mb-4 text-sm sm:text-base">
+                          El importe a pagar diferente al precio final ¿Desea continuar?
+                        </p>
+                        <div className="flex justify-center space-x-4">
+                            <button
+                                onClick={() => priceConfirmed(true)}
+                                className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 text-sm sm:text-base"
+                            >
+                                Aceptar
+                            </button>
+                            <button
+                                onClick={() => priceConfirmed(false)}
+                                className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 text-sm sm:text-base"
+                            >
+                                Cancelar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+            
         </div>
     );
 };

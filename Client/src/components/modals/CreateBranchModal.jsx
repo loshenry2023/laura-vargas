@@ -1,22 +1,9 @@
 //hooks,reducer, componentes
 import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux';
 import axios from "axios"
 import { toast } from 'react-hot-toast'
 import branchValidation from '../../functions/createBranchValidations';
-import { getBranches } from '../../redux/actions';
-
-
-
-
-//icons
 import { IoClose } from 'react-icons/io5';
-
-
-//funciones
-
-
-//Variables de entorno
 import getParamsEnv from '../../functions/getParamsEnv'
 
 
@@ -24,13 +11,12 @@ const { API_URL_BASE } = getParamsEnv()
 
 const CreateBranchModal = ({ aux, setAux, setShowCreateBranchModal, token }) => {
 
-    const disptach = useDispatch()
-
 
     const [newBranch, setNewBranch] = useState({
         name: "",
         address: "",
-        phone: ""
+        phone: "",
+        coordinates: ""
     })
 
     const [errors, setErrors] = useState({
@@ -45,15 +31,15 @@ const CreateBranchModal = ({ aux, setAux, setShowCreateBranchModal, token }) => 
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-    
-        
 
-            setNewBranch((prevInfo) => ({
-                ...prevInfo,
-                [name]: value,
-            }));
-        
-    
+
+
+        setNewBranch((prevInfo) => ({
+            ...prevInfo,
+            [name]: value,
+        }));
+
+
         setNewBranch((prevInfo) => {
             const validationErrors = branchValidation({ ...prevInfo, [name]: value });
             setErrors((prevErrors) => ({
@@ -66,16 +52,16 @@ const CreateBranchModal = ({ aux, setAux, setShowCreateBranchModal, token }) => 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        // Use branchValidation to validate the form data
+
         const validationErrors = branchValidation(newBranch);
 
         if (Object.keys(validationErrors).length > 0) {
-            // If there are validation errors, set them in the state
+
             setErrors(validationErrors);
             return;
         }
 
-        // If no validation errors, proceed with form submission
+
         try {
             console.log(newBranch, "enviando al back");
 
@@ -83,7 +69,7 @@ const CreateBranchModal = ({ aux, setAux, setShowCreateBranchModal, token }) => 
                 branchName: newBranch.name,
                 address: newBranch.address,
                 phoneNumber: newBranch.phone,
-                coordinates: "",
+                coordinates: newBranch.coordinates || "",
                 openningHours: "",
                 clossingHours: "",
                 workingDays: "",
@@ -95,13 +81,14 @@ const CreateBranchModal = ({ aux, setAux, setShowCreateBranchModal, token }) => 
             if (response.data.created === "ok") {
                 setAux(!aux)
                 toast.success("Sede creada exitosamente");
-               
+
                 setTimeout(() => {
                     closeModal();
                     setNewBranch({
                         name: "",
                         address: "",
-                        phone: ""
+                        phone: "",
+                        branch: ""
                     });
                 }, 3000);
             } else {
@@ -114,14 +101,16 @@ const CreateBranchModal = ({ aux, setAux, setShowCreateBranchModal, token }) => 
 
     useEffect(() => {
         const close = (e) => {
-            if(e.keyCode === 27){
-              closeModal()
+            if (e.keyCode === 27) {
+                closeModal()
             }
-          }
-          window.addEventListener('keydown', close)
-          return () => window.removeEventListener('keydown', close)},[newBranch])
-    
+        }
+        window.addEventListener('keydown', close)
+        return () => window.removeEventListener('keydown', close)
+    }, [newBranch])
 
+
+    console.log(newBranch)
 
     return (
         <>
@@ -133,45 +122,57 @@ const CreateBranchModal = ({ aux, setAux, setShowCreateBranchModal, token }) => 
                             <IoClose onClick={closeModal} className=' ml-5 cursor-pointer mt-2 w-5 h-5 hover:scale-125 dark:text-darkText' />
                         </div>
                         <form onSubmit={handleSubmit}>
-                            <div className=" mb-2">
-                                <div>
-                                    <label className='pl-1 text-sm font-bold dark:text-darkText'>Nombre de la Sede</label>
-                                    <input
-                                        onChange={handleChange}
-                                        type="text"
-                                        name="name"  
-                                        value={newBranch.name}
-                                        placeholder="Nombre"
-                                        className={`border border-black p-2 rounded w-full ${errors.name !== undefined && "border-2 border-red-500"}`}
-                                    />
-                                    {errors.name !== "" && <p className="text-xs text-red-500 p-1">{errors.name}</p>}
-                                </div>
-                                <div>
-                                    <label className='pl-1 text-sm font-bold dark:text-darkText'>Dirección</label>
-                                    <input
-                                        onChange={handleChange}
-                                        type="text"
-                                        name="address"  
-                                        value={newBranch.address}
-                                        placeholder="Dirección"
-                                        className={`border border-black p-2 rounded w-full ${errors.address !== undefined && "border-2 border-red-500"}`}
-                                    />
-                                    {errors.address !== "" && <p className="text-xs text-red-500 p-1">{errors.address}</p>}
-                                </div>
 
+                            <div>
+                                <label className='pl-1 text-sm font-bold dark:text-darkText'>Nombre de la Sede</label>
+                                <input
+                                    onChange={handleChange}
+                                    type="text"
+                                    name="name"
+                                    value={newBranch.name}
+                                    placeholder="Nombre"
+                                    className={`border border-black p-2 rounded w-full ${errors.name !== undefined && "border-2 border-red-500"}`}
+                                />
+                                {errors.name !== "" && <p className="text-xs text-red-500 p-1">{errors.name}</p>}
                             </div>
                             <div>
-                                    <label className='pl-1 text-sm font-bold dark:text-darkText'>Teléfono</label>
-                                    <input
-                                        onChange={handleChange}
-                                        type="text"
-                                        name="phone"  
-                                        value={newBranch.phone}
-                                        placeholder="Phone"
-                                        className={`border border-black p-2 rounded w-full ${errors.phone !== undefined && "border-2 border-red-500"}`}
-                                    />
-                                  {errors.phone !== "" && <p className="text-xs text-red-500 p-1">{errors.phone}</p>}
-                                </div>
+                                <label className='pl-1 text-sm font-bold dark:text-darkText'>Dirección</label>
+                                <input
+                                    onChange={handleChange}
+                                    type="text"
+                                    name="address"
+                                    value={newBranch.address}
+                                    placeholder="Dirección"
+                                    className={`border border-black p-2 rounded w-full ${errors.address !== undefined && "border-2 border-red-500"}`}
+                                />
+                                {errors.address !== "" && <p className="text-xs text-red-500 p-1">{errors.address}</p>}
+                            </div>
+
+
+                            <div>
+                                <label className='pl-1 text-sm font-bold dark:text-darkText'>Teléfono</label>
+                                <input
+                                    onChange={handleChange}
+                                    type="text"
+                                    name="phone"
+                                    value={newBranch.phone}
+                                    placeholder="Phone"
+                                    className={`border border-black p-2 rounded w-full ${errors.phone !== undefined && "border-2 border-red-500"}`}
+                                />
+                                {errors.phone !== "" && <p className="text-xs text-red-500 p-1">{errors.phone}</p>}
+                            </div>
+                            <div>
+                                <label className='pl-1 text-sm font-bold dark:text-darkText'>Coordenadas Map</label>
+                                <input
+                                    onChange={handleChange}
+                                    type="text"
+                                    name="coordinates"
+                                    value={newBranch.coordinates}
+                                    placeholder="Ingrese sus link de coordenadas"
+                                    className={`border border-black p-2 rounded w-full ${errors.coordinates !== undefined && "border-2 border-red-500"}`}
+                                />
+                                {errors.coordinates !== "" && <p className="text-xs text-red-500 p-1">{errors.coordinates}</p>}
+                            </div>
 
 
 

@@ -241,9 +241,9 @@ const Agenda = () => {
               </h1>
               {user.role === "especialista" ? null : (
                 <section className="shadow shadow-black rounded-xl p-5 mb-10 bg-secondaryPink dark:bg-darkPrimary dark:shadow-darkText">
-                  <h1 className="text-xl dark:text-darkText mb-2 ">Agendar cita </h1>
-                  <div className="flex flex-col flex-wrap items-center gap-5 md:flex-row sm:w-fit">
-                    <div className="mt-5 flex flex-row gap-5 sm:mt-0" >
+                  <h1 className="text-xl dark:text-darkText mb-2">Agendar cita</h1>
+                  <div className="flex flex-col items-center gap-5 md:flex-row">
+                    <div className=" flex flex-col sm:flex-row sm:gap-5">
                       <FaPlusCircle
                         className="mt-1.5 cursor-pointer dark:text-darkText"
                         onClick={() => setShowClientListModal(true)}
@@ -254,67 +254,45 @@ const Agenda = () => {
                         id=""
                         placeholder={`${chosenClient.name} ${chosenClient.lastName}`}
                         disabled
-                        className="w-60 pl-2 bg-white resize-y border mr-8 border-black rounded-md text-md md:w-fit md:mr-0 dark:text-darkText dark:bg-darkPrimary dark:border-darkText "
+                        className="w-full sm:w-60 pl-2 bg-white resize-y border mt-3 sm:mt-0 sm:mr-2 border-black rounded-md text-md dark:text-darkText dark:bg-darkPrimary dark:border-darkText"
                       />
-
                     </div>
-                    {/* <input
-                  disabled
-                  value={workingBranch.branchName}
-                  placeholder={workingBranch.branchName}
-                  className="w-60 border border-black rounded-md text-md dark:text-darkText dark:bg-darkPrimary md:w-fit"
-                ></input> */}
-                    {!showEditAppointment ? (
-                      <select
-                        name="service"
-                        id=""
-                        className="w-60 pl-2 border border-black rounded-md text-md dark:text-darkText dark:bg-darkPrimary dark:border-darkText md:w-fit"
-                        onChange={handleChange}
-                      >
-                        <option
-                          defaultValue={dateInfo.service.id ? false : true}
-                          value={JSON.stringify({
-                            Specialties: [{ specialtyName: "noneSpecialty" }],
-                          })}
+
+                    {!showEditAppointment && (
+                      <>
+                        <select
+                          name="service"
+                          className="w-full mt-3 sm:mt-0 sm:w-60 pl-2 border border-black rounded-md text-md dark:text-darkText dark:bg-darkPrimary dark:border-darkText md:w-64"
+                          value={JSON.stringify(dateInfo.service)}
+                          onChange={handleChange}
                         >
-                          {" "}
-                          Procedimientos{" "}
-                        </option>
-                        {services.map((service, index) => (
-                          <option key={index} value={JSON.stringify(service)} selected={dateInfo.service.id === service.id ? true : false}>
-                            {service.serviceName}
+                          <option value={JSON.stringify({ Specialties: [{ specialtyName: "noneSpecialty" }] })}>
+                            Procedimientos
                           </option>
-                        ))}
-                      </select>
-                    ) : (
-                      <></>
-                    )}
-                    {!showEditAppointment ? (
-                      <select
-                        onChange={handleChange}
-                        name="specialist"
-                        id=""
-                        className="w-60 pl-2 border border-black rounded-md text-md dark:text-darkText dark:bg-darkPrimary dark:border-darkText  md:w-fit"
-                      >
-                        <option
-                          defaultValue={dateInfo.specialist.id ? false : true}
-                          value="null"
-                          selected={dateInfo.specialist.id ? true : false}
+                          {services.map((service, index) => (
+                            <option key={index} value={JSON.stringify(service)}>
+                              {service.serviceName}
+                            </option>
+                          ))}
+                        </select>
+
+                        <select
+                          name="specialist"
+                          className="w-full mt-3 sm:mt-0 sm:w-60 pl-2 border border-black rounded-md text-md dark:text-darkText dark:bg-darkPrimary dark:border-darkText md:w-64"
+                          value={JSON.stringify(dateInfo.specialist)}
+                          onChange={handleChange}
                         >
-                          {" "}
-                          -- Especialista--{" "}
-                        </option>
-                        {users.map(
-                          (user, index) =>
-                            user.role === "especialista" && (
-                              <option key={index} value={JSON.stringify(user)} selected={user.id === dateInfo.specialist.id ? true : false}>
-                                {user.name} {user.lastName}
-                              </option>
-                            )
-                        )}
-                      </select>
-                    ) : (
-                      <></>
+                          <option value="null">-- Especialista--</option>
+                          {users.map(
+                            (user, index) =>
+                              user.role === "especialista" && (
+                                <option key={index} value={JSON.stringify(user)}>
+                                  {user.name} {user.lastName}
+                                </option>
+                              )
+                          )}
+                        </select>
+                      </>
                     )}
                   </div>
                 </section>
