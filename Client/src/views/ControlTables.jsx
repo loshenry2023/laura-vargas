@@ -1,63 +1,61 @@
-
-import React, { useState, useEffect } from 'react';
-import NavBar from '../components/NavBar';
-import SideBar from '../components/SideBar';
-import ServicesTable from '../components/ServicesTable';
-import PayMethodsTable from '../components/PayMethodsTable';
-import BranchTable from '../components/BranchTable';
-import SpecialtiesTable from '../components/SpecialtiesTable';
+import React, { useState, useEffect } from "react";
+import NavBar from "../components/NavBar";
+import SideBar from "../components/SideBar";
+import ServicesTable from "../components/ServicesTable";
+import PayMethodsTable from "../components/PayMethodsTable";
+import BranchTable from "../components/BranchTable";
+import SpecialtiesTable from "../components/SpecialtiesTable";
 import ErrorToken from "../views/ErrorToken";
-import { getBranches, getServices, getSpecialties } from '../redux/actions';
+import { getBranches, getServices, getSpecialties } from "../redux/actions";
 
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from "react-redux";
 
 const ControlTables = () => {
-  const [activeTab, setActiveTab] = useState('clients');
+  const [activeTab, setActiveTab] = useState("clients");
 
   const clients = useSelector((state) => state?.clients);
   const count = useSelector((state) => state?.countClient);
-  const token = useSelector((state) => state?.token)
+  const token = useSelector((state) => state?.token);
   const tokenError = useSelector((state) => state?.tokenError);
-  const methods = useSelector((state) => state?.payMethods)
-  const branches = useSelector((state) => state?.branches)
-  const dispatch = useDispatch()
+  const methods = useSelector((state) => state?.payMethods);
+  const branches = useSelector((state) => state?.branches);
+  const dispatch = useDispatch();
 
-
-  console.log(branches)
+  console.log(branches);
 
   const renderTabContent = () => {
     switch (activeTab) {
-      case 'clients':
+      case "clients":
         return (
           <div className="flex flex-col mt-10 gap-5 w-2/3 mx-auto">
-            <ServicesTable />;
+            <ServicesTable /> {/* Sin punto y coma aquí */}
           </div>
-        )
-      case 'PayMethods':
+        );
+      case "PayMethods":
         return (
-          <div className='flex flex-col mt-10 gap-5 w-2/3 mx-auto' >
-            <PayMethodsTable methods={methods} />;
-          </div>)
-      case 'branches':
-        return (
-          <div className='flex flex-col mt-10 gap-5 w-2/3 mx-auto' >
-            <BranchTable branches={branches} />;
-          </div>)
-      case 'specialties':
-        return (
-          <div className='flex flex-col mt-10 gap-5 w-2/3 mx-auto' >
-            <SpecialtiesTable />;
+          <div className="flex flex-col mt-10 gap-5 w-2/3 mx-auto">
+            <PayMethodsTable methods={methods} /> {/* Sin punto y coma aquí */}
           </div>
-        )
+        );
+      case "branches":
+        return (
+          <div className="flex flex-col mt-10 gap-5 w-2/3 mx-auto">
+            <BranchTable branches={branches} /> {/* Sin punto y coma aquí */}
+          </div>
+        );
+      case "specialties":
+        return (
+          <div className="flex flex-col mt-10 gap-5 w-2/3 mx-auto">
+            <SpecialtiesTable /> {/* Sin punto y coma aquí */}
+          </div>
+        );
       default:
         return null;
     }
   };
 
   if (tokenError === 401 || tokenError === 403) {
-    return (
-      <ErrorToken error={tokenError} />
-    );
+    return <ErrorToken error={tokenError} />;
   } else {
     return (
       <div className="flex flex-col h-screen">
@@ -72,30 +70,34 @@ const ControlTables = () => {
             </div>
             <div className="flex flex-col sm:flex-row gap-2 sm:gap-4 md:gap-8 justify-center sm:justify-start">
               <button
-                className={`mb-2 w-full sm:w-auto px-2 md:px-4 py-1 md:py-2 bg-gray-300 text-black rounded ${activeTab === 'clients' && 'bg-secondaryPink'
-                  }`}
-                onClick={() => setActiveTab('clients')}
+                className={`mb-2 w-full sm:w-auto px-2 md:px-4 py-1 md:py-2 bg-gray-300 text-black rounded ${
+                  activeTab === "clients" && "bg-secondaryPink"
+                }`}
+                onClick={() => setActiveTab("clients")}
               >
                 Procedimientos
               </button>
               <button
-                className={`mb-2 w-full sm:w-auto px-2 md:px-4 py-1 md:py-2 bg-gray-300 text-black rounded ${activeTab === 'PayMethods' && 'bg-secondaryPink'
-                  }`}
-                onClick={() => setActiveTab('PayMethods')}
+                className={`mb-2 w-full sm:w-auto px-2 md:px-4 py-1 md:py-2 bg-gray-300 text-black rounded ${
+                  activeTab === "PayMethods" && "bg-secondaryPink"
+                }`}
+                onClick={() => setActiveTab("PayMethods")}
               >
                 Medios de Pago
               </button>
               <button
-                className={`mb-2 w-full sm:w-auto px-2 md:px-4 py-1 md:py-2 bg-gray-300 text-black rounded ${activeTab === 'branches' && 'bg-secondaryPink'
-                  }`}
-                onClick={() => setActiveTab('branches')}
+                className={`mb-2 w-full sm:w-auto px-2 md:px-4 py-1 md:py-2 bg-gray-300 text-black rounded ${
+                  activeTab === "branches" && "bg-secondaryPink"
+                }`}
+                onClick={() => setActiveTab("branches")}
               >
                 Sedes
               </button>
               <button
-                className={`mb-2 w-full sm:w-auto px-2 md:px-4 py-1 md:py-2 bg-gray-300 text-black rounded ${activeTab === 'specialties' && 'bg-secondaryPink'
-                  }`}
-                onClick={() => setActiveTab('specialties')}
+                className={`mb-2 w-full sm:w-auto px-2 md:px-4 py-1 md:py-2 bg-gray-300 text-black rounded ${
+                  activeTab === "specialties" && "bg-secondaryPink"
+                }`}
+                onClick={() => setActiveTab("specialties")}
               >
                 Especialidades
               </button>
@@ -105,7 +107,6 @@ const ControlTables = () => {
         </div>
       </div>
     );
-    
   }
 };
 
