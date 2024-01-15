@@ -5,7 +5,7 @@ import axios from "axios"
 import { toast } from 'react-hot-toast'
 
 
-import { useLocation } from 'react-router-dom';
+
 
 //icons
 import { IoClose } from 'react-icons/io5';
@@ -16,7 +16,7 @@ import serviceValidation from '../../functions/serviceValidation';
 
 //Variables de entorno
 import getParamsEnv from '../../functions/getParamsEnv'
-import { getServices, getSpecialties } from '../../redux/actions';
+
 
 
 const { API_URL_BASE } = getParamsEnv()
