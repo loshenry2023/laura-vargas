@@ -71,31 +71,30 @@ const ListClients = ({ setShowClientListModal, setChosenClient }) => {
 
   return (
     <section className="fixed top-0 left-0 flex justify-center w-full h-full" style={{ background: "rgba(0, 0, 0, 0.70)" }}>
-      <div className="flex flex-col rounded m-20 p-5 gap-5 w-1/2 mx-auto border border-white bg-white dark:bg-darkBackground">
-        <div className="flex flex-row justify-between">
-          <>
-            <IoPersonAddOutline onClick={showCreateModal} className='h-6 w-6 mt-0.5 cursor-pointer dark:text-darkText' />
-          </>
-          <h2 className="text-xl dark:text-darkText">Elige un cliente</h2>
-          <>
-            <IoClose className='h-6 w-6 mt-0.5 cursor-pointer hover:scale-125 dark:text-darkText' onClick={() => setShowClientListModal(false)} />
-          </>
-        </div>
-          <ClientFilters setNameOrLastName={setNameOrLastName} nameOrLastName={nameOrLastName} setAttribute={setAttribute} setOrder={setOrder} setPage={setPage} setSize={setSize} />
-        <div>
-          <ClientsTable count={count} setChosenClient={setChosenClient} setShowClientListModal={setShowClientListModal} clients={clients} />
-        </div>
-        <Pagination page={page} setPage={setPage} size={size} setSize={setSize} count={count} />
+    <div className="flex flex-col rounded m-5 p-3 gap-3 w-full sm:w-4/5 md:w-3/4 lg:w-2/3 xl:w-1/2 mx-auto border border-white bg-white dark:bg-darkBackground">
+      <div className="flex flex-row justify-between">
+        <>
+          <IoPersonAddOutline onClick={showCreateModal} className='h-6 w-6 mt-0.5 cursor-pointer dark:text-darkText' />
+        </>
+        <h2 className="text-xl dark:text-darkText">Elige un cliente</h2>
+        <>
+          <IoClose className='h-6 w-6 mt-0.5 cursor-pointer hover:scale-125 dark:text-darkText' onClick={() => setShowClientListModal(false)} />
+        </>
       </div>
-      {showClientFormModal ?
-        <CreateClient
-          setChosenClient={setChosenClient}
-          setShowClientListModal={setShowClientListModal}
-          setShowClientFormModal={setShowClientFormModal}
-          setActivarNuevoCliente={setActivarNuevoCliente}
-        /> : null}
-    </section>
-
+      <ClientFilters setNameOrLastName={setNameOrLastName} nameOrLastName={nameOrLastName} setAttribute={setAttribute} setOrder={setOrder} setPage={setPage} setSize={setSize} />
+      <div>
+        <ClientsTable count={count} setChosenClient={setChosenClient} setShowClientListModal={setShowClientListModal} clients={clients} />
+      </div>
+      <Pagination page={page} setPage={setPage} size={size} setSize={setSize} count={count} />
+    </div>
+    {showClientFormModal ?
+      <CreateClient
+        setChosenClient={setChosenClient}
+        setShowClientListModal={setShowClientListModal}
+        setShowClientFormModal={setShowClientFormModal}
+        setActivarNuevoCliente={setActivarNuevoCliente}
+      /> : null}
+  </section>
   );
 };
 
