@@ -172,7 +172,7 @@ const EditBranchModal = ({ aux, setAux, setShowEditBranchModal, token, filaBranc
                                   {errors.phone !== "" && <p className="text-xs text-red-500 p-1">{errors.phone}</p>}
                                 </div>
                                 <div>
-                                    <label className='pl-1 text-sm font-bold dark:text-darkText'>Coordenadas</label>
+                                    <label className='pl-1 text-sm font-bold dark:text-darkText'>Coordenadas Google Maps</label>
                                     <input
                                         onChange={handleChange}
                                         type="text"
