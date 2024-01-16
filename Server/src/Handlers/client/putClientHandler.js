@@ -16,7 +16,7 @@ const putClientHandler = async (req, res) => {
       return res.status(checked.code).send(checked.mensaje);
     }
     if (checked.role === "especialista") {
-      showLog(checked.role !== "superAdmin" ? `Wrong role.` : `Wrong token.`);
+      showLog(`Wrong role.`);
       return res.status(401).send(`Sin permiso.`);
     }
     if (!id) { throw Error("Faltan datos"); }
