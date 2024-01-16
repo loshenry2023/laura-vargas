@@ -23,8 +23,9 @@ const Balance = ({ specialists, services, payMethods }) => {
   const year = today.getFullYear();
   const month = today.getMonth() + 1; // Months are zero-indexed, so add 1
   const day = today.getDate();
-  const formattedDate = `${year}-${month < 10 ? "0" + month : month}-${day < 10 ? "0" + day : day
-    }`;
+  const formattedDate = `${year}-${month < 10 ? "0" + month : month}-${
+    day < 10 ? "0" + day : day
+  }`;
   const [showAdditionalCharts, setShowAdditionalCharts] = useState(false);
   const [showDetails, setShowDetails] = useState(false);
 
@@ -131,13 +132,10 @@ const Balance = ({ specialists, services, payMethods }) => {
     tokenError,
   ]);
 
-
   const handleDate = (e) => {
     if (e.target.name === "dateFrom" && testData.test(e.target.value)) {
-      if (
-        e.target.value > fetchDataBalance.dateTo
-      ) {
-        const newDate = fetchDataBalance.dateTo
+      if (e.target.value > fetchDataBalance.dateTo) {
+        const newDate = fetchDataBalance.dateTo;
         setFetchDataBalance({
           ...fetchDataBalance,
           dateFrom: newDate,
@@ -153,10 +151,8 @@ const Balance = ({ specialists, services, payMethods }) => {
     }
 
     if (e.target.name === "dateTo" && testData.test(e.target.value)) {
-      if (
-        e.target.value < fetchDataBalance.dateFrom
-      ) {
-        const newDate = fetchDataBalance.dateFrom
+      if (e.target.value < fetchDataBalance.dateFrom) {
+        const newDate = fetchDataBalance.dateFrom;
         setFetchDataBalance({
           ...fetchDataBalance,
           dateTo: newDate,
@@ -176,8 +172,8 @@ const Balance = ({ specialists, services, payMethods }) => {
     setFetchDataBalance((prevData) => {
       const updatedValue =
         e.target.name === "idPayment" ||
-          e.target.name === "idUser" ||
-          e.target.name === "idService"
+        e.target.name === "idUser" ||
+        e.target.name === "idService"
           ? e.target.value === ""
             ? []
             : [e.target.value]
@@ -365,79 +361,92 @@ const Balance = ({ specialists, services, payMethods }) => {
                   </h1>
                 </div>
               </section>
-              <section className="mt-10 flex flex-col sm:flex-row items-center sm:items-start xl:mt-0 sm:w-full">
-                <DonutChartPayMethods
-                  data={chartDataPaymentMethods}
-                  title="Métodos de pago"
-                  className="col-span-2"
-                />
-                <div className="mx-2">
-                  <button
-                    className="w-40 p-2 mt-10 rounded-2xl shadow-md font-bold shadow-black transition duration-700 dark:bg-darkPrimary hover:bg-blue-500 dark:hover:bg-zinc-800 dark:text-darkText xl:mt-0"
-                    onClick={() => setShowDetails(!showDetails)}
-                  >
-                    {showDetails ? "Ocultar detalles" : "Mostrar detalles"}
-                  </button>
-                  {showDetails && (
-                    <ul className="mt-4 dark:text-darkText">
-                      {chartDataPaymentMethods.map((entry) => (
-                        <div
-                          className="text-xs"
-                          key={`legend-${entry.name}`} // Cambiado a entry.name como clave
-                          style={{ marginBottom: "12px" }}
-                        >
-                          <li className="text-[13px] p-1">
-                            <span
-                              style={{
-                                display:
-                                  entry &&
+              {totalIncomes !== 0 ? (
+                <section className="mt-10 flex flex-col sm:flex-row items-center sm:items-start xl:mt-0 sm:w-full">
+                  <DonutChartPayMethods
+                    data={chartDataPaymentMethods}
+                    title="Métodos de pago"
+                    className="col-span-2"
+                  />
+                  <div className="mx-2">
+                    <button
+                      className="w-40 p-2 mt-10 rounded-2xl shadow-md font-bold shadow-black transition duration-700 dark:bg-darkPrimary hover:bg-blue-500 dark:hover:bg-zinc-800 dark:text-darkText xl:mt-0"
+                      onClick={() => setShowDetails(!showDetails)}
+                    >
+                      {showDetails ? "Ocultar detalles" : "Mostrar detalles"}
+                    </button>
+                    {showDetails && (
+                      <ul className="mt-4 dark:text-darkText">
+                        {chartDataPaymentMethods.map((entry) => (
+                          <div
+                            className="text-xs"
+                            key={`legend-${entry.name}`} // Cambiado a entry.name como clave
+                            style={{ marginBottom: "12px" }}
+                          >
+                            <li className="text-[13px] p-1">
+                              <span
+                                style={{
+                                  display:
+                                    entry &&
                                     entry.name &&
                                     entry.name.includes("Total")
-                                    ? "none"
-                                    : "inline-block",
-                                width: "12px",
-                                height: "12px",
-                                backgroundColor:
-                                  colors[
-                                  chartDataPaymentMethods.indexOf(entry) %
-                                  colors.length
-                                  ],
-                                borderRadius: "50%",
-                                marginRight: "8px",
-                              }}
-                            ></span>
-                            {entry
-                              ? `${entry.name}: $${formatNumber(entry.value)}`
-                              : ""}
-                          </li>
-                        </div>
-                      ))}
-                    </ul>
-                  )}
-                </div>
-              </section>
-            </div>
-            <section className="mb-10 w-full flex flex-col items-center justify-center">
-              <button
-                className={`mt-5 xl:ml-[70px] w-fit p-2 rounded-2xl shadow-md font-bold shadow-black transition duration-700 dark:bg-darkPrimary hover:bg-blue-500 dark:hover:bg-zinc-800 dark:text-darkText ${showAdditionalCharts ? "bg-blue-500 text-white" : ""
-                  }`}
-                onClick={handleToggleCharts}
-              >
-                {showAdditionalCharts ? "Menos informacion" : "Más información"}
-              </button>
-              {showAdditionalCharts && (
-                <div className="flex flex-col justify-center sm:flex-row sm:gap-10">
-                  <DonutChart
-                    data={chartDataSpecialists}
-                    title="Turnos por especialista"
-                  />
-                  <DonutChart
-                    data={chartDataServicesCount}
-                    title="Cantidad de servicios realizados"
-                  />
-                </div>
+                                      ? "none"
+                                      : "inline-block",
+                                  width: "12px",
+                                  height: "12px",
+                                  backgroundColor:
+                                    colors[
+                                      chartDataPaymentMethods.indexOf(entry) %
+                                        colors.length
+                                    ],
+                                  borderRadius: "50%",
+                                  marginRight: "8px",
+                                }}
+                              ></span>
+                              {entry
+                                ? `${entry.name}: $${formatNumber(entry.value)}`
+                                : ""}
+                            </li>
+                          </div>
+                        ))}
+                      </ul>
+                    )}
+                  </div>
+                </section>
+              ) : (
+                <h2 className=" text-center w-full text-xl mt-10 xl:mt-0  dark:text-darkText">
+                  No hay informacion para los filtros seleccionados.
+                </h2>
               )}
-            </section>
+            </div>
+            {totalIncomes !== 0 ? (
+              <section className="mb-10 w-full flex flex-col items-center justify-center">
+                <button
+                  className={`mt-5 xl:ml-[70px] w-fit p-2 rounded-2xl shadow-md font-bold shadow-black transition duration-700 dark:bg-darkPrimary hover:bg-blue-500 dark:hover:bg-zinc-800 dark:text-darkText ${
+                    showAdditionalCharts ? "bg-blue-500 text-white" : ""
+                  }`}
+                  onClick={handleToggleCharts}
+                >
+                  {showAdditionalCharts
+                    ? "Menos informacion"
+                    : "Más información"}
+                </button>
+                {showAdditionalCharts && (
+                  <div className="flex flex-col justify-center sm:flex-row sm:gap-10">
+                    <DonutChart
+                      data={chartDataSpecialists}
+                      title="Turnos por especialista"
+                    />
+                    <DonutChart
+                      data={chartDataServicesCount}
+                      title="Cantidad de servicios realizados"
+                    />
+                  </div>
+                )}
+              </section>
+            ) : (
+              ""
+            )}
           </div>
         )}
         <ToasterConfig />
