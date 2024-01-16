@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import axios from "axios"
 import { toast } from 'react-hot-toast'
+import Loader from '../Loader'
 
 
 
@@ -19,11 +20,14 @@ import getParamsEnv from '../../functions/getParamsEnv'
 
 
 
+
 const { API_URL_BASE } = getParamsEnv()
 
 const CreateServiceModal = ({ aux, setAux, setShowCreateServiceModal, specialties, token }) => {
 
-    const dispatch = useDispatch()
+    
+    const [submitLoader, setSubmitLoader] = useState(false)
+  const [disableSubmit, setDisableSubmit] = useState(false)
 
     const [service, setService] = useState({
         name: "",
@@ -91,6 +95,9 @@ const CreateServiceModal = ({ aux, setAux, setShowCreateServiceModal, specialtie
         } else {
             try {
 
+                setDisableSubmit(true)
+                setSubmitLoader(true)
+
                 const data = {
                     serviceName: service.name,
                     duration: service.duration,
@@ -106,11 +113,14 @@ const CreateServiceModal = ({ aux, setAux, setShowCreateServiceModal, specialtie
                 const response = await axios.post(`${API_URL_BASE}/service`, data)
 
                 if (response.data.created === "ok") {
+                   
+                    setSubmitLoader(false)
                     setAux(!aux)
                     toast.success("Procedimiento creado exitosamente")
 
                     setTimeout(() => {
                         closeModal();
+                        setDisableSubmit(false)
                         setService(
                             {
                                 email: "",
@@ -126,6 +136,8 @@ const CreateServiceModal = ({ aux, setAux, setShowCreateServiceModal, specialtie
                         )
                     }, 3000);
                 } else {
+                    setSubmitLoader(false)
+                    setDisableSubmit(false)
                     toast.error("Hubo un problema con la creación")
                 }
             } catch (error) {
@@ -224,12 +236,17 @@ const CreateServiceModal = ({ aux, setAux, setShowCreateServiceModal, specialtie
 
 
                             <div className="flex justify-center items-center">
-                                <button
+                               
+                                {!submitLoader ?
+                                    <button
                                     type="submit"
+                                    disabled={disableSubmit}
                                     className="mt-2 px-4 py-2 w-fit rounded bg-primaryPink shadow shadow-black text-black hover:bg-blue-600 focus:outline-none transition-colors dark:text-darkText dark:bg-darkPrimary dark:hover:bg-blue-600"
                                 >
                                     Crear nuevo procedimiento
-                                </button>
+                                </button> :
+                <Loader />
+              }
                             </div>
                         </form>
                     </div>

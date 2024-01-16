@@ -104,9 +104,9 @@ const ControlTables = () => {
           </div>
         </div>
       </div>
-    );
+    )
     
   }
-};
+}
 
 export default ControlTables;

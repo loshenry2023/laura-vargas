@@ -15,7 +15,7 @@ const validateClientInput = (data) => {
   }
 
   if (!data.email) {
-    validationErrors.email = "Ingrese un correo electrónico";
+    validationErrors.email = "Ingresa un correo electrónico";
   } else if (!emailPattern.test(data.email)) {
     validationErrors.email = "Correo electrónico no válido";
   }
@@ -33,19 +33,19 @@ const validateClientInput = (data) => {
   }
 
   if (!data.phoneNumber1 || !numberPattern.test(data.phoneNumber1)) {
-    validationErrors.phoneNumber1 = "Debe ingresar números";
+    validationErrors.phoneNumber1 = "El teléfono no puede estar vacío";
   } else if (!data.phoneNumber1 || !phonePattern.test(data.phoneNumber1)) {
-    validationErrors.phoneNumber1 = "Ingrese teléfono válido, 8-15 dig";
+    validationErrors.phoneNumber1 = "Ingresa teléfono válido, 8-15 dig";
   } 
 
   if (data.phoneNumber2 === "") {
     null
    }  if (data.phoneNumber2 && !phonePattern.test(data.phoneNumber2)) {
-    validationErrors.phoneNumber2 = "Ingrese teléfono válido, 8-15 dig";
+    validationErrors.phoneNumber2 = "Ingresa teléfono válido, 8-15 dig";
   }
 
   if (isDateHigherThanToday(data.birthday)) {
-    validationErrors.birthday = "Ingrese una fecha anterior al día de hoy"
+    validationErrors.birthday = "Ingresa una fecha anterior al día de hoy"
   }
 
   if (!data.id_pers) {

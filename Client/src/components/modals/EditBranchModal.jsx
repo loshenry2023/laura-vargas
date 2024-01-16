@@ -5,14 +5,17 @@ import { toast } from 'react-hot-toast'
 import branchValidation from '../../functions/createBranchValidations';
 import { IoClose } from 'react-icons/io5';
 import getParamsEnv from '../../functions/getParamsEnv'
+import Loader from '../Loader'
 
 
 const { API_URL_BASE } = getParamsEnv()
 
 const EditBranchModal = ({ aux, setAux, setShowEditBranchModal, token, filaBranch }) => {
 
-    console.log(filaBranch)
+ 
 
+    const [submitLoader, setSubmitLoader] = useState(false)
+    const [disableSubmit, setDisableSubmit] = useState(false)
 
     const [newBranch, setNewBranch] = useState({
         name: filaBranch.branchName,
@@ -73,6 +76,10 @@ const EditBranchModal = ({ aux, setAux, setShowEditBranchModal, token, filaBranc
         }
     
         try {
+
+            setDisableSubmit(true)
+            setSubmitLoader(true)
+
             const data = {
                 branchName: newBranch.name,
                 address: newBranch.address,
@@ -90,11 +97,13 @@ const EditBranchModal = ({ aux, setAux, setShowEditBranchModal, token, filaBranc
             );
     
             if (response.data.updated === "ok") {
+                setSubmitLoader(false)
                 setAux(!aux)
                 toast.success("Sede editada exitosamente");
     
                 setTimeout(() => {
                     closeModal();
+                    setDisableSubmit()
                     setNewBranch({
                         name: "",
                         address: "",
@@ -103,6 +112,8 @@ const EditBranchModal = ({ aux, setAux, setShowEditBranchModal, token, filaBranc
                     });
                 }, 3000);
             } else {
+                setDisableSubmit(false)
+                setSubmitLoader(false)
                 toast.error("Hubo un problema con la edición");
             }
         } catch (error) {
@@ -187,12 +198,17 @@ const EditBranchModal = ({ aux, setAux, setShowEditBranchModal, token, filaBranc
 
 
                             <div className="flex justify-center items-center pt-4">
-                                <button
+                               
+                                {!submitLoader ?
+                                    <button
                                     type="submit"
+                                    disabled={disableSubmit}
                                     className="mt-2 px-4 py-2 w-fit rounded bg-primaryPink shadow shadow-black text-black hover:bg-blue-600 focus:outline-none transition-colors dark:text-darkText dark:bg-darkPrimary dark:hover:bg-blue-600"
                                 >
                                     Editar sede
-                                </button>
+                                </button> :
+                <Loader />
+              }
                             </div>
                         </form>
                     </div>

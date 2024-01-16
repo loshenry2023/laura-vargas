@@ -35,10 +35,10 @@ const ServicesTable = () => {
     console.log("cambio")
     dispatch(getServices({ token }));
     setIsLoading(false)
-  
+
   }, [token, aux]);
 
-  
+
   const handleDelete = async () => {
     try {
       const response = await axios.post(
@@ -81,15 +81,15 @@ const ServicesTable = () => {
     setShowCreateServiceModal(true)
   }
 
- 
+
 
   const handleEditServiceModal = (filaService) => {
     setShowEditServiceModal(true)
     setFilaService(filaService)
   }
 
-  
-  if(!isLoading) {
+
+  if (!isLoading) {
     return (
       <>
         <div>
@@ -118,41 +118,43 @@ const ServicesTable = () => {
                 </tr>
               </thead>
               <tbody>
-                {services.map((fila, index) => (
-                  <tr
-                    key={index}
-                    className=" text-xs hover:bg-gray-200 cursor-pointer dark:hover:bg-gray-200 dark:hover:text-black"
-                  >
-                    <td className="px-4 py-4">{fila.serviceName}</td>
-                    <td className="px-4 py-4">{fila.Specialties[0]?.specialtyName || '-'}</td>
-                    <td className="px-4 py-4">{fila.duration} Mins</td>
-                    <td className="px-4 py-4">${fila.price}</td>
-                    <td className="px-4 py-4">
-                      <img className='h-8 w-8' src={fila.ImageService} alt={fila.serviceName} />
-                    </td>
-                    <td className="px-4 py-4">
-                      <button
-                        className=" hover:bg-blue-700 text-black px-2 py-1 rounded mr-2"
-                        onClick={() => handleEditServiceModal(fila)}
-                      >
-                        <MdEdit size={25} />
-  
-                      </button>
-                      <button
-                        className=" hover:bg-red-700 text-black px-2 py-1 rounded"
-                        onClick={() => handleDeleteModal(fila.id)}
-                      >
-                        <MdDeleteForever size={25} />
-                      </button>
-                    </td>
-                  </tr>
-                ))}
+                {services
+                  .slice()
+                  .sort((a, b) => a.serviceName.localeCompare(b.serviceName))
+                  .map((fila, index) => (
+                    <tr
+                      key={index}
+                      className=" text-xs hover:bg-gray-200 cursor-pointer dark:hover:bg-gray-200 dark:hover:text-black"
+                    >
+                      <td className="px-4 py-4">{fila.serviceName}</td>
+                      <td className="px-4 py-4">{fila.Specialties[0]?.specialtyName || '-'}</td>
+                      <td className="px-4 py-4">{fila.duration} Mins</td>
+                      <td className="px-4 py-4">${fila.price}</td>
+                      <td className="px-4 py-4">
+                        <img className='h-8 w-8' src={fila.ImageService} alt={fila.serviceName} />
+                      </td>
+                      <td className="px-4 py-4">
+                        <button
+                          className=" hover:bg-blue-700 text-black px-2 py-1 rounded mr-2"
+                          onClick={() => handleEditServiceModal(fila)}
+                        >
+                          <MdEdit size={25} />
+                        </button>
+                        <button
+                          className=" hover:bg-red-700 text-black px-2 py-1 rounded"
+                          onClick={() => handleDeleteModal(fila.id)}
+                        >
+                          <MdDeleteForever size={25} />
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
               </tbody>
             </table>
           </div>
         </div>
         {showCreateServiceModal &&
-          <CreateServiceModal aux={aux} setAux={setAux}  token={token} setShowCreateServiceModal={setShowCreateServiceModal} specialties={specialties} />
+          <CreateServiceModal aux={aux} setAux={setAux} token={token} setShowCreateServiceModal={setShowCreateServiceModal} specialties={specialties} />
         }
         {showEditServiceModal &&
           <EditServiceModal aux={aux} setAux={setAux} filaService={filaService} token={token} setShowEditServiceModal={setShowEditServiceModal} specialties={specialties} />
@@ -191,8 +193,8 @@ const ServicesTable = () => {
       <p>cargando</p>
     )
   }
-  
-  
+
+
 };
 
 export default ServicesTable;

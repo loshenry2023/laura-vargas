@@ -1,11 +1,10 @@
 //hooks,reducer, componentes
 import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux';
 import axios from "axios"
 import { toast } from 'react-hot-toast'
+import Loader from '../Loader'
 
-
-import { useLocation } from 'react-router-dom';
+;
 
 //icons
 import { IoClose } from 'react-icons/io5';
@@ -49,7 +48,9 @@ const EditServiceModal = ({ aux, setAux, filaService, setShowEditServiceModal, s
     });
 
 
-    console.log(specialties, "en modal")
+    const [submitLoader, setSubmitLoader] = useState(false)
+    const [disableSubmit, setDisableSubmit] = useState(false)
+ 
 
     const closeModal = () => {
         console.log("closing")
@@ -119,6 +120,10 @@ const EditServiceModal = ({ aux, setAux, filaService, setShowEditServiceModal, s
         }
     
         try {
+
+            setDisableSubmit(true)
+            setSubmitLoader(true)
+
             const data = {
                 serviceName: service.name,
                 duration: service.duration,
@@ -131,11 +136,15 @@ const EditServiceModal = ({ aux, setAux, filaService, setShowEditServiceModal, s
             const response = await axios.put(`${API_URL_BASE}/service/${filaService.id}`, data);
     
             if (response.data.updated === "ok") {
+        
+                setSubmitLoader(false)
                 setAux(!aux)
                 toast.success("Procedimiento modificado exitosamente");
     
                 setTimeout(() => {
                     closeModal();
+                    setDisableSubmit(false)
+                
                     setService({
                         name: "",
                         specialty: {
@@ -148,6 +157,8 @@ const EditServiceModal = ({ aux, setAux, filaService, setShowEditServiceModal, s
                     });
                 }, 3000);
             } else {
+                setSubmitLoader(false)
+                setDisableSubmit(false)
                 toast.error("Hubo un problema con la modificación");
             }
         } catch (error) {
@@ -236,12 +247,17 @@ const EditServiceModal = ({ aux, setAux, filaService, setShowEditServiceModal, s
 
 
                             <div className="flex justify-center items-center">
-                                <button
+                               
+                                {!submitLoader ?
+                                    <button
                                     type="submit"
+                                    disabled={disableSubmit}
                                     className="mt-2 px-4 py-2 w-fit rounded bg-primaryPink shadow shadow-black text-black hover:bg-blue-600 focus:outline-none transition-colors dark:text-darkText dark:bg-darkPrimary dark:hover:bg-blue-600"
                                 >
                                     Editar procedimiento
-                                </button>
+                                </button> :
+                <Loader />
+              }
                             </div>
                         </form>
                     </div>

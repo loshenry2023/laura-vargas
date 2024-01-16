@@ -16,19 +16,23 @@ import { Toaster, toast } from 'react-hot-toast'
 //Variables de entorno
 import getParamsEnv from '../../functions/getParamsEnv';
 import { useSelector } from 'react-redux';
+import Loader from '../Loader'
 const { API_URL_BASE } = getParamsEnv()
 
 function RegisterForm({ setShowResgisterFormModal, branches, specialties, tokenID, activarNuevoUsuario, setActivarNuevoUsuario }) {
 
-useEffect(() => {
+  const [submitLoader, setSubmitLoader] = useState(false)
+  const [disableSubmit, setDisableSubmit] = useState(false)
+
+  useEffect(() => {
     const close = (e) => {
-      if(e.keyCode === 27){
+      if (e.keyCode === 27) {
         setShowResgisterFormModal(false);
       }
     }
     window.addEventListener('keydown', close)
     return () => window.removeEventListener('keydown', close)
-},[])
+  }, [])
 
   const roles = ["superAdmin", "admin", "especialista"];
   const user = useSelector(state => state?.user)
@@ -100,6 +104,8 @@ useEffect(() => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+  
+
     const validationErrors = validateRegisterInput(userData);
     setErrors(validationErrors);
 
@@ -107,6 +113,9 @@ useEffect(() => {
 
     if (hasErrors) {
     } else {
+
+      setSubmitLoader(true)
+      setDisableSubmit(true)
       try {
         const data = {
           name: userData.name,
@@ -135,6 +144,7 @@ useEffect(() => {
         if (response.data.created === "ok") {
           toast.success("Usuario creado exitosamente")
           setActivarNuevoUsuario(!activarNuevoUsuario)
+          setSubmitLoader(false)
           setTimeout(() => {
             setUserData(
               {
@@ -151,11 +161,14 @@ useEffect(() => {
                 notificationEmail: ""
               }
             )
+        
             closeModal();
+            setDisableSubmit(false)
 
             axios.post(`${API_URL_BASE}/sendmail`, sendEmail)
           }, 3000);
         } else {
+          setSubmitLoader(false)
           toast.error("Hubo un problema con la creación")
         }
       } catch (error) {
@@ -336,13 +349,17 @@ useEffect(() => {
                   </div>
                 </div>
               </div>
-              <button
-                type="submit"
-                id="theme-toggle"
-                className="px-4 py-2 w-full rounded bg-primaryPink shadow shadow-black text-black hover:bg-blue-600 focus:outline-none transition-colors dark:text-darkText dark:bg-darkPrimary dark:hover:bg-blue-600"
-              >
-                Crear nuevo usuario
-              </button>
+              {!submitLoader ?
+                <button
+                  type="submit"
+                  id="theme-toggle"
+                  className="px-4 py-2 w-full rounded bg-primaryPink shadow shadow-black text-black hover:bg-blue-600 focus:outline-none transition-colors dark:text-darkText dark:bg-darkPrimary dark:hover:bg-blue-600"
+                  disabled={disableSubmit}
+                >
+                  Crear nuevo usuario
+                </button> :
+                <Loader />
+              }
             </form>
           </div>
         </div>

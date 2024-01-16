@@ -14,6 +14,7 @@ import validateClientInput from '../../functions/registerClient';
 import getParamsEnv from '../../functions/getParamsEnv';
 import converterGMT from '../../functions/converteGMT';
 const { API_URL_BASE } = getParamsEnv()
+import Loader from '../Loader';
 
 const EditClient = ({setShowEditModal, clientInfo, setClientRender,clientRender, detailId}) => {
 
@@ -42,6 +43,8 @@ const EditClient = ({setShowEditModal, clientInfo, setClientRender,clientRender,
       const [errors, setErrors] = useState({
       });
 
+      const [submitLoader, setSubmitLoader] = useState(false)
+      const [disableSubmit, setDisableSubmit] = useState(false) 
 
     const closeModal = () => {
         setShowEditModal(false)
@@ -75,6 +78,10 @@ const EditClient = ({setShowEditModal, clientInfo, setClientRender,clientRender,
     if (hasErrors) {
     } else {
       try {
+
+        setDisableSubmit(true)
+        setSubmitLoader(true)
+
         const data = {
           email: client.email,
           name: client.name,
@@ -91,8 +98,10 @@ const EditClient = ({setShowEditModal, clientInfo, setClientRender,clientRender,
         
         if (response.data.updated === "ok") {
         toast.success("Cliente modificado exitosamente")
+        setSubmitLoader(false)
         setTimeout(() => {
         closeModal();
+        setDisableSubmit(false)
         setClient(
             {
                 email: "",
@@ -106,6 +115,8 @@ const EditClient = ({setShowEditModal, clientInfo, setClientRender,clientRender,
             }
         )}, 3000);
         } else {
+            setSubmitLoader(false)
+                    setDisableSubmit(false)
             toast.error("Hubo un problema con la modificación")
           }
     } catch (error) {
@@ -225,12 +236,17 @@ const EditClient = ({setShowEditModal, clientInfo, setClientRender,clientRender,
                             </div>
                             </div>
                         </div>
-                        <button
+                        
+                        {!submitLoader ?
+                            <button
                             type="submit"
+                            disabled={disableSubmit}
                             className="mt-2 px-4 py-2 w-full rounded bg-primaryPink shadow shadow-black text-black hover:bg-blue-600 focus:outline-none transition-colors dark:text-darkText dark:bg-darkPrimary dark:hover:bg-blue-600"
                         >
                             Modificar cliente
-                        </button>
+                        </button> :
+                <Loader />
+              }
                         </form>
                     </div>
                 </div>

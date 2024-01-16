@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 
 import axios from "axios"
 import { toast } from 'react-hot-toast'
-
+import Loader from '../Loader'
 
 
 
@@ -26,6 +26,9 @@ const CreateSpecialtyModal = ({aux, setAux, setShowCreateSpecialtyModal, token }
     const [Specialty, setSpecialty] = useState({
         name: ""
     })
+
+    const [submitLoader, setSubmitLoader] = useState(false)
+    const [disableSubmit, setDisableSubmit] = useState(false)
 
     const [errors, setErrors] = useState({
     });
@@ -84,6 +87,9 @@ const CreateSpecialtyModal = ({aux, setAux, setShowCreateSpecialtyModal, token }
         }
     
         try {
+
+            setDisableSubmit(true)
+            setSubmitLoader(true)
             const data = {
     
                 specialtyName: Specialty.name,
@@ -94,20 +100,25 @@ const CreateSpecialtyModal = ({aux, setAux, setShowCreateSpecialtyModal, token }
             const response = await axios.post(`${API_URL_BASE}/specialty`, data);
     
             if (response.data.created === "ok") {
+                
+            setSubmitLoader(false)
                 setAux(!aux)
                 toast.success("Especialidad creada exitosamente");
     
                 setTimeout(() => {
                     closeModal();
+                    setDisableSubmit(false)
                     setSpecialty({
                         name: "",
                     })
-                }, 3000);
+                }, 2000);
             } else {
+                setDisableSubmit(false)
+            setSubmitLoader(false)
                 toast.error("Hubo un problema con la creación");
             }
         } catch (error) {
-            toast.error(`Hubo un problema con la creación. ${error.response.data}`);
+            toast.error(`Hubo un problema con la creación. ${error}`);
         }
     };
     
@@ -153,12 +164,17 @@ const CreateSpecialtyModal = ({aux, setAux, setShowCreateSpecialtyModal, token }
 
 
                             <div className="flex justify-center items-center">
-                                <button
+                               
+                                {!submitLoader ?
+                                    <button
                                     type="submit"
+                                    disabled={disableSubmit}
                                     className="mt-2 px-4 py-2 w-fit rounded bg-primaryPink shadow shadow-black text-black hover:bg-blue-600 focus:outline-none transition-colors dark:text-darkText dark:bg-darkPrimary dark:hover:bg-blue-600"
                                 >
                                     Crear Especialidad
-                                </button>
+                                </button> :
+                <Loader />
+              }
                             </div>
                         </form>
                     </div>

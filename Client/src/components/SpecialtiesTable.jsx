@@ -15,7 +15,7 @@ import { getSpecialties } from '../redux/actions';
 const { API_URL_BASE } = getParamsEnv()
 
 
-const SpecialtiesTable = ( {branches}) => {
+const SpecialtiesTable = ({ branches }) => {
 
   const [showCreateSpecialtyModal, setShowCreateSpecialtyModal] = useState(false)
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false)
@@ -32,14 +32,14 @@ const SpecialtiesTable = ( {branches}) => {
   useEffect(() => {
     console.log("entrando")
     setIsLoading(true)
-    dispatch(getSpecialties({token}))
+    dispatch(getSpecialties({ token }))
     setIsLoading(false)
 
-  },[aux])
+  }, [aux])
 
 
 
-  
+
   const handleDelete = async () => {
     try {
       const response = await axios.post(
@@ -83,7 +83,7 @@ const SpecialtiesTable = ( {branches}) => {
     setShowCreateSpecialtyModal(true)
   }
 
- 
+
 
   const handleEditSpecialtyModal = (filaSpecialty) => {
     setShowEditSpecialtyModal(true)
@@ -100,45 +100,45 @@ const SpecialtiesTable = ( {branches}) => {
                 <th scope="col" className="px-4 py-3">
                   Nombre
                 </th>
-                
+
                 <th scope="col" className="px-4 py-3">
                   <button className='flex flex-row gap-1 p-2 rounded-full hover:bg-primaryPink' onClick={handleShowCreateModal}><IoIosAddCircle size={20} /> Agregar</button>
                 </th>
               </tr>
             </thead>
             <tbody>
-              {specialties.map((fila, index) => (
-                <tr
-                  key={index}
-                  className="text-xs hover:bg-gray-200 cursor-pointer dark:hover:bg-gray-200 dark:hover:text-black"
-                >
-                  <td className="px-4 py-4">{fila.specialtyName}</td>
-                 
-              
-                  
-                  <td className="px-4 py-4">
-                    <button
-                      className=" hover:bg-blue-700 text-black px-2 py-1 rounded mr-2"
-                      onClick={() => handleEditSpecialtyModal(fila)}
-                    >
-                      <MdEdit size={25} />
+              {specialties
+                .slice()
+                .sort((a, b) => a.specialtyName.localeCompare(b.specialtyName))
+                .map((fila, index) => (
+                  <tr
+                    key={index}
+                    className="text-xs hover:bg-gray-200 cursor-pointer dark:hover:bg-gray-200 dark:hover:text-black"
+                  >
+                    <td className="px-4 py-4">{fila.specialtyName}</td>
 
-                    </button>
-                    <button
-                      className=" hover:bg-red-700 text-black px-2 py-1 rounded"
-                      onClick={() => handleDeleteModal(fila.id)}
-                    >
-                      <MdDeleteForever size={25} />
-                    </button>
-                  </td>
-                </tr>
-              ))}
+                    <td className="px-4 py-4">
+                      <button
+                        className="hover:bg-blue-700 text-black px-2 py-1 rounded mr-2"
+                        onClick={() => handleEditSpecialtyModal(fila)}
+                      >
+                        <MdEdit size={25} />
+                      </button>
+                      <button
+                        className="hover:bg-red-700 text-black px-2 py-1 rounded"
+                        onClick={() => handleDeleteModal(fila.id)}
+                      >
+                        <MdDeleteForever size={25} />
+                      </button>
+                    </td>
+                  </tr>
+                ))}
             </tbody>
           </table>
         </div>
       </div>
       {showCreateSpecialtyModal &&
-        <CreateSpecialtyModal aux={aux} setAux={setAux}  token={token} setShowCreateSpecialtyModal={setShowCreateSpecialtyModal} />
+        <CreateSpecialtyModal aux={aux} setAux={setAux} token={token} setShowCreateSpecialtyModal={setShowCreateSpecialtyModal} />
       }
       {showEditSpecialtyModal &&
         <EditSpecialtyModal aux={aux} setAux={setAux} filaSpecialty={filaSpecialty} token={token} setShowEditSpecialtyModal={setShowEditSpecialtyModal} specialties={specialties} />

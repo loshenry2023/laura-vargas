@@ -8,7 +8,7 @@ import getParamsEnv from '../../functions/getParamsEnv';
 
 import validateEditAppointment from '../../functions/editAppointment';
 import { useNavigate } from 'react-router-dom';
-
+import Loader from '../Loader';
 const { API_URL_BASE } = getParamsEnv();
 
 const EditAppointment = ({ setShowEditAppointment, setSpecialty, token, date, services, users, setRefrescarCita, refrescarCita, chosenClient }) => {
@@ -29,6 +29,10 @@ const EditAppointment = ({ setShowEditAppointment, setSpecialty, token, date, se
   const dispatch = useDispatch();
   const currentDate = new Date();
   const allBranches = useSelector((state) => state?.branches);
+
+  const [submitLoader, setSubmitLoader] = useState(false)
+  const [disableSubmit, setDisableSubmit] = useState(false)
+
 
   const filteredBranch = allBranches.find(branch => branch.branchName === workingBranch.branchName)
   const address = filteredBranch.address
@@ -224,7 +228,7 @@ const EditAppointment = ({ setShowEditAppointment, setSpecialty, token, date, se
 
   useEffect(() => {
     const close = (e) => {
-      if(e.keyCode === 27){
+      if (e.keyCode === 27) {
         closeModal()
       }
     }
@@ -280,6 +284,10 @@ const EditAppointment = ({ setShowEditAppointment, setSpecialty, token, date, se
 
 
     try {
+
+      setDisableSubmit(true)
+      setSubmitLoader(true)
+
       const response = await axios.put(`${API_URL_BASE}/calendar/${date.id}`, data);
 
       const place = address.includes("Restrepo") ? 'https://maps.app.goo.gl/mjDcG7ZvJjjW6HzGA' : 'https://maps.app.goo.gl/urGxSpTtibWLYTsF8'
@@ -297,14 +305,20 @@ const EditAppointment = ({ setShowEditAppointment, setSpecialty, token, date, se
 
 
       if (response.data.updated === "ok") {
+
+
+        setSubmitLoader(false)
         toast.success("Cita actualizada exitosamente");
         setTimeout(() => {
           closeModal();
+          setDisableSubmit(true)
         }, 3000);
 
         axios.post(`${API_URL_BASE}/sendmail`, sendEmail)
         setRefrescarCita(!refrescarCita);
       } else {
+        setSubmitLoader(false)
+        setDisableSubmit(false)
         toast.error("Hubo un problema al modificar la cita");
       }
     } catch (error) {
@@ -460,13 +474,18 @@ const EditAppointment = ({ setShowEditAppointment, setSpecialty, token, date, se
                 )}
               </div>
 
-              <button
-                type="submit"
-                id="theme-toggle"
-                className="px-4 py-2 w-full rounded bg-primaryPink shadow shadow-black text-black hover:bg-blue-600 focus:outline-none transition-colors dark:text-darkText dark:bg-darkPrimary dark:hover:bg-blue-600"
-              >
-                Editar Cita
-              </button>
+
+              {!submitLoader ?
+                <button
+                  type="submit"
+                  id="theme-toggle"
+                  disabled={disableSubmit}
+                  className="px-4 py-2 w-full rounded bg-primaryPink shadow shadow-black text-black hover:bg-blue-600 focus:outline-none transition-colors dark:text-darkText dark:bg-darkPrimary dark:hover:bg-blue-600"
+                >
+                  Editar Cita
+                </button> :
+                <Loader />
+              }
             </form>
           </div>
         </div>

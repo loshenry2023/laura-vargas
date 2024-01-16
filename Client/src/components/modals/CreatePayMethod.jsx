@@ -3,6 +3,8 @@ import React, { useEffect, useState } from 'react'
 
 import axios from "axios"
 import { toast } from 'react-hot-toast'
+import Loader from '../Loader'
+
 
 
 
@@ -22,6 +24,10 @@ const { API_URL_BASE } = getParamsEnv()
 
 const CreatePayMethodModal = ({ aux, setAux, setShowCreatePayMethodModal, token }) => {
 
+
+    const [submitLoader, setSubmitLoader] = useState(false)
+    const [disableSubmit, setDisableSubmit] = useState(false)
+  
 
     const [PayMethod, setPayMethod] = useState({
         name: ""
@@ -84,6 +90,10 @@ const CreatePayMethodModal = ({ aux, setAux, setShowCreatePayMethodModal, token 
         }
     
         try {
+
+            setDisableSubmit(true)
+            setSubmitLoader(true)
+
             const data = {
     
                 paymentMethodName: PayMethod.name,
@@ -94,16 +104,20 @@ const CreatePayMethodModal = ({ aux, setAux, setShowCreatePayMethodModal, token 
             const response = await axios.post(`${API_URL_BASE}/payment`, data);
     
             if (response.data.created === "ok") {
+                setSubmitLoader(false)
                 setAux(!aux)
                 toast.success("Método de pago creado exitosamente");
     
                 setTimeout(() => {
                     closeModal();
+                    setDisableSubmit(false)
                     setPayMethod({
                         name: "",
                     })
                 }, 3000);
             } else {
+                setSubmitLoader(false)
+                setDisableSubmit(false)
                 toast.error("Hubo un problema con la creación");
             }
         } catch (error) {
@@ -152,12 +166,17 @@ const CreatePayMethodModal = ({ aux, setAux, setShowCreatePayMethodModal, token 
 
 
                             <div className="flex justify-center items-center">
-                                <button
+                                
+                                {!submitLoader ?
+                                    <button
                                     type="submit"
+                                    disabled={disableSubmit}
                                     className="mt-2 px-4 py-2 w-fit rounded bg-primaryPink shadow shadow-black text-black hover:bg-blue-600 focus:outline-none transition-colors dark:text-darkText dark:bg-darkPrimary dark:hover:bg-blue-600"
                                 >
                                     Crear método de pago
-                                </button>
+                                </button> :
+                <Loader />
+              }
                             </div>
                         </form>
                     </div>

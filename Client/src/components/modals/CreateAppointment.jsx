@@ -15,6 +15,7 @@ import formatDate from '../../functions/formatDate';
 //var de entorno
 import getParamsEnv from '../../functions/getParamsEnv';
 const { API_URL_BASE, AGENDA } = getParamsEnv()
+import Loader from '../Loader'
 
 
 const CreateAppointment = ({ setShowAppointmentModal, setChosenClient, dateInfo, setDateInfo, token, formattedDate, setRefrescarCita, refrescarCita, chosenClient, branches }) => {
@@ -31,7 +32,8 @@ const CreateAppointment = ({ setShowAppointmentModal, setChosenClient, dateInfo,
         return () => window.removeEventListener('keydown', close)
       }, [])
 
-
+    const [submitLoader, setSubmitLoader] = useState(false)
+  const [disableSubmit, setDisableSubmit] = useState(false)
     const userSpecialist = useSelector((state) => state?.user)
     const workingBranch = useSelector((state) => state?.workingBranch)
     const [validationErrors, setValidationErrors] = useState({});
@@ -114,10 +116,12 @@ const CreateAppointment = ({ setShowAppointmentModal, setChosenClient, dateInfo,
         const formattedDateTo = `${AppointmentInfo.date} ${AppointmentInfo.date_to}`;
 
 
-        //console.log("al grabar ", formattedDateFrom)
-
 
         try {
+
+            setDisableSubmit(true)
+            setSubmitLoader(true)
+
             const data = {
                 date_from: formattedDateFrom,
                 date_to: formattedDateTo,
@@ -145,9 +149,11 @@ const CreateAppointment = ({ setShowAppointmentModal, setChosenClient, dateInfo,
             }
 
             if (response.data.created === "ok") {
+            setSubmitLoader(false)
                 toast.success("Cita creada exitosamente");
                 setTimeout(() => {
                     closeModal();
+                    setDisableSubmit(true)
                 }, 3000);
                 setDateInfo({
                     ...dateInfo,
@@ -175,6 +181,8 @@ const CreateAppointment = ({ setShowAppointmentModal, setChosenClient, dateInfo,
                 axios.post(`${API_URL_BASE}/sendmail`, sendEmail);
                 setRefrescarCita(!refrescarCita);
             } else {
+                setSubmitLoader(false)
+                    setDisableSubmit(false)
                 toast.error("Hubo un problema con la creación");
             }
         } catch (error) {
@@ -323,13 +331,18 @@ const CreateAppointment = ({ setShowAppointmentModal, setChosenClient, dateInfo,
                                 />
                             </div>
 
-                            <button
+                            
+                            {!submitLoader ?
+                                <button
                                 type="submit"
                                 id="theme-toggle"
+                                disabled={disableSubmit}
                                 className="px-4 py-2 w-full rounded bg-primaryPink shadow shadow-black text-black hover:bg-blue-600 focus:outline-none transition-colors dark:text-darkText dark:bg-darkPrimary dark:hover:bg-blue-600"
                             >
                                 Crear Cita
-                            </button>
+                            </button> :
+                <Loader />
+              }
                         </form>
                     </div>
                 </div>
