@@ -38,6 +38,7 @@ const ClientInfo = () => {
   const [showEditModal, setShowEditModal] = useState(false);
   const token = useSelector(state => state?.token)
   const clientInfo = useSelector(state => state?.clientID)
+  const user = useSelector(state => state?.user)
   const [clientRender, setClientRender] = useState(false)
 
 
@@ -95,9 +96,10 @@ const ClientInfo = () => {
                 onClick={handleShowEditModal}
                 className="h-8 w-8 hover:text-primaryPink hover:animate-bounce cursor-pointer delay-200 dark:text-darkText dark:hover:text-primaryPink"
               />
+              {user.role !== "superAdmin" ? null :
               <MdDelete
                 onClick={confirmDelete} className="h-8 w-8 hover:text-red-600 hover:animate-bounce cursor-pointer delay-200 dark:text-darkText dark:hover:text-red-600"
-              />
+              /> }
             </div>
             <IoMdArrowRoundBack onClick={handleGoBack} className="m-1 absolute top-0 left-0 cursor-pointer h-8 w-8 text-primaryPink  dark:text-darkText" />
 
