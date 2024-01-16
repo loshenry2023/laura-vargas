@@ -28,6 +28,8 @@ const Agenda = () => {
 
   const formattedDate = `${year}-${month}-${day}`;
 
+
+
   const branches = useSelector((state) => state?.branches);
   const tokenID = useSelector((state) => state?.token);
   const workingBranch = useSelector((state) => state?.workingBranch);
@@ -53,6 +55,7 @@ const Agenda = () => {
   const [showAppointmentModal, setShowAppointmentModal] = useState(false);
   const [showEditAppointment, setShowEditAppointment] = useState(false);
 
+
   const [dateInfo, setDateInfo] = useState({
     client: {
       id: "",
@@ -66,7 +69,7 @@ const Agenda = () => {
     service: {
       id: "",
       serviceName: "",
-      specialtyName: "",
+      specialtyName: ""
     },
     specialist: {
       id: "",
@@ -75,6 +78,8 @@ const Agenda = () => {
     },
     dateTime: formattedDate,
   });
+
+  console.log(dateInfo)
 
   const [isFormCompleted, setIsFormCompleted] = useState(false);
 
@@ -139,6 +144,7 @@ const Agenda = () => {
             name: "",
           },
         }));
+
       } else {
         const parsedValue = JSON.parse(value);
         setSpecialty(parsedValue.Specialties[0].specialtyName);
@@ -148,7 +154,7 @@ const Agenda = () => {
           service: {
             id: parsedValue.id,
             name: parsedValue.serviceName,
-            specialtyName: parsedValue.Specialties[0].specialtyName,
+            specialtyName: parsedValue.Specialties[0].specialtyName
           },
         }));
 
@@ -207,7 +213,9 @@ const Agenda = () => {
   }, [chosenClient]);
 
   if (tokenError === 401 || tokenError === 403) {
-    return <ErrorToken error={tokenError} />;
+    return (
+      <ErrorToken error={tokenError} />
+    );
   } else {
     return (
       <div>
@@ -235,13 +243,11 @@ const Agenda = () => {
               </h1>
               {user.role === "especialista" ? null : (
                 <section className="shadow shadow-black rounded-xl p-5 mb-10 bg-secondaryPink dark:bg-darkPrimary dark:shadow-darkText">
-                  <h1 className="text-xl text-center lg:text-left dark:text-darkText mb-2">
-                    Agendar cita
-                  </h1>
-                  <div className="flex flex-col items-center gap-5 lg:flex-row">
-                    <div className="flex flex-row sm:gap-5 ">
+                  <h1 className="text-xl dark:text-darkText mb-2">Agendar cita</h1>
+                  <div className="flex flex-col items-center gap-5 md:flex-row">
+                    
                       <FaPlusCircle
-                        className="mt-4 mr-5 sm:mt-1.5 sm:mr-0 cursor-pointer dark:text-darkText"
+                        className="mt-1.5 cursor-pointer dark:text-darkText"
                         onClick={() => setShowClientListModal(true)}
                       />
 
@@ -252,50 +258,53 @@ const Agenda = () => {
                         disabled
                         className="w-full sm:w-60 pl-2 bg-white resize-y border mt-3 sm:mt-0 sm:mr-2 border-black rounded-md text-md dark:text-darkText dark:bg-darkPrimary dark:border-darkText"
                       />
-                    </div>
+                    
 
                     {!showEditAppointment && (
-                      <>
-                        <select
-                          name="service"
-                          className="w-full mt-3 sm:mt-0 sm:w-60 pl-2 border border-black rounded-md text-md dark:text-darkText dark:bg-darkPrimary dark:border-darkText md:w-64"
-                          value={JSON.stringify(dateInfo.service)}
-                          onChange={handleChange}
-                        >
+                      <select
+                        name="service"
+                        id=""
+                        className="w-full mt-3 sm:mt-0 sm:w-60 pl-2 border border-black rounded-md text-md dark:text-darkText dark:bg-darkPrimary dark:border-darkText md:w-64"
+                        onChange={handleChange}
+                      >
+                        <option defaultValue={dateInfo.service.id ? false : true} value={JSON.stringify({ Specialties: [{ specialtyName: "noneSpecialty" }] })}>
+                          Procedimientos
+                        </option>
+                        {services.map((service, index) => (
                           <option
-                            value={JSON.stringify({
-                              Specialties: [{ specialtyName: "noneSpecialty" }],
-                            })}
+                            key={index}
+                            value={JSON.stringify(service)}
+                            selected={dateInfo.service.id === service.id ? true : false}
                           >
-                            Procedimientos
+                            {service.serviceName}
                           </option>
-                          {services.map((service, index) => (
-                            <option key={index} value={JSON.stringify(service)}>
-                              {service.serviceName}
-                            </option>
-                          ))}
-                        </select>
+                        ))}
+                      </select>
+                    )}
 
-                        <select
-                          name="specialist"
-                          className="w-full mt-3 sm:mt-0 sm:w-60 pl-2 border border-black rounded-md text-md dark:text-darkText dark:bg-darkPrimary dark:border-darkText md:w-64"
-                          value={JSON.stringify(dateInfo.specialist)}
-                          onChange={handleChange}
-                        >
-                          <option value="null">-- Especialista--</option>
-                          {users.map(
-                            (user, index) =>
-                              user.role === "especialista" && (
-                                <option
-                                  key={index}
-                                  value={JSON.stringify(user)}
-                                >
-                                  {user.name} {user.lastName}
-                                </option>
-                              )
-                          )}
-                        </select>
-                      </>
+                    {!showEditAppointment && (
+                      <select
+                        onChange={handleChange}
+                        name="specialist"
+                        id=""
+                        className="w-full mt-3 sm:mt-0 sm:w-60 pl-2 border border-black rounded-md text-md dark:text-darkText dark:bg-darkPrimary dark:border-darkText md:w-64"
+                      >
+                        <option defaultValue={dateInfo.specialist.id ? false : true} value="null" selected={dateInfo.specialist.id ? true : false}>
+                          -- Especialista--
+                        </option>
+                        {users.map(
+                          (user, index) =>
+                            user.role === "especialista" && (
+                              <option
+                                key={index}
+                                value={JSON.stringify(user)}
+                                selected={user.id === dateInfo.specialist.id ? true : false}
+                              >
+                                {user.name} {user.lastName}
+                              </option>
+                            )
+                        )}
+                      </select>
                     )}
                   </div>
                 </section>
@@ -320,17 +329,12 @@ const Agenda = () => {
                   <button
                     onClick={handleAppointmentModal}
                     disabled={!isFormCompleted}
-                    className={`rounded mt-auto px-6 py-2 cursor-pointer ${
-                      isFormCompleted ? "bg-primaryPink" : "bg-gray-300"
-                    } shadow shadow-black text-black ${
-                      isFormCompleted
-                        ? "hover:bg-blue-600"
-                        : "cursor-not-allowed"
-                    } focus:outline-none transition-colors dark:text-darkText dark:bg-darkPrimary ${
-                      isFormCompleted
+                    className={`rounded mt-auto px-6 py-2 cursor-pointer ${isFormCompleted ? "bg-primaryPink" : "bg-gray-300"
+                      } shadow shadow-black text-black ${isFormCompleted ? "hover:bg-blue-600" : "cursor-not-allowed"
+                      } focus:outline-none transition-colors dark:text-darkText dark:bg-darkPrimary ${isFormCompleted
                         ? "dark:hover:bg-blue-600"
                         : "dark:cursor-not-allowed"
-                    }`}
+                      }`}
                   >
                     Agregar Cita
                   </button>
