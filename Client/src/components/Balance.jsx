@@ -23,9 +23,8 @@ const Balance = ({ specialists, services, payMethods }) => {
   const year = today.getFullYear();
   const month = today.getMonth() + 1; // Months are zero-indexed, so add 1
   const day = today.getDate();
-  const formattedDate = `${year}-${month < 10 ? "0" + month : month}-${
-    day < 10 ? "0" + day : day
-  }`;
+  const formattedDate = `${year}-${month < 10 ? "0" + month : month}-${day < 10 ? "0" + day : day
+    }`;
   const [showAdditionalCharts, setShowAdditionalCharts] = useState(false);
   const [showDetails, setShowDetails] = useState(false);
 
@@ -134,7 +133,7 @@ const Balance = ({ specialists, services, payMethods }) => {
 
 
   const handleDate = (e) => {
-    if (e.target.name === "dateFrom" && testData.test(e.target.value)){
+    if (e.target.name === "dateFrom" && testData.test(e.target.value)) {
       if (
         e.target.value > fetchDataBalance.dateTo
       ) {
@@ -152,8 +151,8 @@ const Balance = ({ specialists, services, payMethods }) => {
         });
       }
     }
-    
-    if (e.target.name === "dateTo" && testData.test(e.target.value) ){
+
+    if (e.target.name === "dateTo" && testData.test(e.target.value)) {
       if (
         e.target.value < fetchDataBalance.dateFrom
       ) {
@@ -177,8 +176,8 @@ const Balance = ({ specialists, services, payMethods }) => {
     setFetchDataBalance((prevData) => {
       const updatedValue =
         e.target.name === "idPayment" ||
-        e.target.name === "idUser" ||
-        e.target.name === "idService"
+          e.target.name === "idUser" ||
+          e.target.name === "idService"
           ? e.target.value === ""
             ? []
             : [e.target.value]
@@ -362,7 +361,7 @@ const Balance = ({ specialists, services, payMethods }) => {
                   <h1 className="text-center text-2xl dark:text-darkText">
                     {comision
                       ? `Comision: ${comision}%`
-                      : "Seleccione especialista para visualizar comisión"}
+                      : "Selecciona un especialista para visualizar comisión"}
                   </h1>
                 </div>
               </section>
@@ -392,16 +391,16 @@ const Balance = ({ specialists, services, payMethods }) => {
                               style={{
                                 display:
                                   entry &&
-                                  entry.name &&
-                                  entry.name.includes("Total")
+                                    entry.name &&
+                                    entry.name.includes("Total")
                                     ? "none"
                                     : "inline-block",
                                 width: "12px",
                                 height: "12px",
                                 backgroundColor:
                                   colors[
-                                    chartDataPaymentMethods.indexOf(entry) %
-                                      colors.length
+                                  chartDataPaymentMethods.indexOf(entry) %
+                                  colors.length
                                   ],
                                 borderRadius: "50%",
                                 marginRight: "8px",
@@ -420,9 +419,8 @@ const Balance = ({ specialists, services, payMethods }) => {
             </div>
             <section className="mb-10 w-full flex flex-col items-center justify-center">
               <button
-                className={`mt-5 xl:ml-[70px] w-fit p-2 rounded-2xl shadow-md font-bold shadow-black transition duration-700 dark:bg-darkPrimary hover:bg-blue-500 dark:hover:bg-zinc-800 dark:text-darkText ${
-                  showAdditionalCharts ? "bg-blue-500 text-white" : ""
-                }`}
+                className={`mt-5 xl:ml-[70px] w-fit p-2 rounded-2xl shadow-md font-bold shadow-black transition duration-700 dark:bg-darkPrimary hover:bg-blue-500 dark:hover:bg-zinc-800 dark:text-darkText ${showAdditionalCharts ? "bg-blue-500 text-white" : ""
+                  }`}
                 onClick={handleToggleCharts}
               >
                 {showAdditionalCharts ? "Menos informacion" : "Más información"}
