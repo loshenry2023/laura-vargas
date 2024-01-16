@@ -5,6 +5,8 @@ import { toast } from "react-hot-toast";
 import branchValidation from "../../functions/createBranchValidations";
 import { IoClose } from "react-icons/io5";
 import getParamsEnv from "../../functions/getParamsEnv";
+import Loader from '../Loader'
+
 
 const { API_URL_BASE } = getParamsEnv();
 
@@ -22,6 +24,9 @@ const CreateBranchModal = ({
   });
 
   const [errors, setErrors] = useState({});
+
+  const [submitLoader, setSubmitLoader] = useState(false)
+    const [disableSubmit, setDisableSubmit] = useState(false)
 
   const closeModal = () => {
     setShowCreateBranchModal(false);
@@ -55,6 +60,10 @@ const CreateBranchModal = ({
     }
 
     try {
+
+      setDisableSubmit(true)
+      setSubmitLoader(true)
+
       const data = {
         branchName: newBranch.name,
         address: newBranch.address,
@@ -69,11 +78,13 @@ const CreateBranchModal = ({
       const response = await axios.post(`${API_URL_BASE}/branch`, data);
 
       if (response.data.created === "ok") {
+        setSubmitLoader(false)
         setAux(!aux);
         toast.success("Sede creada exitosamente");
 
         setTimeout(() => {
           closeModal();
+          setDisableSubmit(false)
           setNewBranch({
             name: "",
             address: "",
@@ -82,9 +93,13 @@ const CreateBranchModal = ({
           });
         }, 3000);
       } else {
+        setDisableSubmit(false)
+            setSubmitLoader(false)
         toast.error("Hubo un problema con la creación");
       }
     } catch (error) {
+      setDisableSubmit(false)
+            setSubmitLoader(false)
       toast.error(`Hubo un problema con la creación. ${error.response.data}`);
     }
   };
@@ -181,7 +196,7 @@ const CreateBranchModal = ({
                   type="text"
                   name="coordinates"
                   value={newBranch.coordinates}
-                  placeholder="Ingrese sus link de coordenadas"
+                  placeholder="Ingresa sus link de coordenadas"
                   className={`border border-black p-2 rounded w-full ${
                     errors.coordinates !== undefined &&
                     "border-2 border-red-500"
@@ -195,12 +210,16 @@ const CreateBranchModal = ({
               </div>
 
               <div className="flex justify-center items-center pt-4">
-                <button
-                  type="submit"
-                  className="mt-2 px-4 py-2 w-fit rounded bg-primaryPink shadow shadow-black text-black hover:bg-blue-600 focus:outline-none transition-colors dark:text-darkText dark:bg-darkPrimary dark:hover:bg-blue-600"
-                >
-                  Agregar sede
-                </button>
+              {!submitLoader ?
+                                    <button
+                                    type="submit"
+                                    disabled={disableSubmit}
+                                    className="mt-2 px-4 py-2 w-fit rounded bg-primaryPink shadow shadow-black text-black hover:bg-blue-600 focus:outline-none transition-colors dark:text-darkText dark:bg-darkPrimary dark:hover:bg-blue-600"
+                                >
+                                    Agregar sede
+                                </button> :
+                <Loader />
+              }
               </div>
             </form>
           </div>

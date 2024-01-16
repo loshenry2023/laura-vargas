@@ -5,6 +5,7 @@ import { toast } from "react-hot-toast";
 import branchValidation from "../../functions/createBranchValidations";
 import { IoClose } from "react-icons/io5";
 import getParamsEnv from "../../functions/getParamsEnv";
+import Loader from '../Loader'
 
 const { API_URL_BASE } = getParamsEnv();
 
@@ -23,6 +24,9 @@ const EditBranchModal = ({
   });
 
   const [errors, setErrors] = useState({});
+
+  const [submitLoader, setSubmitLoader] = useState(false)
+    const [disableSubmit, setDisableSubmit] = useState(false)
 
   const closeModal = () => {
     setShowEditBranchModal(false);
@@ -67,6 +71,11 @@ const EditBranchModal = ({
     }
 
     try {
+
+      setDisableSubmit(true)
+      setSubmitLoader(true)
+
+
       const data = {
         branchName: newBranch.name,
         address: newBranch.address,
@@ -84,11 +93,13 @@ const EditBranchModal = ({
       );
 
       if (response.data.updated === "ok") {
+        setSubmitLoader(false)
         setAux(!aux);
         toast.success("Sede editada exitosamente");
 
         setTimeout(() => {
           closeModal();
+          setDisableSubmit(false)
           setNewBranch({
             name: "",
             address: "",
@@ -97,10 +108,16 @@ const EditBranchModal = ({
           });
         }, 3000);
       } else {
+        setDisableSubmit(false)
+        setSubmitLoader(false)
+
         toast.error("Hubo un problema con la edición");
       }
     } catch (error) {
-      toast.error(`Hubo un problema con la edición. ${error.response.data}`);
+      setDisableSubmit(false)
+      setSubmitLoader(false)
+
+      toast.error(`Hubo un problema con la edición. ${error}`);
     }
   };
 
@@ -196,7 +213,7 @@ const EditBranchModal = ({
                   type="text"
                   name="phone"
                   value={newBranch.coordinates}
-                  placeholder="Ingrese link de coordenadas"
+                  placeholder="Ingresa link de coordenadas"
                   className={`border border-black p-2 rounded w-full ${
                     errors.coordinates !== undefined &&
                     "border-2 border-red-500"
@@ -210,12 +227,16 @@ const EditBranchModal = ({
               </div>
 
               <div className="flex justify-center items-center pt-4">
-                <button
-                  type="submit"
-                  className="mt-2 px-4 py-2 w-fit rounded bg-primaryPink shadow shadow-black text-black hover:bg-blue-600 focus:outline-none transition-colors dark:text-darkText dark:bg-darkPrimary dark:hover:bg-blue-600"
-                >
-                  Editar sede
-                </button>
+              {!submitLoader ?
+                                    <button
+                                    type="submit"
+                                    disabled={disableSubmit}
+                                    className="mt-2 px-4 py-2 w-fit rounded bg-primaryPink shadow shadow-black text-black hover:bg-blue-600 focus:outline-none transition-colors dark:text-darkText dark:bg-darkPrimary dark:hover:bg-blue-600"
+                                >
+                                    Editar sede
+                                </button> :
+                <Loader />
+              }
               </div>
             </form>
           </div>

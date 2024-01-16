@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 
 import axios from "axios";
 import { toast } from "react-hot-toast";
+import Loader from '../Loader'
 
 //icons
 import { IoClose } from "react-icons/io5";
@@ -24,6 +25,9 @@ const CreateSpecialtyModal = ({
   const [Specialty, setSpecialty] = useState({
     name: filaSpecialty.specialtyName,
   });
+
+  const [submitLoader, setSubmitLoader] = useState(false)
+    const [disableSubmit, setDisableSubmit] = useState(false)
 
   const [errors, setErrors] = useState({});
 
@@ -76,6 +80,10 @@ const CreateSpecialtyModal = ({
     }
 
     try {
+
+      setDisableSubmit(true)
+      setSubmitLoader(true)
+
       const data = {
         specialtyName: Specialty.name,
         token: token,
@@ -86,20 +94,28 @@ const CreateSpecialtyModal = ({
         data
       );
 
+
+
       if (response.data.updated === "ok") {
+        setSubmitLoader(false)
         setAux(!aux);
         toast.success("Especialidad modificada exitosamente");
 
         setTimeout(() => {
           closeModal();
+          setDisableSubmit(false)
           setSpecialty({
             name: "",
           });
         }, 3000);
       } else {
+        setDisableSubmit(false)
+            setSubmitLoader(false)
         toast.error("Hubo un problema con la modificación");
       }
     } catch (error) {
+      setDisableSubmit(false)
+            setSubmitLoader(false)
       toast.error(
         `Hubo un problema con la modificación. ${error.response.data}`
       );
@@ -161,12 +177,16 @@ const CreateSpecialtyModal = ({
               </div>
 
               <div className="flex justify-center items-center">
-                <button
-                  type="submit"
-                  className="mt-2 px-4 py-2 w-fit rounded bg-primaryPink shadow shadow-black text-black hover:bg-blue-600 focus:outline-none transition-colors dark:text-darkText dark:bg-darkPrimary dark:hover:bg-blue-600"
-                >
-                  Modificar Especialidad
-                </button>
+              {!submitLoader ?
+                                    <button
+                                    type="submit"
+                                    disabled={disableSubmit}
+                                    className="mt-2 px-4 py-2 w-fit rounded bg-primaryPink shadow shadow-black text-black hover:bg-blue-600 focus:outline-none transition-colors dark:text-darkText dark:bg-darkPrimary dark:hover:bg-blue-600"
+                                >
+                                    Modificar Especialidad
+                                </button> :
+                <Loader />
+              }
               </div>
             </form>
           </div>

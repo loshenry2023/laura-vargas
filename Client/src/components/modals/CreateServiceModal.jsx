@@ -3,6 +3,8 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { toast } from "react-hot-toast";
+import Loader from '../Loader'
+
 
 //icons
 import { IoClose } from "react-icons/io5";
@@ -39,6 +41,9 @@ const CreateServiceModal = ({
   const closeModal = () => {
     setShowCreateServiceModal(false);
   };
+
+  const [submitLoader, setSubmitLoader] = useState(false)
+  const [disableSubmit, setDisableSubmit] = useState(false)
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -90,6 +95,10 @@ const CreateServiceModal = ({
     if (hasErrors) {
     } else {
       try {
+
+        setDisableSubmit(true)
+        setSubmitLoader(true)
+
         const data = {
           serviceName: service.name,
           duration: service.duration,
@@ -102,11 +111,13 @@ const CreateServiceModal = ({
         const response = await axios.post(`${API_URL_BASE}/service`, data);
 
         if (response.data.created === "ok") {
+          setSubmitLoader(false)
           setAux(!aux);
           toast.success("Procedimiento creado exitosamente");
 
           setTimeout(() => {
             closeModal();
+            setDisableSubmit(false)
             setService({
               email: "",
               name: "",
@@ -120,9 +131,13 @@ const CreateServiceModal = ({
             });
           }, 3000);
         } else {
+          setDisableSubmit(false)
+        setSubmitLoader(false)
           toast.error("Hubo un problema con la creación");
         }
       } catch (error) {
+        setDisableSubmit(false)
+        setSubmitLoader(false)
         toast.error(`Hubo un problema con la creacion. ${error}`);
       }
     }
@@ -250,12 +265,16 @@ const CreateServiceModal = ({
               </div>
 
               <div className="flex justify-center items-center">
-                <button
-                  type="submit"
-                  className="mt-2 px-4 py-2 w-fit rounded bg-primaryPink shadow shadow-black text-black hover:bg-blue-600 focus:outline-none transition-colors dark:text-darkText dark:bg-darkPrimary dark:hover:bg-blue-600"
-                >
-                  Crear nuevo procedimiento
-                </button>
+              {!submitLoader ?
+                                    <button
+                                    type="submit"
+                                    disabled={disableSubmit}
+                                    className="mt-2 px-4 py-2 w-fit rounded bg-primaryPink shadow shadow-black text-black hover:bg-blue-600 focus:outline-none transition-colors dark:text-darkText dark:bg-darkPrimary dark:hover:bg-blue-600"
+                                >
+                                    Crear nuevo procedimiento
+                                </button> :
+                <Loader />
+              }
               </div>
             </form>
           </div>
