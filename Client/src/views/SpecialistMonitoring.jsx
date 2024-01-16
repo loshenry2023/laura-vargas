@@ -10,19 +10,20 @@ import axios from "axios";
 import Restricted from "./Restricted";
 import ErrorToken from "./ErrorToken";
 
+//Toast
+import { toast } from "react-hot-toast";
+import ToasterConfig from "../components/Toaster";
+
 import getParamsEnv from "../functions/getParamsEnv";
 const { API_URL_BASE } = getParamsEnv();
 
-
 const SpecialistMonitoring = () => {
-
-
   const testData = /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/;
 
   const dispatch = useDispatch();
-  const [specialistData, setSpecialsit] = useState({})
+  const [specialistData, setSpecialsit] = useState({});
   const [loading, setLoading] = useState(true);
-  const count = specialistData.count
+  const count = specialistData.count;
   const user = useSelector((state) => state?.user);
   const token = useSelector((state) => state?.token);
   const tokenError = useSelector((state) => state?.tokenError);
@@ -31,28 +32,56 @@ const SpecialistMonitoring = () => {
   const year = today.getFullYear();
   const month = today.getMonth() + 1; // Months are zero-indexed, so add 1
   const day = today.getDate();
-  const formattedDate = `${year}-${month < 10 ? '0' + month : month}-${day < 10 ? '0' + day : day}`;
-
-  
-
+  const formattedDate = `${year}-${month < 10 ? "0" + month : month}-${
+    day < 10 ? "0" + day : day
+  }`;
 
   const [filterDate, setFitlerDate] = useState({
     branchName: workingBranch.branchName,
     dateFrom: formattedDate,
     dateTo: formattedDate,
     token,
-  })
-
+  });
 
   const handleDate = (e) => {
-    if(testData.test(e.target.value) && e.target.value.split("-")[0] >= 2024){
-    setFitlerDate(
-      {
-        ...filterDate,
-        [e.target.name]: e.target.value
+    if (e.target.name === "dateFrom" && testData.test(e.target.value)){
+      if (
+        e.target.value > filterDate.dateTo
+      ) {
+        const newDate = filterDate.dateTo
+        setFitlerDate({
+          ...filterDate,
+          dateFrom: newDate,
+        });
+        toast.error("La fecha inicial no puede ser mayor a la fecha final");
+        document.getElementById("dateFrom").value = newDate;
+      } else {
+        setFitlerDate({
+          ...filterDate,
+          [e.target.name]: e.target.value,
+        });
       }
-    )}
-  }
+    }
+    
+    if (e.target.name === "dateTo" && testData.test(e.target.value) ){
+      if (
+        e.target.value < filterDate.dateFrom
+      ) {
+        const newDate = filterDate.dateFrom
+        setFitlerDate({
+          ...filterDate,
+          dateTo: newDate,
+        });
+        toast.error("La fecha final no puede ser menor a la fecha inicial");
+        document.getElementById("dateTo").value = newDate;
+      } else {
+        setFitlerDate({
+          ...filterDate,
+          [e.target.name]: e.target.value,
+        });
+      }
+    }
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -73,11 +102,8 @@ const SpecialistMonitoring = () => {
     fetchData();
   }, [filterDate, tokenError]);
 
-
   if (tokenError === 401 || tokenError === 403) {
-    return (
-      <ErrorToken error={tokenError} />
-    );
+    return <ErrorToken error={tokenError} />;
   } else {
     return (
       <>
@@ -100,6 +126,7 @@ const SpecialistMonitoring = () => {
                     Fecha inicial
                   </label>
                   <input
+                    id="dateFrom"
                     name="dateFrom"
                     type="date"
                     defaultValue={formattedDate}
@@ -112,6 +139,7 @@ const SpecialistMonitoring = () => {
                     Fecha final
                   </label>
                   <input
+                    id="dateTo"
                     name="dateTo"
                     type="date"
                     defaultValue={formattedDate}
@@ -120,14 +148,18 @@ const SpecialistMonitoring = () => {
                   />
                 </div>
               </div>
-              <SpecialistTable count={count} specialistData={specialistData.rows} />
+              <SpecialistTable
+                count={count}
+                specialistData={specialistData.rows}
+              />
             </div>
           ) : (
             <Restricted />
           )}
         </div>
+        <ToasterConfig />
       </>
-    )
+    );
   }
 };
 

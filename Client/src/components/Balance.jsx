@@ -6,6 +6,9 @@ import DonutChart from "./DonutChart";
 import DonutChartPayMethods from "./DonutChartPayMethods";
 import ErrorToken from "../views/ErrorToken";
 
+//Toast
+import { toast } from "react-hot-toast";
+import ToasterConfig from "../components/Toaster";
 
 const Balance = ({ specialists, services, payMethods }) => {
   const testData = /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/;
@@ -20,8 +23,9 @@ const Balance = ({ specialists, services, payMethods }) => {
   const year = today.getFullYear();
   const month = today.getMonth() + 1; // Months are zero-indexed, so add 1
   const day = today.getDate();
-  const formattedDate = `${year}-${month < 10 ? "0" + month : month}-${day < 10 ? "0" + day : day
-    }`;
+  const formattedDate = `${year}-${month < 10 ? "0" + month : month}-${
+    day < 10 ? "0" + day : day
+  }`;
   const [showAdditionalCharts, setShowAdditionalCharts] = useState(false);
   const [showDetails, setShowDetails] = useState(false);
 
@@ -49,7 +53,6 @@ const Balance = ({ specialists, services, payMethods }) => {
     const fetchData = async () => {
       try {
         const response = await dispatch(getBalance(fetchDataBalance));
-        // console.log("Balance Data:", response);
         setLoading(false);
 
         // Procesar datos
@@ -113,9 +116,6 @@ const Balance = ({ specialists, services, payMethods }) => {
         setChartDataServicesCount([...serviceCounts]);
 
         setChartDataPaymentMethods([...paymentMethodIncomes]);
-
-        // // console.log("Ingresos totales:", totalIncomes);
-        // console.log("Ingresos por Métodos de Pago:", paymentMethodIncomes);
       } catch (error) {
         console.error("Error fetching balance data:", error);
         setLoading(false);
@@ -123,14 +123,53 @@ const Balance = ({ specialists, services, payMethods }) => {
     };
 
     fetchData();
-  }, [dispatch, fetchDataBalance, specialists, services, payMethods, tokenError]);
+  }, [
+    dispatch,
+    fetchDataBalance,
+    specialists,
+    services,
+    payMethods,
+    tokenError,
+  ]);
+
 
   const handleDate = (e) => {
-    if (testData.test(e.target.value) && e.target.value.split("-")[0] >= 2024) {
-      setFetchDataBalance({
-        ...fetchDataBalance,
-        [e.target.name]: e.target.value,
-      });
+    if (e.target.name === "dateFrom" && testData.test(e.target.value)){
+      if (
+        e.target.value > fetchDataBalance.dateTo
+      ) {
+        const newDate = fetchDataBalance.dateTo
+        setFetchDataBalance({
+          ...fetchDataBalance,
+          dateFrom: newDate,
+        });
+        toast.error("La fecha inicial no puede ser mayor a la fecha final");
+        document.getElementById("dateFrom").value = newDate;
+      } else {
+        setFetchDataBalance({
+          ...fetchDataBalance,
+          [e.target.name]: e.target.value,
+        });
+      }
+    }
+    
+    if (e.target.name === "dateTo" && testData.test(e.target.value) ){
+      if (
+        e.target.value < fetchDataBalance.dateFrom
+      ) {
+        const newDate = fetchDataBalance.dateFrom
+        setFetchDataBalance({
+          ...fetchDataBalance,
+          dateTo: newDate,
+        });
+        toast.error("La fecha final no puede ser menor a la fecha inicial");
+        document.getElementById("dateTo").value = newDate;
+      } else {
+        setFetchDataBalance({
+          ...fetchDataBalance,
+          [e.target.name]: e.target.value,
+        });
+      }
     }
   };
 
@@ -138,8 +177,8 @@ const Balance = ({ specialists, services, payMethods }) => {
     setFetchDataBalance((prevData) => {
       const updatedValue =
         e.target.name === "idPayment" ||
-          e.target.name === "idUser" ||
-          e.target.name === "idService"
+        e.target.name === "idUser" ||
+        e.target.name === "idService"
           ? e.target.value === ""
             ? []
             : [e.target.value]
@@ -212,11 +251,8 @@ const Balance = ({ specialists, services, payMethods }) => {
     setShowAdditionalCharts(!showAdditionalCharts);
   };
 
-
   if (tokenError === 401 || tokenError === 403) {
-    return (
-      <ErrorToken error={tokenError} />
-    );
+    return <ErrorToken error={tokenError} />;
   } else {
     return (
       <div className="flex flex-col w-2/3 mx-auto">
@@ -233,6 +269,7 @@ const Balance = ({ specialists, services, payMethods }) => {
                   Fecha inicial
                 </label>
                 <input
+                  id="dateFrom"
                   type="date"
                   name="dateFrom"
                   defaultValue={formattedDate}
@@ -245,6 +282,7 @@ const Balance = ({ specialists, services, payMethods }) => {
                   Fecha final
                 </label>
                 <input
+                  id="dateTo"
                   type="date"
                   name="dateTo"
                   defaultValue={formattedDate}
@@ -314,7 +352,10 @@ const Balance = ({ specialists, services, payMethods }) => {
                 <div className="h-40 w-60 p-5 flex flex-row justify-center items-center rounded-2xl shadow-md shadow-black transition duration-700 dark:bg-darkPrimary hover:bg-blue-500 dark:hover:bg-zinc-800">
                   <h1 className="text-2xl dark:text-darkText flex flex-col items-center">
                     Total ingresos:{" "}
-                    <span className=" mt-2"> ${formatNumber(totalIncomes)}</span>
+                    <span className=" mt-2">
+                      {" "}
+                      ${formatNumber(totalIncomes)}
+                    </span>
                   </h1>
                 </div>
                 <div className="h-40 w-60 p-5 flex flex-row justify-center items-center rounded-2xl shadow-md shadow-black transition duration-700 dark:bg-darkPrimary hover:bg-blue-500 dark:hover:bg-zinc-800">
@@ -351,16 +392,16 @@ const Balance = ({ specialists, services, payMethods }) => {
                               style={{
                                 display:
                                   entry &&
-                                    entry.name &&
-                                    entry.name.includes("Total")
+                                  entry.name &&
+                                  entry.name.includes("Total")
                                     ? "none"
                                     : "inline-block",
                                 width: "12px",
                                 height: "12px",
                                 backgroundColor:
                                   colors[
-                                  chartDataPaymentMethods.indexOf(entry) %
-                                  colors.length
+                                    chartDataPaymentMethods.indexOf(entry) %
+                                      colors.length
                                   ],
                                 borderRadius: "50%",
                                 marginRight: "8px",
@@ -379,8 +420,9 @@ const Balance = ({ specialists, services, payMethods }) => {
             </div>
             <section className="mb-10 w-full flex flex-col items-center justify-center">
               <button
-                className={`mt-5 xl:ml-[70px] w-fit p-2 rounded-2xl shadow-md font-bold shadow-black transition duration-700 dark:bg-darkPrimary hover:bg-blue-500 dark:hover:bg-zinc-800 dark:text-darkText ${showAdditionalCharts ? "bg-blue-500 text-white" : ""
-                  }`}
+                className={`mt-5 xl:ml-[70px] w-fit p-2 rounded-2xl shadow-md font-bold shadow-black transition duration-700 dark:bg-darkPrimary hover:bg-blue-500 dark:hover:bg-zinc-800 dark:text-darkText ${
+                  showAdditionalCharts ? "bg-blue-500 text-white" : ""
+                }`}
                 onClick={handleToggleCharts}
               >
                 {showAdditionalCharts ? "Menos informacion" : "Más información"}
@@ -400,6 +442,7 @@ const Balance = ({ specialists, services, payMethods }) => {
             </section>
           </div>
         )}
+        <ToasterConfig />
       </div>
     );
   }

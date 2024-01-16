@@ -53,7 +53,6 @@ const Agenda = () => {
   const [showAppointmentModal, setShowAppointmentModal] = useState(false);
   const [showEditAppointment, setShowEditAppointment] = useState(false);
 
-
   const [dateInfo, setDateInfo] = useState({
     client: {
       id: "",
@@ -67,7 +66,7 @@ const Agenda = () => {
     service: {
       id: "",
       serviceName: "",
-      specialtyName: ""
+      specialtyName: "",
     },
     specialist: {
       id: "",
@@ -76,8 +75,6 @@ const Agenda = () => {
     },
     dateTime: formattedDate,
   });
-
-  console.log(dateInfo)
 
   const [isFormCompleted, setIsFormCompleted] = useState(false);
 
@@ -142,7 +139,6 @@ const Agenda = () => {
             name: "",
           },
         }));
-
       } else {
         const parsedValue = JSON.parse(value);
         setSpecialty(parsedValue.Specialties[0].specialtyName);
@@ -152,7 +148,7 @@ const Agenda = () => {
           service: {
             id: parsedValue.id,
             name: parsedValue.serviceName,
-            specialtyName: parsedValue.Specialties[0].specialtyName
+            specialtyName: parsedValue.Specialties[0].specialtyName,
           },
         }));
 
@@ -211,9 +207,7 @@ const Agenda = () => {
   }, [chosenClient]);
 
   if (tokenError === 401 || tokenError === 403) {
-    return (
-      <ErrorToken error={tokenError} />
-    );
+    return <ErrorToken error={tokenError} />;
   } else {
     return (
       <div>
@@ -241,7 +235,9 @@ const Agenda = () => {
               </h1>
               {user.role === "especialista" ? null : (
                 <section className="shadow shadow-black rounded-xl p-5 mb-10 bg-secondaryPink dark:bg-darkPrimary dark:shadow-darkText">
-                  <h1 className="text-xl dark:text-darkText mb-2">Agendar cita</h1>
+                  <h1 className="text-xl dark:text-darkText mb-2">
+                    Agendar cita
+                  </h1>
                   <div className="flex flex-col items-center gap-5 md:flex-row">
                     <div className=" flex flex-col sm:flex-row sm:gap-5">
                       <FaPlusCircle
@@ -266,7 +262,11 @@ const Agenda = () => {
                           value={JSON.stringify(dateInfo.service)}
                           onChange={handleChange}
                         >
-                          <option value={JSON.stringify({ Specialties: [{ specialtyName: "noneSpecialty" }] })}>
+                          <option
+                            value={JSON.stringify({
+                              Specialties: [{ specialtyName: "noneSpecialty" }],
+                            })}
+                          >
                             Procedimientos
                           </option>
                           {services.map((service, index) => (
@@ -286,7 +286,10 @@ const Agenda = () => {
                           {users.map(
                             (user, index) =>
                               user.role === "especialista" && (
-                                <option key={index} value={JSON.stringify(user)}>
+                                <option
+                                  key={index}
+                                  value={JSON.stringify(user)}
+                                >
                                   {user.name} {user.lastName}
                                 </option>
                               )
@@ -317,12 +320,17 @@ const Agenda = () => {
                   <button
                     onClick={handleAppointmentModal}
                     disabled={!isFormCompleted}
-                    className={`rounded mt-auto px-6 py-2 cursor-pointer ${isFormCompleted ? "bg-primaryPink" : "bg-gray-300"
-                      } shadow shadow-black text-black ${isFormCompleted ? "hover:bg-blue-600" : "cursor-not-allowed"
-                      } focus:outline-none transition-colors dark:text-darkText dark:bg-darkPrimary ${isFormCompleted
+                    className={`rounded mt-auto px-6 py-2 cursor-pointer ${
+                      isFormCompleted ? "bg-primaryPink" : "bg-gray-300"
+                    } shadow shadow-black text-black ${
+                      isFormCompleted
+                        ? "hover:bg-blue-600"
+                        : "cursor-not-allowed"
+                    } focus:outline-none transition-colors dark:text-darkText dark:bg-darkPrimary ${
+                      isFormCompleted
                         ? "dark:hover:bg-blue-600"
                         : "dark:cursor-not-allowed"
-                      }`}
+                    }`}
                   >
                     Agregar Cita
                   </button>

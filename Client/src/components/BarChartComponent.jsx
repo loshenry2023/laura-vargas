@@ -12,19 +12,13 @@ import {
 
 // Componente del gráfico de barras
 function BarChartComponent({ data, colors, name }) {
-
-
-  if (!data) { return; }
-
-  //console.log("CHAR ", data)
+  if (!data) {
+    return;
+  }
 
   const prices = data.map((item) => parseFloat(item.price));
 
-  //console.log("prices ", prices)
-
   const maxY = Math.ceil(Math.max(...prices) / 10) * 10;
-
-  //console.log("MAX ", maxY);
 
   const formatYAxisTick = (tick) => {
     // Personaliza el formato de las etiquetas del eje Y según tus necesidades
@@ -39,15 +33,14 @@ function BarChartComponent({ data, colors, name }) {
         <XAxis
           dataKey="dateModification"
           tickFormatter={(tick) => new Date(tick).toLocaleString()}
-
         />
         <YAxis
           tickFormatter={formatYAxisTick}
           domain={[0, maxY]}
-        // tickCount={Math.ceil(maxY / 10) + 1} // deshabilitado porque da errores en valores altos
+          // tickCount={Math.ceil(maxY / 10) + 1} // deshabilitado porque da errores en valores altos
         />
         <Tooltip />
-        <Legend/>
+        <Legend />
         <Bar dataKey="price" fill={colors[0]} name={name} barSize={25} />
       </BarChart>
     </ResponsiveContainer>

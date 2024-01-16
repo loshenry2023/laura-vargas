@@ -1,6 +1,6 @@
 const productController = require("../../controllers/products-price/productController");
 const showLog = require("../../functions/showLog");
-const checkToken = require('../../functions/checkToken');
+const checkToken = require("../../functions/checkToken");
 
 const getAllProductsHandler = async (req, res) => {
   try {
@@ -20,27 +20,14 @@ const getAllProductsHandler = async (req, res) => {
     } = req.body;
 
     // Verifico token:
-    if (!token) { throw Error("Se requiere token"); }
+    if (!token) {
+      throw Error("Se requiere token");
+    }
     const checked = await checkToken(token);
     if (!checked.exist) {
       showLog(checked.mensaje);
       return res.status(checked.code).send(checked.mensaje);
     }
-
-    // console.log("----------------------------");
-    // console.log("productName ", productName);
-    // console.log("supplier ", supplier);
-    // console.log("amount ", amount);
-    // console.log("code ", code);
-    // console.log("attribute ", attribute);
-
-    // console.log("order ", order);
-    // console.log("page ", page);
-    // console.log("size ", size);
-    // console.log("description ", description);
-    // console.log("branch ", branch);
-    // console.log("productCode ", productCode);
-    // console.log("----------------------------");
 
     const products = await productController.getAllProductsWithLatestPrice(
       productName,
@@ -58,7 +45,9 @@ const getAllProductsHandler = async (req, res) => {
 
     return res.status(200).json(products);
   } catch (err) {
-    showLog(`getAllProductsHandler - Error al obtener datos de productos -> ${err.message}`);
+    showLog(
+      `getAllProductsHandler - Error al obtener datos de productos -> ${err.message}`
+    );
     return res.status(500).json({ message: err.message });
   }
 };

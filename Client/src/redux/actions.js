@@ -64,11 +64,13 @@ export const eraseNotification = (data) => {
   };
 };
 
-
 export const getcalendarcount = (calendarData) => {
   return async function (dispatch) {
     try {
-      const response = await axios.post(API_URL_BASE + "/getcalendarcount", calendarData);
+      const response = await axios.post(
+        API_URL_BASE + "/getcalendarcount",
+        calendarData
+      );
       return dispatch({
         type: SET_APPOINTMENT_NOTIFICATION,
         payload: response.data,
@@ -84,7 +86,7 @@ export const getcalendarcount = (calendarData) => {
         throw Error(error.message);
       }
     }
-  }
+  };
 };
 
 export const getBranches = (token) => {
@@ -110,7 +112,6 @@ export const getBranches = (token) => {
 };
 
 export const getSpecialties = (token) => {
-  console.log("probando dispatch")
   return async function (dispatch) {
     try {
       const response = await axios.post(API_URL_BASE + "/specialties", token);
@@ -272,9 +273,7 @@ export const getUsers = (
   };
 };
 
-export const getspecialists = (branchWorking,
-  token
-) => {
+export const getspecialists = (branchWorking, token) => {
   const endPoint = API_URL_BASE + "/specialists?";
   return async function (dispatch) {
     try {
@@ -300,7 +299,6 @@ export const getspecialists = (branchWorking,
     }
   };
 };
-
 
 export const getCalendar = (branch, dateFrom, dateTo, userId, token) => {
   const endPoint = API_URL_BASE + "/getcalendar?";
@@ -392,7 +390,6 @@ export const deleteUser = (id, token) => {
   };
 };
 
-
 export const setLogout = (token) => {
   return async function (dispatch) {
     try {
@@ -415,9 +412,7 @@ export const setLogout = (token) => {
 export const getBalance = (balance) => {
   return async function (dispatch) {
     try {
-      const { data } = await axios.post(API_URL_BASE + "/getbalance",
-        balance
-      );
+      const { data } = await axios.post(API_URL_BASE + "/getbalance", balance);
 
       return dispatch({
         type: GET_BALANCE,
@@ -448,11 +443,11 @@ export const getToken = (token) => ({
 });
 
 export const clearDataInicio = () =>
-// Sólo limpia el storage al inicio del programa, donde aún no existe el token:
-({
-  type: USER_LOGOUT,
-  payload: {},
-});
+  // Sólo limpia el storage al inicio del programa, donde aún no existe el token:
+  ({
+    type: USER_LOGOUT,
+    payload: {},
+  });
 // ACTIONS PARA EL INVENTARIO
 export const getProductsRequest = () => ({
   type: GET_PRODUCTS_REQUEST,
@@ -478,18 +473,8 @@ export const getProducts = (
   code,
   amount,
   orderBy,
-  productCode,
-
+  productCode
 ) => {
-  // console.log("productName ", productName);
-  // console.log("selectedBranch ", selectedBranch);
-  // console.log("page ", page);
-  // console.log("size ", size);
-  // console.log("description ", description);
-  // console.log("code ", code);
-  // console.log("amount ", amount);
-  // console.log("orderBy ", orderBy);
-  // console.log("productCode ", productCode);
   return async (dispatch) => {
     dispatch(getProductsRequest());
     try {
@@ -503,7 +488,7 @@ export const getProducts = (
         size,
         branch: selectedBranch,
         productCode,
-        token
+        token,
       });
       dispatch(getProductsSuccess(response.data));
     } catch (error) {
@@ -517,8 +502,6 @@ export const getProducts = (
         //        throw Error(error.message);
         dispatch(getProductsFailure(error.message));
       }
-
-
     }
   };
 };
@@ -560,8 +543,6 @@ export const createProduct = (newProductData) => {
         //        throw Error(error.message);
         dispatch(createProductFailure(error.message));
       }
-
-
     }
   };
 };
@@ -599,9 +580,6 @@ export const editProduct = (productId, updatedProduct) => {
         //        throw Error(error.message);
         dispatch({ type: EDIT_PRODUCT_FAILURE, payload: error.message });
       }
-
-
-
     }
   };
 };
@@ -637,16 +615,12 @@ export const getProductPricesHistory = (productId) => async (dispatch) => {
       //        throw Error(error.message);
       dispatch(getProductPricesHistoryFailure(error.message));
     }
-
-
   }
 };
 
 export const clearProductPricesHistory = () => ({
   type: CLEAR_PRODUCT_PRICE,
 });
-
-
 
 export const updateProductPriceRequest = () => ({
   type: UPDATE_PRODUCT_PRICE_REQUEST,
@@ -689,13 +663,11 @@ export const updateProductPrice = (productId, newPrice) => {
         //        throw Error(error.message);
         dispatch(updateProductPriceFailure(error.message));
       }
-
     }
   };
 };
 
 export const getPayMethods = (token) => {
-
   return async function (dispatch) {
     try {
       const response = await axios.post(API_URL_BASE + "/payments", token);
@@ -720,4 +692,3 @@ export const setTokenError = (error) => ({
   type: SET_TOKEN_ERROR,
   payload: error,
 });
-
