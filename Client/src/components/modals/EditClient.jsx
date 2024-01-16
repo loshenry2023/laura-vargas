@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import axios from "axios"
 import { toast } from 'react-hot-toast'
 import ToasterConfig from '../Toaster';
+import Loader from '../Loader';
 
 //icons
 import { IoClose } from 'react-icons/io5';
@@ -14,6 +15,7 @@ import validateClientInput from '../../functions/registerClient';
 import getParamsEnv from '../../functions/getParamsEnv';
 import converterGMT from '../../functions/converteGMT';
 const { API_URL_BASE } = getParamsEnv()
+
 
 const EditClient = ({setShowEditModal, clientInfo, setClientRender,clientRender, detailId}) => {
 
@@ -42,6 +44,9 @@ const EditClient = ({setShowEditModal, clientInfo, setClientRender,clientRender,
       const [errors, setErrors] = useState({
       });
 
+      const [submitLoader, setSubmitLoader] = useState(false)
+      const [disableSubmit, setDisableSubmit] = useState(false) 
+
 
     const closeModal = () => {
         setShowEditModal(false)
@@ -67,52 +72,89 @@ const EditClient = ({setShowEditModal, clientInfo, setClientRender,clientRender,
     }
 
     const handleSubmit = async (e) => {
-    e.preventDefault();
-    const validationErrors = validateClientInput(client);
-    setErrors(validationErrors);
-
-    const hasErrors = Object.values(validationErrors).some((error) => error !== undefined);
-    if (hasErrors) {
-    } else {
-      try {
-        const data = {
-          email: client.email,
-          name: client.name,
-          id_pers: client.id_pers,
-          lastName: client.lastName,
-          phone1: client.phoneNumber1,
-          phone2: client.phoneNumber2,
-          birthday: client.birthday,
-          image: client.image,
-          token: client.token,
-        }
-
-        const response = await axios.put(`${API_URL_BASE}/client/${detailId}`, data)
+        e.preventDefault();
+        const validationErrors = validateClientInput(client);
+        setErrors(validationErrors);
+    
+        const hasErrors = Object.values(validationErrors).some((error) => error !== undefined);
         
-        if (response.data.updated === "ok") {
-        toast.success("Cliente modificado exitosamente")
-        setTimeout(() => {
-        closeModal();
-        setClient(
-            {
-                email: "",
-                name: "",
-                lastName: "",
-                phone1: "",
-                phone2: "",
-                image: "",
-                id_pers: "",
-                token: "",
-            }
-        )}, 3000);
+        if (hasErrors) {
+          // Handle validation errors
         } else {
-            toast.error("Hubo un problema con la modificación")
+
+            const checkClient = {
+                email: clientInfo.email,
+                name: clientInfo.name,
+                lastName: clientInfo.lastName,
+                id_pers: clientInfo.id_pers,
+                phoneNumber1: clientInfo.phoneNumber1,
+                phoneNumber2: clientInfo.phoneNumber2,
+                birthday: clientInfo.birthday === null ? null : converterGMT(clientInfo.birthday).split(" ")[0],
+                image: clientInfo.image,
+                token: token,
+              }
+          // Check if any field has been modified
+          const isModified = Object.keys(client).some((key) => {
+            console.log(key, client[key], checkClient[key]);
+            return client[key] !== checkClient[key];
+          });
+          
+          console.log('isModified:', isModified);
+    
+          if (!isModified) {
+            // Display toast if no fields have been modified
+            toast.error("Debe modificar al menos un campo");
+            return;
           }
-    } catch (error) {
-        toast.error(`Hubo un problema con la modificación. ${error.response.data}`)
-      }
-    }
-}
+    
+          try {
+            setDisableSubmit(true);
+            setSubmitLoader(true);
+    
+            const data = {
+              email: client.email,
+              name: client.name,
+              id_pers: client.id_pers,
+              lastName: client.lastName,
+              phone1: client.phoneNumber1,
+              phone2: client.phoneNumber2,
+              birthday: client.birthday,
+              image: client.image,
+              token: client.token,
+            };
+    
+            const response = await axios.put(`${API_URL_BASE}/client/${detailId}`, data);
+    
+            if (response.data.updated === "ok") {
+              setSubmitLoader(false);
+              toast.success("Cliente modificado exitosamente");
+              setTimeout(() => {
+                closeModal();
+                setDisableSubmit(false);
+                setClient({
+                  email: "",
+                  name: "",
+                  lastName: "",
+                  phone1: "",
+                  phone2: "",
+                  image: "",
+                  id_pers: "",
+                  token: "",
+                });
+              }, 3000);
+            } else {
+              setDisableSubmit(false);
+              setSubmitLoader(false);
+              toast.error("Hubo un problema con la modificación");
+            }
+          } catch (error) {
+            setDisableSubmit(false);
+            setSubmitLoader(false);
+            toast.error(`Hubo un problema con la modificación. ${error.response.data}`);
+          }
+        }
+    };
+    
 
     return (
         <>
@@ -225,12 +267,16 @@ const EditClient = ({setShowEditModal, clientInfo, setClientRender,clientRender,
                             </div>
                             </div>
                         </div>
-                        <button
+                        {!submitLoader ?
+                            <button
                             type="submit"
+                            disabled={disableSubmit}
                             className="mt-2 px-4 py-2 w-full rounded bg-primaryPink shadow shadow-black text-black hover:bg-blue-600 focus:outline-none transition-colors dark:text-darkText dark:bg-darkPrimary dark:hover:bg-blue-600"
                         >
                             Modificar cliente
-                        </button>
+                        </button> :
+                <Loader />
+              }
                         </form>
                     </div>
                 </div>

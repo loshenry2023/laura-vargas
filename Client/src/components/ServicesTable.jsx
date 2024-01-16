@@ -114,40 +114,37 @@ const ServicesTable = () => {
                 </tr>
               </thead>
               <tbody>
-                {services.map((fila, index) => (
-                  <tr
-                    key={index}
-                    className=" text-xs group hover:bg-gray-200 cursor-pointer dark:hover:bg-gray-200 dark:hover:text-black"
-                  >
-                    <td className="px-4 py-4">{fila.serviceName}</td>
-                    <td className="px-4 py-4">
-                      {fila.Specialties[0]?.specialtyName || "-"}
-                    </td>
-                    <td className="px-4 py-4">{fila.duration} Mins</td>
-                    <td className="px-4 py-4">${fila.price}</td>
-                    <td className="px-4 py-4">
-                      <img
-                        className="h-8 w-8"
-                        src={fila.ImageService}
-                        alt={fila.serviceName}
-                      />
-                    </td>
-                    <td className="px-4 py-4">
-                      <button
-                        className=" hover:bg-blue-700 text-black px-2 py-1 rounded mr-2"
-                        onClick={() => handleEditServiceModal(fila)}
-                      >
-                        <MdEdit size={25} className="dark:text-darkText group-hover:text-black dark:group-hover:text-black" />
-                      </button>
-                      <button
-                        className=" hover:bg-red-700 text-black px-2 py-1 rounded"
-                        onClick={() => handleDeleteModal(fila.id)}
-                      >
-                        <MdDeleteForever size={25} className="dark:text-darkText group-hover:text-black dark:group-hover:text-black"/>
-                      </button>
-                    </td>
-                  </tr>
-                ))}
+              {services
+                  .slice()
+                  .sort((a, b) => a.serviceName.localeCompare(b.serviceName))
+                  .map((fila, index) => (
+                    <tr
+                      key={index}
+                      className=" text-xs hover:bg-gray-200 cursor-pointer dark:hover:bg-gray-200 dark:hover:text-black"
+                    >
+                      <td className="px-4 py-4">{fila.serviceName}</td>
+                      <td className="px-4 py-4">{fila.Specialties[0]?.specialtyName || '-'}</td>
+                      <td className="px-4 py-4">{fila.duration} Mins</td>
+                      <td className="px-4 py-4">${fila.price}</td>
+                      <td className="px-4 py-4">
+                        <img className='h-8 w-8' src={fila.ImageService} alt={fila.serviceName} />
+                      </td>
+                      <td className="px-4 py-4">
+                        <button
+                          className=" hover:bg-blue-700 text-black px-2 py-1 rounded mr-2"
+                          onClick={() => handleEditServiceModal(fila)}
+                        >
+                          <MdEdit size={25} />
+                        </button>
+                        <button
+                          className=" hover:bg-red-700 text-black px-2 py-1 rounded"
+                          onClick={() => handleDeleteModal(fila.id)}
+                        >
+                          <MdDeleteForever size={25} />
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
               </tbody>
             </table>
           </div>

@@ -103,28 +103,31 @@ const PayMethodsTable = ({ methods }) => {
                 </tr>
               </thead>
               <tbody>
-                {methods.map((fila, index) => (
-                  <tr
-                    key={index}
-                    className="text-xs group hover:bg-gray-200 cursor-pointer dark:hover:bg-gray-200 dark:hover:text-black"
-                  >
-                    <td className="px-4 py-4">{fila.paymentMethodName}</td>
-                    <td className="px-4 py-4">
-                      <button
-                        className=" hover:bg-blue-700 text-black px-2 py-1 rounded mr-2"
-                        onClick={() => handleEditModal(fila)}
-                      >
-                        <MdEdit size={25} className="dark:text-darkText group-hover:text-black dark:group-hover:text-black"/>
-                      </button>
-                      <button
-                        className=" hover:bg-red-700 text-black px-2 py-1 rounded"
-                        onClick={() => handleDeleteModal(fila.id)}
-                      >
-                        <MdDeleteForever size={25} className="dark:text-darkText group-hover:text-black dark:group-hover:text-black"/>
-                      </button>
-                    </td>
-                  </tr>
-                ))}
+              {methods
+                  .slice()
+                  .sort((a, b) => a.paymentMethodName.localeCompare(b.paymentMethodName))
+                  .map((fila, index) => (
+                    <tr
+                      key={index}
+                      className="text-s hover:bg-gray-200 cursor-pointer dark:hover:bg-gray-200 dark:hover:text-black"
+                    >
+                      <td className="px-4 py-4">{fila.paymentMethodName}</td>
+                      <td className="px-4 py-4">
+                        <button
+                          className="hover:bg-blue-700 text-black px-2 py-1 rounded mr-2"
+                          onClick={() => handleEditModal(fila)}
+                        >
+                          <MdEdit size={25} />
+                        </button>
+                        <button
+                          className="hover:bg-red-700 text-black px-2 py-1 rounded"
+                          onClick={() => handleDeleteModal(fila.id)}
+                        >
+                          <MdDeleteForever size={25} />
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
               </tbody>
             </table>
           </div>
