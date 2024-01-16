@@ -12,12 +12,13 @@ const { USERPROFILES, API_URL_BASE } = getParamsEnv();
 function EditModal({ setShowEditModal, branches, specialties, userId, tokenID }) {
     useEffect(() => {
         const close = (e) => {
-          if(e.keyCode === 27){
-            closeModal()
-          }
+            if (e.keyCode === 27) {
+                closeModal()
+            }
         }
         window.addEventListener('keydown', close)
-        return () => window.removeEventListener('keydown', close)}, [])
+        return () => window.removeEventListener('keydown', close)
+    }, [])
 
     const navigate = useNavigate();
     const roles = ["superAdmin", "admin", "especialista"];
@@ -172,7 +173,7 @@ function EditModal({ setShowEditModal, branches, specialties, userId, tokenID })
     };
     return (
         <>
-            <div className="fixed top-0 left-0 flex items-center justify-center w-full h-full" style={{ background: "rgba(0, 0, 0, 0.70)"}}>
+            <div className="fixed top-0 left-0 flex items-center justify-center w-full h-full" style={{ background: "rgba(0, 0, 0, 0.70)" }}>
                 <div className="container">
                     <div className="w-full bg-white shadow rounded-lg p-6 mx-auto md:w-1/2 2xl:w-1/3 dark:bg-darkBackground">
                         <div className='flex justify-between'>
@@ -276,7 +277,7 @@ function EditModal({ setShowEditModal, branches, specialties, userId, tokenID })
                                         onChange={handleChange}
                                         name="rol"
                                         value={userData.rol}
-                                        placeholder='Seleccione un rol'
+                                        placeholder='Selecciona un rol'
                                         className={`bg-gray-50 border border-black text-black sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 ${errors.rol !== undefined && "border-red-500"}`}
                                     >
                                         {roles.map((rol, index) => (
