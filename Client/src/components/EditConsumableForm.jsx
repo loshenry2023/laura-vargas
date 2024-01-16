@@ -250,7 +250,7 @@ function EditConsumableForm({
                     />
                     <button
                       type="button"
-                      className="border border-black p-1 rounded "
+                      className="border border-black p-1.5 rounded dark:text-darkText dark:border-darkText"
                       onClick={() => handleAdjustAmount("subtract")}
                     >
                       Quitar
