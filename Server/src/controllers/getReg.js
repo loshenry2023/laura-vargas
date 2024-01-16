@@ -1,7 +1,7 @@
 // ! Obtiene registros.
 const { Op } = require("sequelize");
 const showLog = require("../functions/showLog");
-const { Specialty, Branch } = require('../DB_connection');
+const { Specialty, Branch } = require("../DB_connection");
 
 const getReg = async (
   tableName,
@@ -11,16 +11,13 @@ const getReg = async (
   tableName4 = "",
   tableName5 = "",
   id = "",
-  dataQuery = "",
-
+  dataQuery = ""
 ) => {
   try {
     let reg;
     switch (tableNameText) {
       case "Specialists":
-        const {
-          branchWorking,
-        } = dataQuery;
+        const { branchWorking } = dataQuery;
         reg = await tableName.findAll({
           include: [
             {
@@ -34,8 +31,16 @@ const getReg = async (
           where: {
             role: `especialista`,
           },
-          order: [['lastName', 'asc']],
-          attributes: ["id", "name", "lastName", "userName", "role", "createdAt", "comission"],
+          order: [["lastName", "asc"]],
+          attributes: [
+            "id",
+            "name",
+            "lastName",
+            "userName",
+            "role",
+            "createdAt",
+            "comission",
+          ],
         });
         break;
       case "Branch":
@@ -144,35 +149,40 @@ const getReg = async (
             "image",
             "createdAt",
             "birthday",
-            "monthBirthday"
+            "monthBirthday",
           ],
-          where: birthdaysMonth ? {
-            [Op.or]: [
-              //filtro por nombres
-              { name: { [Op.iLike]: `%${nameOrLastName}%` } },
-              { lastName: { [Op.iLike]: `%${nameOrLastName}%` } },
-            ],
-            //filtro por mes de cumpleaños
-            monthBirthday: { [Op.iLike]: `%${birthdaysMonth}%` },
-            createdAt: {
-              //para la fecha de creación
-              [Op.gte]: createDateStart || "1900-01-01",
-              [Op.lte]: createDateEnd || new Date(),
-            },
-          } : {
-            [Op.or]: [
-              //filtro por nombres
+          where: birthdaysMonth
+            ? {
+                [Op.or]: [
+                  //filtro por nombres
+                  { name: { [Op.iLike]: `%${nameOrLastName}%` } },
+                  { lastName: { [Op.iLike]: `%${nameOrLastName}%` } },
+                ],
+                //filtro por mes de cumpleaños
+                monthBirthday: { [Op.iLike]: `%${birthdaysMonth}%` },
+                createdAt: {
+                  //para la fecha de creación
+                  [Op.gte]: createDateStart || "1900-01-01",
+                  [Op.lte]: createDateEnd || new Date(),
+                },
+              }
+            : {
+                [Op.or]: [
+                  //filtro por nombres
 
-              { name: { [Op.iLike]: `%${nameOrLastName}%` } },
-              { lastName: { [Op.iLike]: `%${nameOrLastName}%` } },
-            ],
-            createdAt: {
-              //para la fecha de creación
-              [Op.gte]: createDateStart || "1900-01-01",
-              [Op.lte]: createDateEnd || new Date(),
-            },
-          },
-          order: [[attribute, order], [attribute2, order]],
+                  { name: { [Op.iLike]: `%${nameOrLastName}%` } },
+                  { lastName: { [Op.iLike]: `%${nameOrLastName}%` } },
+                ],
+                createdAt: {
+                  //para la fecha de creación
+                  [Op.gte]: createDateStart || "1900-01-01",
+                  [Op.lte]: createDateEnd || new Date(),
+                },
+              },
+          order: [
+            [attribute, order],
+            [attribute2, order],
+          ],
           limit: size,
           offset: size * page,
         });
@@ -232,11 +242,9 @@ const getReg = async (
       case "Calendar":
         // Preparo los filtros previos a la consulta:
         const { dateFrom, dateTo, userId, branch } = dataQuery;
-        // console.log("dateFrom ", dateFrom);
-        // console.log("dateTo ", dateTo);
-        // console.log("userId ", userId);
-        // console.log("branch ", branch);
-        reg = await tableName.findAll({ // Calendar
+
+        reg = await tableName.findAll({
+          // Calendar
           attributes: ["id", "date_from", "date_to", "obs", "current"],
           where: {
             date_from: {
@@ -251,10 +259,12 @@ const getReg = async (
               model: tableName2,
               attributes: ["id", "userName", "name", "lastName"],
               where: userId ? { id: userId } : {},
-              include: [{
-                model: Specialty,
-                attributes: ["id", "specialtyName"],
-              }]
+              include: [
+                {
+                  model: Specialty,
+                  attributes: ["id", "specialtyName"],
+                },
+              ],
             },
             {
               // Service

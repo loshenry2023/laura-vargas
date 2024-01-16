@@ -1,9 +1,28 @@
 import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
 
-const ClientFilters = ({setOrder, nameOrLastName, setAttribute, setNameOrLastName, setPage, setBirthdaysMonth, setCreateDateStart, setCreateDateEnd}) => {
+//Toast
+import { toast } from "react-hot-toast";
+import ToasterConfig from "../components/Toaster";
+
+
+const ClientFilters = ({setOrder, nameOrLastName, setAttribute, setNameOrLastName, setPage, setBirthdaysMonth, setCreateDateStart, setCreateDateEnd, createDateStart, createDateEnd}) => {
 
   const location = useLocation()
+
+  const handlerDateFrom = (e) => {
+    if(createDateEnd !== "" && e.target.value > createDateEnd){
+      toast.error("La fecha inicial no puede ser mayor a la fecha final");
+    }
+    setCreateDateStart(`${e.target.value} 00:00:00`)
+  };
+
+  const handlerDateTo = (e) => {
+    if(createDateStart !== "" && e.target.value < createDateStart){
+      toast.error("La fecha final no puede ser menor a la fecha inicial");
+    }
+    setCreateDateEnd(`${e.target.value} 23:59:59`)
+  };
 
   return (
     <section className="flex flex-col gap-4">
@@ -17,11 +36,8 @@ const ClientFilters = ({setOrder, nameOrLastName, setAttribute, setNameOrLastNam
                 Fecha inicial
               </label>
               <input
-                onChange={(e) => {
-                  setCreateDateStart(
-                    e.target.value ? `${e.target.value} 00:00:00` : ""
-                  );
-                }}
+                id="dateFrom"
+                onChange={handlerDateFrom}
                 type="date"
                 defaultValue=""
                 className="w-full text-center border rounded-md border-black px-2 text-sm sm:w-fit dark:invert"
@@ -32,11 +48,8 @@ const ClientFilters = ({setOrder, nameOrLastName, setAttribute, setNameOrLastNam
                 Fecha final
               </label>
               <input
-                onChange={(e) => {
-                  setCreateDateEnd(
-                    e.target.value ? `${e.target.value} 23:59:59` : ""
-                  );
-                }}
+                id="dateTo"
+                onChange={handlerDateTo}
                 type="date"
                 defaultValue=""
                 className="w-full text-center border rounded-md border-black px-2 text-sm sm:w-fit dark:invert"
@@ -107,6 +120,7 @@ const ClientFilters = ({setOrder, nameOrLastName, setAttribute, setNameOrLastNam
           
         </div>
       </div>
+      <ToasterConfig />
     </section>
   );
 };
