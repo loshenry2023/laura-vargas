@@ -25,7 +25,6 @@ const ClientsProfiles = () => {
 
   const [nameOrLastName, setNameOrLastName] = useState("");
   const [birthdaysMonth, setBirthdaysMonth] = useState("");
-  //console.log(birthdaysMonth)
   const [attribute, setAttribute] = useState("lastName");
   const [order, setOrder] = useState("asc");
   const [page, setPage] = useState(0);
@@ -92,7 +91,7 @@ const ClientsProfiles = () => {
                   <IoPersonAddOutline className='h-6 w-6 mt-0.5 cursor-pointer dark:text-darkText' onClick={handleClientFormModal} /> : null
                 }
               </div>
-              <ClientFilters setNameOrLastName={setNameOrLastName} nameOrLastName={nameOrLastName} setAttribute={setAttribute} setOrder={setOrder} setPage={setPage} setSize={setSize} setBirthdaysMonth={setBirthdaysMonth} setCreateDateStart={setCreateDateStart} setCreateDateEnd={setCreateDateEnd} />
+              <ClientFilters setNameOrLastName={setNameOrLastName} nameOrLastName={nameOrLastName} setAttribute={setAttribute} setOrder={setOrder} setPage={setPage} setSize={setSize} setBirthdaysMonth={setBirthdaysMonth} setCreateDateStart={setCreateDateStart} setCreateDateEnd={setCreateDateEnd} createDateStart={createDateStart} createDateEnd={createDateEnd} />
               <ClientsTable count={count} clients={clients} />
               <Pagination page={page} setPage={setPage} size={size} setSize={setSize} count={count} />
             </div>

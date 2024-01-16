@@ -53,24 +53,38 @@ function DonutChartPayMethods({ data, title }) {
               />
             ))}
           </Pie>
-          <text
-            x="50%"
-            y="50%"
-            textAnchor="middle"
-            dominantBaseline="middle"
-            fontSize="14"
-            fontWeight="bold"
-            fill="#000"
+          <foreignObject
+            x="40%"
+            y="40%"
+            width="20%"
+            height="20%"
+            className=" text-sm flex flex-row items-center justify-center "
           >
-            {" "}
-            Total: ${totalValue}
-          </text>
-          <Tooltip
-            formatter={(value, name, props) => [
-              `${name}: $${formatNumber(value)}`,
-              props,
-            ]}
-          />
+            <div
+              style={{
+                width: "100%",
+                height: "100%",
+                display: "flex",
+                background: "#fff",
+                // border: "2px solid #000",
+                borderRadius: "5px",
+              }}
+              className=" flex flex-row items-center justify-center text-center"
+            >
+              <text
+                x="50%"
+                y="50%"
+                fontSize="14"
+                fontWeight="bold"
+                fill="#000"
+                // className=" pt-4 "
+              >
+                {totalValue === "0"
+                  ? "Sin información nueva"
+                  : `Total: $${totalValue}`}
+              </text>
+            </div>
+          </foreignObject>
         </PieChart>
       </ResponsiveContainer>
     </div>

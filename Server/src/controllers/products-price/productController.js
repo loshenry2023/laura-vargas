@@ -15,21 +15,6 @@ const getAllProductsWithLatestPrice = async (
   branch = "",
   productCode = ""
 ) => {
-
-  // console.log("productName ", productName);
-  // console.log("supplier ", supplier);
-  // console.log("amount ", amount);
-  // console.log("amount !== null ? ", amount !== null ? true : false);
-
-  // console.log("code ", code);
-  // console.log("code !== null ? ", code !== null ? true : false);
-
-  // console.log("page ", page);
-  // console.log("size ", size);
-  // console.log("description ", description);
-  // console.log("branch ", branch);
-  // console.log("productCode ", productCode);
-
   try {
     const { count, rows } = await Product.findAndCountAll({
       include: [
@@ -79,13 +64,11 @@ const getAllProductsWithLatestPrice = async (
       offset: size * page,
     });
 
-
     return {
       count,
       rows,
     };
   } catch (err) {
-
     showLog(
       `getAllProductsWithLatestPrice -> getAllProducts error: ${err.message}`
     );
@@ -154,7 +137,6 @@ async function getProductPricesHistory(req, res) {
       const dateB = new Date(b.dateModification);
       return dateB - dateA;
     });
-    //    console.log("OK ", pricesHistory);
 
     res.json(pricesHistory);
   } catch (error) {
@@ -177,11 +159,9 @@ async function createProduct(req, res) {
     });
 
     if (existingProduct) {
-      return res
-        .status(400)
-        .json({
-          error: "Product with same code already exists in this branch",
-        });
+      return res.status(400).json({
+        error: "Product with same code already exists in this branch",
+      });
     }
 
     const requiredFields = ["productName", "description", "supplier", "amount"];

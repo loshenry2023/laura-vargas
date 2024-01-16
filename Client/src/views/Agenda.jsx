@@ -28,6 +28,8 @@ const Agenda = () => {
 
   const formattedDate = `${year}-${month}-${day}`;
 
+
+
   const branches = useSelector((state) => state?.branches);
   const tokenID = useSelector((state) => state?.token);
   const workingBranch = useSelector((state) => state?.workingBranch);
@@ -243,7 +245,7 @@ const Agenda = () => {
                 <section className="shadow shadow-black rounded-xl p-5 mb-10 bg-secondaryPink dark:bg-darkPrimary dark:shadow-darkText">
                   <h1 className="text-xl dark:text-darkText mb-2">Agendar cita</h1>
                   <div className="flex flex-col items-center gap-5 md:flex-row">
-                    <div className=" flex flex-col sm:flex-row sm:gap-5">
+                    
                       <FaPlusCircle
                         className="mt-1.5 cursor-pointer dark:text-darkText"
                         onClick={() => setShowClientListModal(true)}
@@ -256,43 +258,53 @@ const Agenda = () => {
                         disabled
                         className="w-full sm:w-60 pl-2 bg-white resize-y border mt-3 sm:mt-0 sm:mr-2 border-black rounded-md text-md dark:text-darkText dark:bg-darkPrimary dark:border-darkText"
                       />
-                    </div>
+                    
 
                     {!showEditAppointment && (
-                      <>
-                        <select
-                          name="service"
-                          className="w-full mt-3 sm:mt-0 sm:w-60 pl-2 border border-black rounded-md text-md dark:text-darkText dark:bg-darkPrimary dark:border-darkText md:w-64"
-                          value={JSON.stringify(dateInfo.service)}
-                          onChange={handleChange}
-                        >
-                          <option value={JSON.stringify({ Specialties: [{ specialtyName: "noneSpecialty" }] })}>
-                            Procedimientos
+                      <select
+                        name="service"
+                        id=""
+                        className="w-full mt-3 sm:mt-0 sm:w-60 pl-2 border border-black rounded-md text-md dark:text-darkText dark:bg-darkPrimary dark:border-darkText md:w-64"
+                        onChange={handleChange}
+                      >
+                        <option defaultValue={dateInfo.service.id ? false : true} value={JSON.stringify({ Specialties: [{ specialtyName: "noneSpecialty" }] })}>
+                          Procedimientos
+                        </option>
+                        {services.map((service, index) => (
+                          <option
+                            key={index}
+                            value={JSON.stringify(service)}
+                            selected={dateInfo.service.id === service.id ? true : false}
+                          >
+                            {service.serviceName}
                           </option>
-                          {services.map((service, index) => (
-                            <option key={index} value={JSON.stringify(service)}>
-                              {service.serviceName}
-                            </option>
-                          ))}
-                        </select>
+                        ))}
+                      </select>
+                    )}
 
-                        <select
-                          name="specialist"
-                          className="w-full mt-3 sm:mt-0 sm:w-60 pl-2 border border-black rounded-md text-md dark:text-darkText dark:bg-darkPrimary dark:border-darkText md:w-64"
-                          value={JSON.stringify(dateInfo.specialist)}
-                          onChange={handleChange}
-                        >
-                          <option value="null">-- Especialista--</option>
-                          {users.map(
-                            (user, index) =>
-                              user.role === "especialista" && (
-                                <option key={index} value={JSON.stringify(user)}>
-                                  {user.name} {user.lastName}
-                                </option>
-                              )
-                          )}
-                        </select>
-                      </>
+                    {!showEditAppointment && (
+                      <select
+                        onChange={handleChange}
+                        name="specialist"
+                        id=""
+                        className="w-full mt-3 sm:mt-0 sm:w-60 pl-2 border border-black rounded-md text-md dark:text-darkText dark:bg-darkPrimary dark:border-darkText md:w-64"
+                      >
+                        <option defaultValue={dateInfo.specialist.id ? false : true} value="null" selected={dateInfo.specialist.id ? true : false}>
+                          -- Especialista--
+                        </option>
+                        {users.map(
+                          (user, index) =>
+                            user.role === "especialista" && (
+                              <option
+                                key={index}
+                                value={JSON.stringify(user)}
+                                selected={user.id === dateInfo.specialist.id ? true : false}
+                              >
+                                {user.name} {user.lastName}
+                              </option>
+                            )
+                        )}
+                      </select>
                     )}
                   </div>
                 </section>

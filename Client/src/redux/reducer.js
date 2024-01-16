@@ -85,7 +85,7 @@ const rootReducer = (
       localStorage.setItem("myAppReduxState", JSON.stringify(setWorkingBranch));
       return setWorkingBranch;
 
-     //! Setea cantidad de appointments
+    //! Setea cantidad de appointments
     case SET_APPOINTMENT_NOTIFICATION:
       const calendarCount = {
         ...state,
@@ -94,14 +94,16 @@ const rootReducer = (
       localStorage.setItem("myAppReduxState", JSON.stringify(calendarCount));
       return calendarCount;
 
-      //! Setea appointments a 0
-      case ERASE_APPOINTMENT_NOTIFICATION:
+    //! Setea appointments a 0
+    case ERASE_APPOINTMENT_NOTIFICATION:
       const eraseCalendarCount = {
         ...state,
         appointments: payload,
       };
-      console.log(eraseCalendarCount)
-      localStorage.setItem("myAppReduxState", JSON.stringify( eraseCalendarCount));
+      localStorage.setItem(
+        "myAppReduxState",
+        JSON.stringify(eraseCalendarCount)
+      );
       return eraseCalendarCount;
 
     //! Trae usuario de logIn
@@ -227,14 +229,14 @@ const rootReducer = (
       localStorage.setItem("myAppReduxState", JSON.stringify(getServices));
       return getServices;
 
-      //! Trae el balance
-      case GET_BALANCE:
-        const getBalance = {
-          ...state,
-          balance: {...payload},
-        };
-        localStorage.setItem("myAppReduxState", JSON.stringify(getBalance));
-        return getBalance;
+    //! Trae el balance
+    case GET_BALANCE:
+      const getBalance = {
+        ...state,
+        balance: { ...payload },
+      };
+      localStorage.setItem("myAppReduxState", JSON.stringify(getBalance));
+      return getBalance;
 
     case ERROR:
       const errorState = {
@@ -246,11 +248,10 @@ const rootReducer = (
       localStorage.setItem("myAppReduxState", JSON.stringify(errorState));
       return errorState;
 
-
     case USER_LOGOUT:
       localStorage.removeItem("myAppReduxState");
       localStorage.removeItem("dispatchPerformed");
-      localStorage.removeItem('showRed')
+      localStorage.removeItem("showRed");
       return initialState;
 
     case GET_PRODUCTS_REQUEST:
@@ -300,7 +301,6 @@ const rootReducer = (
 
     case EDIT_PRODUCT_REQUEST:
       return state;
-
 
     case EDIT_PRODUCT_SUCCESS:
       return {
@@ -360,7 +360,6 @@ const rootReducer = (
       };
 
     case GET_PAY_METHODS:
-
       const setPayMethods = {
         ...state,
         payMethods: payload,
@@ -369,7 +368,6 @@ const rootReducer = (
       return setPayMethods;
 
     case SET_TOKEN_ERROR:
-      console.log("PROCESO ERROR ", payload)
       return {
         ...state,
         tokenError: payload,

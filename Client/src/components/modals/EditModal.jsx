@@ -6,18 +6,20 @@ import axios from 'axios';
 import { UploadWidget } from '../Uploadwidget';
 import { toast } from 'react-hot-toast'
 import getParamsEnv from '../../functions/getParamsEnv';
+import Loader from '../Loader'
 
 const { USERPROFILES, API_URL_BASE } = getParamsEnv();
 
 function EditModal({ setShowEditModal, branches, specialties, userId, tokenID }) {
     useEffect(() => {
         const close = (e) => {
-          if(e.keyCode === 27){
-            closeModal()
-          }
+            if (e.keyCode === 27) {
+                closeModal()
+            }
         }
         window.addEventListener('keydown', close)
-        return () => window.removeEventListener('keydown', close)}, [])
+        return () => window.removeEventListener('keydown', close)
+    }, [])
 
     const navigate = useNavigate();
     const roles = ["superAdmin", "admin", "especialista"];
@@ -50,6 +52,9 @@ function EditModal({ setShowEditModal, branches, specialties, userId, tokenID })
         notificationEmail: userId.notificationEmail,
         // notificationEmail: "notificationEmail@gmail.com"
     });
+
+    const [submitLoader, setSubmitLoader] = useState(false)
+    const [disableSubmit, setDisableSubmit] = useState(false)
 
     const [errors, setErrors] = useState({});
 
@@ -115,13 +120,18 @@ function EditModal({ setShowEditModal, branches, specialties, userId, tokenID })
         setErrors(validationErrors);
 
         const hasErrors = Object.values(validationErrors).some((error) => error !== undefined);
+        const isDataUnchanged = JSON.stringify(userData) === JSON.stringify(controlData);
 
-        if (userData === controlData) {
-            toast.error("")
-        }
-        if (hasErrors) {
+        if (isDataUnchanged) {
+            toast.error("Debe modificar al menos un campo");
+        } else if (hasErrors) {
+            
         } else {
             try {
+
+                setDisableSubmit(true)
+                setSubmitLoader(true)
+
                 const specialtiesId = userData.specialtyName.map((specialty) => specialty.id);
                 const branchesId = userData.branch.map((b) => b.id);
 
@@ -142,9 +152,11 @@ function EditModal({ setShowEditModal, branches, specialties, userId, tokenID })
                 const response = await axios.put(`${API_URL_BASE}/edituserdata/${userId.id}`, data);
 
                 if (response.data.updated === "ok") {
+                    setSubmitLoader(false)
                     toast.success("Usuario modificado exitosamente")
                     setTimeout(() => {
                         closeModal();
+                        setDisableSubmit(false)
                         setUserData(
                             {
                                 name: "",
@@ -164,15 +176,20 @@ function EditModal({ setShowEditModal, branches, specialties, userId, tokenID })
                     }, 3000);
 
                 } else {
+
+                    setDisableSubmit(false)
+                setSubmitLoader(false)
                 }
             } catch (error) {
+                setDisableSubmit(false)
+                setSubmitLoader(false)
                 toast.error(`Hubo un problema con la modificacion. ${error.response.data}`)
             }
         }
     };
     return (
         <>
-            <div className="fixed top-0 left-0 flex items-center justify-center w-full h-full" style={{ background: "rgba(0, 0, 0, 0.70)"}}>
+            <div className="fixed top-0 left-0 flex items-center justify-center w-full h-full" style={{ background: "rgba(0, 0, 0, 0.70)" }}>
                 <div className="container">
                     <div className="w-full bg-white shadow rounded-lg p-6 mx-auto md:w-1/2 2xl:w-1/3 dark:bg-darkBackground">
                         <div className='flex justify-between'>
@@ -276,7 +293,7 @@ function EditModal({ setShowEditModal, branches, specialties, userId, tokenID })
                                         onChange={handleChange}
                                         name="rol"
                                         value={userData.rol}
-                                        placeholder='Seleccione un rol'
+                                        placeholder='Selecciona un rol'
                                         className={`bg-gray-50 border border-black text-black sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 ${errors.rol !== undefined && "border-red-500"}`}
                                     >
                                         {roles.map((rol, index) => (
@@ -338,12 +355,16 @@ function EditModal({ setShowEditModal, branches, specialties, userId, tokenID })
                                     </div>
                                 </div>
                             </div>
-                            <button
-                                type="submit"
-                                className="px-4 py-2 w-full rounded bg-primaryPink shadow shadow-black text-black hover:bg-blue-600 focus:outline-none transition-colors dark:text-darkText dark:bg-darkPrimary dark:hover:bg-blue-600"
-                            >
-                                Actualizar usuario
-                            </button>
+                            {!submitLoader ?
+                                <button
+                                    type="submit"
+                                    className="px-4 py-2 w-full rounded bg-primaryPink shadow shadow-black text-black hover:bg-blue-600 focus:outline-none transition-colors dark:text-darkText dark:bg-darkPrimary dark:hover:bg-blue-600"
+                                    disabled={disableSubmit}
+                                >
+                                    Actualizar usuario
+                                </button> :
+                                <Loader />
+                            }
                         </form>
                     </div>
                 </div>

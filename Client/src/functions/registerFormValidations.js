@@ -7,7 +7,7 @@ const validateRegisterInput = (data) => {
 
 
   if (!data.userName) {
-    validationErrors.userName = "Ingrese un correo electrónico";
+    validationErrors.userName = "Ingresa un correo electrónico";
   } else if (!emailPattern.test(data.userName)) {
     validationErrors.userName = "Correo electrónico no válido";
   }
@@ -25,13 +25,13 @@ const validateRegisterInput = (data) => {
   }
 
   if (!data.phoneNumber1 || !numberPattern.test(data.phoneNumber1)) {
-    validationErrors.phoneNumber1 = "Debe ingresar números";
+    validationErrors.phoneNumber1 = "El teléfono no puede quedar vacío";
   } else if (!data.phoneNumber1 || !phonePattern.test(data.phoneNumber1)) {
-    validationErrors.phoneNumber1 = "Ingrese teléfono válido, 8-15 dig";
+    validationErrors.phoneNumber1 = "Ingresa teléfono válido, 8-15 dig";
   } 
 
   if (data.phoneNumber2 && !phonePattern.test(data.phoneNumber2)) {
-    validationErrors.phoneNumber2 = "Ingrese teléfono válido, 8-15 dig";
+    validationErrors.phoneNumber2 = "Ingresa teléfono válido, 8-15 dig";
   }
 
   if (!data.specialtyName || data.specialtyName.length === 0) {
@@ -47,11 +47,11 @@ const validateRegisterInput = (data) => {
   }
 
   if (!data.commission || data.commission > 100 || data.commission < 0) {
-    validationErrors.commission = "Ingrese comisión válida";
+    validationErrors.commission = "Ingresa comisión válida";
   }
 
   if (!data.notificationEmail) {
-    validationErrors.notificationEmail = "ingrese correo electrónico";
+    validationErrors.notificationEmail = "ingresa correo electrónico";
   } else if (!emailPattern.test(data.notificationEmail)) {
     validationErrors.notificationEmail = "Correo electrónico no válido";
   }

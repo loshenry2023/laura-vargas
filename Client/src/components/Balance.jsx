@@ -6,6 +6,9 @@ import DonutChart from "./DonutChart";
 import DonutChartPayMethods from "./DonutChartPayMethods";
 import ErrorToken from "../views/ErrorToken";
 
+//Toast
+import { toast } from "react-hot-toast";
+import ToasterConfig from "../components/Toaster";
 
 const Balance = ({ specialists, services, payMethods }) => {
   const testData = /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/;
@@ -20,8 +23,9 @@ const Balance = ({ specialists, services, payMethods }) => {
   const year = today.getFullYear();
   const month = today.getMonth() + 1; // Months are zero-indexed, so add 1
   const day = today.getDate();
-  const formattedDate = `${year}-${month < 10 ? "0" + month : month}-${day < 10 ? "0" + day : day
-    }`;
+  const formattedDate = `${year}-${month < 10 ? "0" + month : month}-${
+    day < 10 ? "0" + day : day
+  }`;
   const [showAdditionalCharts, setShowAdditionalCharts] = useState(false);
   const [showDetails, setShowDetails] = useState(false);
 
@@ -49,7 +53,6 @@ const Balance = ({ specialists, services, payMethods }) => {
     const fetchData = async () => {
       try {
         const response = await dispatch(getBalance(fetchDataBalance));
-        // console.log("Balance Data:", response);
         setLoading(false);
 
         // Procesar datos
@@ -113,9 +116,6 @@ const Balance = ({ specialists, services, payMethods }) => {
         setChartDataServicesCount([...serviceCounts]);
 
         setChartDataPaymentMethods([...paymentMethodIncomes]);
-
-        // // console.log("Ingresos totales:", totalIncomes);
-        // console.log("Ingresos por Métodos de Pago:", paymentMethodIncomes);
       } catch (error) {
         console.error("Error fetching balance data:", error);
         setLoading(false);
@@ -123,14 +123,48 @@ const Balance = ({ specialists, services, payMethods }) => {
     };
 
     fetchData();
-  }, [dispatch, fetchDataBalance, specialists, services, payMethods, tokenError]);
+  }, [
+    dispatch,
+    fetchDataBalance,
+    specialists,
+    services,
+    payMethods,
+    tokenError,
+  ]);
 
   const handleDate = (e) => {
-    if (testData.test(e.target.value) && e.target.value.split("-")[0] >= 2024) {
-      setFetchDataBalance({
-        ...fetchDataBalance,
-        [e.target.name]: e.target.value,
-      });
+    if (e.target.name === "dateFrom" && testData.test(e.target.value)) {
+      if (e.target.value > fetchDataBalance.dateTo) {
+        const newDate = fetchDataBalance.dateTo;
+        setFetchDataBalance({
+          ...fetchDataBalance,
+          dateFrom: newDate,
+        });
+        toast.error("La fecha inicial no puede ser mayor a la fecha final");
+        document.getElementById("dateFrom").value = newDate;
+      } else {
+        setFetchDataBalance({
+          ...fetchDataBalance,
+          [e.target.name]: e.target.value,
+        });
+      }
+    }
+
+    if (e.target.name === "dateTo" && testData.test(e.target.value)) {
+      if (e.target.value < fetchDataBalance.dateFrom) {
+        const newDate = fetchDataBalance.dateFrom;
+        setFetchDataBalance({
+          ...fetchDataBalance,
+          dateTo: newDate,
+        });
+        toast.error("La fecha final no puede ser menor a la fecha inicial");
+        document.getElementById("dateTo").value = newDate;
+      } else {
+        setFetchDataBalance({
+          ...fetchDataBalance,
+          [e.target.name]: e.target.value,
+        });
+      }
     }
   };
 
@@ -138,8 +172,8 @@ const Balance = ({ specialists, services, payMethods }) => {
     setFetchDataBalance((prevData) => {
       const updatedValue =
         e.target.name === "idPayment" ||
-          e.target.name === "idUser" ||
-          e.target.name === "idService"
+        e.target.name === "idUser" ||
+        e.target.name === "idService"
           ? e.target.value === ""
             ? []
             : [e.target.value]
@@ -212,11 +246,8 @@ const Balance = ({ specialists, services, payMethods }) => {
     setShowAdditionalCharts(!showAdditionalCharts);
   };
 
-
   if (tokenError === 401 || tokenError === 403) {
-    return (
-      <ErrorToken error={tokenError} />
-    );
+    return <ErrorToken error={tokenError} />;
   } else {
     return (
       <div className="flex flex-col w-2/3 mx-auto">
@@ -233,6 +264,7 @@ const Balance = ({ specialists, services, payMethods }) => {
                   Fecha inicial
                 </label>
                 <input
+                  id="dateFrom"
                   type="date"
                   name="dateFrom"
                   defaultValue={formattedDate}
@@ -245,6 +277,7 @@ const Balance = ({ specialists, services, payMethods }) => {
                   Fecha final
                 </label>
                 <input
+                  id="dateTo"
                   type="date"
                   name="dateTo"
                   defaultValue={formattedDate}
@@ -314,92 +347,109 @@ const Balance = ({ specialists, services, payMethods }) => {
                 <div className="h-40 w-60 p-5 flex flex-row justify-center items-center rounded-2xl shadow-md shadow-black transition duration-700 dark:bg-darkPrimary hover:bg-blue-500 dark:hover:bg-zinc-800">
                   <h1 className="text-2xl dark:text-darkText flex flex-col items-center">
                     Total ingresos:{" "}
-                    <span className=" mt-2"> ${formatNumber(totalIncomes)}</span>
+                    <span className=" mt-2">
+                      {" "}
+                      ${formatNumber(totalIncomes)}
+                    </span>
                   </h1>
                 </div>
                 <div className="h-40 w-60 p-5 flex flex-row justify-center items-center rounded-2xl shadow-md shadow-black transition duration-700 dark:bg-darkPrimary hover:bg-blue-500 dark:hover:bg-zinc-800">
                   <h1 className="text-center text-2xl dark:text-darkText">
                     {comision
                       ? `Comision: ${comision}%`
-                      : "Seleccione especialista para visualizar comisión"}
+                      : "Selecciona un especialista para visualizar comisión"}
                   </h1>
                 </div>
               </section>
-              <section className="mt-10 flex flex-col sm:flex-row items-center sm:items-start xl:mt-0 sm:w-full">
-                <DonutChartPayMethods
-                  data={chartDataPaymentMethods}
-                  title="Métodos de pago"
-                  className="col-span-2"
-                />
-                <div className="mx-2">
-                  <button
-                    className="w-40 p-2 mt-10 rounded-2xl shadow-md font-bold shadow-black transition duration-700 dark:bg-darkPrimary hover:bg-blue-500 dark:hover:bg-zinc-800 dark:text-darkText xl:mt-0"
-                    onClick={() => setShowDetails(!showDetails)}
-                  >
-                    {showDetails ? "Ocultar detalles" : "Mostrar detalles"}
-                  </button>
-                  {showDetails && (
-                    <ul className="mt-4 dark:text-darkText">
-                      {chartDataPaymentMethods.map((entry) => (
-                        <div
-                          className="text-xs"
-                          key={`legend-${entry.name}`} // Cambiado a entry.name como clave
-                          style={{ marginBottom: "12px" }}
-                        >
-                          <li className="text-[13px] p-1">
-                            <span
-                              style={{
-                                display:
-                                  entry &&
+              {totalIncomes !== 0 ? (
+                <section className="mt-10 flex flex-col sm:flex-row items-center sm:items-start xl:mt-0 sm:w-full">
+                  <DonutChartPayMethods
+                    data={chartDataPaymentMethods}
+                    title="Métodos de pago"
+                    className="col-span-2"
+                  />
+                  <div className="mx-2">
+                    <button
+                      className="w-40 p-2 mt-10 rounded-2xl shadow-md font-bold shadow-black transition duration-700 dark:bg-darkPrimary hover:bg-blue-500 dark:hover:bg-zinc-800 dark:text-darkText xl:mt-0"
+                      onClick={() => setShowDetails(!showDetails)}
+                    >
+                      {showDetails ? "Ocultar detalles" : "Mostrar detalles"}
+                    </button>
+                    {showDetails && (
+                      <ul className="mt-4 dark:text-darkText">
+                        {chartDataPaymentMethods.map((entry) => (
+                          <div
+                            className="text-xs"
+                            key={`legend-${entry.name}`} // Cambiado a entry.name como clave
+                            style={{ marginBottom: "12px" }}
+                          >
+                            <li className="text-[13px] p-1">
+                              <span
+                                style={{
+                                  display:
+                                    entry &&
                                     entry.name &&
                                     entry.name.includes("Total")
-                                    ? "none"
-                                    : "inline-block",
-                                width: "12px",
-                                height: "12px",
-                                backgroundColor:
-                                  colors[
-                                  chartDataPaymentMethods.indexOf(entry) %
-                                  colors.length
-                                  ],
-                                borderRadius: "50%",
-                                marginRight: "8px",
-                              }}
-                            ></span>
-                            {entry
-                              ? `${entry.name}: $${formatNumber(entry.value)}`
-                              : ""}
-                          </li>
-                        </div>
-                      ))}
-                    </ul>
-                  )}
-                </div>
-              </section>
-            </div>
-            <section className="mb-10 w-full flex flex-col items-center justify-center">
-              <button
-                className={`mt-5 xl:ml-[70px] w-fit p-2 rounded-2xl shadow-md font-bold shadow-black transition duration-700 dark:bg-darkPrimary hover:bg-blue-500 dark:hover:bg-zinc-800 dark:text-darkText ${showAdditionalCharts ? "bg-blue-500 text-white" : ""
-                  }`}
-                onClick={handleToggleCharts}
-              >
-                {showAdditionalCharts ? "Menos informacion" : "Más información"}
-              </button>
-              {showAdditionalCharts && (
-                <div className="flex flex-col justify-center sm:flex-row sm:gap-10">
-                  <DonutChart
-                    data={chartDataSpecialists}
-                    title="Turnos por especialista"
-                  />
-                  <DonutChart
-                    data={chartDataServicesCount}
-                    title="Cantidad de servicios realizados"
-                  />
-                </div>
+                                      ? "none"
+                                      : "inline-block",
+                                  width: "12px",
+                                  height: "12px",
+                                  backgroundColor:
+                                    colors[
+                                      chartDataPaymentMethods.indexOf(entry) %
+                                        colors.length
+                                    ],
+                                  borderRadius: "50%",
+                                  marginRight: "8px",
+                                }}
+                              ></span>
+                              {entry
+                                ? `${entry.name}: $${formatNumber(entry.value)}`
+                                : ""}
+                            </li>
+                          </div>
+                        ))}
+                      </ul>
+                    )}
+                  </div>
+                </section>
+              ) : (
+                <h2 className=" text-center w-full text-xl mt-10 xl:mt-0  dark:text-darkText">
+                  No hay informacion para los filtros seleccionados.
+                </h2>
               )}
-            </section>
+            </div>
+            {totalIncomes !== 0 ? (
+              <section className="mb-10 w-full flex flex-col items-center justify-center">
+                <button
+                  className={`mt-5 xl:ml-[70px] w-fit p-2 rounded-2xl shadow-md font-bold shadow-black transition duration-700 dark:bg-darkPrimary hover:bg-blue-500 dark:hover:bg-zinc-800 dark:text-darkText ${
+                    showAdditionalCharts ? "bg-blue-500 text-white" : ""
+                  }`}
+                  onClick={handleToggleCharts}
+                >
+                  {showAdditionalCharts
+                    ? "Menos informacion"
+                    : "Más información"}
+                </button>
+                {showAdditionalCharts && (
+                  <div className="flex flex-col justify-center sm:flex-row sm:gap-10">
+                    <DonutChart
+                      data={chartDataSpecialists}
+                      title="Turnos por especialista"
+                    />
+                    <DonutChart
+                      data={chartDataServicesCount}
+                      title="Cantidad de servicios realizados"
+                    />
+                  </div>
+                )}
+              </section>
+            ) : (
+              ""
+            )}
           </div>
         )}
+        <ToasterConfig />
       </div>
     );
   }

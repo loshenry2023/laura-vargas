@@ -24,16 +24,21 @@ async function checkToken(tokenRec, clearToken = false) {
         );
         // Verifico si pasaron 18 hs. desde el último uso:
         if (minutesDifference > 1080) {
-          return { exist: false, mensaje: 'La sesión expiró', code: 403 };
+          return { exist: false, mensaje: "La sesión expiró", code: 403 };
         }
-        //console.log("bien. Now ", currentTime, " lastUseTime: ", lastUseTime, " - dif ", minutesDifference);
+
         // Actualizo la fecha y hora del último uso:
         existingUsr.lastUse = currentTime;
         await existingUsr.save();
-        return { exist: true, id: existingUsr.id, role: existingUsr.role, code: 200 };
+        return {
+          exist: true,
+          id: existingUsr.id,
+          role: existingUsr.role,
+          code: 200,
+        };
       }
     } else {
-      return { exist: false, mensaje: 'Sin permiso', code: 401 };
+      return { exist: false, mensaje: "Sin permiso", code: 401 };
     }
   } catch (error) {
     showLog(`Error validating token: ${error}`);
