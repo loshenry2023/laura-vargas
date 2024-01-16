@@ -12,6 +12,7 @@ import validateRegisterInput from '../../functions/registerFormValidations'
 //Cloudinary
 import { UploadWidget } from '../Uploadwidget';
 import { Toaster, toast } from 'react-hot-toast'
+import Loader from '../Loader'
 
 //Variables de entorno
 import getParamsEnv from '../../functions/getParamsEnv';
@@ -19,6 +20,9 @@ import { useSelector } from 'react-redux';
 const { API_URL_BASE } = getParamsEnv()
 
 function RegisterForm({ setShowResgisterFormModal, branches, specialties, tokenID, activarNuevoUsuario, setActivarNuevoUsuario }) {
+
+  const [submitLoader, setSubmitLoader] = useState(false)
+  const [disableSubmit, setDisableSubmit] = useState(false)
 
 useEffect(() => {
     const close = (e) => {
@@ -108,6 +112,10 @@ useEffect(() => {
     if (hasErrors) {
     } else {
       try {
+
+        setSubmitLoader(true)
+      setDisableSubmit(true)
+
         const data = {
           name: userData.name,
           lastName: userData.lastName,
@@ -133,6 +141,8 @@ useEffect(() => {
         }
 
         if (response.data.created === "ok") {
+          setSubmitLoader(false)
+      
           toast.success("Usuario creado exitosamente")
           setActivarNuevoUsuario(!activarNuevoUsuario)
           setTimeout(() => {
@@ -151,14 +161,19 @@ useEffect(() => {
                 notificationEmail: ""
               }
             )
+            setDisableSubmit(false)
             closeModal();
 
             axios.post(`${API_URL_BASE}/sendmail`, sendEmail)
           }, 3000);
         } else {
+          setDisableSubmit(false)
+          setSubmitLoader(false)
           toast.error("Hubo un problema con la creación")
         }
       } catch (error) {
+        setDisableSubmit(false)
+          setSubmitLoader(false)
         toast.error(`Hubo un problema con la creacion. ${error.response.data}`)
       }
 
@@ -336,60 +351,22 @@ useEffect(() => {
                   </div>
                 </div>
               </div>
-              <button
-                type="submit"
-                id="theme-toggle"
-                className="px-4 py-2 w-full rounded bg-primaryPink shadow shadow-black text-black hover:bg-blue-600 focus:outline-none transition-colors dark:text-darkText dark:bg-darkPrimary dark:hover:bg-blue-600"
-              >
-                Crear nuevo usuario
-              </button>
+              {!submitLoader ?
+                <button
+                  type="submit"
+                  id="theme-toggle"
+                  className="px-4 py-2 w-full rounded bg-primaryPink shadow shadow-black text-black hover:bg-blue-600 focus:outline-none transition-colors dark:text-darkText dark:bg-darkPrimary dark:hover:bg-blue-600"
+                  disabled={disableSubmit}
+                >
+                  Crear nuevo usuario
+                </button> :
+                <Loader />
+              }
             </form>
           </div>
         </div>
       </div>
-      <Toaster
-        position="top-center"
-        reverseOrder={false}
-        gutter={8}
-        containerClassName=""
-        containerStyle={{
-          zIndex: 1000, // Puedes ajustar este valor según tus necesidades
-          // Otros estilos aquí
-        }}
-        toastOptions={{
-          // Define default options
-          className: '',
-          duration: 5000,
-          style: {
-            background: '#ffc8c8',
-            color: '#363636',
-          },
-
-          success: {
-            duration: 3000,
-            theme: {
-              primary: 'green',
-              secondary: 'black',
-            },
-            style: {
-              background: '#00A868',
-              color: '#FFFF',
-            }
-          },
-
-          error: {
-            duration: 2000,
-            theme: {
-              primary: 'pink',
-              secondary: 'black',
-            },
-            style: {
-              background: '#C43433',
-              color: '#fff',
-            }
-          },
-        }}
-      />
+      
 
     </>
   );
