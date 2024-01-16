@@ -235,13 +235,13 @@ const Agenda = () => {
               </h1>
               {user.role === "especialista" ? null : (
                 <section className="shadow shadow-black rounded-xl p-5 mb-10 bg-secondaryPink dark:bg-darkPrimary dark:shadow-darkText">
-                  <h1 className="text-xl dark:text-darkText mb-2">
+                  <h1 className="text-xl text-center lg:text-left dark:text-darkText mb-2">
                     Agendar cita
                   </h1>
-                  <div className="flex flex-col items-center gap-5 md:flex-row">
-                    <div className=" flex flex-col sm:flex-row sm:gap-5">
+                  <div className="flex flex-col items-center gap-5 lg:flex-row">
+                    <div className="flex flex-row sm:gap-5 ">
                       <FaPlusCircle
-                        className="mt-1.5 cursor-pointer dark:text-darkText"
+                        className="mt-4 mr-5 sm:mt-1.5 sm:mr-0 cursor-pointer dark:text-darkText"
                         onClick={() => setShowClientListModal(true)}
                       />
 

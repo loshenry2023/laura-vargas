@@ -253,12 +253,13 @@ const Calendar = ({
               )}
             </div>
           </div>
-          <div className="flex flex-col gap-2 w-72 sm:px-5 overflow-auto sm:w-96 sm:h-96 md:w-[600px]">
+          <div className="flex flex-col w-72 sm:px-5 overflow-auto sm:w-96 sm:h-96 md:w-[600px]">
             {/* // se pued eponer mas con h-full // */}
-            <h1 className="font-semibold dark:text-darkText">
-              {capitalizedDate(formatedDate)}
+            <h1 className="font-semibold mb-2 dark:text-darkText">
+              {capitalizedDate(formatedDate)} 
             </h1>
-            <div className="flex flex-row gap-2">
+            <p className="text-sm dark:text-darkText"> Los rangos horarios son de uso exclusivo para filtrar citas</p>
+            <div className="flex flex-row gap-2 mt-0.5 mb-3">
               <button
                 onClick={
                   activeButton.range1
@@ -396,7 +397,7 @@ const Calendar = ({
             )}
               </div>
             {calendar.length === 0 && (
-              <h4 className="font-medium text-xl dark:text-darkText">
+              <h4 className="font-medium mt-2 text-xl dark:text-darkText">
                 Sin turnos hasta el momento
               </h4>
             )}
