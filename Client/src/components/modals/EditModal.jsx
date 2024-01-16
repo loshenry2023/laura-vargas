@@ -123,7 +123,7 @@ function EditModal({ setShowEditModal, branches, specialties, userId, tokenID })
         const isDataUnchanged = JSON.stringify(userData) === JSON.stringify(controlData);
 
         if (isDataUnchanged) {
-            toast.error("Debe modificar al menos un campo");
+            toast.error("Debes modificar al menos un campo");
         } else if (hasErrors) {
             
         } else {

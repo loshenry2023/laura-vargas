@@ -103,7 +103,7 @@ const EditClient = ({setShowEditModal, clientInfo, setClientRender,clientRender,
     
           if (!isModified) {
             // Display toast if no fields have been modified
-            toast.error("Debe modificar al menos un campo");
+            toast.error("Debes modificar al menos un campo");
             return;
           }
     

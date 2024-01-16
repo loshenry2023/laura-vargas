@@ -15,6 +15,7 @@ import serviceValidation from "../../functions/serviceValidation";
 
 //Variables de entorno
 import getParamsEnv from "../../functions/getParamsEnv";
+import { getSpecialties } from "../../redux/actions";
 
 const { API_URL_BASE } = getParamsEnv();
 
@@ -26,6 +27,10 @@ const CreateServiceModal = ({
   token,
 }) => {
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getSpecialties({token}))
+  },[])
 
   const [service, setService] = useState({
     name: "",
