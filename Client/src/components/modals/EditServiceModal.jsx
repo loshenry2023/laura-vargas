@@ -109,7 +109,7 @@ const EditServiceModal = ({
 
     if (!isFormModified) {
       toast.error(
-        "Debe modificar al menos un campo para modificar el procedimiento"
+        "Debes modificar al menos un campo para modificar el procedimiento"
       );
       return;
     }

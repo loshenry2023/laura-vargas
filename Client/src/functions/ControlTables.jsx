@@ -7,6 +7,7 @@ import BranchTable from "../components/BranchTable";
 import SpecialtiesTable from "../components/SpecialtiesTable";
 import ErrorToken from "../views/ErrorToken";
 import { getBranches, getServices, getSpecialties } from "../redux/actions";
+import ToasterConfig from "../components/Toaster";
 
 import { useDispatch, useSelector } from "react-redux";
 
@@ -56,6 +57,7 @@ const ControlTables = () => {
     return <ErrorToken error={tokenError} />;
   } else {
     return (
+      <>
       <div className="flex flex-col h-screen">
         <NavBar />
         <div className="flex flex-row flex-grow dark:bg-darkBackground">
@@ -104,6 +106,8 @@ const ControlTables = () => {
           </div>
         </div>
       </div>
+      <ToasterConfig />
+      </>
     );
   }
 };

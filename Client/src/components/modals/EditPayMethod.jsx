@@ -66,7 +66,7 @@ const EditPayMethodModal = ({
 
     if (!isFormModified) {
       toast.error(
-        "Debe modificar al menos un campo para modificar el método de pago"
+        "Debes modificar al menos un campo para modificar el método de pago"
       );
       return;
     }

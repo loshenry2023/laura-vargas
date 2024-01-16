@@ -243,7 +243,7 @@ const EditAppointment = ({ setShowEditAppointment, setSpecialty, token, date, se
 
 
     if (!isAppointmentInfoChanged()) {
-      toast.error("No se ha modificado ningún campo. Debe modificar al menos un campo para editar la cita.");
+      toast.error("No se ha modificado ningún campo. Debes modificar al menos un campo para editar la cita.");
       return;
     }
 
