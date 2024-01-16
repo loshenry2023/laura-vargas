@@ -49,18 +49,30 @@ function DonutChart({ data, title }) {
               />
             ))}
           </Pie>
-          <text
-            x="50%"
-            y="50%"
-            textAnchor="middle"
-            dominantBaseline="middle"
-            fontSize="14"
-            fontWeight="bold"
-            fill="#000"
-          >
-            {" "}
-            Total: {totalValue}
-          </text>
+          <foreignObject x="40%" y="40%" width="20%" height="20%">
+            <div
+              style={{
+                width: "100%",
+                height: "100%",
+                display: "flex",
+                background: "#fff",
+                // border: "2px solid #000",
+                borderRadius: "5px",
+              }}
+              className=" flex flex-row items-center justify-center text-center px-2"
+            >
+              <text
+                x="50%"
+                y="50%"
+                fontWeight="bold"
+                fill="#000"
+                className=" text-center text-sm"
+              >
+                {" "}
+                {`Total: ${totalValue}`}
+              </text>
+            </div>
+          </foreignObject>
           <Tooltip />
         </PieChart>
       </ResponsiveContainer>
