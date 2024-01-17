@@ -173,7 +173,7 @@ useEffect(() => {
         }
       } catch (error) {
         setDisableSubmit(false)
-          setSubmitLoader(false)
+        setSubmitLoader(false)
         toast.error(`Hubo un problema con la creacion. ${error.response.data}`)
       }
 
