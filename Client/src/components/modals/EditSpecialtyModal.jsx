@@ -60,67 +60,73 @@ const CreateSpecialtyModal = ({
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     if (Specialty.name.length > 30) {
       setErrors({
         name: "El nombre no puede superar los 30 caracteres",
       });
-
       return;
     } else if (Specialty.name.length === 0) {
       setErrors({
         name: "El nombre no puede estar vacío",
       });
-
       return;
     } else {
       setErrors({
         name: undefined,
       });
     }
-
+  
+    // Create an object with the initial values for comparison
+    const initialSpecialty = {
+      name: filaSpecialty.specialtyName,
+    };
+  
+    // Check if there are modifications
+    if (JSON.stringify(Specialty) === JSON.stringify(initialSpecialty)) {
+      toast.error("Debes modificar al menos un campo");
+      return;
+    }
+  
     try {
-
-      setDisableSubmit(true)
-      setSubmitLoader(true)
-
+      setDisableSubmit(true);
+      setSubmitLoader(true);
+  
       const data = {
         specialtyName: Specialty.name,
         token: token,
       };
-
+  
       const response = await axios.put(
         `${API_URL_BASE}/specialty/${filaSpecialty.id}`,
         data
       );
-
-
-
+  
       if (response.data.updated === "ok") {
-        setSubmitLoader(false)
+        setSubmitLoader(false);
         setAux(!aux);
         toast.success("Especialidad modificada exitosamente");
-
+  
         setTimeout(() => {
           closeModal();
-          setDisableSubmit(false)
+          setDisableSubmit(false);
           setSpecialty({
             name: "",
           });
         }, 3000);
       } else {
-        setDisableSubmit(false)
-            setSubmitLoader(false)
+        setDisableSubmit(false);
+        setSubmitLoader(false);
         toast.error("Hubo un problema con la modificación");
       }
     } catch (error) {
-      setDisableSubmit(false)
-            setSubmitLoader(false)
+      setDisableSubmit(false);
+      setSubmitLoader(false);
       toast.error(
         `Hubo un problema con la modificación. ${error.response.data}`
       );
     }
-  };
+  }
 
   useEffect(() => {
     const close = (e) => {

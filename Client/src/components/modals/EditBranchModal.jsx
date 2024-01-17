@@ -59,7 +59,7 @@ const EditBranchModal = ({
       newBranch.coordinates !== filaBranch.coordinates;
 
     if (!isFormModified) {
-      toast.error("Debe modificar al menos un campo para editar la sede");
+      toast.error("Debes modificar al menos un campo para editar la sede");
       return;
     }
 
