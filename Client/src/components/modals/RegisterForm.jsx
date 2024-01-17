@@ -183,8 +183,7 @@ useEffect(() => {
   return (
     <>
       <div className="fixed top-0 left-0 flex items-center justify-center w-full h-full" style={{ background: "rgba(0, 0, 0, 0.70)" }}>
-        <div className="container">
-          <div className="w-4/5 mx-auto bg-white shadow rounded-lg p-6 md:w-3/4 2xl:w-1/3 dark:bg-darkBackground">
+          <div className="w-5/5 my-10 bg-white shadow rounded-lg p-6 md:w-3/4 2xl:w-1/3 dark:bg-darkBackground">
             <div className='flex justify-between'>
               <h1 className="text-xl font-semibold mb-4 text-black dark:text-darkText">Agregar nuevo usuario</h1>
               <IoClose onClick={closeModal} className='cursor-pointer hover:scale-125 mt-2 w-5 h-5 dark:text-darkText' />
@@ -344,9 +343,9 @@ useEffect(() => {
                 </div>
               </div>
               <div>
-                <div className="flex flex-col w-full items-center">
+                <div className="flex flex-col w-full items-center mb-2">
                   <UploadWidget setUserData={setUserData} />
-                  <div className='mt-2 mb-2'>
+                  <div className='hidden sm:block mt-2 mb-2'>
                     <img className='w-20 h-20 rounded' src={userData.image} alt="user-avatar" />
                   </div>
                 </div>
@@ -364,7 +363,6 @@ useEffect(() => {
               }
             </form>
           </div>
-        </div>
       </div>
       
 
