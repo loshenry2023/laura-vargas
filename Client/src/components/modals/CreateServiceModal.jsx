@@ -189,7 +189,7 @@ const CreateServiceModal = ({
                     placeholder="Nombre"
                     className={`border border-black p-2 rounded w-full ${
                       errors.name !== undefined && "border-2 border-red-500"
-                    }`}
+                    } dark:text-darkText dark:bg-darkPrimary`}
                   />
                   {errors.name !== "" && (
                     <p className="text-xs text-red-500">{errors.name}</p>
@@ -202,7 +202,7 @@ const CreateServiceModal = ({
                   <select
                     onChange={handleChange}
                     name="specialty"
-                    className="w-full border text-gray-500 border-black rounded-md text-md  dark:border-darkText p-2"
+                    className="w-full border text-gray-500 border-black rounded-md text-md  dark:border-darkText p-2 dark:text-darkText dark:bg-darkPrimary"
                   >
                     <option value="">-- Especialidad --</option>
                     {specialties.map((specialty, index) => (
@@ -229,7 +229,7 @@ const CreateServiceModal = ({
                     placeholder="Duración"
                     className={`border text-gray-500 border-black p-2 rounded w-full ${
                       errors.duration !== undefined && "border-2 border-red-500"
-                    }`}
+                    } dark:text-darkText dark:bg-darkPrimary`}
                   />
                   {errors.duration !== "" && (
                     <p className="text-xs text-red-500">{errors.duration}</p>
@@ -243,7 +243,7 @@ const CreateServiceModal = ({
                     placeholder="Precio"
                     className={`border border-black p-2 rounded w-full ${
                       errors.price !== undefined && "border-2 border-red-500"
-                    }`}
+                    } dark:text-darkText dark:bg-darkPrimary`}
                     onChange={handleChange}
                     type="text"
                     name="price"

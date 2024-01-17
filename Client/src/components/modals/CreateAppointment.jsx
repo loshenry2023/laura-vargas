@@ -24,22 +24,22 @@ const CreateAppointment = ({ setShowAppointmentModal, setChosenClient, dateInfo,
 
     useEffect(() => {
         const close = (e) => {
-          if(e.keyCode === 27){
-            closeModal()
-          }
+            if (e.keyCode === 27) {
+                closeModal()
+            }
         }
         window.addEventListener('keydown', close)
         return () => window.removeEventListener('keydown', close)
-      }, [])
+    }, [])
 
     const [submitLoader, setSubmitLoader] = useState(false)
-  const [disableSubmit, setDisableSubmit] = useState(false)
+    const [disableSubmit, setDisableSubmit] = useState(false)
     const userSpecialist = useSelector((state) => state?.user)
     const workingBranch = useSelector((state) => state?.workingBranch)
     const [validationErrors, setValidationErrors] = useState({});
     const specialistName = `${dateInfo.specialist.name} ${dateInfo.specialist.lastName}`
     const currentDate = new Date();
-    
+
 
 
     const [AppointmentInfo, setAppointmentInfo] = useState({
@@ -149,7 +149,7 @@ const CreateAppointment = ({ setShowAppointmentModal, setChosenClient, dateInfo,
             }
 
             if (response.data.created === "ok") {
-            setSubmitLoader(false)
+                setSubmitLoader(false)
                 toast.success("Cita creada exitosamente");
                 setTimeout(() => {
                     closeModal();
@@ -175,14 +175,14 @@ const CreateAppointment = ({ setShowAppointmentModal, setChosenClient, dateInfo,
                         name: "",
                         lastName: ""
                     },
-                   
+
                 })
                 setChosenClient({ name: "Elige", lastName: "cliente" })
                 axios.post(`${API_URL_BASE}/sendmail`, sendEmail);
                 setRefrescarCita(!refrescarCita);
             } else {
                 setSubmitLoader(false)
-                    setDisableSubmit(false)
+                setDisableSubmit(false)
                 toast.error("Hubo un problema con la creación");
             }
         } catch (error) {
@@ -208,7 +208,7 @@ const CreateAppointment = ({ setShowAppointmentModal, setChosenClient, dateInfo,
                                     <label className='pl-1 text-sm font-bold dark:text-darkText'>Nombre de cliente</label>
                                     <input
                                         placeholder="Nombre de cliente"
-                                        className="border border-black p-2 rounded w-full bg-gray-200"
+                                        className="border border-black p-2 rounded w-full bg-gray-200 dark:text-darkText dark:bg-darkPrimary"
                                         onChange={handleChange}
                                         type="text"
                                         name="clientName"
@@ -220,7 +220,7 @@ const CreateAppointment = ({ setShowAppointmentModal, setChosenClient, dateInfo,
                                     <label className='pl-1 text-sm font-bold dark:text-darkText'>Apellido del cliente</label>
                                     <input
                                         placeholder="Nombre de cliente"
-                                        className="border border-black p-2 rounded w-full bg-gray-200"
+                                        className="border border-black p-2 rounded w-full bg-gray-200 dark:text-darkText dark:bg-darkPrimary"
                                         onChange={handleChange}
                                         type="text"
                                         name="clientLastName"
@@ -237,7 +237,7 @@ const CreateAppointment = ({ setShowAppointmentModal, setChosenClient, dateInfo,
                                     <label className='pl-1 text-sm font-bold dark:text-darkText'>Sede</label>
                                     <input
                                         placeholder="Sede"
-                                        className="border border-black p-2 rounded w-full bg-gray-200"
+                                        className="border border-black p-2 rounded w-full bg-gray-200 dark:text-darkText dark:bg-darkPrimary"
                                         onChange={handleChange}
                                         type="text"
                                         name="branch"
@@ -247,10 +247,10 @@ const CreateAppointment = ({ setShowAppointmentModal, setChosenClient, dateInfo,
 
                                 </div>
                                 <div className="first-letter:grid grid-cols-1 mb-2">
-                                    <label className='pl-1 text-sm font-bold dark:text-darkText'>Procedimeinto</label>
+                                    <label className='pl-1 text-sm font-bold dark:text-darkText'>Procedimiento</label>
                                     <input
                                         placeholder="Procedimiento"
-                                        className="border border-black p-2 rounded w-full bg-gray-200"
+                                        className="w-full border border-black rounded-md text-sm dark:text-darkText dark:bg-darkPrimary p-2.5"
                                         onChange={handleChange}
                                         type="text"
                                         name="service"
@@ -265,7 +265,7 @@ const CreateAppointment = ({ setShowAppointmentModal, setChosenClient, dateInfo,
                                     <label className='pl-1 text-sm font-bold dark:text-darkText'>Fecha</label>
                                     <input
                                         placeholder="Fecha"
-                                        className="border border-black p-2 rounded w-full bg-gray-200"
+                                        className="border border-black p-2 rounded w-full dark:text-darkText dark:bg-darkPrimary"
                                         onChange={handleChange}
                                         type="text"
                                         name="date"
@@ -278,7 +278,7 @@ const CreateAppointment = ({ setShowAppointmentModal, setChosenClient, dateInfo,
                                     <label className='pl-1 text-sm font-bold dark:text-darkText'>Especialista</label>
                                     <input
                                         placeholder="Especialista"
-                                        className="border border-black p-2 rounded w-full bg-gray-200"
+                                        className="w-full border border-black rounded-md text-sm dark:text-darkText dark:bg-darkPrimary p-2.5"
                                         onChange={handleChange}
                                         type="text"
                                         name="specialist"
@@ -293,7 +293,7 @@ const CreateAppointment = ({ setShowAppointmentModal, setChosenClient, dateInfo,
                                     <label className='pl-1 text-sm font-bold dark:text-darkText'>Hora de inicio</label>
                                     <input
                                         placeholder="Hora de inicio"
-                                        className="border border-black p-2 rounded w-full"
+                                        className="border border-black p-2 rounded w-full dark:text-darkText dark:bg-darkPrimary dark:[color-scheme:dark]"
                                         onChange={handleChange}
                                         type="time"
                                         name="date_from"
@@ -308,7 +308,7 @@ const CreateAppointment = ({ setShowAppointmentModal, setChosenClient, dateInfo,
                                     <label className='pl-1 text-sm font-bold dark:text-darkText'>Hora de finalización</label>
                                     <input
                                         placeholder="Hora de finalización"
-                                        className="border border-black p-2 rounded w-full"
+                                        className="border border-black p-2 rounded w-full dark:text-darkText dark:bg-darkPrimary dark:[color-scheme:dark]"
                                         onChange={handleChange}
                                         type="time"
                                         name="date_to"
@@ -324,25 +324,25 @@ const CreateAppointment = ({ setShowAppointmentModal, setChosenClient, dateInfo,
                                 <label className='pl-1 text-sm font-bold dark:text-darkText'>Observaciones</label>
                                 <textarea
                                     placeholder="Observaciones"
-                                    className="border border-black p-2 rounded w-full"
+                                    className="border border-black p-2 rounded w-full dark:text-darkText dark:bg-darkPrimary"
                                     onChange={handleChange}
                                     name="obs"
                                     value={AppointmentInfo.obs}
                                 />
                             </div>
 
-                            
+
                             {!submitLoader ?
                                 <button
-                                type="submit"
-                                id="theme-toggle"
-                                disabled={disableSubmit}
-                                className="px-4 py-2 w-full rounded bg-primaryPink shadow shadow-black text-black hover:bg-blue-600 focus:outline-none transition-colors dark:text-darkText dark:bg-darkPrimary dark:hover:bg-blue-600"
-                            >
-                                Crear Cita
-                            </button> :
-                <Loader />
-              }
+                                    type="submit"
+                                    id="theme-toggle"
+                                    disabled={disableSubmit}
+                                    className="px-4 py-2 w-full rounded bg-primaryPink shadow shadow-black text-black hover:bg-blue-600 focus:outline-none transition-colors dark:text-darkText dark:bg-darkPrimary dark:hover:bg-blue-600"
+                                >
+                                    Crear Cita
+                                </button> :
+                                <Loader />
+                            }
                         </form>
                     </div>
                 </div>

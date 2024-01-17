@@ -144,7 +144,7 @@ const CreateBranchModal = ({
                   placeholder="Nombre"
                   className={`border border-black p-2 rounded w-full ${
                     errors.name !== undefined && "border-2 border-red-500"
-                  }`}
+                  } dark:text-darkText dark:bg-darkPrimary`}
                 />
                 {errors.name !== "" && (
                   <p className="text-xs text-red-500 p-1">{errors.name}</p>
@@ -162,7 +162,7 @@ const CreateBranchModal = ({
                   placeholder="Dirección"
                   className={`border border-black p-2 rounded w-full ${
                     errors.address !== undefined && "border-2 border-red-500"
-                  }`}
+                  } dark:text-darkText dark:bg-darkPrimary`}
                 />
                 {errors.address !== "" && (
                   <p className="text-xs text-red-500 p-1">{errors.address}</p>
@@ -181,7 +181,7 @@ const CreateBranchModal = ({
                   placeholder="Phone"
                   className={`border border-black p-2 rounded w-full ${
                     errors.phone !== undefined && "border-2 border-red-500"
-                  }`}
+                  } dark:text-darkText dark:bg-darkPrimary`}
                 />
                 {errors.phone !== "" && (
                   <p className="text-xs text-red-500 p-1">{errors.phone}</p>
@@ -200,7 +200,7 @@ const CreateBranchModal = ({
                   className={`border border-black p-2 rounded w-full ${
                     errors.coordinates !== undefined &&
                     "border-2 border-red-500"
-                  }`}
+                  } dark:text-darkText dark:bg-darkPrimary`}
                 />
                 {errors.coordinates !== "" && (
                   <p className="text-xs text-red-500 p-1">

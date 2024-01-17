@@ -439,7 +439,7 @@ const EditAppointment = ({ setShowEditAppointment, setSpecialty, token, date, se
                   <label className='pl-1 text-sm font-bold dark:text-darkText'>Hora de inicio</label>
                   <input
                     placeholder="Hora de inicio"
-                    className="border border-black p-2 rounded w-full dark:text-darkText dark:bg-darkPrimary"
+                    className="border border-black p-2 rounded w-full dark:text-darkText dark:bg-darkPrimary dark:[color-scheme:dark]"
                     onChange={handleChange}
                     type="time"
                     name="date_from"
@@ -453,7 +453,7 @@ const EditAppointment = ({ setShowEditAppointment, setSpecialty, token, date, se
                   <label className='pl-1 text-sm font-bold dark:text-darkText'>Hora de finalización</label>
                   <input
                     placeholder="Hora de finalización"
-                    className="border border-black p-2 rounded w-full dark:text-darkText dark:bg-darkPrimary"
+                    className="border border-black p-2 rounded w-full dark:text-darkText dark:bg-darkPrimary dark:[color-scheme:dark]"
                     onChange={handleChange}
                     type="time"
                     name="date_to"

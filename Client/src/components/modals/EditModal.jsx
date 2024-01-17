@@ -201,7 +201,7 @@ function EditModal({ setShowEditModal, branches, specialties, userId, tokenID })
                                 <label className="mb-2 text-sm font-medium text-gray-900 dark:text-darkText">Cuenta de usuario (Email)</label>
                                 <input
                                     placeholder="Gmail Usuario"
-                                    className={`cursor-not-allowed border bg-gray-200 text-gray-500 border-black p-2 rounded w-full ${errors.userName !== undefined && "border-red-500"}`}
+                                    className={`cursor-not-allowed border bg-gray-200 text-gray-500 border-black p-2 rounded w-full ${errors.userName !== undefined && "border-red-500"} dark:text-darkText dark:bg-darkPrimary`}
                                     onChange={handleChange}
                                     type="email"
                                     name="userName"
@@ -219,7 +219,7 @@ function EditModal({ setShowEditModal, branches, specialties, userId, tokenID })
                                         name="name"
                                         value={userData.name}
                                         placeholder="Nombre"
-                                        className={`border border-black p-2 rounded w-full ${errors.name !== undefined && "border-red-500"}`}
+                                        className={`border border-black p-2 rounded w-full ${errors.name !== undefined && "border-red-500"} dark:text-darkText dark:bg-darkPrimary`}
                                     />
                                     {errors.name !== "" && <p className="text-xs text-red-500">{errors.name}</p>}
                                 </div>
@@ -228,7 +228,7 @@ function EditModal({ setShowEditModal, branches, specialties, userId, tokenID })
                                     <input
                                         type="text"
                                         placeholder="Apellido"
-                                        className={`border border-black p-2 rounded w-full ${errors.lastName !== undefined && "border-red-500"}`}
+                                        className={`border border-black p-2 rounded w-full ${errors.lastName !== undefined && "border-red-500"} dark:text-darkText dark:bg-darkPrimary`}
                                         onChange={handleChange}
                                         name="lastName"
                                         value={userData.lastName}
@@ -240,7 +240,7 @@ function EditModal({ setShowEditModal, branches, specialties, userId, tokenID })
                                 <label className='block mb-2 text-sm font-medium text-gray-900 dark:text-darkText'>Email para notificaciones</label>
                                 <input
                                     placeholder="Email para notifiaciones"
-                                    className="border border-black p-2 rounded w-full"
+                                    className="border border-black p-2 rounded w-full dark:text-darkText dark:bg-darkPrimary"
                                     onChange={handleChange}
                                     type="email"
                                     name="notificationEmail"
@@ -253,7 +253,7 @@ function EditModal({ setShowEditModal, branches, specialties, userId, tokenID })
                                     <label className='block mb-2 text-sm font-medium text-gray-900 dark:text-darkText'>Telefono</label>
                                     <input
                                         placeholder="Telefono 1"
-                                        className={`border border-black p-2 rounded w-full ${errors.phoneNumber1 !== undefined && "border-red-500"}`}
+                                        className={`border border-black p-2 rounded w-full ${errors.phoneNumber1 !== undefined && "border-red-500"} dark:text-darkText dark:bg-darkPrimary`}
                                         onChange={handleChange}
                                         type="text"
                                         name="phoneNumber1"
@@ -269,7 +269,7 @@ function EditModal({ setShowEditModal, branches, specialties, userId, tokenID })
                                         name="phoneNumber2"
                                         value={userData.phoneNumber2}
                                         placeholder="Telefono 2"
-                                        className={`border border-black p-2 rounded w-full ${errors.phoneNumber2 !== undefined && "border-red-500"}`}
+                                        className={`border border-black p-2 rounded w-full ${errors.phoneNumber2 !== undefined && "border-red-500"} dark:text-darkText dark:bg-darkPrimary`}
                                     />
                                     {errors.phoneNumber2 !== "" && <p className="text-xs text-red-500">{errors.phoneNumber2}</p>}
                                 </div>
@@ -283,7 +283,7 @@ function EditModal({ setShowEditModal, branches, specialties, userId, tokenID })
                                         name="commission"
                                         value={userData.commission}
                                         placeholder="Comision"
-                                        className={`border border-black p-2 rounded w-full ${errors.commission !== undefined && "border-red-500"}`}
+                                        className={`border border-black p-2 rounded w-full ${errors.commission !== undefined && "border-red-500"} dark:text-darkText dark:bg-darkPrimary`}
                                     />
                                     {errors.commission !== "" && <p className="text-xs text-red-500 ">{errors.commission}</p>}
                                 </div>
@@ -294,7 +294,7 @@ function EditModal({ setShowEditModal, branches, specialties, userId, tokenID })
                                         name="rol"
                                         value={userData.rol}
                                         placeholder='Selecciona un rol'
-                                        className={`bg-gray-50 border border-black text-black sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 ${errors.rol !== undefined && "border-red-500"}`}
+                                        className={`bg-gray-50 border border-black text-black sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 ${errors.rol !== undefined && "border-red-500"} dark:text-darkText dark:bg-darkPrimary`}
                                     >
                                         {roles.map((rol, index) => (
                                             <option key={index} value={rol}>
