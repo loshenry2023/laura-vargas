@@ -79,7 +79,7 @@ const Agenda = () => {
     dateTime: formattedDate,
   });
 
-  console.log(dateInfo)
+  //console.log(dateInfo)
 
   const [isFormCompleted, setIsFormCompleted] = useState(false);
 
@@ -245,20 +245,20 @@ const Agenda = () => {
                 <section className="shadow shadow-black rounded-xl p-5 mb-10 bg-secondaryPink dark:bg-darkPrimary dark:shadow-darkText">
                   <h1 className="text-xl dark:text-darkText mb-2">Agendar cita</h1>
                   <div className="flex flex-col items-center gap-5 md:flex-row">
-                    
-                      <FaPlusCircle
-                        className="mt-1.5 cursor-pointer dark:text-darkText"
-                        onClick={() => setShowClientListModal(true)}
-                      />
 
-                      <input
-                        name=""
-                        id=""
-                        placeholder={`${chosenClient.name} ${chosenClient.lastName}`}
-                        disabled
-                        className="w-full sm:w-60 pl-2 bg-white resize-y border mt-3 sm:mt-0 sm:mr-2 border-black rounded-md text-md dark:text-darkText dark:bg-darkPrimary dark:border-darkText"
-                      />
-                    
+                    <FaPlusCircle
+                      className="mt-1.5 cursor-pointer dark:text-darkText"
+                      onClick={() => setShowClientListModal(true)}
+                    />
+
+                    <input
+                      name=""
+                      id=""
+                      placeholder={`${chosenClient.name} ${chosenClient.lastName}`}
+                      disabled
+                      className="w-full sm:w-60 pl-2 bg-white resize-y border mt-3 sm:mt-0 sm:mr-2 border-black rounded-md text-md dark:text-darkText dark:bg-darkPrimary dark:border-darkText"
+                    />
+
 
                     {!showEditAppointment && (
                       <select
