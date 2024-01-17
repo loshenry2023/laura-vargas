@@ -47,14 +47,14 @@ function UserProfiles() {
   const tokenID = token.token;
 
   const handlerDateFrom = (e) => {
-    if(createDateEnd !== "" && e.target.value > createDateEnd){
+    if(createDateEnd !== "" && `${e.target.value} 00:00:00` > createDateEnd){
       toast.error("La fecha inicial no puede ser mayor a la fecha final");
     }
     setCreateDateStart(`${e.target.value} 00:00:00`)
   };
 
   const handlerDateTo = (e) => {
-    if(createDateStart !== "" && e.target.value < createDateStart){
+    if(createDateStart !== "" && `${e.target.value} 23:59:59`< createDateStart){
       toast.error("La fecha final no puede ser menor a la fecha inicial");
     }
     setCreateDateEnd(`${e.target.value} 23:59:59`)
