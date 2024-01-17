@@ -173,7 +173,7 @@ useEffect(() => {
         }
       } catch (error) {
         setDisableSubmit(false)
-          setSubmitLoader(false)
+        setSubmitLoader(false)
         toast.error(`Hubo un problema con la creacion. ${error.response.data}`)
       }
 
@@ -194,7 +194,7 @@ useEffect(() => {
                 <label className='pl-1 text-sm font-bold dark:text-darkText'>Cuenta de usuario (Email)</label>
                 <input
                   placeholder="Cuenta de usuario"
-                  className="border border-black p-2 rounded w-full"
+                  className="border border-black p-2 rounded w-full dark:text-darkText dark:bg-darkPrimary"
                   onChange={handleChange}
                   type="email"
                   name="userName"
@@ -212,7 +212,7 @@ useEffect(() => {
                     name="name"
                     value={userData.name}
                     placeholder="Nombre"
-                    className="border border-black p-2 rounded w-full"
+                    className="border border-black p-2 rounded w-full dark:text-darkText dark:bg-darkPrimary"
                   />
                   {errors.name !== "" && <p className="text-xs text-red-500">{errors.name}</p>}
                 </div>
@@ -221,7 +221,7 @@ useEffect(() => {
                   <input
                     type="text"
                     placeholder="Apellido"
-                    className="border border-black p-2 rounded w-full"
+                    className="border border-black p-2 rounded w-full dark:text-darkText dark:bg-darkPrimary"
                     onChange={handleChange}
                     name="lastName"
                     value={userData.lastName}
@@ -234,7 +234,7 @@ useEffect(() => {
               <div className="first-letter:grid grid-cols-1 gap-4 mb-2">
                 <input
                   placeholder="Email para notificaciones"
-                  className="border border-black p-2 rounded w-full"
+                  className="border border-black p-2 rounded w-full dark:text-darkText dark:bg-darkPrimary"
                   onChange={handleChange}
                   type="email"
                   name="notificationEmail"
@@ -248,7 +248,7 @@ useEffect(() => {
                   <label className='pl-1 text-sm font-bold dark:text-darkText'>Telefono</label>
                   <input
                     placeholder="Telefono 1"
-                    className="border border-black p-2 rounded w-full"
+                    className="border border-black p-2 rounded w-full dark:text-darkText dark:bg-darkPrimary"
                     onChange={handleChange}
                     type="text"
                     name="phoneNumber1"
@@ -264,7 +264,7 @@ useEffect(() => {
                     name="phoneNumber2"
                     value={userData.phoneNumber2}
                     placeholder="Telefono 2"
-                    className="border border-black p-2 rounded w-full"
+                    className="border border-black p-2 rounded w-full dark:text-darkText dark:bg-darkPrimary"
                   />
                   {errors.phoneNumber2 !== "" && <p className="text-xs text-red-500">{errors.phoneNumber2}</p>}
                 </div>
@@ -278,7 +278,7 @@ useEffect(() => {
                     name="commission"
                     value={userData.commission}
                     placeholder="Comision"
-                    className="border border-black p-2 rounded w-full"
+                    className="border border-black p-2 rounded w-full dark:text-darkText dark:bg-darkPrimary"
                   />
                   {errors.commission !== "" && <p className="text-xs text-red-500 ">{errors.commission}</p>}
                 </div>
@@ -288,7 +288,7 @@ useEffect(() => {
                     onChange={handleChange}
                     name="rol"
                     value={userData.rol}
-                    className={`bg-gray-50 border border-black text-black sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5`}
+                    className={`bg-gray-50 border border-black text-black sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:text-darkText dark:bg-darkPrimary`}
 
                   >
                     <option value="" disabled hidden>Selecciona un rol</option>

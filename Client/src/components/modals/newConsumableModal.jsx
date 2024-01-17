@@ -123,9 +123,10 @@ function NewConsumableModal({ onClose }) {
                 <input
                   className={`border p-2 rounded w-full ${
                     errors.productName ? "border-red-500" : "border-black"
-                  }`}
+                  } dark:text-darkText dark:bg-darkPrimary`}
                   type="text"
                   value={newConsumable.productName}
+                  placeholder="Nombre de insumo..."
                   onChange={(e) =>
                     updateNewConsumable("productName", e.target.value)
                   }
@@ -143,8 +144,9 @@ function NewConsumableModal({ onClose }) {
                     errors.productCode || isCodeInUse
                       ? "border-red-500"
                       : "border-black"
-                  }`}
+                  } dark:text-darkText dark:bg-darkPrimary`}
                   type="text"
+                  placeholder="Código..."
                   value={newConsumable.productCode}
                   onChange={(e) =>
                     updateNewConsumable("productCode", e.target.value)
@@ -162,8 +164,9 @@ function NewConsumableModal({ onClose }) {
                 <input
                   className={`border p-2 rounded w-full ${
                     errors.description ? "border-red-500" : "border-black"
-                  }`}
+                  } dark:text-darkText dark:bg-darkPrimary`}
                   type="text"
+                  placeholder="descripción..."
                   value={newConsumable.description}
                   onChange={(e) =>
                     updateNewConsumable("description", e.target.value)
@@ -180,8 +183,9 @@ function NewConsumableModal({ onClose }) {
                 <input
                   className={`border p-2 rounded w-full ${
                     errors.supplier ? "border-red-500" : "border-black"
-                  }`}
+                  } dark:text-darkText dark:bg-darkPrimary`}
                   type="text"
+                  placeholder="Proveedor..."
                   value={newConsumable.supplier}
                   onChange={(e) =>
                     updateNewConsumable("supplier", e.target.value)
@@ -198,8 +202,9 @@ function NewConsumableModal({ onClose }) {
                 <input
                   className={`border p-2 rounded w-full ${
                     errors.amount ? "border-red-500" : "border-black"
-                  }`}
+                  } dark:text-darkText dark:bg-darkPrimary`}
                   type="number"
+                  placeholder="Cantidad..."
                   value={newConsumable.amount}
                   onChange={(e) =>
                     updateNewConsumable("amount", parseInt(e.target.value, 10))
@@ -216,8 +221,9 @@ function NewConsumableModal({ onClose }) {
                 <input
                   className={`border p-2 rounded w-full ${
                     errors.price ? "border-red-500" : "border-black"
-                  }`}
+                  } dark:text-darkText dark:bg-darkPrimary`}
                   type="number"
+                  placeholder="Precio..."
                   value={newConsumable.price}
                   onChange={(e) =>
                     updateNewConsumable("price", parseFloat(e.target.value))
