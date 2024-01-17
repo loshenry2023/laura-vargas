@@ -170,7 +170,7 @@ const EditPayMethodModal = ({
                     placeholder="Nombre"
                     className={`border border-black p-2 rounded w-full ${
                       errors.name !== undefined && "border-2 border-red-500"
-                    }`}
+                    } dark:text-darkText dark:bg-darkPrimary`}
                   />
                   {Object.keys(errors).map(
                     (key) =>

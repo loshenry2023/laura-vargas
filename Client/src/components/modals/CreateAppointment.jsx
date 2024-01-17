@@ -208,7 +208,7 @@ const CreateAppointment = ({ setShowAppointmentModal, setChosenClient, dateInfo,
                                     <label className='pl-1 text-sm font-bold dark:text-darkText'>Nombre de cliente</label>
                                     <input
                                         placeholder="Nombre de cliente"
-                                        className="border border-black p-2 rounded w-full bg-gray-200"
+                                        className="border border-black p-2 rounded w-full bg-gray-200 dark:text-darkText dark:bg-darkPrimary"
                                         onChange={handleChange}
                                         type="text"
                                         name="clientName"
@@ -220,7 +220,7 @@ const CreateAppointment = ({ setShowAppointmentModal, setChosenClient, dateInfo,
                                     <label className='pl-1 text-sm font-bold dark:text-darkText'>Apellido del cliente</label>
                                     <input
                                         placeholder="Nombre de cliente"
-                                        className="border border-black p-2 rounded w-full bg-gray-200"
+                                        className="border border-black p-2 rounded w-full bg-gray-200 dark:text-darkText dark:bg-darkPrimary"
                                         onChange={handleChange}
                                         type="text"
                                         name="clientLastName"
@@ -237,7 +237,7 @@ const CreateAppointment = ({ setShowAppointmentModal, setChosenClient, dateInfo,
                                     <label className='pl-1 text-sm font-bold dark:text-darkText'>Sede</label>
                                     <input
                                         placeholder="Sede"
-                                        className="border border-black p-2 rounded w-full bg-gray-200"
+                                        className="border border-black p-2 rounded w-full bg-gray-200 dark:text-darkText dark:bg-darkPrimary"
                                         onChange={handleChange}
                                         type="text"
                                         name="branch"
@@ -247,10 +247,10 @@ const CreateAppointment = ({ setShowAppointmentModal, setChosenClient, dateInfo,
 
                                 </div>
                                 <div className="first-letter:grid grid-cols-1 mb-2">
-                                    <label className='pl-1 text-sm font-bold dark:text-darkText'>Procedimeinto</label>
+                                    <label className='pl-1 text-sm font-bold dark:text-darkText'>Procedimiento</label>
                                     <input
                                         placeholder="Procedimiento"
-                                        className="border border-black p-2 rounded w-full bg-gray-200"
+                                        className="w-full border border-black rounded-md text-sm dark:text-darkText dark:bg-darkPrimary p-2.5"
                                         onChange={handleChange}
                                         type="text"
                                         name="service"
@@ -265,7 +265,7 @@ const CreateAppointment = ({ setShowAppointmentModal, setChosenClient, dateInfo,
                                     <label className='pl-1 text-sm font-bold dark:text-darkText'>Fecha</label>
                                     <input
                                         placeholder="Fecha"
-                                        className="border border-black p-2 rounded w-full bg-gray-200"
+                                        className="border border-black p-2 rounded w-full dark:text-darkText dark:bg-darkPrimary"
                                         onChange={handleChange}
                                         type="text"
                                         name="date"
@@ -278,7 +278,7 @@ const CreateAppointment = ({ setShowAppointmentModal, setChosenClient, dateInfo,
                                     <label className='pl-1 text-sm font-bold dark:text-darkText'>Especialista</label>
                                     <input
                                         placeholder="Especialista"
-                                        className="border border-black p-2 rounded w-full bg-gray-200"
+                                        className="w-full border border-black rounded-md text-sm dark:text-darkText dark:bg-darkPrimary p-2.5"
                                         onChange={handleChange}
                                         type="text"
                                         name="specialist"
@@ -293,7 +293,7 @@ const CreateAppointment = ({ setShowAppointmentModal, setChosenClient, dateInfo,
                                     <label className='pl-1 text-sm font-bold dark:text-darkText'>Hora de inicio</label>
                                     <input
                                         placeholder="Hora de inicio"
-                                        className="border border-black p-2 rounded w-full"
+                                        className="border border-black p-2 rounded w-full dark:text-darkText dark:bg-darkPrimary dark:[color-scheme:dark]"
                                         onChange={handleChange}
                                         type="time"
                                         name="date_from"
@@ -308,7 +308,7 @@ const CreateAppointment = ({ setShowAppointmentModal, setChosenClient, dateInfo,
                                     <label className='pl-1 text-sm font-bold dark:text-darkText'>Hora de finalización</label>
                                     <input
                                         placeholder="Hora de finalización"
-                                        className="border border-black p-2 rounded w-full"
+                                        className="border border-black p-2 rounded w-full dark:text-darkText dark:bg-darkPrimary dark:[color-scheme:dark]"
                                         onChange={handleChange}
                                         type="time"
                                         name="date_to"
@@ -324,7 +324,7 @@ const CreateAppointment = ({ setShowAppointmentModal, setChosenClient, dateInfo,
                                 <label className='pl-1 text-sm font-bold dark:text-darkText'>Observaciones</label>
                                 <textarea
                                     placeholder="Observaciones"
-                                    className="border border-black p-2 rounded w-full"
+                                    className="border border-black p-2 rounded w-full dark:text-darkText dark:bg-darkPrimary"
                                     onChange={handleChange}
                                     name="obs"
                                     value={AppointmentInfo.obs}

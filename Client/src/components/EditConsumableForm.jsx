@@ -189,7 +189,7 @@ function EditConsumableForm({
                   <div className="mb-2">
                     <label className="pl-1 text-sm font-bold dark:text-darkText">Nombre:</label>
                     <input
-                      className="border border-black p-2 rounded w-full"
+                      className="border border-black p-2 rounded w-full dark:text-darkText dark:bg-darkPrimary"
                       type="text"
                       value={productName}
                       onChange={(e) => setProductName(e.target.value)}
@@ -200,7 +200,7 @@ function EditConsumableForm({
                       Descripción:
                     </label>
                     <input
-                      className="border border-black p-2 rounded w-full"
+                      className="border border-black p-2 rounded w-full dark:text-darkText dark:bg-darkPrimary"
                       type="text"
                       value={description}
                       onChange={(e) => setDescription(e.target.value)}
@@ -209,7 +209,7 @@ function EditConsumableForm({
                   <div className="mb-2">
                     <label className="pl-1 text-sm font-bold dark:text-darkText">Proveedor:</label>
                     <input
-                      className="border border-black p-2 rounded w-full"
+                      className="border border-black p-2 rounded w-full dark:text-darkText dark:bg-darkPrimary"
                       type="text"
                       value={supplier}
                       onChange={(e) => setSupplier(e.target.value)}
@@ -222,7 +222,7 @@ function EditConsumableForm({
                   Cantidad Actual:
                 </label>
                 <input
-                  className="border border-black p-2 rounded w-full"
+                  className="border border-black p-2 rounded w-full dark:text-darkText dark:bg-darkPrimary"
                   type="number"
                   value={amount}
                   onChange={(e) => setAmount(e.target.value)}
@@ -237,7 +237,7 @@ function EditConsumableForm({
                   </label>
                   <div className="flex items-center">
                     <input
-                      className="border border-black p-2 rounded mr-2"
+                      className="border border-black p-2 rounded mr-2 dark:text-darkText dark:bg-darkPrimary"
                       type="number"
                       value={adjustmentValue}
                       onChange={(e) => {
@@ -267,7 +267,7 @@ function EditConsumableForm({
                     </label>
                     <div className="flex items-center">
                       <input
-                        className="border border-black p-2 rounded mr-2"
+                        className="border border-black p-2 rounded mr-2 dark:text-darkText dark:bg-darkPrimary"
                         type="number"
                         value={adjustmentValue}
                         onChange={(e) => {
@@ -297,7 +297,7 @@ function EditConsumableForm({
                   <div className="mb-2">
                     <label className="pl-1 text-sm font-bold dark:text-darkText">Precio:</label>
                     <input
-                      className="border border-black p-2 rounded w-full"
+                      className="border border-black p-2 rounded w-full dark:text-darkText dark:bg-darkPrimary"
                       type="number"
                       value={newPrice}
                       onChange={(e) => setNewPrice(e.target.value)}
