@@ -162,13 +162,13 @@ const Calendar = ({
   };
 
   return (
-    <>
+    <div className="scale-90 ">
       {loading ? (
         <Loader />
       ) : (
-        <div className="mb-10 flex flex-col gap-10 justify-center items-center w-full sm:w-full xl:flex-row">
+        <div className="m-0 p-0 flex flex-col gap-5   w-full sm:w-full xl:flex-row">
           <div className="w-72 sm:w-96 sm:h-96 md:w-[550px]">
-            <div className="flex justify-between items-center">
+            <div className="flex justify-between items-center scale-90  ">
               <h1 className="select-none font-semibold dark:text-darkText">
                 {months[today.month()]}, {today.year()}
               </h1>
@@ -195,7 +195,7 @@ const Calendar = ({
                 />
               </div>
             </div>
-            <div className="grid grid-cols-7 ">
+            <div className="grid grid-cols-7 scale-90">
               {days.map((day, index) => {
                 return (
                   <h1
@@ -208,7 +208,7 @@ const Calendar = ({
               })}
             </div>
 
-            <div className=" grid grid-cols-7 ">
+            <div className=" grid grid-cols-7 scale-90 mb-0 ">
               {generateDate(today.month(), today.year()).map(
                 ({ date, currentMonth, today }, index) => {
                   return (
@@ -562,7 +562,7 @@ const Calendar = ({
           },
         }}
       />
-    </>
+    </div>
   );
 };
 

@@ -3,7 +3,7 @@ import React from 'react'
 const Pagination = ({page, size, setPage, setSize, count}) => {
   const pagination = Math.ceil(count / size);
   return (
-    <section className="flex flex-col items-center gap-5">
+    <section className="flex flex-col items-center gap-3">
     <select
         name=""
         id=""

@@ -105,7 +105,7 @@ function UserProfiles() {
   } else {
     return (
       <>
-        <div>
+        <div className="relative">
           <NavBar />
           <div className="flex flex-row dark:bg-darkBackground">
             <SideBar />

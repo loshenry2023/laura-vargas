@@ -3,6 +3,7 @@ import { CiBellOn } from "react-icons/ci";
 import { IoExitOutline } from "react-icons/io5";
 import { TbStatusChange } from "react-icons/tb";
 import { MdDarkMode } from "react-icons/md";
+import { MdLightMode } from "react-icons/md";
 
 // hooks, routers, reducers:
 import React, { useEffect, useState } from "react";
@@ -130,10 +131,16 @@ const NavBar = () => {
         </div>
         <div className="flex gap-4 items-center pointer-events:auto">
           {user.branches.length > 1 ? <TbStatusChange onClick={changeBranch} className="h-6 w-6 cursor-pointer" /> : null}
+          {theme==="light" ?
           <MdDarkMode
             onClick={handleDarkMode}
             className="h-6 w-6 cursor-pointer"
           />
+          :
+          <MdLightMode
+            onClick={handleDarkMode}
+            className="h-6 w-6 cursor-pointer"
+          />}
           <CiBellOn className="relative h-6 w-6" />
           {user.role === "superAdmin" || user.role === "admin" || appointments.count === 0 ? null :
             showRed && <span onClick={() => eraseNotifications()} className="text-sm flex flex-row items-center justify-center font-bold mx-auto my-auto absolute w-4 h-4 top-[40px] right-[76px] rounded-full bg-red-500 cursor-pointer"> {appointments.count}  </span>}
