@@ -220,7 +220,7 @@ const Agenda = () => {
     return (
       <div>
         <NavBar />
-        <div className="flex flex-row dark:bg-darkBackground">
+        <div className="flex flex-row h-full dark:bg-darkBackground">
           <SideBar />
           {loading ? (
             <Loader />
@@ -228,8 +228,8 @@ const Agenda = () => {
             <div
               className={
                 user.role !== "especialista"
-                  ? "w-fit flex flex-col mx-auto m-10 gap-5 2xl:h-[calc(100vh-220px)]"
-                  : "w-fit flex flex-col mx-auto m-10 gap-5 items-center 2xl:h-[calc(100vh-220px)]"
+                  ? "w-fit flex flex-col mx-auto m-10 gap-5 "
+                  : "w-fit flex flex-col mx-auto m-10 gap-5 items-center"
               }
             >
               <h1
