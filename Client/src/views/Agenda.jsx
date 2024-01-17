@@ -242,9 +242,9 @@ const Agenda = () => {
                 Gestión de citas
               </h1>
               {user.role === "especialista" ? null : (
-                <section className="shadow shadow-black rounded-xl p-5 mb-10 bg-secondaryPink dark:bg-darkPrimary dark:shadow-darkText">
-                  <h1 className="text-xl dark:text-darkText mb-2">Agendar cita</h1>
-                  <div className="flex flex-col items-center gap-5 md:flex-row">
+                <section className="shadow shadow-black rounded-xl p-0 m-0 bg-secondaryPink dark:bg-darkPrimary dark:shadow-darkText">
+                  <h1 className="text-xl dark:text-darkText p-2  m-0">Agendar cita</h1>
+                  <div className="flex flex-col items-center gap-5 md:flex-row justify-center mb-2">
 
                     <FaPlusCircle
                       className="mt-1.5 cursor-pointer dark:text-darkText"
@@ -256,7 +256,7 @@ const Agenda = () => {
                       id=""
                       placeholder={`${chosenClient.name} ${chosenClient.lastName}`}
                       disabled
-                      className="w-full sm:w-60 pl-2 bg-white resize-y border mt-3 sm:mt-0 sm:mr-2 border-black rounded-md text-md dark:text-darkText dark:bg-darkPrimary dark:border-darkText"
+                      className="w-full sm:w-60 pl-2 py-1 bg-white resize-y border mt-3 sm:mt-0 sm:mr-2 border-black rounded-md text-md dark:text-darkText dark:bg-darkPrimary dark:border-darkText"
                     />
 
 
@@ -264,7 +264,7 @@ const Agenda = () => {
                       <select
                         name="service"
                         id=""
-                        className="w-full mt-3 sm:mt-0 sm:w-60 pl-2 border border-black rounded-md text-md dark:text-darkText dark:bg-darkPrimary dark:border-darkText md:w-64"
+                        className="w-full mt-3 sm:mt-0 sm:w-60 pl-2 py-1 border border-black rounded-md text-md dark:text-darkText dark:bg-darkPrimary dark:border-darkText md:w-64"
                         onChange={handleChange}
                       >
                         <option defaultValue={dateInfo.service.id ? false : true} value={JSON.stringify({ Specialties: [{ specialtyName: "noneSpecialty" }] })}>
@@ -287,7 +287,7 @@ const Agenda = () => {
                         onChange={handleChange}
                         name="specialist"
                         id=""
-                        className="w-full mt-3 sm:mt-0 sm:w-60 pl-2 border border-black rounded-md text-md dark:text-darkText dark:bg-darkPrimary dark:border-darkText md:w-64"
+                        className="w-full mt-3 sm:mt-0 sm:w-60 pl-2 py-1  border border-black rounded-md text-md dark:text-darkText dark:bg-darkPrimary dark:border-darkText md:w-64"
                       >
                         <option defaultValue={dateInfo.specialist.id ? false : true} value="null" selected={dateInfo.specialist.id ? true : false}>
                           -- Especialista--
@@ -306,6 +306,20 @@ const Agenda = () => {
                         )}
                       </select>
                     )}
+                    {user.role === "especialista" ? null : (
+                  <button
+                    onClick={handleAppointmentModal}
+                    disabled={!isFormCompleted}
+                    className={`rounded border border-black rounded-md mt-auto px-6 py-1 cursor-pointer ${isFormCompleted ? "bg-primaryPink" : "bg-gray-300"
+                      } shadow shadow-black text-black ${isFormCompleted ? "hover:bg-blue-600" : "cursor-not-allowed"
+                      } focus:outline-none transition-colors dark:text-darkText dark:bg-darkPrimary dark:border-white ${isFormCompleted
+                        ? "dark:hover:bg-blue-600"
+                        : "dark:cursor-not-allowed"
+                      }`}
+                  >
+                    Agregar Cita
+                  </button>
+                )}
                   </div>
                 </section>
               )}
@@ -324,22 +338,7 @@ const Agenda = () => {
                 showEditAppointment={showEditAppointment}
                 dateInfo={dateInfo}
               />
-              <div className="h-full flex flex-row justify-center xl:items-end">
-                {user.role === "especialista" ? null : (
-                  <button
-                    onClick={handleAppointmentModal}
-                    disabled={!isFormCompleted}
-                    className={`rounded mt-auto px-6 py-2 cursor-pointer ${isFormCompleted ? "bg-primaryPink" : "bg-gray-300"
-                      } shadow shadow-black text-black ${isFormCompleted ? "hover:bg-blue-600" : "cursor-not-allowed"
-                      } focus:outline-none transition-colors dark:text-darkText dark:bg-darkPrimary ${isFormCompleted
-                        ? "dark:hover:bg-blue-600"
-                        : "dark:cursor-not-allowed"
-                      }`}
-                  >
-                    Agregar Cita
-                  </button>
-                )}
-              </div>
+
             </div>
           )}
           {showClientListModal ? (

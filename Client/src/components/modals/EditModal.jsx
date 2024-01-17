@@ -189,15 +189,15 @@ function EditModal({ setShowEditModal, branches, specialties, userId, tokenID })
     };
     return (
         <>
-            <div className="fixed top-0 left-0 flex items-center justify-center w-full h-full" style={{ background: "rgba(0, 0, 0, 0.70)" }}>
-                <div className="container">
-                    <div className="w-full bg-white shadow rounded-lg p-6 mx-auto md:w-1/2 2xl:w-1/3 dark:bg-darkBackground">
-                        <div className='flex justify-between'>
+            <div className="absolute top-0 left-0 p-0 m-0 flex items-center justify-center w-full h-full" style={{ background: "rgba(0, 0, 0, 0.70)" }}>
+                
+                    <div className="w-full bg-white shadow rounded-lg p-4 pt-2 pb-2 mx-auto md:w-1/2 2xl:w-1/3 scale-90 dark:bg-darkBackground">
+                        <div className='flex justify-between '>
                             <h1 className="text-xl font-semibold mb-4 text-black dark:text-darkText">Editar usuario</h1>
-                            <IoClose onClick={closeModal} className='cursor-pointer mt-2 w-5 h-5 hover:scale-125 dark:text-darkText' />
+                            <IoClose onClick={closeModal} className='cursor-pointer mt-1 w-5 h-5 hover:scale-125 dark:text-darkText' />
                         </div>
                         <form onSubmit={handleSubmit}>
-                            <div className="first-letter:grid grid-cols-1 mb-2">
+                            <div className="first-letter:grid grid-cols-1 mb-1">
                                 <label className="mb-2 text-sm font-medium text-gray-900 dark:text-darkText">Cuenta de usuario (Email)</label>
                                 <input
                                     placeholder="Gmail Usuario"
@@ -210,7 +210,7 @@ function EditModal({ setShowEditModal, branches, specialties, userId, tokenID })
                                 />
                                 {errors.userName !== "" && <p className="text-xs text-red-500">{errors.userName}</p>}
                             </div>
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-2">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-1">
                                 <div>
                                     <label className='block mb-2 text-sm font-medium text-gray-900 dark:text-darkText'>Nombre</label>
                                     <input
@@ -224,11 +224,11 @@ function EditModal({ setShowEditModal, branches, specialties, userId, tokenID })
                                     {errors.name !== "" && <p className="text-xs text-red-500">{errors.name}</p>}
                                 </div>
                                 <div>
-                                    <label className='block mb-2 text-sm font-medium text-gray-900 dark:text-darkText'>Apellido</label>
+                                    <label className='block mb-1 text-sm font-medium text-gray-900 dark:text-darkText'>Apellido</label>
                                     <input
                                         type="text"
                                         placeholder="Apellido"
-                                        className={`border border-black p-2 rounded w-full ${errors.lastName !== undefined && "border-red-500"} dark:text-darkText dark:bg-darkPrimary`}
+                                        className={`border border-black p-2 mb-1 rounded w-full ${errors.lastName !== undefined && "border-red-500"} dark:text-darkText dark:bg-darkPrimary`}
                                         onChange={handleChange}
                                         name="lastName"
                                         value={userData.lastName}
@@ -236,8 +236,8 @@ function EditModal({ setShowEditModal, branches, specialties, userId, tokenID })
                                     {errors.lastName !== "" && <p className="text-xs text-red-500">{errors.lastName}</p>}
                                 </div>
                             </div>
-                            <div className="first-letter:grid grid-cols-1 gap-4 mb-2">
-                                <label className='block mb-2 text-sm font-medium text-gray-900 dark:text-darkText'>Email para notificaciones</label>
+                            <div className="first-letter:grid grid-cols-1 gap-2 mb-1">
+                                <label className='block mb-1 text-sm font-medium text-gray-900 dark:text-darkText'>Email para notificaciones</label>
                                 <input
                                     placeholder="Email para notifiaciones"
                                     className="border border-black p-2 rounded w-full dark:text-darkText dark:bg-darkPrimary"
@@ -248,9 +248,9 @@ function EditModal({ setShowEditModal, branches, specialties, userId, tokenID })
                                 />
                                 {errors.notificationEmail !== "" && <p className="text-xs text-red-500">{errors.notificationEmail}</p>}
                             </div>
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-2">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mb-1">
                                 <div>
-                                    <label className='block mb-2 text-sm font-medium text-gray-900 dark:text-darkText'>Telefono</label>
+                                    <label className='block mb-1 text-sm font-medium text-gray-900 dark:text-darkText'>Telefono</label>
                                     <input
                                         placeholder="Telefono 1"
                                         className={`border border-black p-2 rounded w-full ${errors.phoneNumber1 !== undefined && "border-red-500"} dark:text-darkText dark:bg-darkPrimary`}
@@ -262,7 +262,7 @@ function EditModal({ setShowEditModal, branches, specialties, userId, tokenID })
                                     {errors.phoneNumber1 !== "" && <p className="text-xs text-red-500">{errors.phoneNumber1}</p>}
                                 </div>
                                 <div>
-                                    <label className='block mb-2 text-sm font-medium text-gray-900 dark:text-darkText'>Telefono alternativo</label>
+                                    <label className='block mb-1 text-sm font-medium text-gray-900 dark:text-darkText'>Telefono alternativo</label>
                                     <input
                                         onChange={handleChange}
                                         type="text"
@@ -274,9 +274,9 @@ function EditModal({ setShowEditModal, branches, specialties, userId, tokenID })
                                     {errors.phoneNumber2 !== "" && <p className="text-xs text-red-500">{errors.phoneNumber2}</p>}
                                 </div>
                             </div>
-                            <div className="grid grid-cols-2 gap-4 mb-2">
+                            <div className="grid grid-cols-2 gap-2 mb-1">
                                 <div>
-                                    <label className='block mb-2 text-sm font-medium text-gray-900 dark:text-darkText'>% de comisión</label>
+                                    <label className='block mb-1 text-sm font-medium text-gray-900 dark:text-darkText'>% de comisión</label>
                                     <input
                                         onChange={handleChange}
                                         type="text"
@@ -288,7 +288,7 @@ function EditModal({ setShowEditModal, branches, specialties, userId, tokenID })
                                     {errors.commission !== "" && <p className="text-xs text-red-500 ">{errors.commission}</p>}
                                 </div>
                                 <div>
-                                    <label className='block mb-2 text-sm font-medium text-gray-900 dark:text-darkText'>Rol</label>
+                                    <label className='block mb-1 text-sm font-medium text-gray-900 dark:text-darkText'>Rol</label>
                                     <select
                                         onChange={handleChange}
                                         name="rol"
@@ -305,7 +305,7 @@ function EditModal({ setShowEditModal, branches, specialties, userId, tokenID })
                                     {errors.rol !== "" && <p className="text-xs text-red-500">{errors.rol}</p>}
                                 </div>
                             </div>
-                            <div className="grid grid-cols-2 md:grid-cols-2 gap-4">
+                            <div className="grid grid-cols-2 md:grid-cols-2 gap-2">
                                 <div className="mb-2">
                                     <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-darkText">Especialidades</label>
                                     {specialties.map((specialty, index) => (
@@ -350,7 +350,7 @@ function EditModal({ setShowEditModal, branches, specialties, userId, tokenID })
                             <div>
                                 <div className="flex flex-col w-full items-center">
                                     <UploadWidget className="w-full" setUserData={setUserData} />
-                                    <div className='mt-2 mb-2'>
+                                    <div className='mt-2 mb-1'>
                                         <img className='w-20 h-20 rounded' src={userData.image} alt="user-avatar" />
                                     </div>
                                 </div>
@@ -367,7 +367,7 @@ function EditModal({ setShowEditModal, branches, specialties, userId, tokenID })
                             }
                         </form>
                     </div>
-                </div>
+                
             </div>
         </>
     );

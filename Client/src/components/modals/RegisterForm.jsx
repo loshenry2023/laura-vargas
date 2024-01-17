@@ -182,14 +182,14 @@ useEffect(() => {
 
   return (
     <>
-      <div className="fixed top-0 left-0 flex items-center justify-center w-full h-full" style={{ background: "rgba(0, 0, 0, 0.70)" }}>
-          <div className="w-5/5 my-10 bg-white shadow rounded-lg p-6 md:w-3/4 2xl:w-1/3 dark:bg-darkBackground">
+      <div className="absolute top-0 left-0 flex items-center justify-center w-full h-full" style={{ background: "rgba(0, 0, 0, 0.70)" }}>
+          <div className="w-5/5 my-10 bg-white shadow rounded-lg p-4 pt-2 pb-2 md:w-3/4 2xl:w-1/3 scale-90 dark:bg-darkBackground">
             <div className='flex justify-between'>
               <h1 className="text-xl font-semibold mb-4 text-black dark:text-darkText">Agregar nuevo usuario</h1>
-              <IoClose onClick={closeModal} className='cursor-pointer hover:scale-125 mt-2 w-5 h-5 dark:text-darkText' />
+              <IoClose onClick={closeModal} className='cursor-pointer hover:scale-125 mt-1 w-5 h-5 dark:text-darkText' />
             </div>
             <form onSubmit={handleSubmit}>
-              <div className="first-letter:grid grid-cols-1 mb-2">
+              <div className="first-letter:grid grid-cols-1 mb-1">
                 <label className='pl-1 text-sm font-bold dark:text-darkText'>Cuenta de usuario (Email)</label>
                 <input
                   placeholder="Cuenta de usuario"
@@ -202,7 +202,7 @@ useEffect(() => {
                 {errors.userName !== "" && <p className="text-xs text-red-500">{errors.userName}</p>}
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-2">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-1">
                 <div>
                   <label className='pl-1 text-sm font-bold dark:text-darkText'>Nombre</label>
                   <input
@@ -230,7 +230,7 @@ useEffect(() => {
                 </div>
               </div>
               <label className='pl-1 text-sm font-bold dark:text-darkText'>Email para notificaciones</label>
-              <div className="first-letter:grid grid-cols-1 gap-4 mb-2">
+              <div className="first-letter:grid grid-cols-1 gap-4 mb-1">
                 <input
                   placeholder="Email para notificaciones"
                   className="border border-black p-2 rounded w-full dark:text-darkText dark:bg-darkPrimary"
@@ -242,7 +242,7 @@ useEffect(() => {
                 {errors.notificationEmail !== "" && <p className="text-xs text-red-500">{errors.notificationEmail}</p>}
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-2">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-1">
                 <div>
                   <label className='pl-1 text-sm font-bold dark:text-darkText'>Telefono</label>
                   <input
@@ -268,7 +268,7 @@ useEffect(() => {
                   {errors.phoneNumber2 !== "" && <p className="text-xs text-red-500">{errors.phoneNumber2}</p>}
                 </div>
               </div>
-              <div className="grid grid-cols-2 gap-4 mb-2">
+              <div className="grid grid-cols-2 gap-4 mb-1">
                 <div>
                   <label className='pl-1 text-sm font-bold dark:text-darkText'>% de Comisión</label>
                   <input
@@ -300,8 +300,8 @@ useEffect(() => {
                   {errors.rol !== "" && <p className="text-xs text-red-500">{errors.rol}</p>}
                 </div>
               </div>
-              <div className="grid grid-cols-2 md:grid-cols-2 gap-4">
-                <div className="mb-2">
+              <div className="grid grid-cols-2 md:grid-cols-2 gap-2">
+                <div className="mb-1">
                   <label className='pl-1 text-sm font-bold dark:text-darkText'>Especialidad</label>
                   {specialties.map((specialty, index) => (
                     <div key={index} className="flex items-center">
@@ -324,7 +324,7 @@ useEffect(() => {
                 <div>
                   <label className='pl-1 text-sm font-bold dark:text-darkText'>Sede</label>
                   {branches.map((branch, index) => (
-                    <div key={index} className="flex items-center">
+                    <div key={index} className="flex items-center pb-1">
                       <input
                         type="checkbox"
                         id={branch}
@@ -343,9 +343,9 @@ useEffect(() => {
                 </div>
               </div>
               <div>
-                <div className="flex flex-col w-full items-center mb-2">
+                <div className="flex flex-col w-full items-center mb-1">
                   <UploadWidget setUserData={setUserData} />
-                  <div className='hidden sm:block mt-2 mb-2'>
+                  <div className='hidden sm:block mt-1 mb-1'>
                     <img className='w-20 h-20 rounded' src={userData.image} alt="user-avatar" />
                   </div>
                 </div>

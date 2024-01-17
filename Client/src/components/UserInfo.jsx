@@ -78,7 +78,7 @@ const UserInfo = () => {
     return (
       <>
         {loading ? <Loader /> : (
-        <div className="w-full flex justify-center items-center dark:bg-darkBackground">
+        <div className="relative w-full flex justify-center items-center dark:bg-darkBackground">
           <div className=" bg-beige border-4 border-primaryPink border-double mx-auto sm:w-3/5 lg:w-3/5 lg:grid lg:grid-cols-2 rounded-lg shadow-md shadow-grey dark:shadow-black dark:bg-darkPrimary ">
             <div className="flex items-center">
               <img
