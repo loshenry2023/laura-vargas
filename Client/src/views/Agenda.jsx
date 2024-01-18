@@ -228,7 +228,7 @@ const Agenda = () => {
             <div
               className={
                 user.role !== "especialista"
-                  ? "w-fit flex flex-col mx-auto m-10 gap-5 "
+                  ? "w-fit flex flex-col mx-auto m-10 gap-5"
                   : "w-fit flex flex-col mx-auto m-10 gap-5 items-center"
               }
             >
@@ -242,12 +242,11 @@ const Agenda = () => {
                 Gestión de citas
               </h1>
               {user.role === "especialista" ? null : (
-                <section className="shadow shadow-black rounded-xl p-0 m-0 bg-secondaryPink dark:bg-darkPrimary dark:shadow-darkText">
-                  <h1 className="text-xl dark:text-darkText p-2  m-0">Agendar cita</h1>
-                  <div className="flex flex-col items-center gap-5 md:flex-row justify-center mb-2">
-
+                <section className="shadow shadow-black rounded-xl p-2 m-0 bg-secondaryPink dark:bg-darkPrimary dark:shadow-darkText">
+                  <h1 className="text-xl dark:text-darkText p-2 m-0 text-center xl:text-left">Agendar cita</h1>
+                  <div className="flex flex-col items-center flex-wrap gap-5 md:flex-row mr-5 mb-2 md:justify-center xl:justify-none">
                     <FaPlusCircle
-                      className="mt-1.5 cursor-pointer dark:text-darkText"
+                      className="text-center mt-1.5 cursor-pointer dark:text-darkText"
                       onClick={() => setShowClientListModal(true)}
                     />
 
@@ -310,7 +309,7 @@ const Agenda = () => {
                   <button
                     onClick={handleAppointmentModal}
                     disabled={!isFormCompleted}
-                    className={`rounded border border-black rounded-md mt-auto px-6 py-1 cursor-pointer ${isFormCompleted ? "bg-primaryPink" : "bg-gray-300"
+                    className={`border border-black rounded-md mt-auto px-6 py-1 ${isFormCompleted ? "bg-primaryPink cursor-pointer" : "bg-gray-300 cursor-not-allowed"
                       } shadow shadow-black text-black ${isFormCompleted ? "hover:bg-blue-600" : "cursor-not-allowed"
                       } focus:outline-none transition-colors dark:text-darkText dark:bg-darkPrimary dark:border-white ${isFormCompleted
                         ? "dark:hover:bg-blue-600"
