@@ -335,14 +335,13 @@ const EditAppointment = ({ setShowEditAppointment, setSpecialty, token, date, se
   return (
     <div>
       <div className="fixed top-0 left-0 flex items-center justify-center w-full h-full bg-black" style={{ background: "rgba(0, 0, 0, 0.70)" }}>
-        <div className="container">
-          <div className="w-full bg-white shadow rounded-lg p-6 md:mx-auto md:w-1/2 2xl:w-1/3 dark:bg-darkBackground">
+          <div className="w-96 bg-white  shadow rounded-lg p-6 md:mx-auto md:w-1/2 2xl:w-1/3 dark:bg-darkBackground">
             <div className='flex justify-between'>
               <h1 className="text-xl font-semibold mb-4 text-black dark:text-darkText">Editar Cita</h1>
               <IoClose onClick={closeModal} className='cursor-pointer hover:scale-125 mt-2 w-5 h-5 dark:text-darkText' />
             </div>
             <form onSubmit={handleSubmit}>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-2">
+              <div className="grid grid-cols-2 gap-4 mb-2">
                 <div>
                   <label className='pl-1 text-sm font-bold dark:text-darkText'>Nombre de cliente</label>
                   <input
@@ -400,7 +399,7 @@ const EditAppointment = ({ setShowEditAppointment, setSpecialty, token, date, se
                   )}
                 </div>
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-2">
+              <div className="grid grid-cols-2 gap-4 mb-2">
                 <div className="first-letter:grid grid-cols-1 mb-2">
                   <label className='pl-1 text-sm font-bold dark:text-darkText'>Fecha</label>
                   <input
@@ -434,7 +433,7 @@ const EditAppointment = ({ setShowEditAppointment, setSpecialty, token, date, se
                   )}
                 </div>
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-2">
+              <div className="grid grid-cols-2 gap-4 mb-2">
                 <div className="first-letter:grid grid-cols-1 mb-2">
                   <label className='pl-1 text-sm font-bold dark:text-darkText'>Hora de inicio</label>
                   <input
@@ -490,7 +489,6 @@ const EditAppointment = ({ setShowEditAppointment, setSpecialty, token, date, se
                 <Loader />
               }
             </form>
-          </div>
         </div>
       </div>
 

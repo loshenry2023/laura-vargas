@@ -1,25 +1,25 @@
 //hooks, reducer, components
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { getUser, setBranch } from "../redux/actions";
 
 //icons
 import { IoClose } from 'react-icons/io5';
 
 // Variables de entorno:
 import getParamsEnv from "../functions/getParamsEnv";
-import { setBranch } from "../redux/actions";
-const { HOME, AGENDA} = getParamsEnv();
+import axios from "axios";
+import Loader from "../components/Loader";
+const { HOME, AGENDA, API_URL_BASE} = getParamsEnv();
 
 const BranchSelection = () => {
 const [workingBranch, setWorkingBranch] = useState({})
 const [isButtonDisabled, setButtonDisabledState] = useState(true);
 
-  const user = useSelector((state) => state?.user);
-  const dispatch = useDispatch()
-  const navigate = useNavigate();
-
-
+const user = useSelector((state) => state?.user);
+const dispatch = useDispatch()
+const navigate = useNavigate();
 
 const handleChange = (e) => {
     const branchObject = JSON.parse(e.target.value);
@@ -36,16 +36,27 @@ const handleBranch = () => {
     }
 }
 
+const orderedBranches = user.branches.sort((a, b) => {
+  const nameA = a.branchName.toUpperCase(); // ignore upper and lowercase
+  const nameB = b.branchName.toUpperCase(); // ignore upper and lowercase
+  if (nameA < nameB) {
+    return -1;
+  }
+  if (nameA > nameB) {
+    return 1;
+  }
+})
+
   return (
     <section className="bg-[url('https://res.cloudinary.com/doyafxwje/image/upload/v1703630993/LogIn/osoq2vut2vy2fivyauxm.jpg')] bg-cover bg-center flex flex-col items-center justify-center h-screen lg:py-0">
-      <div className="relative flex flex-col items-center justify-center gap-5 rounded-xl w-fit p-10 mx-auto lg h-fit bg-white border shadow-xl shadow-black border-black">
+      <div className="relative flex flex-col items-center justify-center gap-5 rounded-xl w-fit p-10 mx-auto h-fit bg-white border shadow-xl shadow-black border-black">
       <IoClose onClick={() => navigate(-1)} className="absolute top-3 right-3 h-5 w-5 cursor-pointer hover:scale-110"/>
       <div className="text-center mb-2">
         <h1 className="text-2xl font-bold mb-2">¡Hola {user.name}! ¿Cómo estás?</h1>
         <h2 className="text-xl">Haz clic en la sede en la que trabajarás hoy 👇</h2>
       </div>
-      <div className="flex flex-row gap-5">
-      {user.branches.map((branch, index) => {
+      <div className= "w-fit flex flex-row gap-5 flex-wrap justify-center">
+      {orderedBranches.map((branch, index) => {
         return (
           <div key={index} className="flex flex-row gap-1">
             <input

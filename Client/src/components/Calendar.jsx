@@ -89,7 +89,7 @@ const Calendar = ({
   const range = [
     { hourFrom: "06:00:00", hourTo: "09:59:59" },
     { hourFrom: "10:00:00", hourTo: "13:59:59" },
-    { hourFrom: "14:00:00", hourTo: "18:59:59" },
+    { hourFrom: "14:00:00", hourTo: "20:00:00" },
   ];
 
   const handleDelete = async () => {
@@ -162,13 +162,13 @@ const Calendar = ({
   };
 
   return (
-    <div className="scale-90 ">
+    <div >
       {loading ? (
         <Loader />
       ) : (
-        <div className="m-0 p-0 flex flex-col gap-5   w-full sm:w-full xl:flex-row">
+        <div className="mt-10  flex flex-col gap-10 justify-center items-center w-full sm:w-full xl:flex-row">
           <div className="w-72 sm:w-96 sm:h-96 md:w-[550px]">
-            <div className="flex justify-between items-center scale-90  ">
+            <div className="flex justify-between items-center scale-90">
               <h1 className="select-none font-semibold dark:text-darkText">
                 {months[today.month()]}, {today.year()}
               </h1>
@@ -372,7 +372,7 @@ const Calendar = ({
                     : "border border-black px-1 rounded-md dark:text-darkText dark:border dark:border-beige dark:bg-darkPrimary"
                 }
               >
-                2:00 PM - 7:00 PM
+                2:00 PM - 8:00 PM
               </button>
             </div>
             <div>
