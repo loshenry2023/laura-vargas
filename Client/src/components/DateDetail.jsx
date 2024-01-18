@@ -520,7 +520,7 @@ const DateDetail = () => {
             }`}
           >
             <p className="mb-4 text-sm sm:text-base">
-              ¿Estás seguro de que deseas Finalizar esta cita?
+              ¿Estás seguro de que deseas finalizar esta cita?
             </p>
             <div className="flex justify-center space-x-4">
               <button
@@ -547,7 +547,7 @@ const DateDetail = () => {
             }`}
           >
             <p className="mb-4 text-sm sm:text-base">
-              El importe a pagar diferente al precio final ¿Desea continuar?
+              El importe a pagar es diferente al precio final ¿Deseas continuar?
             </p>
             <div className="flex justify-center space-x-4">
               <button
