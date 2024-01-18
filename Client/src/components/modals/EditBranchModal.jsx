@@ -211,7 +211,7 @@ const EditBranchModal = ({
                 <input
                   onChange={handleChange}
                   type="text"
-                  name="phone"
+                  name="coordinates"
                   value={newBranch.coordinates}
                   placeholder="Ingresa link de coordenadas"
                   className={`border border-black p-2 rounded w-full ${

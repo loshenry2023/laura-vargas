@@ -127,7 +127,8 @@ const DateDetail = () => {
 
   const handleCheckPrice = () => {
     if (
-      Number(price.amount1 + Number(price.amount2)) !==
+
+      (Number(price.amount1) + Number(price.amount2)) !==
       Number(appointment.Service.price)
     ) {
       setShowPriceConfirmation(true);
