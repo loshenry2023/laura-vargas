@@ -19,7 +19,7 @@ import getParamsEnv from "../functions/getParamsEnv.js";
 const { ROOT, HOME, AGENDA, BRANCH } = getParamsEnv();
 
 const NavBar = () => {
-  const [theme, setTheme] = useState("light");
+  const [theme, setTheme] = useState(JSON.parse(localStorage.getItem("darkMode")) ? JSON.parse(localStorage.getItem("darkMode")) : "light");
   const user = useSelector((state) => state.user);
   const token = useSelector((state) => state.token);
   const workingBranch = useSelector((state) => state.workingBranch);
